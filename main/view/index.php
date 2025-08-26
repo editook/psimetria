@@ -12,7 +12,7 @@
 		header("Location: ".LOCALHOST."/signin.php");
 	}
 	if($_SESSION['REST_type_user'] == "CLIENTE"){
-		header("Location: ".LOCALHOST."/view/register.php?client=".$_SESSION['REST_id_user']);
+		header("Location: ".LOCALHOST."/view/register.php");//?client=".$_SESSION['REST_id_user']
 	}
 	if( isset($_POST['full_name']) && isset($_POST['name_user']) && isset($_POST['password'])){
 		//echo $_POST['iduser'].' '.$_POST['full_name'].' '.$_POST['name_user'].' '.$_POST['active'].' '.$_POST['password'];

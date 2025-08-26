@@ -50,11 +50,14 @@ if($_SESSION['REST_type_user'] == 'CLIENTE' &&  isset($_GET['patient'])){
     $idpatient = $_GET['patient'];
 }
 
-if($idClient == 0 || $idpatient == 0 ){
-
-    die();
-}
 $register = $registerModel->getById($idClient,$idpatient);
+if($register == null){
+    echo "<script>
+			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
+			window.location.href = 'https://www.google.com';
+		</script>";
+		exit;
+}
 $baremos = $baremoModel->getAll($register['id_type_question']);
 //echo json_encode($register);
 $baremo = new ModelBaremoPobGralVarones();//baremo=1
@@ -458,7 +461,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                     <div class="row row-sm">
                                         <div class="col-lg-2 img-container">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logolsb5.png">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logolsb5.jpeg">
                                         </div>
                                         <div class="col-lg-10">
                                             <div class="row">
@@ -677,6 +680,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                         <div class="col-md-6" style="padding-left:0px;">
                                             <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 15px;height: 520px !important;width: 100%;" id="colorss"></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 15px;height: 87px !important;width: 100%;" id="colorss2"></div>
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 80px !important;" id="flotLine2"></div>
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 100px !important;" id="flotLineIndGeneral"></div>
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 250px !important;" id="flotLineEscalasClinicas"></div>
@@ -1222,6 +1226,66 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         }
                     }
                 });
+
+                var colores = $.plot($('#colorss2'), [{
+                    data: [],
+                    label: 'Data',
+                    color: colorLine
+                }], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0
+                    },
+                    points: {
+                        show: true,
+                        radius:3,
+                        lineWidth:3
+                    },
+                    legend: {
+                        noColumns: 1,
+                        position: 'ne',
+                        show:false
+                    },
+                    grid: {
+                        borderWidth: 1,
+                        borderColor: 'transparent',
+                        hoverable: true,
+                        show:true,
+                        tickColor: 'rgba(171, 167, 167, 0)',
+                         markings: [
+                            {
+                                xaxis: { from: 84, to: 94 }, 
+                                color: 'rgba(13, 165, 140, 0.26)'
+                            }
+                        ]
+                    },
+                    yaxis: {
+                        min: 0,
+                        max: 12,
+                        color: '#eee',
+                        ticks: [[0, ''], [12, '']], 
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: 'transparent'
+                        },
+                        show:false
+                    },
+                    xaxis: {
+                        color: '#eee',
+                        min:0,
+                        show:false,
+                        max: 99,
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: '#999'
+                        }
+                    }
+                });
             
             function labelFormatter(label, series) {
                 return '<div style="font-size:8pt; text-align:center; padding:2px; color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
@@ -1229,6 +1293,9 @@ if ($condicion1 || $condicion2 || $condicion3) {
         });
         setTimeout(function() {
             document.getElementById('colorss').style.position = 'absolute';
+        }, 1000);
+        setTimeout(function() {
+            document.getElementById('colorss2').style.position = 'absolute';
         }, 1000);
         document.getElementById('baremo_id').addEventListener('change', function() {
             document.getElementById('form_baremo').submit();

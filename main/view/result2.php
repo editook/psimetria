@@ -11,11 +11,17 @@ include("../models/model_question.php");
 include("../models/model_answer.php");
 include("../models/model_baremo.php");
 include("../models/af/model_baremo_adultos_mujeres.php");
+include("../models/af/model_baremo_adultos_varones.php");
+include("../models/af/model_baremo_universitario_mujeres.php");
+include("../models/af/model_baremo_universitario_varones.php");
 include("../models/af/model_baremo_10_12_mujeres.php");
 include("../models/af/model_baremo_10_12_varones.php");
 include("../models/af/model_baremo_12_14_mujeres.php");
 include("../models/af/model_baremo_12_14_varones.php");
+include("../models/af/model_baremo_14_16_mujeres.php");
 include("../models/af/model_baremo_14_16_varones.php");
+include("../models/af/model_baremo_16_18_mujeres.php");
+include("../models/af/model_baremo_16_18_varones.php");
 $registerModel = new Register_Model();
 $questionModel = new Question_Model();
 $answerModel = new Answer_Model();
@@ -51,11 +57,15 @@ if($_SESSION['REST_type_user'] == 'CLIENTE' &&  isset($_GET['patient'])){
     $idpatient = $_GET['patient'];
 }
 
-if($idClient == 0 || $idpatient == 0 ){
-    die();
-}
 $register = $registerModel->getById($idClient,$idpatient);
-
+if($register == null){
+    echo "<script>
+			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
+			window.location.href = 'https://www.google.com';
+		</script>";
+		exit;
+    exit;
+}
 $baremos = $baremoModel->getAll($register['id_type_question']);
 //echo json_encode($baremos);
 $baremo = null;
@@ -72,23 +82,31 @@ if($register['baremo_id'] == 7){
 if($register['baremo_id'] == 8){
     $baremo = new ModelBaremo1214Varones();
 }
+if($register['baremo_id'] == 9){
+    $baremo = new ModelBaremo1416Mujeres();
+}
 if($register['baremo_id'] == 10){
     $baremo = new ModelBaremo1416Varones();
 }
-//
+if($register['baremo_id'] == 11){
+    $baremo = new ModelBaremo1618Mujeres();
+}
+if($register['baremo_id'] == 12){
+    $baremo = new ModelBaremo1618Varones();
+}
+if($register['baremo_id'] == 13){
+    $baremo = new ModelBaremoUniversitarioMujeres();
+}
+if($register['baremo_id'] == 14){
+    $baremo = new ModelBaremoUniversitarioVarones();
+}
 if($register['baremo_id'] == 15){
     $baremo = new ModelBaremoAdultosMujeres();
 }
+if($register['baremo_id'] == 16){
+    $baremo = new ModelBaremoAdultosVarones();
+}
 
-$tes = $baremo->getFis();
-$valor1 = number_format((float)6.78, 2, '.', '');
-$test1 = $tes["$valor1"];
-
-$valor  = number_format((float)6.77, 2, '.', '');
-$test2 = $tes["$valor"];
-echo "$valor1 ".$test1."<br>";
-echo "$valor ".$test2."<br>";
-exit;
 
 $answers = $answerModel->getAll($register['codes']);
 $answers_text = $answerModel->getAnswersTop($register['codes']);
@@ -293,7 +311,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                     <div class="row row-sm">
                                         <div class="col-lg-2 img-container">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logoaf5.png">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logoaf5.jpeg">
                                         </div>
                                         <div class="col-lg-10">
                                             <div class="row">

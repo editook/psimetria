@@ -34,13 +34,14 @@
 		$is_share_link = $_POST['is_share'];
 		if($is_share_link == "1"){
 			echo "<script>
-				alert('Formulario actualizado correctamente.');
+				alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
 				window.location.href = 'https://www.google.com';
 			</script>";
 			exit;
 		}
 		else{
-			header("Location: ".LOCALHOST."/view/register.php?client=".$idUser);
+			header("Location: ".LOCALHOST);
+			exit;
 		}
         
     }
@@ -48,6 +49,8 @@
 	$idCientCode = "";
 	$idPatientCode = "";
 	$is_share  = false;
+	$is_view = false;
+	$text_button_send = "Corregir resultados";
 	if(isset($_GET['client']) && isset($_GET['patient'])){
 		if(strlen($_GET['client'])>10 && strlen($_GET['patient'])>10){
 			$idCientCode = $_GET['client'];
@@ -80,14 +83,20 @@
 		$response_data = $registerModel->desencriptar($idPatientCode,$claveEncriptado);
 		$response_data_PatientIds = explode("_", $response_data);
 		$idpatient = $response_data_PatientIds[0];
-	
+		$text_button_send = "Enviar resultados";
 	}
-	if($idClient == '0' || $idpatient == '0' ){
-        header("Location: ".LOCALHOST."/signin.php");
-    }
 
 	$register = $registerModel->getById($idClient,$idpatient);
-   
+	if($register == null){
+		echo "<script>
+			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
+			window.location.href = 'https://www.google.com';
+		</script>";
+		exit;
+	}
+	if($register['status'] == 'TERMINADO'){
+		$is_view = true;
+	}
     $answers = $answerModel->getAll($register['codes']);
 	
 	
@@ -184,7 +193,7 @@
 							<div class="card-body">
 								<div class="row row-sm" style="place-items: center;">
 										<div class="col-lg-2 img-container" style="display: flex;justify-content: space-between;align-items: center;align-content: center;">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logolsb5.png">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logolsb5.jpeg">
                                         </div>
 										<div class="col-lg-10">
 										<div class="row">
@@ -268,7 +277,7 @@
 								</div>
 								<span class="tx-12 tx-muted mb-3 ">Reactivo de sintomas lsb5, valores en escala de 0 a 4.</span>
 								<div class="table-responsive country-table">
-                                    <form method="POST" action="form1.php">
+                                    <form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form1.php':''?>">
                                     <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
 										<input type="hidden" name="is_share" value="<?=(int)$is_share?>">
                                         <input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
@@ -294,19 +303,19 @@
                                                 <td><?=$answer['item_order']?></td>
 												<td><?=htmlspecialchars($answer['question'])?></td>
 												<td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?>>
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?> <?=$is_view?'disabled':''?>>
                                                 </td>
                                                 <td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?>>
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
                                                 </td>
                                                 <td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="2" type="radio" <?=$answer['response']=='2'?'checked':'' ?>>
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="2" type="radio" <?=$answer['response']=='2'?'checked':'' ?> <?=$is_view?'disabled':''?>>
                                                 </td>
                                                 <td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="3" type="radio" <?=$answer['response']=='3'?'checked':'' ?>>
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="3" type="radio" <?=$answer['response']=='3'?'checked':'' ?> <?=$is_view?'disabled':''?>>
                                                 </td>
                                                 <td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="4" type="radio" <?=$answer['response']=='4'?'checked':'' ?>>
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="4" type="radio" <?=$answer['response']=='4'?'checked':'' ?> <?=$is_view?'disabled':''?>>
                                                 </td>
                                                 <td><?=$answer['item_order']?></td>
 											</tr>
@@ -315,7 +324,9 @@
 										</tbody>
 									</table>
                                     <br>
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                    <?php if(!$is_view){?>
+									<button type="submit" class="btn btn-primary"><?=$text_button_send?></button>
+									<?php }?>
                                     </form>
 								</div>
 							</div>

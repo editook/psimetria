@@ -196,8 +196,35 @@ class ModelBaremo1416Varones
         $rangeStep = 0.01; // Incremento decimal "" => 0,
     
         $eventEmitterRanges = [
-           
+            "0.00" => 1,
+            "1.53" => 3,
+            "2.48" => 5,
+            "3.19" => 7,
+            "3.52" => 10,
+            "4.02" => 15,
+            "4.63" => 20,
+            "5.02" => 25,
+            "5.33" => 30,
+            "5.57" => 35,
+            "5.86" => 40,
+            "6.14" => 45,
+            "6.33" => 50,
+            "6.52" => 55,
+            "6.77" => 60,
+            "6.99" => 65,
+            "7.22" => 70,
+            "7.45" => 75,
+            "7.67" => 80,
+            "7.87" => 85,
+            "8.13" => 90,
+            "8.52" => 93,
+            "8.79" => 95,
+            "9.07" => 97,
+            "9.27" => 99,
         ];
+
+
+
         for ($i = 0; $i <= 991; $i++) {
             $currentValue = (float)round($currentRangeStart - ($i * $rangeStep), 2);
             foreach ($eventEmitterRanges as $rangeStart => $newValue) {

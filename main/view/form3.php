@@ -42,13 +42,15 @@
 			exit;
 		}
 		else{
-			header("Location: ".LOCALHOST."/view/register.php?client=".$idUser);
+			header("Location: ".LOCALHOST);
 		}
     }
 	
 	$idCientCode = "";
 	$idPatientCode = "";
 	$is_share  = false;
+	$is_view = false;
+	$text_button_send = "Corregir resultados";
 	if(isset($_GET['client']) && isset($_GET['patient'])){
 		if(strlen($_GET['client'])>10 && strlen($_GET['patient'])>10){
 			$idCientCode = $_GET['client'];
@@ -82,14 +84,20 @@
 		$response_data = $registerModel->desencriptar($idPatientCode,$claveEncriptado);
 		$response_data_PatientIds = explode("_", $response_data);
 		$idpatient = $response_data_PatientIds[0];
-	
+		$text_button_send = "Enviar resultados";
 	}
 
-    if($idClient == 0 || $idpatient == 0 ){
-        die();
-    }
     $register = $registerModel->getById($idClient,$idpatient);
-   
+	if($register == null){
+		echo "<script>
+			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
+			window.location.href = 'https://www.google.com';
+		</script>";
+		exit;
+	}
+	if($register['status'] == 'TERMINADO'){
+		$is_view = true;
+	}
     $answers = $answerModel->getAll($register['codes'],1,160);
 	
 	$answer_part1 = $answerModel->getAll($register['codes'],1001,1100);
@@ -192,7 +200,7 @@
 							<div class="card-body">
 								<div class="row row-sm" style="place-items: center;">
 										<div class="col-lg-2 img-container" style="display: flex;justify-content: space-between;align-items: center;align-content: center;">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logomaci.png">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logomaci.jpeg">
                                         </div>
 										<div class="col-lg-10">
 										<div class="row">
@@ -228,7 +236,7 @@
 					</div>
 					<!-- row closed  -->
 					<div class="col-md-12 col-lg-12 col-xl-12">
-						<form method="POST" action="form3.php">
+						<form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form3.php':''?>">
 						<div class="card card-table-two">
 							<div class="justify-center" style="place-items: center;">
 								<div class="boton-format" style="padding: 6px;
@@ -249,10 +257,10 @@
 								<h4 class="card-title mb-1">Reactivo de sintomas MACI</h4>
 								<i class="mdi mdi-dots-horizontal text-gray"></i>
 							</div>
-							<span class="tx-12 tx-muted mb-3 ">A continuación encontrarás una serie de problemas que suelen preocupar a las personas. <br>
+							<p>A continuación encontrarás una serie de problemas que suelen preocupar a las personas. <br>
 								Si crees que alguno de ellos es <span style="font-weight: bold;">TU PRINCIPAL PROBLEMA</span> , márcalo con un 1 y si piensas en ello, pero <span style="font-weight: bold;"> NO TE PREOCUPA</span>, márcalo con un 2.							
 							
-							</span>
+							</p>
 							<div class="table-responsive country-table">
 								
 								<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
@@ -276,10 +284,10 @@
 											<td><?=$answer['item_order']?></td>
 											<td><?=htmlspecialchars($answer['question'])?></td>
 											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?>>
+											<input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
 											</td>
 											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?>>
+											<input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?>  <?=$is_view?'disabled':''?>>
 											</td>
 											
 											<td><?=$answer['item_order']?></td>
@@ -319,7 +327,7 @@
 								<tbody>
 									<tr style="color:red">
 										<td class="wd-lg-5p">1</td>
-										<td class="wd-lg-100p">Soy un ser humano</td>
+										<td class="wd-lg-100p">Soy un ser humano <span style="float: right;" id="text_test_show1"></span></td>
 										<td class="tx-right tx-medium tx-inverse wd-lg-25p tx-right">
 											<input class="radio-grande" name="example1t" value="1" type="radio">
 										</td>
@@ -329,7 +337,7 @@
 									</tr>
 									<tr style="color:red">
 										<td class="wd-lg-5p">2</td>
-										<td class="wd-lg-100p">Mido mas de tres metros</td>
+										<td class="wd-lg-100p">Mido mas de tres metros <span style="float: right;" id="text_test_show2"></span></td>
 										<td class="tx-right tx-medium tx-inverse wd-lg-25p tx-right">
 											<input class="radio-grande" name="example2t" value="1" type="radio">
 										</td>
@@ -340,11 +348,11 @@
 								</tbody>
 								</table>
 								<br>
-							<span class="tx-12 tx-muted mb-3 ">Procura contestar con orden; comprueba la numeración de la frase en el Cuadernillo y de la respuesta en esta Hoja. <br>
+							<p>Procura contestar con orden; comprueba la numeración de la frase en el Cuadernillo y de la respuesta en esta Hoja. <br>
 								Anota sólo una respuesta para cada frase e intenta no dejar frases sin contestar, aunque no estés totalmente seguro de tu respuesta. <br>
 								Si no  eres capaz de decidirte por     V     o     F      ,debes marcar el espacio de la letra     F   (Falso).
 
-							</span>
+											</p>
 							<div class="table-responsive country-table">
 								
 								<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
@@ -355,7 +363,7 @@
 									<thead>
 										<tr>
 											<th class="wd-lg-5p">ID</th>
-											<th class="wd-lg-100p">Sintoma</th>
+											<th class="wd-lg-100p"></th>
 											<th class="wd-lg-25p tx-right">V</th>
 											<th class="wd-lg-25p tx-right">F</th>
 											<th class="wd-lg-5p">ID</th>
@@ -369,10 +377,10 @@
 											<td><?=$answer['item_order']?></td>
 											<td><?=htmlspecialchars($answer['question'])?></td>
 											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?>>
+											<input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
 											</td>
 											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?>>
+											<input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?> <?=$is_view?'disabled':''?>>
 											</td>
 											
 											<td><?=$answer['item_order']?></td>
@@ -382,8 +390,9 @@
 									</tbody>
 								</table>
 								<br>
-								<button type="submit" class="btn btn-primary">Actualizar</button>
-								
+								<?php if(!$is_view){?>
+								<button type="submit" class="btn btn-primary"><?=$text_button_send?></button>
+								<?php }?>
 							</div>
 						</div>
 						</form>
@@ -445,6 +454,38 @@
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const radios = document.querySelectorAll("input[name='example1t']");
+				const textoSpan = document.getElementById("text_test_show1");
 
+				radios.forEach(radio => {
+					radio.addEventListener("change", function () {
+						if (this.checked) {
+							if (this.value === "1") {
+								textoSpan.textContent = "Muy bien, continua con la otra frase.";
+							} else if (this.value === "0") {
+								textoSpan.textContent = "Vuelve a leer correctamente el ejemplo.";
+							}
+						}
+					});
+				});
+
+				const radios2 = document.querySelectorAll("input[name='example2t']");
+				const textoSpan2 = document.getElementById("text_test_show2");
+
+				radios2.forEach(radio => {
+					radio.addEventListener("change", function () {
+						if (this.checked) {
+							if (this.value === "0") {
+								textoSpan2.textContent = "Muy bien, procede a responser las frases.";
+							} else if (this.value === "1") {
+								textoSpan2.textContent = "Vuelve a leer correctamente el ejemplo.";
+							}
+						}
+					});
+				});
+			});
+		</script>										
 	</body>
 </html>
