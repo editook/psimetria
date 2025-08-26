@@ -41,13 +41,15 @@
 			exit;
 		}
 		else{
-			header("Location: ".LOCALHOST."/view/register.php?client=".$idUser);
+			header("Location: ".LOCALHOST);
 		}
     }
 
 	$idCientCode = "";
 	$idPatientCode = "";
 	$is_share  = false;
+	$is_view = false;
+	$text_button_send = "Corregir resultados";
 	if(isset($_GET['client']) && isset($_GET['patient'])){
 		if(strlen($_GET['client'])>10 && strlen($_GET['patient'])>10){
 			$idCientCode = $_GET['client'];
@@ -80,14 +82,20 @@
 		$response_data = $registerModel->desencriptar($idPatientCode,$claveEncriptado);
 		$response_data_PatientIds = explode("_", $response_data);
 		$idpatient = $response_data_PatientIds[0];
-	
+		$text_button_send = "Enviar resultados";
 	}
 
-    if($idClient == 0 || $idpatient == 0 ){
-        die();
-    }
     $register = $registerModel->getById($idClient,$idpatient);
-   
+	if($register == null){
+		echo "<script>
+			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
+			window.location.href = 'https://www.google.com';
+		</script>";
+		exit;
+	}
+    if($register['status'] == 'TERMINADO'){
+		$is_view = true;
+	}
     $answers = $answerModel->getAll($register['codes']);
 	
 ?>
@@ -211,7 +219,7 @@
 								
 								<div class="row row-sm" style="place-items: center;">
 										<div class="col-lg-2 img-container" style="display: flex;justify-content: space-between;align-items: center;align-content: center;">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logoaf5.png">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logoaf5.jpeg">
                                         </div>
 										<div class="col-lg-10">
 										<div class="row">
@@ -259,18 +267,19 @@
 										height: auto;">
 										INSTRUCCIONES
 									</div>
-									<p>A continuacion encontraras una serie de frases. Lee cada una de ellas cuidadosamentey contesta con un valor entre 2 y 99 , segun tu grado de acuerdo con los que se indica.</p>
+									<p>A continuacion encontraras una serie de frases. Lee cada una de ellas cuidadosamentey contesta con un valor entre 1 y 99 , segun tu grado de acuerdo con los que se indica.</p>
 									
 									<div style="margin: 30px 0;display: flex;position: relative;place-items: center;JUSTIFY-CONTENT: CENTER;">
 										<div class="labels">
-											<p class="top-label">99 en total acuerdo</p>
+											<p class="bottom-label">1 en total desacuerdo</p>
 										</div>
 										<div style="height: 70px;position: relative;overflow: hidden;">
 											<svg class="peity sizepeity" ><polygon fill="rgba(245, 139, 39,.2)" points="0 69.5 0 68.81 500 0.5 500 69.5"></polygon><polyline fill="none" points="0 68.81 500 0.5" stroke="orange" stroke-width="1" stroke-linecap="square"></polyline></svg>
 										
 										</div>
 										<div class="labels">
-											<p class="bottom-label">1 en total desacuerdo</p>
+											
+											<p class="top-label">99 en total acuerdo</p>
 										</div>
 									</div>
 									<p>Por ejemplo si la frase dice "<span style="font-weight: bold;">La musica ayuda al bienestar humano</span>" y estas muy deacuerdo, contestarias con un valor alto, como por ejemplo el 94, anotando tu respuesta de la siguiente manera:</p>
@@ -291,7 +300,7 @@
 								<span class="tx-12 tx-muted mb-3 ">1 en total desacuerdo y 99 en total acuerdo</span>
 								
 								<div class="table-responsive country-table">
-                                    <form method="POST" action="form2.php">
+                                    <form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form2.php':''?>">
                                     <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
 										<input type="hidden" name="is_share" value="<?=(int)$is_share?>">
                                         <input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
@@ -313,7 +322,7 @@
                                                 <td><?=$answer['item_order']?></td>
 												<td><?=htmlspecialchars($answer['question'])?></td>
 												<td class="tx-right tx-medium tx-inverse">
-												<input type="number" name="response_<?=$answer['id']?>" value="<?=$answer['response']!=0?$answer['response']:''?>" min="1" max="99">
+												<input type="number" name="response_<?=$answer['id']?>" value="<?=$answer['response']!=0?$answer['response']:''?>" <?=$is_view?'disabled':''?> min="1" max="99">
                                                 </td>
                                                 
                                                 <td><?=$answer['item_order']?></td>
@@ -323,7 +332,9 @@
 										</tbody>
 									</table>
                                     <br>
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                    <?php if(!$is_view){?>
+									<button type="submit" class="btn btn-primary"><?=$text_button_send?></button>
+									<?php }?>
                                     </form>
 								</div>
 							</div>

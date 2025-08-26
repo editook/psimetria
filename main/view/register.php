@@ -334,9 +334,13 @@
 															$redirect = $data['id_type_question'] == 1?'1':$redirect;
 															$redirect = $data['id_type_question'] == 2?'2':$redirect;
 															$redirect = $data['id_type_question'] == 3?'3':$redirect;
+															$text_test = "Ajustar";
+															if($data['status'] == 'TERMINADO'){
+																$text_test = "Ver prueba";
+															}
 															?>
-                                                            <div style="<?=$data['status'] == 'TERMINADO'?'pointer-events: none;opacity: 0.3;':'cursor:pointer'?>" class="pe-1  mb-xl-0" style="cursor:pointer" onclick="page(`<?=LOCALHOST.'/view/form'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end">Prueba</span></div>
-															<div style="<?=$data['status'] == 'PENDIENTE'?'pointer-events: none;opacity: 0.3;':'cursor:pointer'?>" class="pe-1  mb-xl-0" style="cursor:pointer" onclick="page(`<?=LOCALHOST.'/view/result'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end">Resultado</span></div>
+                                                            <div class="pe-1  mb-xl-0" style="cursor:pointer" onclick="page(`<?=LOCALHOST.'/view/form'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end"><?=$text_test?></span></div>
+															<div class="pe-1  mb-xl-0" style="<?=$data['status'] == 'PENDIENTE'?'pointer-events: none;opacity: 0.3;':'cursor:pointer'?>" onclick="page(`<?=LOCALHOST.'/view/result'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end">Resultado</span></div>
 
                                                             <div class="pe-1  mb-xl-0" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
 																href="#modaldemo8" onclick="updateClient(`<?=$data['id']?>`,`<?=$data['id_client']?>`,`<?=$data['age']?>`,`<?=$data['sex']?>`,`<?=$data['id_type_question']?>`,`<?=$data['baremo_id']?>`)"><i class="text-warning las la-pen"></i></div>
@@ -573,7 +577,8 @@
 				});
 			}
 			function page(url){
-				window.location.href = url;
+				//window.location.href = url;
+				window.open(url, '_blank');
 			}
 			function openShareLink(client_id,redirect,patient_id){
 				var url = '<?=LOCALHOST?>'+"/view/form"+redirect+".php?client="+client_id+"&patient="+patient_id;

@@ -1,42 +1,82 @@
 <?php
-class ModelBaremo1416Mujeres
+class ModelBaremoUniversitarioVarones
 {
-    //BAREMO ADULTOS MUJERES
-    function getAcad() {
+    function getAcad(){
+        $prs = [];
+        $eventEmitterValue = 99;
+        $currentRangeStart =9.90;
+        $rangeStep = 0.01; // Incremento decimal "" => 0,
+        $eventEmitterRanges = [
+            "0.00" => 1,
+            "2.56" => 3,
+            "3.12" => 5,
+            "3.45" => 7,
+            "4.07" => 10,
+            "4.31" => 15,
+            "4.67" => 20,
+            "5.00" => 25,
+            "5.33" => 30,
+            "5.53" => 35,
+            "5.78" => 40,
+            "6.00" => 50,
+            "6.33" => 60,
+            "6.67" => 70,
+            "7.07" => 80,
+            "7.41" => 90,
+            "7.83" => 95,
+            "8.26" => 97,
+            "8.50" => 99
+        ];
+
         
+        for ($i = 0; $i <= 991; $i++) {
+            $currentValue = (float)round($currentRangeStart - ($i * $rangeStep), 2);
+            foreach ($eventEmitterRanges as $rangeStart => $newValue) {
+                // Verificar si el valor actual está en el rango
+                if ($currentValue > (float)$rangeStart) {
+                    $eventEmitterValue = $newValue;
+                }
+            }
+            $value = number_format((float)$currentValue, 2);
+            $prs["$value"] = $eventEmitterValue;
+        }
+        return $prs;
+    }
+
+    function getSoc(){
         $prs = [];
         $eventEmitterValue = 99;
         $currentRangeStart =9.90;
         $rangeStep = 0.01; // Incremento decimal "" => 0,
         $eventEmitterRanges = [
             "0.00" => 1,
-            "1.35" => 3,
-            "2.08" => 5,
-            "2.63" => 7,
-            "3.00" => 10,
-            "3.50" => 15,
-            "4.17" => 20,
-            "4.51" => 25,
-            "5.00" => 30,
-            "5.25" => 35,
-            "5.50" => 40,
-            "5.71" => 45,
-            "5.92" => 50,
-            "6.17" => 55,
-            "6.45" => 60,
-            "6.75" => 65,
-            "7.00" => 70,
-            "7.17" => 75,
-            "7.42" => 80,
-            "7.75" => 85,
-            "8.04" => 90,
-            "8.37" => 93,
-            "8.67" => 95,
-            "8.82" => 97,
-            "9.03" => 99
+            "2.45" => 3,
+            "3.67" => 5,
+            "4.10" => 7,
+            "4.40" => 10,
+            "4.85" => 15,
+            "5.25" => 20,
+            "5.58" => 25,
+            "5.83" => 30,
+            "6.08" => 35,
+            "6.33" => 40,
+            "6.58" => 45,
+            "6.83" => 50,
+            "7.08" => 55,
+            "7.33" => 60,
+            "7.50" => 65,
+            "7.67" => 70,
+            "7.85" => 75,
+            "8.07" => 80,
+            "8.27" => 85,
+            "8.50" => 90,
+            "8.78" => 93,
+            "9.00" => 95,
+            "9.17" => 97,
+            "9.44" => 99
         ];
 
-
+       
 
         for ($i = 0; $i <= 991; $i++) {
             $currentValue = (float)round($currentRangeStart - ($i * $rangeStep), 2);
@@ -52,89 +92,33 @@ class ModelBaremo1416Mujeres
         return $prs;
     }
 
-    function getSoc() {
-        $prs = [];
-        $eventEmitterValue = 99;
-        $currentRangeStart =9.90;
-        $rangeStep = 0.01; // Incremento decimal "" => 0,
-        $eventEmitterRanges = [
-            "0.00" => 1,
-            "3.42" => 3,
-            "4.18" => 5,
-            "4.67" => 7,
-            "5.00" => 10,
-            "5.42" => 15,
-            "5.84" => 20,
-            "6.25" => 25,
-            "6.57" => 30,
-            "6.77" => 35,
-            "7.00" => 40,
-            "7.18" => 45,
-            "7.40" => 50,
-            "7.58" => 55,
-            "7.75" => 60,
-            "7.92" => 65,
-            "8.08" => 70,
-            "8.28" => 75,
-            "8.47" => 80,
-            "8.67" => 85,
-            "8.90" => 90,
-            "9.15" => 93,
-            "9.35" => 95,
-            "9.53" => 97,
-            "9.65" => 99
-        ];
-
-
-
-        for ($i = 0; $i <= 991; $i++) {
-            $currentValue = (float)round($currentRangeStart - ($i * $rangeStep), 2);
-            foreach ($eventEmitterRanges as $rangeStart => $newValue) {
-                // Verificar si el valor actual está en el rango
-                if ($currentValue > (float)$rangeStart) {
-                    $eventEmitterValue = $newValue;
-                }
-            }
-            $value = number_format((float)$currentValue, 2);
-            $prs["$value"] = $eventEmitterValue;
-        }
-        return $prs;
-         
-    }
     function getEmo(){
-       $prs = [];
+        $prs = [];
         $eventEmitterValue = 99;
         $currentRangeStart =9.90;
         $rangeStep = 0.01; // Incremento decimal "" => 0,
         $eventEmitterRanges = [
             "0.00" => 1,
-            "0.91" => 3,
-            "1.47" => 5,
-            "1.78" => 7,
-            "2.00" => 10,
-            "2.32" => 15,
-            "2.73" => 20,
-            "3.01" => 25,
-            "3.35" => 30,
-            "3.67" => 35,
-            "3.95" => 40,
-            "4.17" => 45,
-            "4.42" => 50,
-            "4.67" => 55,
-            "4.93" => 60,
-            "5.17" => 65,
-            "5.50" => 70,
-            "5.83" => 75,
-            "6.00" => 80,
-            "6.47" => 85,
-            "6.80" => 90,
-            "7.33" => 93,
-            "7.62" => 95,
-            "7.97" => 97,
-            "9.38" => 99
+            "2.59" => 3,
+            "3.00" => 5,
+            "3.33" => 10,
+            "3.81" => 15,
+            "4.17" => 20,
+            "4.46" => 30,
+            "4.94" => 35,
+            "5.17" => 40,
+            "5.39" => 50,
+            "5.83" => 60,
+            "6.33" => 70,
+            "6.67" => 80,
+            "7.00" => 85,
+            "7.33" => 90,
+            "7.72" => 93,
+            "8.16" => 95,
+            "8.66" => 99
         ];
 
-
+        
         for ($i = 0; $i <= 991; $i++) {
             $currentValue = (float)round($currentRangeStart - ($i * $rangeStep), 2);
             foreach ($eventEmitterRanges as $rangeStart => $newValue) {
@@ -147,7 +131,6 @@ class ModelBaremo1416Mujeres
             $prs["$value"] = $eventEmitterValue;
         }
         return $prs;
-            
     }
 
     function getFami(){
@@ -155,34 +138,29 @@ class ModelBaremo1416Mujeres
         $eventEmitterValue = 99;
         $currentRangeStart =9.90;
         $rangeStep = 0.01; // Incremento decimal "" => 0,
+        
         $eventEmitterRanges = [
             "0.00" => 1,
-            "2.43" => 3,
-            "3.87" => 5,
-            "4.50" => 7,
-            "5.17" => 10,
-            "5.75" => 15,
-            "6.37" => 20,
-            "6.77" => 25,
-            "7.12" => 30,
-            "7.47" => 35,
-            "7.72" => 40,
-            "7.93" => 45,
-            "8.13" => 50,
-            "8.32" => 55,
-            "8.55" => 60,
-            "8.72" => 65,
-            "8.88" => 70,
-            "9.07" => 75,
-            "9.22" => 80,
-            "9.37" => 85,
-            "9.52" => 90,
-            "9.68" => 95,
-            "9.83" => 99
+            "3.60" => 3,
+            "4.17" => 5,
+            "4.62" => 10,
+            "5.34" => 15,
+            "6.00" => 20,
+            "6.28" => 25,
+            "6.55" => 30,
+            "6.85" => 40,
+            "7.17" => 45,
+            "7.42" => 50,
+            "7.67" => 60,
+            "8.07" => 65,
+            "8.32" => 70,
+            "8.53" => 80,
+            "8.90" => 90,
+            "9.13" => 95,
+            "9.52" => 99
         ];
 
-
-
+        
         for ($i = 0; $i <= 991; $i++) {
             $currentValue = (float)round($currentRangeStart - ($i * $rangeStep), 2);
             foreach ($eventEmitterRanges as $rangeStart => $newValue) {
@@ -202,36 +180,28 @@ class ModelBaremo1416Mujeres
         $eventEmitterValue = 99;
         $currentRangeStart =9.90;
         $rangeStep = 0.01; // Incremento decimal "" => 0,
-        $eventEmitterRanges = [
+       $eventEmitterRanges = [
             "0.00" => 1,
-            "1.00" => 3,
-            "1.40" => 5,
-            "1.71" => 7,
-            "1.99" => 10,
-            "2.37" => 15,
-            "2.98" => 20,
-            "3.33" => 25,
-            "3.67" => 30,
-            "4.00" => 35,
-            "4.27" => 40,
-            "4.51" => 45,
-            "4.75" => 50,
-            "5.00" => 55,
-            "5.25" => 60,
-            "5.52" => 65,
-            "5.83" => 70,
-            "6.17" => 75,
-            "6.42" => 80,
-            "6.77" => 85,
-            "7.10" => 90,
-            "7.41" => 93,
-            "7.67" => 95,
-            "7.95" => 97,
-            "8.28" => 99
+            "1.43" => 3,
+            "2.22" => 5,
+            "2.75" => 7,
+            "3.08" => 10,
+            "3.38" => 20,
+            "4.08" => 25,
+            "4.50" => 30,
+            "4.92" => 40,
+            "5.33" => 50,
+            "5.67" => 60,
+            "6.00" => 70,
+            "6.46" => 80,
+            "6.95" => 85,
+            "7.30" => 90,
+            "7.60" => 95,
+            "8.08" => 99
         ];
 
 
-
+        
         for ($i = 0; $i <= 991; $i++) {
             $currentValue = (float)round($currentRangeStart - ($i * $rangeStep), 2);
             foreach ($eventEmitterRanges as $rangeStart => $newValue) {

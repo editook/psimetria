@@ -54,10 +54,15 @@ if($_SESSION['REST_type_user'] == 'CLIENTE' &&  isset($_GET['patient'])){
     $idpatient = $_GET['patient'];
 }
 
-if($idClient == 0 || $idpatient == 0 ){
-    die();
-}
 $register = $registerModel->getById($idClient,$idpatient);
+if($register == null){
+    echo "<script>
+			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
+			window.location.href = 'https://www.google.com';
+		</script>";
+		exit;
+    exit;
+}
 $baremos = $baremoModel->getAll($register['id_type_question']);
 //echo json_encode($register);
 $baremo_name = $register['name'];
@@ -1619,10 +1624,84 @@ if($answer_input != null){
 
 $tiposresponsalbilidad20 =$register['id_client']." contestó a los siguientes ítems que sugieren áreas problemáticas específicas que requieren investigar:";
 
+$answer_questions2 = $answerModel->getAll($register['codes'],51,51)[0];
+
 $tiposresponsalbilidad21 = "";//D
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad21 .= "No creo tener tanto interés por el sexo como la gente de mi edad. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],59,59)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad21 .= "Me incomoda coquetear (ligar). <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],62,62)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad21 .= "Me incomoda pensar en el sexo. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],94,94)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad21 .= "Me incomoda pensar que el sexo es placentero. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],116,116)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad21 .= "Muchas veces me desconcierta pensar en el sexo. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],131,131)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad21 .= "Me incomoda con la forma en que mi cuerpo se ha desarrollado. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],143,143)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad21 .= "Me incomoda que los sentimientos acerca del sexo se hayan convertido en una parte de mi vida. <br>";
+}
+
+
 $tiposresponsalbilidad22 = "";//D
+$answer_questions2 = $answerModel->getAll($register['codes'],55,55)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad22 .= "He sido abusado sexualmente. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],14,14)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad22 .= "Me da mucha vergüenza contarles a otras personas cómo abusaron de mí. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],129,129)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad22 .= "Me avergüenzo de algunas cosas terribles que me han hecho los adultos. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],137,137)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad22 .= "Hubo personas que hicieron cosas sexuales conmigo cuando yo, todavía, no podía entender. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],123,123)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad22 .= "He intentado suicidarme, en el pasado. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],72,72)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad22 .= "Odio recordar alguna de las formas en que abusaron de mí. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],153,153)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad22 .= "La mayor parte del tiempo me siento solo y vacío. <br>";
+}
 $tiposresponsalbilidad23 = "";//D
-$tiposresponsalbilidad24 = "";//D
+$answer_questions2 = $answerModel->getAll($register['codes'],62,62)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad23 .= "Disfruto pensando en el sexo. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],94,94)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad23 .= "El sexo es algo placentero. <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],59,59)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad23 .= "Me gusta mucho coquetear (ligar). <br>";
+}
+$answer_questions2 = $answerModel->getAll($register['codes'],143,143)[0];
+if($answer_questions2['response'] == '1'){
+    $tiposresponsalbilidad23 .= "Me agrada que ahora los sentimientos acerca del sexo se hayan convertido en una parte de mi vida. <br>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -1704,7 +1783,7 @@ $tiposresponsalbilidad24 = "";//D
                                     <div class="row row-sm">
                                         <div class="col-lg-2 img-container">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logomaci.png">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logomaci.jpeg">
                                         </div>
                                         <div class="col-lg-10">
                                         <div class="row">
@@ -1776,10 +1855,10 @@ $tiposresponsalbilidad24 = "";//D
 						</div>
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div   id="contenido2" class="card" >
-                                <div class="card-body" style="margin-left: 6rem;margin-right: 6rem;">
+                                <div class="card-body" style="margin-left: 11rem;margin-right: 11rem;">
                                     <h2 style="place-self: center;">Escalas,PD, TB y Grafico Asociado</h2>
                                     <div class="row row-sm">
-                                        <div class="col-md-7" style="padding-right:0px;">
+                                        <div class="col-md-6" style="padding-right:0px;">
                                             <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
                                                 <div style="margin-bottom: 75px;">
                                                     
@@ -2043,7 +2122,7 @@ $tiposresponsalbilidad24 = "";//D
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-5" style="padding-left:0px;">
+                                        <div class="col-md-6" style="padding-left:0px;">
                                             <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 9px;height: 780px !important;width: 400px;" id="colorss"></div>
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 15px;width: 400px;height: 110px !important;" id="flotLine2"></div>
@@ -2179,11 +2258,9 @@ $tiposresponsalbilidad24 = "";//D
                                     <br>
                                     <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad22?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad23?></p>
-                                    <br>
                                     <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Otros respuestas relevantes</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad24?></p>
+                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad23?></p>
                                 </div>
                                 
                             </div>
