@@ -297,7 +297,7 @@ class ModelBaremoClinicaPsiVarones
         $nums = [];
         $eventEmitterValue = 99;
         $currentRangeStart =50; 
-        $rangeStep = 0.01; // Incremento decimal "" => 0,
+        $rangeStep = 1; // Incremento decimal "" => 0,
         $eventEmitterRanges = [
         "0" => 1,"4" => 2,"6" => 3,"8" => 4,"9" => 5,"10" => 10,"13" => 15,"15" => 20,"18" => 25,"20" => 30,"21" => 35,"23" => 40,"25" => 45,"27" => 50,"29" => 55,"30" => 60,"31" => 65,"34" => 70,"36" => 75,"38" => 80,"39" => 85,"42" => 90,"45" => 95,"47" => 96,"48" => 98,"49" => 99
         ];

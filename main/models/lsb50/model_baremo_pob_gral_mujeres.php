@@ -299,7 +299,7 @@ class ModelBaremoPobGralMujeres
         $nums = [];
         $eventEmitterValue = 99;
         $currentRangeStart =50; 
-        $rangeStep = 0.01; // Incremento decimal "" => 0,
+        $rangeStep = 1; // Incremento decimal "" => 0,
         $eventEmitterRanges = [
            "0" => 3,"1" => 5,"3" => 10,"4" => 15,"6" => 20, "8" => 25,"9" => 30,"11" => 35,"12" => 40,"13" => 45,"14" => 50,"16" => 55,"17" => 60,"18" => 65,"19" => 70,"20" => 75,"22" => 80,"24" => 85,"26" => 90,"31" => 35,"33" => 96,"35" => 97,"36" => 98,"37" => 99
         ];

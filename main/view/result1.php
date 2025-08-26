@@ -241,7 +241,7 @@ if ($value_global <= 3) {
 }
 $final_text_global = $register['id_client']." obtuvo un percentil de ".$globals["$Pind_global_sev"]." en el Índice Global de severidad que evalúa el grado de afectación psicopatológica general del evaluado (a), combinando tanto el número de síntomas como su intensidad. Es la medida más sensible del nivel global de malestar psicológico.";
 $final_text_global .=" Una puntuación en el percentil ".$globals["$Pind_global_sev"].", ".$text_global;
-//echo $Pnum_sintomas;
+
 $value_num = $nums["$Pnum_sintomas"];
 
 $text_num = "";
