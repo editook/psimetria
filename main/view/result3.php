@@ -151,7 +151,7 @@ $itemA0 = [
     146 => 1,
     152 => 1,
 ];
-$item1A = $answerModel->sumatoriaMaci($answers,$itemA1,1)+$answerModel->sumatoriaMaci($answers,$itemA0,0);
+$item1A = $maciConfigurationModel->sumatoriaMaci($answers,$itemA1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemA0,0);
 
 $item2A1 = [
     13  => 1,
@@ -194,7 +194,7 @@ $item2A0 = [
     143 => 2,
     149 => 2,
 ];
-$item2A = $answerModel->sumatoriaMaci($answers,$item2A1,1)+$answerModel->sumatoriaMaci($answers,$item2A0,0);
+$item2A = $maciConfigurationModel->sumatoriaMaci($answers,$item2A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item2A0,0);
 
 $item2B1 = [
     19  => 1,
@@ -222,7 +222,7 @@ $item2B1 = [
     154 => 1,
     158 => 1,
 ];
-$item2B = $answerModel->sumatoriaMaci($answers,$item2B1,1);
+$item2B = $maciConfigurationModel->sumatoriaMaci($answers,$item2B1,1);
 
 $item3A1 = [
     1   => 3,
@@ -277,7 +277,7 @@ $item3A0 = [
     160 => 1,
 ];
 
-$item3A = $answerModel->sumatoriaMaci($answers,$item3A1,1)+$answerModel->sumatoriaMaci($answers,$item3A0,0);
+$item3A = $maciConfigurationModel->sumatoriaMaci($answers,$item3A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item3A0,0);
 
 
 $items41 = [
@@ -326,7 +326,7 @@ $items40 = [
     153 => 1,
 ];
 
-$item4A = $answerModel->sumatoriaMaci($answers,$items41,1)+$answerModel->sumatoriaMaci($answers,$items40,0);
+$item4A = $maciConfigurationModel->sumatoriaMaci($answers,$items41,1)+$maciConfigurationModel->sumatoriaMaci($answers,$items40,0);
 
 $item5A1 = [
     2   => 1,
@@ -371,7 +371,7 @@ $item5A0 = [
     140 => 2,
     151 => 1,
 ];
-$item5A = $answerModel->sumatoriaMaci($answers,$item5A1,1)+$answerModel->sumatoriaMaci($answers,$item5A0,0);
+$item5A = $maciConfigurationModel->sumatoriaMaci($answers,$item5A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item5A0,0);
 
 $item6A1 = [
     18  => 2,
@@ -416,7 +416,7 @@ $item6A0 = [
     116 => 1,
     132 => 2,
 ];
-$item6A = $answerModel->sumatoriaMaci($answers,$item6A1,1)+$answerModel->sumatoriaMaci($answers,$item6A0,0);
+$item6A = $maciConfigurationModel->sumatoriaMaci($answers,$item6A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item6A0,0);
 
 $item6B1 = [
     18  => 1,
@@ -445,7 +445,7 @@ $item6B0 = [
     71  => 1,
     81  => 2,
 ];
-$item6B = $answerModel->sumatoriaMaci($answers,$item6B1,1)+$answerModel->sumatoriaMaci($answers,$item6B0,0);
+$item6B = $maciConfigurationModel->sumatoriaMaci($answers,$item6B1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item6B0,0);
 
 $item71 = [
     6   => 1,
@@ -490,7 +490,7 @@ $item70 = [
     154 => 2,
     157 => 1,
 ];
-$item7 = $answerModel->sumatoriaMaci($answers,$item71,1)+$answerModel->sumatoriaMaci($answers,$item70,0);
+$item7 = $maciConfigurationModel->sumatoriaMaci($answers,$item71,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item70,0);
 
 $item8A1 = [
     4   => 3,
@@ -540,7 +540,7 @@ $item8A0 = [
     96  => 1,
     130 => 2,
 ];
-$item8A = $answerModel->sumatoriaMaci($answers,$item8A1,1)+$answerModel->sumatoriaMaci($answers,$item8A0,0);
+$item8A = $maciConfigurationModel->sumatoriaMaci($answers,$item8A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item8A0,0);
 
 $item8B1 = [
     18  => 1,
@@ -590,7 +590,7 @@ $item8B0 = [
     27  => 1,
     68  => 2,
 ];
-$item8B = $answerModel->sumatoriaMaci($answers,$item8B1,1)+$answerModel->sumatoriaMaci($answers,$item8B0,0);
+$item8B = $maciConfigurationModel->sumatoriaMaci($answers,$item8B1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item8B0,0);
 
 //=REDONDEAR((1.5*M47)+(1.5*O40)+(2*Q27)+(0.7*S51)+(0.7*U44)+W42+Y42+(3*AA25)  +(0.7*AC42)+AE46+AG47, 0)
 
@@ -620,7 +620,7 @@ $itemY1 = [
     159 => 1,
 ];
 
-$deseabilidadPD = $answerModel->sumatoriaMaci($answers,$itemY1,1);
+$deseabilidadPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemY1,1);
 //echo $deseabilidadPD.'<br>';
 
 $itemZ1 = [
@@ -641,7 +641,7 @@ $itemZ1 = [
     153 => 1,
     154 => 1,
 ];
-$alteracionPD = $answerModel->sumatoriaMaci($answers,$itemZ1,1);
+$alteracionPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemZ1,1);
 
 //echo $alteracionPD.'<br>';
 $introversionPD = $item1A;
@@ -705,7 +705,7 @@ $item9A1 = [
     154 => 2,
 ];
 $item9A0 = [2=>2,145=>2];
-$item9A = $answerModel->sumatoriaMaci($answers,$item9A1,1)+$answerModel->sumatoriaMaci($answers,$item9A0,0);
+$item9A = $maciConfigurationModel->sumatoriaMaci($answers,$item9A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item9A0,0);
 $tendencia_limitePD = $item9A;
 //echo $tendencia_limitePD.'<br>';
 
@@ -745,7 +745,7 @@ $itemAA0 = [
     135 => 1,
     145 => 3,
 ];
-$difusionIdentidadPD = $answerModel->sumatoriaMaci($answers,$itemAA1,1)+$answerModel->sumatoriaMaci($answers,$itemAA0,0);
+$difusionIdentidadPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAA1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAA0,0);
 //echo $difusionIdentidadPD.'<br>';
 $itemAB1 = [
     4 => 2,
@@ -790,7 +790,7 @@ $itemAB0 = [
     145 => 1,
 ];
 
-$desvalorizacionMismoPD = $answerModel->sumatoriaMaci($answers,$itemAB1,1)+$answerModel->sumatoriaMaci($answers,$itemAB0,0);
+$desvalorizacionMismoPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAB1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAB0,0);
 //echo $desvalorizacionMismoPD.'<br>';
 
 $itemAC1 = [
@@ -814,7 +814,7 @@ $itemAC0 = [
     68 => 3,
     131 => 3
 ];
-$desagradoPropioPD = $answerModel->sumatoriaMaci($answers,$itemAC1,1)+$answerModel->sumatoriaMaci($answers,$itemAC0,0);
+$desagradoPropioPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAC1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAC0,0);
 //echo $desagradoPropioPD.'<br>';
 $itemAD1 = [
     2 => 1,
@@ -858,7 +858,7 @@ $itemAD0 = [
     160 => 2,
 ];
 
-$incomodidadRespetoPD = $answerModel->sumatoriaMaci($answers,$itemAD1,1)+$answerModel->sumatoriaMaci($answers,$itemAD0,0);
+$incomodidadRespetoPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAD1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAD0,0);
 //echo $incomodidadRespetoPD.'<br>';
 
 $itemAE1 = [
@@ -885,7 +885,7 @@ $itemAE0 = [
     148 => 2,
 ];
 
-$inseguridadIgualPD = $answerModel->sumatoriaMaci($answers,$itemAE1,1)+$answerModel->sumatoriaMaci($answers,$itemAE0,0);
+$inseguridadIgualPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAE1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAE0,0);
 //echo $inseguridadIgualPD.'<br>';
 
 $itemAF1 = [
@@ -932,7 +932,7 @@ $itemAF0 = [
     153 => 1,
 ];
 
-$insencibilidadSocialPD = $answerModel->sumatoriaMaci($answers,$itemAF1,1)+$answerModel->sumatoriaMaci($answers,$itemAF0,0);
+$insencibilidadSocialPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAF1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAF0,0);
 //echo $insencibilidadSocialPD.'<br>';
 
 $itemAG1 = [
@@ -968,7 +968,7 @@ $itemAG0 = [
     142 => 1,
 ];
 
-$discordanciaFamiliarPD = $answerModel->sumatoriaMaci($answers,$itemAG1,1)+$answerModel->sumatoriaMaci($answers,$itemAG0,0);
+$discordanciaFamiliarPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAG1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAG0,0);
 //echo $discordanciaFamiliarPD.'<br>';
 $itemAH1 = [
     14 => 3,
@@ -999,7 +999,7 @@ $itemAH0 = [
     55 => 3,
 ];
 
-$abusosInfanciaPD = $answerModel->sumatoriaMaci($answers,$itemAH1,1)+$answerModel->sumatoriaMaci($answers,$itemAH0,0);
+$abusosInfanciaPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAH1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAH0,0);
 //echo $abusosInfanciaPD.'<br>';
 $item_AA1 = [
     11 => 3,
@@ -1026,7 +1026,7 @@ $item_AA0 = [
     131 => 2,
 ];
 
-$transtornoAlimentacionPD =  $answerModel->sumatoriaMaci($answers,$item_AA1,1)+$answerModel->sumatoriaMaci($answers,$item_AA0,0);
+$transtornoAlimentacionPD =  $maciConfigurationModel->sumatoriaMaci($answers,$item_AA1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_AA0,0);
 //echo $abusosInfanciaPD.'<br>';
 
 $item_BB1 = [
@@ -1068,7 +1068,7 @@ $item_BB0 = [
     23 => 1,
     45 => 1,
 ];
-$inclinacionAbusoSusPD = $answerModel->sumatoriaMaci($answers,$item_BB1,1)+$answerModel->sumatoriaMaci($answers,$item_BB0,0);
+$inclinacionAbusoSusPD = $maciConfigurationModel->sumatoriaMaci($answers,$item_BB1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_BB0,0);
 //echo $inclinacionAbusoSusPD.'<br>';
 $item_CC1 = [
     10 => 1,
@@ -1109,7 +1109,7 @@ $item_CC0 = [
     140 => 1,
 ];
 
-$predisposicionDeliPD = $answerModel->sumatoriaMaci($answers,$item_CC1,1)+$answerModel->sumatoriaMaci($answers,$item_CC0,0);
+$predisposicionDeliPD = $maciConfigurationModel->sumatoriaMaci($answers,$item_CC1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_CC0,0);
 //echo $predisposicionDeliPD.'<br>';
 $item_DD1 = [
     18 => 3,
@@ -1140,8 +1140,8 @@ $item_DD0 = [
     99 => 1,
 ];
 
-$propensionInPD = $answerModel->sumatoriaMaci($answers,$item_DD1,1)+$answerModel->sumatoriaMaci($answers,$item_DD0,0);
-//echo $propensionInPD.'<br>';
+$propensionInPD = $maciConfigurationModel->sumatoriaMaci($answers,$item_DD1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_DD0,0);
+
 $item_EE1 = [
     8 => 1,
     15 => 1,
@@ -1189,7 +1189,7 @@ $item_EE0 = [
     157 => 1,
 ];
 
-$sentimientoAncPD =$answerModel->sumatoriaMaci($answers,$item_EE1,1)+$answerModel->sumatoriaMaci($answers,$item_EE0,0);
+$sentimientoAncPD =$maciConfigurationModel->sumatoriaMaci($answers,$item_EE1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_EE0,0);
 //echo $sentimientoAncPD.'<br>';
 $item_FF1 = [
     1 => 1,
@@ -1229,7 +1229,7 @@ $item_FF0 = [
     131 => 1,
 ];
 
-$afectoDepresivoPD =$answerModel->sumatoriaMaci($answers,$item_FF1,1)+$answerModel->sumatoriaMaci($answers,$item_FF0,0);
+$afectoDepresivoPD =$maciConfigurationModel->sumatoriaMaci($answers,$item_FF1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_FF0,0);
 //echo $afectoDepresivoPD.'<br>';
 $item_GG1 = [
     14 => 1,
@@ -1259,7 +1259,7 @@ $item_GG1 = [
 ];
 $item_GG0 = [
     55 => 1];
-$tendenciaSuicidioPD =$answerModel->sumatoriaMaci($answers,$item_GG1,1)+$answerModel->sumatoriaMaci($answers,$item_GG0,0);
+$tendenciaSuicidioPD =$maciConfigurationModel->sumatoriaMaci($answers,$item_GG1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_GG0,0);
 
 //echo $tendenciaSuicidioPD.'<br><br>';
 $transparenciaTB = "";
@@ -1348,7 +1348,10 @@ $tendencialimiteTB = $baremo->getValue9($tendencia_limitePD);
 $tendencialimiteTB_total = $tendencialimiteTB + ($ajusteX) +($ajusteD1);
 //echo $tendencialimiteTB.'<br>';
 //----------------------------------
+//echo $deseabilidadTB.'<br>';
+//echo $alteracionTB.'<br>';
 $indiceBuscar = abs($deseabilidadTB - $alteracionTB);
+//echo $indiceBuscar.'<br>';
 $ajusteD = 0;
 if($indiceBuscar>4){
     $ajusteD = $maciConfigurationModel->getDifereceYZ($indiceBuscar);
@@ -1781,34 +1784,34 @@ if($answer_questions2['response'] == '1'){
 							<div id="contenido1" class="card card-maci">
 								<div class="card-body">
                                     <div class="row row-sm">
-                                        <div class="col-lg-2 img-container">
+                                        <div class="col-12 col-md-3 col-lg-2 img-container">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logomaci.jpeg">
                                         </div>
-                                        <div class="col-lg-10">
+                                        <div class="col-12 col-md-9 col-lg-10">
                                         <div class="row">
-                                            <div class="col-lg-12">
+                                            <div class="col-md-12 col-lg-12">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-text setting-input">
                                                         <span class="input-group-text setting-input">Id</span>
                                                     </div><input class="form-control" style="color: black;" value="<?=$register['id_client']?>" type="text">
                                                 </div><!-- input-group -->
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-md-6 col-lg-3">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-text setting-input">
                                                         <span class="input-group-text setting-input">Edad</span>
                                                     </div><input class="form-control" style="text-align: center;color: black;" value="<?=$register['age']?>" type="text">
                                                 </div><!-- input-group -->
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-md-6 col-lg-3">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-text setting-input">
                                                         <span class="input-group-text setting-input">Sexo</span>
                                                     </div><input class="form-control" style="text-align: center;color: black;" value="<?=$register['sex']?>" type="text">
                                                 </div><!-- input-group -->
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-md-12 col-lg-6">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-text setting-input">
                                                         <span class="input-group-text setting-input">Fecha</span>
@@ -1818,7 +1821,7 @@ if($answer_questions2['response'] == '1'){
                                         </div>
                                         <div class="row row-sm">
                                             
-                                            <div class="col-lg-6">
+                                            <div class="col-md-12 col-lg-6">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-text setting-input">
                                                         <span class="input-group-text setting-input">Baremo</span>
@@ -1838,7 +1841,7 @@ if($answer_questions2['response'] == '1'){
                                                     </form>
                                                 </div><!-- input-group -->
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-md-12 col-lg-6">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-text setting-input">
                                                         <span class="input-group-text setting-input">Responsable de aplicación</span>
@@ -1855,7 +1858,7 @@ if($answer_questions2['response'] == '1'){
 						</div>
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div   id="contenido2" class="card" >
-                                <div class="card-body" style="margin-left: 11rem;margin-right: 11rem;">
+                                <div class="card-body margen-parent">
                                     <h2 style="place-self: center;">Escalas,PD, TB y Grafico Asociado</h2>
                                     <div class="row row-sm">
                                         <div class="col-md-6" style="padding-right:0px;">

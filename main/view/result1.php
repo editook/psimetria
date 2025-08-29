@@ -241,7 +241,7 @@ if ($value_global <= 3) {
 }
 $final_text_global = $register['id_client']." obtuvo un percentil de ".$globals["$Pind_global_sev"]." en el Índice Global de severidad que evalúa el grado de afectación psicopatológica general del evaluado (a), combinando tanto el número de síntomas como su intensidad. Es la medida más sensible del nivel global de malestar psicológico.";
 $final_text_global .=" Una puntuación en el percentil ".$globals["$Pind_global_sev"].", ".$text_global;
-//echo $Pnum_sintomas;
+
 $value_num = $nums["$Pnum_sintomas"];
 
 $text_num = "";
@@ -426,7 +426,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
-        <link href="../../assets/css/style_profile.css" rel="stylesheet">
+        <link href="../../assets/css/style_profile.css?v=1.0.3" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
@@ -459,34 +459,34 @@ if ($condicion1 || $condicion2 || $condicion3) {
 							<div id="contenido1" class="card card-lsb5">
 								<div class="card-body">
                                     <div class="row row-sm">
-                                        <div class="col-lg-2 img-container">
+                                        <div class="col-12 col-md-3 col-lg-2 img-container">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logolsb5.jpeg">
                                         </div>
-                                        <div class="col-lg-10">
+                                        <div class="col-12 col-md-9 col-lg-10">
                                             <div class="row">
-                                                <div class="col-lg-12">
+                                                <div class="col-md-12 col-lg-12">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red">Id</span>
                                                         </div><input class="form-control" style="color: black;" value="<?=$register['id_client']?>" type="text"/>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-md-6 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red">Edad</span>
                                                         </div><input class="form-control" style="text-align: center;color: black;" value="<?=$register['age']?>" type="text"/>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-md-6 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red">Sexo</span>
                                                         </div><input class="form-control" style="text-align: center;color: black;" value="<?=$register['sex']?>" type="text"/>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-md-12 col-lg-6">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red">Fecha</span>
@@ -496,7 +496,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                             </div>
                                             <div class="row row-sm">
                                                 
-                                                <div class="col-lg-6">
+                                                <div class="col-md-12 col-lg-6">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red" id="basic-addon1">Baremo</span>
@@ -516,7 +516,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                                         </form>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-md-12 col-lg-6">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red" id="basic-addon1">Evaluador</span>
@@ -815,8 +815,8 @@ if ($condicion1 || $condicion2 || $condicion3) {
 		<script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
 
 		<!-- custom js -->
-		<script src="../../assets/js/custom.js"></script>
-        <script src="../../assets/js/print.js"></script>
+		<script src="../../assets/js/custom.js?v=1.0.3"></script>
+        <script src="../../assets/js/print.js?v=1.0.3"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         <script>
             $(function() {

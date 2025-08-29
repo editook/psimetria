@@ -296,7 +296,7 @@ class ModelBaremoPobGralVarones
         $nums = [];
         $eventEmitterValue = 99;
         $currentRangeStart =50; 
-        $rangeStep = 0.01; // Incremento decimal "" => 0,
+        $rangeStep = 1; // Incremento decimal "" => 0,
         $eventEmitterRanges = [
             "0" => 3,"1" => 5,"3" => 10,"4" => 15,"5" => 20,"6" => 25,"7" => 30,"8" => 35,"9" => 40,"10" => 45,"11" => 50,"12" => 55,"13" => 60,"14" => 65,"15" => 70,"18" => 75,"19" => 80,"22" => 85,"24" => 90,"28" => 95,"31" => 96,"33" => 97,"35" => 98,"36" => 99
         ];

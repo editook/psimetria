@@ -138,3 +138,24 @@ input{
     box-shadow: none !important;
     background-color: #d7d9ea !important;
 }
+.margen-parent{
+    margin-left: 11rem;
+    margin-right: 11rem;
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .col-md-9 {
+    margin-top: 100px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .img-container {
+    padding-top: 50px;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
+  .margen-parent{
+        margin-left: 0rem;
+        margin-right: 0rem;
+    }
+}
