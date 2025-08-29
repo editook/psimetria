@@ -28,24 +28,6 @@ class Answer_Model
         return $total;
     }
 
-    public function sumatoriaMaci($answers,$array,$compare){
-        $total = 0;
-        foreach($array as $option => $value){
-            foreach($answers as $answer){
-                if($answer['item_order'] == $option){
-                    $sum = 0;
-                    if(intval($answer['response']) == $compare){
-                        $sum = $value;
-                    }
-                    //echo $answer['item_order'].'='.$sum.'<br>';
-                    $total += $sum;
-                    break;
-                }
-            }
-        }
-        return $total;
-    }
-
     public function getValueModel($answers,$value){
         
         foreach($answers as $asnwer){

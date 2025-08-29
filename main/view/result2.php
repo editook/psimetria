@@ -120,7 +120,7 @@ $response_aca_lab = $answerModel->sumatoria($answers,$array_aca_lab);
 $response_aca_lab_dp = round($response_aca_lab/$divisor,2);
 
 $array_social = [2,7,17,27];
-$response_social = $answerModel->sumatoria($answers,$array_social) + (100 - $answerModel->getValueModel($answers,12));
+$response_social = $answerModel->sumatoria($answers,$array_social) + (100 - $answerModel->getValueModel($answers,22)) + (100 - $answerModel->getValueModel($answers,12));
 $response_social_dp = round($response_social/$divisor,2);
 
 $array_emocional = [3,8,13,18,23,28];
@@ -309,34 +309,34 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 							<div id="contenido1" class="card card-af5">
 								<div  class="card-body">
                                     <div class="row row-sm">
-                                        <div class="col-lg-2 img-container">
+                                        <div class="col-12 col-md-3 col-lg-2 img-container">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logoaf5.jpeg">
                                         </div>
-                                        <div class="col-lg-10">
+                                        <div class="col-12 col-md-9 col-lg-10">
                                             <div class="row">
-                                                <div class="col-lg-12">
+                                                <div class="col-md-12 col-lg-12">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Id</span>
                                                         </div><input  style="border: 1px solid black !important;color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-md-6 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Edad</span>
                                                         </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-md-6 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Sexo</span>
                                                         </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-md-12 col-lg-6">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Fecha</span>
@@ -345,7 +345,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                                 </div>
                                             </div>
                                             <div class="row row-sm">
-                                                <div class="col-lg-12">
+                                                <div class="col-md-12 col-lg-12">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input" id="basic-addon1">Baremo</span>
@@ -365,7 +365,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                                         </form>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-lg-12">
+                                                <div class="col-md-12 col-lg-12">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input" id="basic-addon1">Responsable de aplicación</span>
