@@ -1307,9 +1307,11 @@ if ($sentimientoAncPD < 85 && $afectoDepresivoPD < 85) {
 $ajusteD1 = $maciConfigurationModel->getSettingAD($ajusteAD);
 $introversionTB = $baremo->getValue1($introversionPD);
 $introversionTB_total = $introversionTB + $ajusteX;//
+//echo $introversionPD.'<br>';
 //echo $introversionTB.'<br>';
 $inhibidoTB = $baremo->getValue2A($inhibidoPD);
 $inhibidoTB_total = $inhibidoTB+ ($ajusteX) +($ajusteD1);
+//echo $inhibidoPD.'<br>';
 //echo $inhibidoTB.'<br>';
 $pesimistaTB = $baremo->getValue2B($pesimistaPD);
 $pesimistaTB_total = $pesimistaTB + ($ajusteX) +($ajusteD1);
@@ -1323,7 +1325,6 @@ $histrionicoTB_total = $histrionicoTB + $ajusteX;
 
 $egocentricoTB = $baremo->getValue5($egocentricoPD);
 $egocentricoTB_total = $egocentricoTB + $ajusteX;
-//echo $egocentricoTB.'<br>';
 
 $rebeldeTB = $baremo->getValue6A($rebeldePD);
 $rebeldeTB_total = $rebeldeTB + $ajusteX;
