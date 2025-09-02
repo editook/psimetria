@@ -1364,7 +1364,7 @@ $ajusteDC = $ajusteT['valor'];
 //echo $ajusteDC.'+<br>';
 
 $difusionIdentidadTB = $baremo->getValueA($difusionIdentidadPD) +($ajusteD) +($ajusteDC);
-//echo $difusionIdentidadTB.'<br>';
+//echo $conformistaTB.'<br>';
 
 $desvalorizacionMismoTB = $baremo->getValueB($desvalorizacionMismoPD) +($ajusteD)+($ajusteDC);
 //echo $desvalorizacionMismoTB.'<br>';
