@@ -151,8 +151,50 @@
 		<link href="../../assets/css/animate.css" rel="stylesheet">
 		<style>
 		.radio-grande {
-			width: 20px;
-			height: 20px;
+		appearance: none; /* quitamos el estilo nativo del radio */
+		-webkit-appearance: none;
+		width: 20px;
+					height: 20px;
+		border-radius: 50%;
+		background: white;
+		position: relative;
+		cursor: pointer;
+		font-size: 12px;
+		text-align: center;
+		}
+		.radio-grande[value="2"]::before {
+			content: "F"; /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,0.5);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande[value="1"]::before {
+			content: "V"; /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,0.5);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande[value="0"]::before {
+			content: "F"; /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,0.5);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande:checked {
+			background: #c0605dff;
+			color: rgba(0,0,0,1);
 		}
 		.table-bordered th, .table-bordered td{
 			border:1px solid #9499C7;

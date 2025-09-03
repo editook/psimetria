@@ -276,7 +276,16 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
-        <link href="../../assets/css/style_profile.css" rel="stylesheet">
+        
+        <link href="https://db.onlinewebfonts.com/c/5f9ecd69838280dcd8a9f0072f92f6a6?family=Ronnia+W01+Regular" rel="stylesheet">
+        <style>
+            @font-face {
+                font-family: "Ronnia W01 Regular";
+                src: url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff2") format("woff2"),
+                    url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
+                }
+        </style>
+        <link href="../../assets/css/style_profile.css?v=1.0.4" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
@@ -468,7 +477,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;">
                                 <div class="main-content-label mg-b-5">
-                                    <h1 style="font-family: 'Times New Roman', Times, serif;text-align: center;">AUTOCONCEPTO</h1>
+                                    <h1 style="text-align: center;">AUTOCONCEPTO</h1>
                                 </div>
                                 <div class="card-body">
                                     <p class="tx-dark mb-0 tx-13">El autoconcepto es la percepción que una persona tiene de sí misma, basada en sus experiencias y relaciones con los demás. El AF-5 evalúa cinco dimensiones clave del autoconcepto:</p>

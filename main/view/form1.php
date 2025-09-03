@@ -143,9 +143,32 @@
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
 		<style>
+		
 		.radio-grande {
-			width: 20px;
-			height: 20px;
+		appearance: none; /* quitamos el estilo nativo del radio */
+		-webkit-appearance: none;
+		width: 20px;
+					height: 20px;
+		border-radius: 50%;
+		background: white;
+		position: relative;
+		cursor: pointer;
+		font-size: 12px;
+		text-align: center;
+		}
+		.radio-grande::before {
+			content: attr(value); /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,0.5);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande:checked {
+			background: #0162e8;
+			color: rgba(0,0,0,1);
 		}
 		.table-bordered th, .table-bordered td{
 			border:1px solid #0162e8;
@@ -153,6 +176,7 @@
 		.table-striped tbody tr:nth-of-type(odd){
 			background-color:#E6F0FF;
 		}
+		
 		</style>
 	</head>
 
@@ -304,7 +328,8 @@
 												<td><?=htmlspecialchars($answer['question'])?></td>
 												<td class="tx-right tx-medium tx-inverse">
                                                 <input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-                                                </td>
+                                            	
+											</td>
                                                 <td class="tx-right tx-medium tx-inverse">
                                                 <input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
                                                 </td>

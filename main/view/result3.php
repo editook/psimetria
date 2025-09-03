@@ -1751,7 +1751,15 @@ if($answer_questions2['response'] == '1'){
 
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
-        <link href="../../assets/css/style_profile.css" rel="stylesheet">
+        <link href="https://db.onlinewebfonts.com/c/5f9ecd69838280dcd8a9f0072f92f6a6?family=Ronnia+W01+Regular" rel="stylesheet">
+        <style>
+            @font-face {
+                font-family: "Ronnia W01 Regular";
+                src: url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff2") format("woff2"),
+                    url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
+                }
+        </style>
+        <link href="../../assets/css/style_profile.css?v=1.0.4" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
