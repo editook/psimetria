@@ -426,7 +426,17 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
-        <link href="../../assets/css/style_profile.css?v=1.0.3" rel="stylesheet">
+        
+
+        <link href="https://db.onlinewebfonts.com/c/5f9ecd69838280dcd8a9f0072f92f6a6?family=Ronnia+W01+Regular" rel="stylesheet">
+        <style>
+            @font-face {
+                font-family: "Ronnia W01 Regular";
+                src: url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff2") format("woff2"),
+                    url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
+                }
+        </style>
+        <link href="../../assets/css/style_profile.css?v=1.0.4" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
@@ -702,18 +712,18 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                     <h1 style="text-align: center;">INFORME CUALITATIVO LSB-50</h1>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="fw-semibold tx-15">INTRODUCCIÓN</h4>
+                                    <h4 class="tx-15">INTRODUCCIÓN</h4>
                                     <p class="tx-dark mb-0 tx-13">El LSB-50 (Listado de Síntomas Breve) es un instrumento de evaluación psicopatológica diseñado para proporcionar información sobre las variables clínicas de la persona evaluada. El presente informe ha sido creado con el objetivo de facilitar la interpretación de los resultados obtenidos a partir de sus respuestas y puntuaciones en el LSB-50.</p>
                                 </div>
                                 <div class="card-body ">
-                                    <h4 class="fw-semibold tx-15">VALIDEZ DEL PERFIL</h4>
+                                    <h4 class="tx-15">VALIDEZ DEL PERFIL</h4>
                                     <p class="tx-dark mb-0 tx-13">El LSB-50 incluye dos escalas de validez diseñadas para detectar posibles sesgos de respuesta que podrían afectar la interpretación de los resultados: <br>
                                     <?=$final_text_min?> <br><br>
                                     <?=$final_text_mag?>
                                     </p>
                                 </div>
                                 <div class="card-body">
-                                        <h4 class="fw-semibold tx-15">ÍNDICES GENERALES</h4>
+                                        <h4 class="tx-15">ÍNDICES GENERALES</h4>
                                         <p class="tx-dark mb-0 tx-13">Los índices generales en el LSB-50 son medidas que proporcionan una visión global del nivel de sufrimiento psicopatológico del evaluado(a). En este caso, sus resultados indican que:<br>
                                         <?=$final_text_global?> <br><br>
                                         <?=$final_text_num?><br><br>
@@ -728,13 +738,13 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                         </p>
                                 </div>
                                 <div class="card-body ">
-                                        <h4 class="fw-semibold tx-15">Posible Simulación de síntoma, considerar las siguientes puntuaciones (NUM>46 Y INT>3,5)</h4>
+                                        <h4 class="tx-15">Posible Simulación de síntoma, considerar las siguientes puntuaciones (NUM>46 Y INT>3,5)</h4>
                                         <p class="tx-dark mb-0 tx-13">
                                         <?=$final_text_sint?>
                                         </p>
                                 </div>
                                 <div class="card-body">
-                                        <h4 class="fw-semibold tx-15">Síntomas individuales </h4>
+                                        <h4 class="tx-15">Síntomas individuales </h4>
                                         <p class="tx-dark mb-0 tx-13">
                                         <?=$answers_text?><br>
                                         </p>
