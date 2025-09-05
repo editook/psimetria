@@ -538,7 +538,7 @@
 		<script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
 
 		<!-- custom js -->
-		<script src="../../assets/js/custom.js"></script>
+		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
 		<script>
 			const baremos = <?=json_encode($baremos);?>;
 			const selectElement = document.getElementById("baremo_id");

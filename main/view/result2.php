@@ -285,7 +285,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                     url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
                 }
         </style>
-        <link href="../../assets/css/style_profile.css?v=1.0.4" rel="stylesheet">
+        <link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
@@ -319,8 +319,8 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 								<div  class="card-body">
                                     <div class="row row-sm">
                                         <div class="col-12 col-md-3 col-lg-2 img-container">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logoaf5.jpeg">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png?v=<?=VERSION_CODE?>">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logoaf5.jpeg?v=<?=VERSION_CODE?>">
                                         </div>
                                         <div class="col-12 col-md-9 col-lg-10">
                                             <div class="row">
@@ -584,8 +584,8 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 		<script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
 
 		<!-- custom js -->
-		<script src="../../assets/js/custom.js"></script>
-        <script src="../../assets/js/print.js"></script>
+		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
+        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
         <script src="../../assets/js/flot-circle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         <script>
