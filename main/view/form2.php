@@ -178,6 +178,18 @@
 				width: 100%;
 			}
 		}
+		p{
+			font-size: 16px !important;
+		}
+		span{
+			font-size: 16px !important;
+		}
+		td{
+			font-size: 16px !important;
+		}
+		th{
+			font-size: 16px !important;
+		}
 		</style>
 	</head>
 
@@ -267,7 +279,7 @@
 										height: auto;">
 										INSTRUCCIONES
 									</div>
-									<p>A continuacion encontraras una serie de frases. Lee cada una de ellas cuidadosamentey contesta con un valor entre 1 y 99 , segun tu grado de acuerdo con los que se indica.</p>
+									<p>A continuacion encontraras una serie de frases. Lee cada una de ellas cuidadosamente y contesta con un valor entre 1 y 99 , segun tu grado de acuerdo con los que se indica.</p>
 									
 									<div style="margin: 30px 0;display: flex;position: relative;place-items: center;JUSTIFY-CONTENT: CENTER;">
 										<div class="labels">

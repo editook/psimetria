@@ -2367,12 +2367,16 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 2
+                            lineWidth: 3
                         },
                         shadowSize: 0
                     },
                     points: {
                         show: true,
+                        radius:3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth:3
                     },
                     legend: {
                         noColumns: 1,
@@ -2434,12 +2438,16 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 2
+                            lineWidth: 3
                         },
                         shadowSize: 0
                     },
                     points: {
                         show: true,
+                        radius:3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth:3
                     },
                     legend: {
                         noColumns: 1,
@@ -2489,13 +2497,15 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 2
+                            lineWidth: 3
                         },
                         shadowSize: 0
                     },
                     points: {
                         show: true,
                         radius:3,
+                        fill: true,
+                        fillColor: colorLine,
                         lineWidth:3
                     },
                     legend: {
@@ -2556,12 +2566,16 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 2
+                            lineWidth: 3
                         },
                         shadowSize: 0
                     },
                     points: {
                         show: true,
+                        radius:3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth:3
                     },
                     legend: {
                         noColumns: 1,
@@ -2617,12 +2631,16 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 2
+                            lineWidth: 3
                         },
                         shadowSize: 0
                     },
                     points: {
                         show: true,
+                        radius:3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth:3
                     },
                     legend: {
                         noColumns: 1,
@@ -2678,13 +2696,15 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 2
+                            lineWidth: 3
                         },
                         shadowSize: 0
                     },
                     points: {
                         show: true,
                         radius:3,
+                        fill: true,
+                        fillColor: colorLine,
                         lineWidth:3
                     },
                     legend: {
@@ -2720,24 +2740,24 @@ if($answer_questions2['response'] == '1'){
                             { // Línea horizontal en y = 6
                                 yaxis: { from: 10.5, to: 10.5 },
                                 color: 'white', // color rojo
-                                lineWidth: 2
+                                lineWidth: 3
                             },
                             { // Línea horizontal en y = 6
                                 yaxis: { from: 6.2, to: 6.2 },
                                 color: 'white', // color rojo
-                                lineWidth: 2
+                                lineWidth: 3
                             }
                             ,
                             { // Línea horizontal en y = 6
                                 yaxis: { from: 5.8, to: 5.8 },
                                 color: 'white', // color rojo
-                                lineWidth: 2
+                                lineWidth: 3
                             }
                             ,
                             { // Línea horizontal en y = 6
                                 yaxis: { from: 2.67, to: 2.67 },
                                 color: 'white', // color rojo
-                                lineWidth: 2
+                                lineWidth: 3
                             }
                              ,
                             { // Línea horizontal en y = 6

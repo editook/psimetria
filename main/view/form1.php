@@ -176,7 +176,18 @@
 		.table-striped tbody tr:nth-of-type(odd){
 			background-color:#E6F0FF;
 		}
-		
+		p{
+			font-size: 16px !important;
+		}
+		span{
+			font-size: 16px !important;
+		}
+		td{
+			font-size: 16px !important;
+		}
+		th{
+			font-size: 16px !important;
+		}
 		</style>
 	</head>
 
