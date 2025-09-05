@@ -610,12 +610,16 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 2
+                            lineWidth: 3
                         },
                         shadowSize: 0
                     },
                     points: {
                         show: true,
+                        radius:3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth:3
                     },
                     legend: {
                         noColumns: 1,

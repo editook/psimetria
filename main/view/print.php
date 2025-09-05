@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $carpetaBase = dirname(__DIR__, 2);
     $carpeta = $carpetaBase . "/capturas/".$_POST['type_question_id']."/";
     
-    if (!file_exists($carpeta)) {
+    if (!file_exists($carpeta)) {//is_dir
         mkdir($carpeta, 0777, true);
     }
     

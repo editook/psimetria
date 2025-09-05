@@ -8,7 +8,7 @@ background: #0162e8;
 color: #fff;
 border-radius: 10px;
 ">
-<form action="print.php" method="post" enctype="multipart/form-data" style="padding: 0;margin: 0;" target="_blank">
+<form id="formprint" action="print.php" method="post" enctype="multipart/form-data" style="padding: 0;margin: 0;" target="_blank">
     <input type="hidden" name="html" id="html">
             <input type="hidden" name="type_question_id" id="type_question_id">
             <input type="hidden" name="image_contenido1" id="image_contenido1">
