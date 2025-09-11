@@ -1,34 +1,50 @@
-function getDateFormatContract() {
-  const d = new Date();
-  const pad = n => String(n).padStart(2, '0');
-  return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
-}
 
 function printContent(type_question_id,id,belong_id,baremo_id) {
-
+    const overlay = document.getElementById("loadingOverlay");
+    overlay.style.display = "flex"; // mostrar overlay
     var datos = `${type_question_id}|${id}|${belong_id}|${baremo_id}`;
     var base64 = btoa(datos);
-    var form = document.getElementById("formprint");
-    document.getElementById("type_question_id").value = base64;
-    const divs = ['contenido1', 'contenido2', 'contenido3']; 
-    const inputs = ['image_contenido1', 'image_contenido2', 'image_contenido3'];
-    let capturados = 0;
-    divs.forEach((divId, index) => {
-        html2canvas(document.getElementById(divId)).then(canvas => {
-            const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
-            // Aquí podrías manipular píxeles si quieres, ejemplo:
-            // let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    // Crear FormData (empaqueta todo como si fuera un form POST con archivos)
+    let formData = new FormData();
+    formData.append("type_question_id", base64);
 
-            const imgData = canvas.toDataURL('image/png');
-            document.getElementById(inputs[index]).value = imgData;
-            capturados++;
+    const divs = ['contenido1', 'contenido2', 'contenido3'];
 
-            // Si se han capturado los tres divs, enviar el formulario
-            if (capturados === divs.length) {
-                
-            }
+    let promises = divs.map((divId, index) => {
+        return html2canvas(document.getElementById(divId)).then(canvas => {
+            return new Promise((resolve) => {
+                canvas.toBlob(function(blob) {
+                    let file = new File([blob], `image_contenido${index + 1}.png`, { type: "image/png" });
+                    formData.append(`image_contenido${index + 1}`, file);
+                    resolve();
+                }, "image/png");
+            });
         });
     });
-    form.submit();
+
+    // Cuando todas las capturas estén listas, enviar por fetch
+    Promise.all(promises).then(() => {
+        fetch(pathprint+"/view/print.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.text())
+        .then(res => {
+            
+            if(res != '0'){
+                overlay.style.display = "none"; // ocultar overlay
+                //window.location.href = res;
+                window.open(res, "_blank");
+            }
+            else{
+                overlay.style.display = "none"; // ocultar overlay
+                alert("EL PDF NO PUDO SER GENERADO");
+            }
+        })
+        .catch(err => {
+            overlay.style.display = "none"; // ocultar overlay
+            console.log(err);
+        });
+    });
 }

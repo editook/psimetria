@@ -1,3 +1,18 @@
+<div id="loadingOverlay" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+">
+    <img src="<?=LOCALHOST_BASE?>/assets/img/loader.svg" alt="Cargando..." style="width: 100px; height: 100px;">
+</div>
+
 <div style="position: fixed;
 bottom: 20px;
 right: 20px;
@@ -8,18 +23,6 @@ background: #0162e8;
 color: #fff;
 border-radius: 10px;
 ">
-<form id="formprint" action="print.php" method="post" enctype="multipart/form-data" style="padding: 0;margin: 0;" target="_blank">
-    <input type="hidden" name="html" id="html">
-            <input type="hidden" name="type_question_id" id="type_question_id">
-            <input type="hidden" name="image_contenido1" id="image_contenido1">
-            <input type="hidden" name="image_contenido2" id="image_contenido2">
-            <input type="hidden" name="image_contenido3" id="image_contenido3">
-            <button type="button" onclick="printContent('<?=$register['id_type_question']?>','<?=$register['id']?>','<?=$register['belong_id']?>','<?=$register['baremo_id']?>')" style="margin: 5px;" class="btn btn-primary">GENERAR PDF</button>
-            <button type="submit" id="sub" style="height: 0px;
-            width: 0px;
-            padding: 0px;
-            margin: 0px;
-            visibility: hidden;"></button>
-
-</form>
+<button type="button" onclick="printContent('<?=$register['id_type_question']?>','<?=$register['id']?>','<?=$register['belong_id']?>','<?=$register['baremo_id']?>')" style="margin: 5px;" class="btn btn-primary">GENERAR PDF</button>
+            
 </div>

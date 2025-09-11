@@ -829,6 +829,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
         <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         <script>
+            var pathprint = "<?php echo LOCALHOST; ?>";
             $(function() {
             'use strict';
                 var colorLine = "black";
@@ -854,7 +855,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:1.5
                     },
                     legend: {
                         noColumns: 1,
@@ -926,7 +927,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:1.5
                     },
                     legend: {
                         noColumns: 1,
@@ -991,7 +992,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:1.5
                     },
                     legend: {
                         noColumns: 1,
@@ -1051,7 +1052,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:1.5
                     },
                     legend: {
                         noColumns: 1,
@@ -1116,7 +1117,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:1.5
                     },
                     legend: {
                         noColumns: 1,
@@ -1172,7 +1173,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:1.5
                     },
                     legend: {
                         noColumns: 1,
@@ -1274,7 +1275,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:1.5
                     },
                     legend: {
                         noColumns: 1,

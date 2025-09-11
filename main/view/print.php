@@ -2,40 +2,28 @@
 include_once('../configs.php');
 $carpetaBase = dirname(__DIR__, 2);
 
-function guardarImagenBase64($base64, $ruta) {
-        
-    $base64 = preg_replace('#^data:image/\w+;base64,#i', '', $base64);
-    $base64 = str_replace(' ', '+', $base64);
-    $data = base64_decode($base64);
 
-    if ($data === false) {
-        return false;
-    }
-
-    return file_put_contents($ruta, $data) !== false;
-}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  
-    $carpetaBase = dirname(__DIR__, 2);
-    $carpeta = $carpetaBase . "/capturas/".$_POST['type_question_id']."/";
-    
+    $carpetaBase = $_SERVER['DOCUMENT_ROOT']; // apunta a la raíz pública
+
+    $carpeta = $carpetaBase . "/psimetria/capturas/".$_POST['type_question_id']."/";
+
     if (!file_exists($carpeta)) {//is_dir
         mkdir($carpeta, 0777, true);
     }
     
-    
-    for ($i = 1; $i <= 3; $i++) {
-        $campo = "image_contenido{$i}";
-        if (!empty($_POST[$campo])) {
-            $nombreArchivo = $campo . ".png";
-            $rutaArchivo = $carpeta . $nombreArchivo;
-
-            if (guardarImagenBase64($_POST[$campo], $rutaArchivo)) {
-                echo "Imagen $i guardada como: $nombreArchivo<br>";
-            }
+    foreach ($_FILES as $campo => $archivo) {
+        if ($archivo['error'] === UPLOAD_ERR_OK) {
+            $rutaDestino = $carpeta . basename($archivo['name']);
+            move_uploaded_file($archivo['tmp_name'], $rutaDestino);
+        } else {
+            echo 0;
+            exit;
         }
     }
-    header("Location: ".LOCALHOST."/view/print.php?documento=".$_POST['type_question_id']);
+    echo LOCALHOST."/view/print.php?documento=".$_POST['type_question_id'];
+    exit;
+    //header("Location: ".LOCALHOST."/view/print.php?documento=".$_POST['type_question_id']);
 
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $footerImageUrl = LOCALHOST_BASE.'/assets/img/lsb50/image.png';

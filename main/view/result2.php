@@ -589,7 +589,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
         <script src="../../assets/js/flot-circle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
         <script>
-           
+           var pathprint = "<?php echo LOCALHOST; ?>";
 
             $(function() {
             'use strict';
@@ -619,7 +619,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:1.5
                     },
                     legend: {
                         noColumns: 1,
