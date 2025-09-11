@@ -707,7 +707,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         </div>
 						
                         <div class="col-md-12">
-                            <div id="contenido3" class="card card-body" style="padding-bottom: 100px;">
+                            <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
                                     <h1 style="text-align: center;">INFORME CUALITATIVO LSB-50</h1>
                                 </div>
@@ -854,7 +854,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:3
+                        lineWidth:2
                     },
                     legend: {
                         noColumns: 1,
@@ -926,7 +926,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:3
+                        lineWidth:2
                     },
                     legend: {
                         noColumns: 1,
@@ -991,7 +991,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:3
+                        lineWidth:2
                     },
                     legend: {
                         noColumns: 1,
@@ -1051,7 +1051,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:3
+                        lineWidth:2
                     },
                     legend: {
                         noColumns: 1,
@@ -1116,7 +1116,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:3
+                        lineWidth:2
                     },
                     legend: {
                         noColumns: 1,
@@ -1172,7 +1172,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:3
+                        lineWidth:2
                     },
                     legend: {
                         noColumns: 1,
@@ -1274,7 +1274,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:3
+                        lineWidth:2
                     },
                     legend: {
                         noColumns: 1,
