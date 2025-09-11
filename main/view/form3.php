@@ -150,20 +150,42 @@
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
 		<style>
-		.radio-grande {
-		appearance: none; /* quitamos el estilo nativo del radio */
-		-webkit-appearance: none;
-		width: 20px;
-					height: 20px;
-		border-radius: 50%;
-		background: white;
-		position: relative;
-		cursor: pointer;
-		font-size: 12px;
-		text-align: center;
+		.radio-grande{
+			appearance: none; /* quitamos el estilo nativo del radio */
+			-webkit-appearance: none;
+			width: 20px;
+						height: 20px;
+			border-radius: 50%;
+			background: white;
+			position: relative;
+			cursor: pointer;
+			font-size: 12px;
+			text-align: center;
 		}
-		.radio-grande[value="2"]::before {
-			content: "F"; /* usa el value del input */
+		.radio-grande2{
+			appearance: none; /* quitamos el estilo nativo del radio */
+			-webkit-appearance: none;
+			width: 20px;
+						height: 20px;
+			border-radius: 50%;
+			background: white;
+			position: relative;
+			cursor: pointer;
+			font-size: 12px;
+			text-align: center;
+		}
+		.radio-grande2[value="0"]::before {
+			content: "2"; /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,0.5);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande2[value="1"]::before {
+			content: "1"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -193,6 +215,10 @@
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande:checked {
+			background: #c0605dff;
+			color: rgba(0,0,0,1);
+		}
+		.radio-grande2:checked {
 			background: #c0605dff;
 			color: rgba(0,0,0,1);
 		}
@@ -338,10 +364,10 @@
 											<td><?=$answer['item_order']?></td>
 											<td><?=htmlspecialchars($answer['question'])?></td>
 											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
+											<input class="radio-grande2" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
 											</td>
 											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?>  <?=$is_view?'disabled':''?>>
+											<input class="radio-grande2" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?>  <?=$is_view?'disabled':''?>>
 											</td>
 											
 											<td><?=$answer['item_order']?></td>

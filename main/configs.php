@@ -13,7 +13,7 @@ date_default_timezone_set('America/La_Paz');
 
 const ROOT_FOLDER = __DIR__;
 
-const LOCALHOST_BASE = 'https://editoapp.com/psimetria';
+const LOCALHOST_BASE = 'http://localhost/psimetria';
 const LOCALHOST = LOCALHOST_BASE.'/main';
 
 const VERSION_CODE = '1.0.6';
