@@ -846,7 +846,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -855,7 +855,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -918,7 +918,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -927,7 +927,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -983,7 +983,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -992,7 +992,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -1043,7 +1043,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -1052,7 +1052,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -1108,7 +1108,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -1117,7 +1117,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -1164,7 +1164,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -1173,7 +1173,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -1266,7 +1266,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -1275,7 +1275,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,

@@ -610,7 +610,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -619,7 +619,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -655,15 +655,15 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                 color: '#e4e98c'
                             },
                             {
-                                xaxis: { from: 70, to: 85 },
+                                xaxis: { from: 70.2, to: 85 },
                                 color: '#e4e98c'
                             },
                             {
-                                xaxis: { from: 85, to: 97 },
+                                xaxis: { from: 85.3, to: 97 },
                                 color: '#8faa3c'
                             },
                             {
-                                xaxis: { from: 97, to: 99 },
+                                xaxis: { from: 97.2, to: 99 },
                                 color: '#627430'
                             },
                             { // Línea punteada en X = 50

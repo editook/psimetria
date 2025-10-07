@@ -48,6 +48,7 @@
 	}
 	unset($user);
 	$resultado_clients = [];
+	$count_users =0;
 	if(count($users)>0){
 		$fechaReferencia = DateTime::createFromFormat('d/m/Y', $users[0]['date_create']);
 		$resultado_clients = [1]; // El primer valor siempre es 1
@@ -88,7 +89,10 @@
 	$total_pending = $registerModel->getTotalCompleted('','PENDIENTE');
 
 	$totalTest = $total_completed['total'] + $total_pending['total'];
-
+	$total_porcentaje_test = 0;
+	if($totalTest > 0){
+		$total_porcentaje_test = ($total_completed['total'] / $totalTest) * 100;
+	}
 
 
 ?>
@@ -241,7 +245,7 @@
 											</div>
 											<span class="float-end my-auto ms-auto">
 												<i class="fas fa-arrow-circle-up text-white"></i>
-												<span class="text-white op-7"> <?=round(($total_completed['total'] / $totalTest) * 100, 2);?>%</span>
+												<span class="text-white op-7"> <?=round($total_porcentaje_test, 2);?>%</span>
 											</span>
 										</div>
 									</div>

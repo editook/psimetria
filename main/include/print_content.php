@@ -23,6 +23,6 @@ background: #0162e8;
 color: #fff;
 border-radius: 10px;
 ">
-<button type="button" onclick="printContent('<?=$register['id_type_question']?>','<?=$register['id']?>','<?=$register['belong_id']?>','<?=$register['baremo_id']?>')" style="margin: 5px;" class="btn btn-primary">GENERAR PDF</button>
+<button type="button" onclick="printContent('<?=$register['id_type_question']?>','<?=$register['id']?>','<?=$register['belong_id']?>','<?=$register['baremo_id']?>')" style="margin: 5px;" class="btn btn-primary">IMPRIMIR</button>
             
 </div>

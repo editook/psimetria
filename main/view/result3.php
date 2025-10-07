@@ -1868,7 +1868,7 @@ if($answer_questions2['response'] == '1'){
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div   id="contenido2" class="card" >
                                 <div class="card-body margen-parent">
-                                    <h2 style="place-self: center;">Escalas,PD, TB y Grafico Asociado</h2>
+                                    <h2 style="place-self: flex-start;">Escalas,PD, TB y Grafico Asociado</h2>
                                     <div class="row row-sm">
                                         <div class="col-md-6" style="padding-right:0px;">
                                             <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
@@ -2368,7 +2368,7 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -2377,7 +2377,7 @@ if($answer_questions2['response'] == '1'){
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -2439,7 +2439,7 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -2448,7 +2448,7 @@ if($answer_questions2['response'] == '1'){
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -2498,7 +2498,7 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -2507,7 +2507,7 @@ if($answer_questions2['response'] == '1'){
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -2567,7 +2567,7 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -2576,7 +2576,7 @@ if($answer_questions2['response'] == '1'){
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -2632,7 +2632,7 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -2641,7 +2641,7 @@ if($answer_questions2['response'] == '1'){
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -2697,7 +2697,7 @@ if($answer_questions2['response'] == '1'){
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -2706,7 +2706,7 @@ if($answer_questions2['response'] == '1'){
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:1.5
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
