@@ -1,6 +1,6 @@
 <?php
     include_once('../configs.php');
-	//LSB-50
+	//MACI
 	session_start();
 	include('../connection.php');
 	include("../models/model_register.php");

@@ -26,7 +26,8 @@ class Baremo_Model
             /*const rangos = {
 					1: [1, 4],
 					2: [5, 37],
-					3: [38, 45]
+					3: [38, 45],
+                    4: [46, 50]
 				};
             */
             if($id == '1'){
@@ -37,6 +38,9 @@ class Baremo_Model
             }
             if($id == '3'){
                 $where = " where id>=38 and id<=45";
+            }
+            if($id == '4'){
+                $where = " where id>=46 and id<=50";
             }
             
         }

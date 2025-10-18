@@ -28,6 +28,15 @@ class Answer_Model
         return $total;
     }
 
+    public function sumatoriaTodo($answers){
+        $total = 0;
+        foreach($answers as $answer){
+            $total += (int)$answer['response'];
+            echo $total."<br>";
+        }
+        return $total;
+    }
+
     public function getValueModel($answers,$value){
         
         foreach($answers as $asnwer){
