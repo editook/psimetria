@@ -14,10 +14,14 @@ include("../models/lsb50/model_baremo_clinica_psic_mujeres.php");
 include("../models/lsb50/model_baremo_clinica_psic_varones.php");
 include("../models/lsb50/model_baremo_pob_gral_mujeres.php");
 include("../models/lsb50/model_baremo_pob_gral_varones.php");
+
+include("../models/scl90/model_baremo_poblacion_general_no_clinica_mujeres.php");
+include("../models/scl90/model_scl_configuration.php");
 $registerModel = new Register_Model();
 $questionModel = new Question_Model();
 $answerModel = new Answer_Model();
 $baremoModel = new Baremo_Model();
+$sclConfiguration = new ModelSclConfiguration();
 $idClient = 0;
 $idpatient = 0;
 
@@ -60,20 +64,22 @@ if($register == null){
 }
 $baremos = $baremoModel->getAll($register['id_type_question']);
 //echo json_encode($register);
-$baremo = new ModelBaremoPobGralVarones();//baremo=1
-if($register['baremo_id'] == 2){
-    $baremo = new ModelBaremoPobGralMujeres();
-}
-if($register['baremo_id'] == 3){
-    $baremo = new ModelBaremoClinicaPsiVarones();
-}
-if($register['baremo_id'] == 4){
-    $baremo = new ModelBaremoClinicaPsiMujeres();
-}
 
+if($register['baremo_id'] == 47){
+    $baremo = new ModelSCLBaremoPoblacionGeneralMujeres();
+}
+if($register['baremo_id'] == 48){
+    $baremo = new ModelSCLBaremoPoblacionGeneralMujeres();
+}
+if($register['baremo_id'] == 49){
+    $baremo = new ModelSCLBaremoPoblacionGeneralMujeres();
+}
+if($register['baremo_id'] == 50){
+    $baremo = new ModelSCLBaremoPoblacionGeneralMujeres();
+}
 $answers = $answerModel->getAll($register['codes']);
 
-$totalSumatoria = $answerModel->sumatoriaTodo($answers);
+//$totalSumatoria = $answerModel->sumatoriaTodo($answers);
 
 $value_som = $answerModel->sumatoria($answers,[1,4,12,27,40,42,48,49,52,53,56,58]);
 $value_obs = $answerModel->sumatoria($answers,[3,9,10,28,38,45,46,51,55,65]);
@@ -88,320 +94,162 @@ $value_psi = $answerModel->sumatoria($answers,[7,16,35,62,77,84,85,87,88,90]);
 $itemadicionales = $answerModel->sumatoria($answers,[19,44,59,60,64,66,89]);
 
 $gsi = $value_som+$value_obs+$value_int+$value_dep+$value_ans+$value_hos+$value_fob+$value_par+$value_psi+$itemadicionales;
-$gsi = $totalSumatoria;
-echo $totalSumatoria .'<br>';
-exit;
+$gsi = number_format($gsi/count($answers),2);
+
+$pst = $sclConfiguration->contarNoCeros($answers);
+
+$psdi = number_format(($gsi*90)/$pst,2);
+
+$array_gsi = $baremo->getGSI();
+$gsi_t = $array_gsi["$gsi"][0];
+$gsi_pc = $array_gsi["$gsi"][1];
+
+$array_pst = $baremo->getPST();
+$pst_t = $array_pst["$pst"][0];
+$pst_pc = $array_pst["$pst"][1];
+
+$array_psdi = $baremo->getPSDI();
+$psdi_t = $array_psdi["$psdi"][0];
+$psdi_pc = $array_psdi["$psdi"][1];
+//echo json_encode($valor);
+
+$som = number_format($value_som/12,2);
+$array_som = $baremo->getSOM();
+$som_t = $array_som["$som"][0];
+$som_pc = $array_som["$som"][1];
+
+$obs = number_format($value_obs/10,2);
+$array_obs = $baremo->getOBS();
+$obs_t = $array_obs["$obs"][0];
+$obs_pc = $array_obs["$obs"][1];
+
+$int = number_format($value_int/9,2);
+$array_int = $baremo->getINT();
+$int_t = $array_int["$int"][0];
+$int_pc = $array_int["$int"][1];
+
+$dep = number_format($value_dep/13,2);
+$array_dep = $baremo->getDEP();
+$dep_t = $array_dep["$dep"][0];
+$dep_pc = $array_dep["$dep"][1];
+
+$ans = number_format($value_ans/10,2);
+$array_ans = $baremo->getANS();
+$ans_t = $array_ans["$ans"][0];
+$ans_pc = $array_ans["$ans"][1];
+
+$hos = number_format($value_hos/6,2);
+$array_hos = $baremo->getHOS();
+$hos_t = $array_hos["$hos"][0];
+$hos_pc = $array_hos["$hos"][1];
 
 
+$fob = number_format($value_fob/7,2);
+$array_fob = $baremo->getFOB();
+$fob_t = $array_fob["$fob"][0];
+$fob_pc = $array_fob["$fob"][1];
 
-$answers_text = $answerModel->getAnswersTop($register['codes']);
-$answers_text = $answers_text['response'];
-#escala de validez
-//$questions =  $questionModel->getAll($register['id_type_question']);
-$array_min = [2,4,9,11,12,13,30,49];
-$array_mag = [5,10,17,22,26,29,42,46];
-$min = $answerModel->sumatoria(($answers),$array_min);
-$mag = $answerModel->sumatoria(($answers),$array_mag);
-$Pmin = round($min/count($array_min),2);
-$Pmag = round($mag/count($array_mag),2);
-//echo $min.' '.$Pmin.'|';
-//echo $mag.' '.$Pmag.'|';
+$par = number_format($value_par/6,2);
+$array_par = $baremo->getPAR();
+$par_t = $array_par["$par"][0];
+$par_pc = $array_par["$par"][1];
 
-//escalas clinicas
-$array_psicoreac = [6,7,8,15,16,24,26,29,30,31,33,36,38,40];
-$psicoreactividad = round($answerModel->sumatoria(($answers),$array_psicoreac),2);
-$Ppsicoreactividad = round($psicoreactividad/count($array_psicoreac),2);
-//echo $psicoreactividad.' '.$Ppsicoreactividad.'|';
+$psi = number_format($value_psi/10,2);
+$array_psi = $baremo->getpsi();
+$psi_t = $array_psi["$psi"][0];
+$psi_pc = $array_psi["$psi"][1];
 
-$array_hipersenc = [16,24,26,29,30,38,40];
-$hipersenc = $answerModel->sumatoria(($answers),$array_hipersenc);
-$Phipersenc = round($hipersenc/count($array_hipersenc),2);
-//echo $hipersenc.' '.$Phipersenc.'|';
-
-$array_obs_comp = [6,7,8,15,31,33,36];
-$obs_comp = $answerModel->sumatoria(($answers),$array_obs_comp);
-$Pobs_comp = round($obs_comp/count($array_obs_comp),2);
-//echo $obs_comp.' '.$Pobs_comp.'|';
-
-$array_anciedad = [4,9,18,22,25,34,35,47,50];
-$anciedad = $answerModel->sumatoria(($answers),$array_anciedad);
-$Panciedad = round($anciedad/count($array_anciedad),2);
-//echo $anciedad.' '.$Panciedad.'|';
-
-$array_hostilidad = [3,9,23,41,44,48];
-$hostilidad = $answerModel->sumatoria(($answers),$array_hostilidad);
-$Phostilidad = round($hostilidad/count($array_hostilidad),2);
-//echo $hostilidad.' '.$Phostilidad.'|';
-
-$array_somatizacion = [1,5,11,19,20,43,45,46];
-$somatizacion = $answerModel->sumatoria(($answers),$array_somatizacion);
-$Psomatizacion = round($somatizacion/count($array_somatizacion),2);
-//echo $somatizacion.' '.$Psomatizacion.'|';
-
-$array_depresion = [2,12,17,21,28,32,37,39,42,49];
-$depresion = $answerModel->sumatoria(($answers),$array_depresion);
-$Pdepresion = round($depresion/count($array_depresion),2);
-//echo $depresion.' '.$Pdepresion.'|';
-
-$array_alsuenio = [13,14,27];
-$alsuenio = $answerModel->sumatoria(($answers),$array_alsuenio);
-$Palsuenio = round($alsuenio/count($array_alsuenio),2);
-//echo $alsuenio.' '.$Palsuenio.'|';
-
-$array_alsuenio_ampl = [2,13,14,27,34,37,50];
-$alsuenio_ampl = $answerModel->sumatoria(($answers),$array_alsuenio_ampl);
-$Palsuenio_ampl = round($alsuenio_ampl/count($array_alsuenio_ampl),2);
-//echo $alsuenio_ampl.' '.$Palsuenio_ampl.'|';
-
-//indice riesgo patologico
-$array_irp = [5,17,18,22,25,29,31,32,35,42,47,50];
-$irp = $answerModel->sumatoria(($answers),$array_irp);
-$Pirp = round($irp/count($array_irp),2);
-//echo $irp.' '.$Pirp.'|';
-//indices generales
-$ind_global_sev = $psicoreactividad+$anciedad+$hostilidad+$somatizacion+$depresion+$alsuenio;
-$Pind_global_sev = round($ind_global_sev/count($answers),2);
-//echo $ind_global_sev.' '.$Pind_global_sev.'|';
-
-$num_sintomas = $answerModel->ocurrencias(($answers),0);
-$Pnum_sintomas = count($answers) - $num_sintomas;
-//echo $num_sintomas.' '.$Pnum_sintomas.'|';
-
-$ind_intesidad_sintomas = $ind_global_sev;
-$Pind_intesidad_sintomas = round($ind_intesidad_sintomas/$Pnum_sintomas,2);
-//echo $ind_intesidad_sintomas.' '.$Pind_intesidad_sintomas.'|';
-
-//BAREMO DE POBLACION CLINICA PSICOPATOLOGICA MUJERES																													
-//MIN
-$mins = $baremo->getMin();
-
-//MAG
-$mags = $baremo->getMag();
-//PR
-$prs = $baremo->getPr();
-//HP
-$hps = $baremo->getHp();
-//OB-OP
-$obs = $baremo->getOb();
-//AN
-$ans = $baremo->getAn();
-//HS
-$hss = $baremo->getHs();
-//SM
-$sms = $baremo->getSm();
-
-//DE
-$des = $baremo->getDe();
-
-//SU
-$sus = $baremo->getSu();
-
-//SU-A
-$suas = $baremo->getSua();
-
-//IRP-SI
-$irpsis = $baremo->getIrpSi();
-//GLOBAL
-$globals = $baremo->getGlobal();
-
-//NUM
-$nums = $baremo->getNum();
-//echo json_encode($nums);
-//INT
-$ints = $baremo->getInt();
-
-$value_min = $mins["$Pmin"];
-$text_min = "";
-if ($value_min <= 3) {
-    $text_min = "Indica una tendencia muy baja a minimizar síntomas. Reporta experimentar síntomas comunes con una frecuencia similar o mayor a la población general.";
-} elseif ($value_min <= 16) {
-    $text_min = "Indica una tendencia baja a minimizar síntomas. Informa de la presencia de síntomas frecuentes de manera consistente con lo esperado en la población general.";
-} elseif ($value_min <= 84) {
-    $text_min = "Indica una tendencia promedio a minimizar síntomas. Su informe de síntomas comunes se encuentra dentro del rango típico observado en la población general.";
-} elseif ($value_min <= 95) {
-    $text_min = "Indica una posible minimización de síntomas. Puede estar reportando menos síntomas de lo que se esperaría, lo que podría requerir una consideración más detallada para entender la razón de esta subestimación.";
-} elseif ($value_min >= 97) {
-    $text_min = "Indica una tendencia muy elevada a minimizar síntomas. Informa de muy pocos o ninguno de los síntomas comunes que la mayoría de las personas en la población general suelen reportar, lo que sugiere una posible subestimación significativa de su sintomatología.";
+$resultado = "";
+if ($gsi_t <= 50) {
+    $resultado = "Indica que se encuentran dentro del rango normal. Esta categoría indica que los síntomas reportados no son significativos ni en número ni en intensidad, situándose dentro de los parámetros esperados para la población general. Esta puntuación sugiere la ausencia de sintomatología que pudiera influir en la capacidad funcional de manera sustancial.";
+} elseif ($gsi_t <= 63) {
+    $resultado = "Refleja un nivel de malestar psicológico y somático ligeramente superior al normal. Los síntomas son más pronunciados que en la media de la población, aunque no alcanzan niveles de alta severidad. Esta categoría podría indicar la presencia de sintomatología leve que, aunque perceptible, no necesariamente afecta de manera crítica el desempeño o las capacidades.";
+} elseif ($gsi_t >= 64) {
+    $resultado = "Indica un nivel elevado de malestar psicológico y somático. Los síntomas reportados son numerosos e intensos, significativamente superiores a los observados en la población general. Esta categoría sugiere una psicopatología significativa que podría tener implicaciones importantes en la evaluación de la capacidad funcional y el estado psicológico.";
 }
 
-$final_text_min = "Minimización esta escala evalúa la tendencia del sujeto a minimizar o negar la presencia de síntomas comunes. Está compuesta por 8 ítems que se refieren a síntomas relativamente menores y frecuentes en la población general ";
-$final_text_min .=$register['id_client']." obtuvo un Pc ".$value_min." ".$text_min;
+$indiceglobal1 = "El Índice Global de Severidad (GSI) del SCL-90-R evalúa la medida general de la intensidad del malestar psicológico y somático. En este caso";
+$indiceglobal1 .= ", se observa una puntuación T de ".$gsi_t.", ".$resultado;
 
-$value_mag = $mags["$Pmag"];
-$text_mag = "";
-if ($value_mag <= 3) {
-    $text_mag= "Indica que reporta una frecuencia e intensidad de síntomas poco comunes significativamente menor que la población clínica psicopatológica. Esta puntuación sugiere una ausencia de magnificación de síntomas.";
-} elseif ($value_mag <= 16) {
-    $text_mag= "Indica que informa síntomas poco comunes con una frecuencia e intensidad menor que la media de la población clínica psicopatológica. Esta puntuación indica una baja tendencia a magnificar síntomas.";
-} elseif ($value_mag <= 84) {
-    $text_mag= "Indica que reporta síntomas poco comunes con una frecuencia e intensidad similar a la población clínica psicopatológica. Esta puntuación refleja una tendencia promedio en el reporte de síntomas, sin indicios de magnificación.";
-} elseif ($value_mag <= 96) {
-    $text_mag= "Indica que informa de más síntomas poco comunes o con mayor intensidad que la población clínica psicopatológica típica. Esta puntuación sugiere una posible tendencia a magnificar la sintomatología.";
-} elseif ($value_mag >= 97) {
-    $text_mag= "Indica que reporta múltiples síntomas poco comunes con una frecuencia e intensidad inusualmente altas, incluso en comparación con la población clínica psicopatológica. Esta puntuación indica una alta probabilidad de magnificación de síntomas, lo que podría reflejar:<br> 
-    a) Un trastorno psicopatológico grave con sintomatología amplia y extrema. <br>
-    b) Una situación de desesperación real, donde se informa del sufrimiento de forma indiscriminada y aumentada como petición de ayuda. <br>
-    c) Un posible sesgo de respuesta consciente ante una situación que podría derivar en una ventaja o beneficio secundario. <br>
-    d) Una dramatización exagerada, más inconsciente, asociada a una finalidad victimista o ganancia secundaria emocional. <br>
-    e) En casos específicos, como el trastorno facticio, podría reflejar un refuerzo por desempeñar el papel de enfermo.";
-}
-$final_text_mag = "Magnificación esta escala evalúa la tendencia a exagerar o magnificar la sintomatología. Está compuesta por 8 ítems que se refieren a síntomas poco frecuentes incluso en poblaciones clínicas";
-$final_text_mag .= $register['id_client']." obtuvo un Pc ".$mags["$Pmag"]." ".$text_mag;
-
-$value_global = $globals["$Pind_global_sev"];
-$text_global="";
-if ($value_global <= 3) {
-    $text_global= "Indica que el nivel general de malestar psíquico y psicosomático es significativamente bajo. Esto podría indicar una ausencia notable de sintomatología psicopatológica o una presencia muy leve de síntomas.";
-} elseif ($value_global <= 16) {
-    $text_global= "Indica un nivel de malestar que es leve y probablemente no representativo de una perturbación psicológica significativa. Podría experimentar algunos síntomas, pero en un grado que no sugiere una alteración psicopatológica grave.";
-} elseif ($value_global <= 84) {
-    $text_global= "Indica que las puntuaciones dentro de este amplio rango se consideran normales o típicas, indicando un nivel de malestar que es común en la población general. Con estas puntuaciones experimenta síntomas que no son inusuales ni excesivamente severos.";
-} elseif ($value_global <= 96) {
-    $text_global= "Indica un nivel moderado de sufrimiento psicológico global. Esto indica una mayor intensidad y/o número de síntomas en comparación con lo que se considera típico, lo que puede reflejar una mayor afectación psicopatológica.";
-} elseif ($value_global >= 97) {
-    $text_global= "Indica un alto grado de malestar psíquico y psicosomático. Esto refleja una afectación psicopatológica significativa, con múltiples síntomas experimentados con gran intensidad, lo que sugiere un impacto considerable en el bienestar psicológico.";
-}
-$final_text_global = $register['id_client']." obtuvo un percentil de ".$globals["$Pind_global_sev"]." en el Índice Global de severidad que evalúa el grado de afectación psicopatológica general del evaluado (a), combinando tanto el número de síntomas como su intensidad. Es la medida más sensible del nivel global de malestar psicológico.";
-$final_text_global .=" Una puntuación en el percentil ".$globals["$Pind_global_sev"].", ".$text_global;
-
-$value_num = $nums["$Pnum_sintomas"];
-
-$text_num = "";
-if ($value_num <= 3) {
-    $text_num= "Informa muy pocos síntomas psicopatológicos. Esto indica una cantidad de síntomas menor que la que experimenta la mayoría de las personas, lo que podría interpretarse como una ausencia de psicopatología significativa o una indicación de una buena salud mental.";
-} elseif ($value_num <= 16) {
-    $text_num= "Indica que experimenta algunos síntomas psicopatológicos, pero la cantidad total de síntomas es relativamente baja y no sugiere una psicopatología amplia o diversa.";
-} elseif ($value_num <= 84) {
-    $text_num= "Indica que la cantidad de síntomas reportados se considera promedio en comparación con la población general. En este rango experimenta una cantidad de síntomas psicopatológicos que no se desvía significativamente de lo que es común en la población general.";
-} elseif ($value_num <= 96) {
-    $text_num= "Indica que está experimentando una cantidad moderada de síntomas psicopatológicos. Esto indica una mayor amplitud en la psicopatología que lo que se observa típicamente en la población general.";
-} elseif ($value_num >= 97) {
-    $text_num= "Indica una cantidad de síntomas psicopatológicos considerablemente mayor que la mayoría de las personas. Esto refleja una extensa variedad y amplitud de síntomas psicopatológicos y sugiere que podría estar experimentando múltiples problemas psicológicos.";
-}
-$final_text_num = "En el Número de síntomas presentes que evalúa la amplitud o extensión de la sintomatología, indicando cuántos síntomas diferentes experimenta el evaluado (a), independientemente de su intensidad. Responde a la pregunta sobre cuán diversa es la sintomatología. ";
-$final_text_num .= "Obtuvo una puntuación en el percentil ".$value_num.", ".$text_num;
-
-$value_int = $ints["$Pind_intesidad_sintomas"];
-$text_int = "";
-if ($value_int <= 3) {
-    $text_int = "Informa una baja intensidad en los síntomas que ha reconocido. Esto podría indicar que, aunque experimenta ciertos síntomas, estos no son particularmente severos o perturbadores.";
-} elseif ($value_int <= 16) {
-    $text_int =  "Indica que la intensidad de los síntomas reconocidos es leve. Podría estar experimentando síntomas, pero a un nivel que no es excesivamente disruptivo o severo.";
-} elseif ($value_int <= 84) {
-    $text_int =  "Indica que dentro de este rango amplio se consideran normales y representan la intensidad promedio de síntomas que se podría esperar en la población general. Informa una intensidad de síntomas que es común y no indica una severidad inusual.";
-} elseif ($value_int <= 96) {
-    $text_int =  "Indica una intensidad de síntomas moderada. Esto sugiere que los síntomas reconocidos son más intensos que lo que se observa comúnmente, lo que puede ser indicativo de un mayor nivel de malestar psicológico.";
-} elseif ($value_int >= 97) {
-    $text_int =  "Indica una intensidad de síntomas muy alta. Informa una severidad de síntomas considerable, lo que implica un impacto significativo en su bienestar psicológico.";
-}
-$final_text_int = "Y en el Índice de intensidad de síntomas presentes que evalúa específicamente la intensidad o severidad de los síntomas que el evaluado (a) afirma tener. Proporciona información sobre cuán intensamente experimenta los síntomas que reporta. ";
-$final_text_int .= "En esta escala obtuvo una puntuación en el percentil ".$value_int.", ".$text_int;
-
-$value_an = $ans["$Panciedad"];
-$text_an="";
-if ($value_an <= 3) {
-    $text_an= "Indica que experimenta una ansiedad mínima, con muy pocas manifestaciones de nerviosismo, miedo o angustia. Los síntomas típicos de trastornos de ansiedad generalizada, pánico, o ansiedad fóbica son casi inexistentes. La capacidad para manejar situaciones estresantes o ansiedad-provocadoras es alta, con poca o ninguna evitación de situaciones debido al miedo.";
-} elseif ($value_an <= 16) {
-    $text_an= "Indica que presenta una leve manifestación de ansiedad. Puede haber ocasional inquietud o nerviosismo en situaciones específicas, como estar en espacios abiertos o tener que salir de casa, pero estos sentimientos son manejables y no limitan significativamente la vida cotidiana. Los miedos repentinos y sin causa aparente son raros y no interfieren de manera considerable con el funcionamiento diario.";
-} elseif ($value_an <= 84) {
-    $text_an= "Indica que la ansiedad se encuentra en un nivel considerado normativo. Puede experimentar momentos de inquietud, nerviosismo o miedo en situaciones que comúnmente provocan ansiedad, como espacios abiertos o estar solo, pero estos sentimientos son parte de una respuesta normal a situaciones cotidianas y no indican una ansiedad patológica. La evitación de ciertas situaciones debido al miedo puede ocurrir, pero no es predominante.";
-} elseif ($value_an <= 96) {
-    $text_an= "Indica que hay una presencia moderada de síntomas de ansiedad. La inquietud, los miedos irracionales, y el nerviosismo pueden ser más frecuentes y tener un impacto en la vida diaria, llevando a la evitación de situaciones que provocan ansiedad. Sin embargo, aún mantiene cierta capacidad para funcionar a pesar de estos desafíos.";
-} elseif ($value_an >= 97) {
-    $text_an= "Indica que la ansiedad es intensa, con síntomas graves que reflejan un trastorno de ansiedad generalizada, pánico, o ansiedad fóbica. La inquietud, el miedo, y el nerviosismo son constantes. La evitación de situaciones por miedo es común, y los pensamientos o imágenes intrusivos provocan una ansiedad significativa. Experimenta una preocupación constante por la posibilidad de que ocurran eventos negativos, lo que domina su experiencia diaria.";
-}
-$final_text_an = "En la escala de Anciedad(An) que explora manifestaciones de ansiedad generalizada, pánico y ansiedad fóbica. ";
-$final_text_an .=$register['id_client']." obtuvo una puntuación en el percentil ".$value_an.", Este resultado ".$text_an;
-
-
-$value_hs = $hss["$Phostilidad"];
-$text_hs="";
-if ($value_hs <= 3) {
-    $text_hs= "Indica una mínima presencia de hostilidad. Casi no experimenta impulsos de destruir cosas, irritabilidad, o ataques de ira incontrolables. Es poco probable que participe en discusiones frecuentes o muestre arrebatos de agresividad hacia otros. Su capacidad para controlar emociones negativas como la ira y el resentimiento es alta, lo que indica un manejo efectivo de las respuestas emocionales en situaciones potencialmente provocadoras.";
-} elseif ($value_hs <= 16) {
-    $text_hs= "Indica una leve manifestación de comportamientos hostiles. Puede sentirse ocasionalmente irritable o mostrar enojo, pero estos sentimientos son controlables y no conducen a acciones destructivas o dañinas. Los impulsos agresivos son raros y, cuando ocurren, se manejan de manera que no afectan negativamente a los demás significativamente. Las discusiones con otros son infrecuentes y no suelen escalar a conflictos serios.";
-} elseif ($value_hs <= 84) {
-    $text_hs= "Indica que la presencia de hostilidad está en un nivel considerado normativo. Puede sentirse irritable o enojado(a), pero estas emociones están dentro del rango de lo que se considera una respuesta emocional típica. Puede haber momentos esporádicos de discusiones o frustración, pero estos no dominan su comportamiento ni afectan de manera significativa sus relaciones interpersonales.";
-} elseif ($value_hs <= 96) {
-    $text_hs= "Indica que hay una presencia moderada de hostilidad. La irritabilidad, el enojo y los impulsos de agresividad son más frecuentes y pueden ser más difíciles de controlar. Es posible que participe en discusiones con más regularidad y experimente ataques de ira que desafían su capacidad para mantener el control emocional. Aunque estos comportamientos pueden influir en sus interacciones con los demás, aún existe un esfuerzo por gestionar las emociones negativas.";
-} elseif ($value_hs >= 97) {
-    $text_hs= "Indica una alta presencia de hostilidad, con reacciones frecuentes y severas de pérdida de control emocional. Los impulsos de destruir objetos, la irritabilidad crónica, los ataques de ira incontrolables, y los arrebatos de agresividad física son prominentes. Estas manifestaciones de hostilidad afectan significativamente las relaciones interpersonales y pueden conducir a consecuencias negativas en diferentes aspectos.";
+if ($pst_t <= 50) {
+    $resultado = "Indica que el número total de síntomas reportados se encuentra dentro del rango considerado normal. Los síntomas presentes no son numerosos y se alinean con lo esperado en la población general. Esta puntuación sugiere una baja frecuencia de síntomas psicológicos y somáticos.";
+} elseif ($pst_t <= 63) {
+    $resultado = "Indica que el número de síntomas reportados es ligeramente elevado. La cantidad de síntomas presentes es superior a la media de la población general, aunque no alcanza niveles de alta severidad. Esta puntuación indica una mayor presencia de síntomas, aunque de baja intensidad.";
+} elseif ($pst_t >= 64) {
+    $resultado = "Indica que el número total de síntomas reportados es elevado. La cantidad de síntomas presentes es significativamente mayor que la observada en la población general. Esta puntuación refleja una alta frecuencia de síntomas psicológicos y somáticos, indicando una severidad significativa.";
 }
 
-$final_text_hs = "Por otro lado, en la escala de Hostilidad(Hs) que evalúa reacciones de pérdida de control emocional con manifestaciones de agresividad, ira o resentimiento. ";
-$final_text_hs .= $register['id_client']." obtuvo una puntuación en el percentil ".$value_hs.". Este resultado ".$text_hs;
+$indiceglobal2 = "El Total de Síntomas Positivos (PST) contabiliza la cantidad total de síntomas presentes, indicando la amplitud y diversidad de la psicopatología, en este índice obtuvo una puntuación T de ";
+$indiceglobal2 .= $pst_t.", ".$resultado;
 
-$value_su_a = $suas["$Palsuenio_ampl"];
-$text_su_a = "";
-if ($value_su_a <= 3) {
-    $text_su_a= "Indica que la presencia de alteraciones en el sueño es mínima, y los síntomas asociados con ansiedad y depresión que podrían afectar el sueño son casi inexistentes. Raramente experimenta despertares nocturnos, sueño agitado, o dificultades para conciliar el sueño, y los sentimientos de tristeza, soledad o miedo no tienen un impacto significativo en la calidad del sueño.";
-} elseif ($value_su_a <= 16) {
-    $text_su_a= "Indica una manifestación leve de alteraciones en el sueño, con algunos síntomas de ansiedad y depresión que pueden afectar ocasionalmente la calidad del sueño. Puede haber episodios esporádicos de despertares nocturnos o dificultades para conciliar el sueño, pero estos son manejables. Los sentimientos de tristeza o ansiedad son leves y no interfieren de manera considerable con el sueño.";
-} elseif ($value_su_a <= 84) {
-    $text_su_a= "Indica que la presencia de alteraciones en el sueño y los síntomas ansioso-depresivos asociados está dentro de un rango considerado normativo. Aunque puede experimentar de vez en cuando dificultades para dormir o sentirse triste o ansiosa, estos no sugieren un problema significativo. Los episodios de sueño alterado o dificultades para conciliar el sueño son parte de las variaciones normales del sueño.";
-} elseif ($value_su_a <= 96) {
-    $text_su_a= "Indica que hay una presencia moderada de alteraciones en el sueño, con síntomas de ansiedad y depresión que afectan más la calidad del sueño. Los despertares nocturnos, el sueño agitado, y las dificultades para dormir son más frecuentes. La tristeza, la soledad, y los miedos pueden contribuir a estas alteraciones, indicando un vínculo entre los estados emocionales y los problemas de sueño.";
-} elseif ($value_su_a >= 97) {
-    $text_su_a= "Indica que experimenta una alta presencia de alteraciones graves en el sueño, intensamente afectadas por síntomas de ansiedad y depresión. Los problemas de sueño, como despertares frecuentes, dificultades para conciliar el sueño, y sueño agitado, son constantes y severos. Los sentimientos intensos de tristeza, soledad, y miedo tienen un impacto significativo en la calidad del sueño, lo que sugiere una conexión entre los trastornos del sueño y los estados ansioso-depresivos.";
+if ($psdi_t <= 50) {
+    $resultado = "Refleja que la intensidad del malestar asociado con los síntomas reportados se encuentra dentro del rango considerado normal. Los síntomas presentes no generan un malestar significativo y se alinean con lo esperado en la población general. Esta puntuación indica que, aunque pueda haber síntomas presentes, estos no son percibidos como altamente perturbadores.";
+} elseif ($psdi_t <= 63) {
+    $resultado = "Refleja que la intensidad del malestar asociado con los síntomas es ligeramente superior a la media. El malestar generado por los síntomas es superior al promedio de la población general, aunque no alcanza niveles de alta severidad. Esta puntuación sugiere que los síntomas presentes son percibidos con una intensidad de malestar mayor, aunque manejable.";
+} elseif ($psdi_t >= 64) {
+    $resultado = "Refleja que la intensidad del malestar asociado con los síntomas reportados es elevada. El malestar generado por los síntomas es significativamente superior al observado en la población general. Esta puntuación refleja una alta severidad en la percepción del malestar, indicando que los síntomas presentes son intensamente perturbadores.";
 }
-$final_text_sua = "También se observa que en la escala de Alteración de sueño ampliada	que evalúa la presencia específica de alteraciones del sueño junto con manifestaciones de las escalas Ansiedad y Depresión que clínicamente están asociadas a problemas de sueño. ";
-$final_text_sua .= $register['id_client']." obtuvo una puntuación en el percentil ".$value_hs.". Este resultado ".$text_su_a;
 
-$value_pr = $prs["$Ppsicoreactividad"];
-$text_pr ="";
-if ($value_pr <= 3) {
-    $text_pr = "exhibe una baja tendencia a la autoobservación excesiva y a reaccionar de manera significativa a la percepción externa o interna. La interacción social y la autoimagen no parecen estar fuertemente influenciadas por preocupaciones sobre juicios externos o análisis interno intensivo.";
-} elseif ($value_pr <= 16) {
-    $text_pr = "indica una leve sensibilidad en la percepción de uno mismo en relación con los demás y hacia la propia imagen. Hay una ligera inclinación a la autoobservación, pero no domina el comportamiento ni el bienestar emocional de manera significativa. La influencia de la percepción externa sobre la autoestima y el comportamiento es limitada, permitiendo una adaptación funcional a la mayoría de las situaciones sociales.";
-} elseif ($value_pr <= 84) {
-    $text_pr = "muestra una cantidad moderada de autoobservación y preocupación por la imagen personal y cómo se percibe en contextos sociales, lo cual es común y esperado en la población general. Esta sensibilidad no suele interferir con la capacidad de funcionar de manera efectiva en la vida diaria.";
-} elseif ($value_pr <= 96) {
-    $text_pr = "indica una sensibilidad moderada en la percepción de uno mismo tanto en relación con los demás como hacia la propia imagen. La autoobservación puede ser más frecuente y las preocupaciones sobre cómo es percibido por otros pueden influir en el comportamiento y en las interacciones sociales más de lo que podría considerarse típico, aunque aún dentro de límites que permiten un funcionamiento adecuado.";
+$indiceglobal3 = "El Índice de Malestar Sintomático Positivo (PSDI) relaciona el malestar global con el número de síntomas, siendo un indicador de la intensidad media de los síntomas. En este caso, se observa una puntuación T de";
+$indiceglobal3 .= $psdi_t.", ".$resultado;
+
+$array_ind = [$value_som,$value_obs,$value_int,$value_dep,$value_ans,$value_hos,$value_fob,$value_par,$value_psi];
+$array_pd = [$som_pc,$obs_pc,$int_pc,$dep_pc,$ans_pc,$hos_pc,$fob_pc,$par_pc,$psi_pc];
+$array_t = [$som_t,$obs_t,$int_t,$dep_t,$ans_t,$hos_t,$fob_t,$par_t,$psi_t];
+
+$top1 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$som_t,$som_pc,$value_som,0);
+$top2 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$obs_t,$obs_pc,$value_obs,1);
+$top3 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$int_t,$int_pc,$value_int,2);
+$top4 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$dep_t,$dep_pc,$value_dep,3);
+$top5 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$ans_t,$ans_pc,$value_ans,4);
+$top6 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$hos_t,$hos_pc,$value_hos,5);
+$top7 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$fob_t,$fob_pc,$value_fob,6);
+$top8 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$par_t,$par_pc,$value_par,7);
+$top9 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$psi_t,$psi_pc,$value_psi,8);
+$data_values = [
+    "Somatización" => $top1,
+    "Obsesión-compulsión" =>$top2, 
+    "Sensibilidad interpersonal" => $top3,
+    "Depresión" => $top4,
+    "Ansiedad" => $top5,
+    "Hostilidad" => $top6,
+    "Ansiedad fóbica" => $top7,
+    "Ideación paranoide" => $top8,
+    "Psicoticismo" => $top9
+    
+];
+
+asort($data_values);
+
+        
+$data_tops = $sclConfiguration->getTop($data_values);
+$datatop1 = $data_tops[0];
+$salidatop1 = $datatop1["name"]." esta dimensión ".$datatop1["message2"]." El resultado obtenido ".$datatop1["message1"];
+if($datatop1["message2"]=="" && $datatop1["message1"] == ""){
+    $salidatop1 = "Las escalas evaluadas no registran puntajes T superiores a 51; en consecuencia, no se considera viable realizar una interpretación cualitativa de ninguna de ellas.";
+}
+
+$datatop2 = $data_tops[1];
+$salidatop2 = $datatop2["name"]." esta dimensión ".$datatop2["message2"]." El resultado obtenido ".$datatop2["message1"];
+
+$datatop3 = $data_tops[2];
+$salidatop3 = $datatop3["name"]." esta dimensión ".$datatop3["message2"]." El resultado obtenido ".$datatop3["message1"];
+
+$datatop4 = $data_tops[3];
+$salidatop4 = $datatop4["name"]." esta dimensión ".$datatop4["message2"]." El resultado obtenido ".$datatop4["message1"];
+
+$indicador_salida = "";
+$sexo_value = $register["sex"];
+if ($pst_pc <= 4) {
+    $indicador_salida = "El resultado indica que se debe considerar negación de síntoma o minimización de patología.";
+} elseif ($sexo_value == "FEMENINO" && $pst_pc >= 60) {
+    $indicador_salida = "El resultado indica una tendencia a aumentador o exageración de la patología.";
+} elseif ($sexo_value == "MASCULINO" && $pst_pc >= 50) {
+    $indicador_salida = "El resultado indica una tendencia a aumentador o exageración de la patología.";
 } else {
-    $text_pr = "indica una alta sensibilidad en la percepción de uno mismo en relación con los demás y hacia la propia imagen, junto con una tendencia significativa a la autoobservación excesiva. Esta intensa preocupación por la percepción externa e interna puede afectar profundamente el comportamiento, las interacciones sociales y el bienestar emocional, indicando una reactividad psicológica que sobrepasa lo esperado en la población general. La percepción de uno mismo está fuertemente influenciada por el miedo al juicio y por una crítica interna constante.";
+    $indicador_salida = "No se observa una tendencia a maximizar o minimizar la patología.";
 }
-$final_text_pr = "Por último, se observa que en la escala de Psicoreactividad(Pr) que evalúa la sensibilidad en la percepción de uno mismo en relación con los demás y la propia imagen.";
-$final_text_pr .= $register['id_client']." obtuvo una puntuación en el percentil ".$value_pr.". Este resultado ".$text_pr;
 
-$value_irpsi = $irpsis["$Pirp"];
-$text_irpsi = "";
-if ($value_irpsi <= 3) {
-    $text_irpsi =  "indica una presencia mínima de síntomas psicopatológicos. Los síntomas evaluados por este índice son prácticamente inexistentes o de intensidad muy baja.";
-} elseif ($value_irpsi <= 16) {
-    $text_irpsi =  "indica una manifestación leve de síntomas asociados a la psicopatología. Los síntomas están presentes pero con una frecuencia e intensidad bajas, que no interfieren significativamente con el funcionamiento diario.";
-} elseif ($value_irpsi <= 84) {
-    $text_irpsi =  "indica un nivel de síntomas psicopatológicos dentro del rango promedio de la población general. La presencia de síntomas es variable, pero no alcanza niveles clínicamente significativos.";
-} elseif ($value_irpsi <= 96) {
-    $text_irpsi =  "indica una presencia de síntomas psicopatológicos por encima del promedio, pero sin alcanzar niveles clínicos significativos. Los síntomas son más frecuentes o intensos que en la población general, pero no llegan a ser comparables con una población clínica.";
-} else {
-    $text_irpsi =  "indica una alta presencia de síntomas psicopatológicos graves que afectan significativamente el funcionamiento. La intensidad de estos síntomas indica una afectación importante y la presencia de un conglomerado de desvalorización, incomprensión, miedo, somatización y hostilidad con ideas de suicidio. En este nivel, los síntomas son comparables a una población clínica, psicopatológica o psiquiátrica.";
-}
-$final_text_iprsi = "El Índice de riesgo psicopatológico explora la presencia de síntomas cuya probabilidad de aparición e intensidad es baja en la población general no clínica y, por el contrario, alta en la población clínica.";
-$final_text_iprsi .= " En este caso, ".$register['id_client']." obtuvo una puntuación en el percentil ".$value_irpsi.", ".$text_irpsi;
-
-
-$final_text_sint = "";
-if ($Pnum_sintomas > 46 && $Pind_intesidad_sintomas > 3.5) {
-    $final_text_sint = "Considerar hipótesis de simulación o de fingimiento de síntoma";
-} elseif ($Pnum_sintomas <= 4 && $Pind_intesidad_sintomas < 1) {
-    $final_text_sint = "Ocultamiento de sintomatología psicopatológica, con sesgo de deseabilidad social o con formas de defensividad";
-} else {
-    $final_text_sint = "Reporta síntomas genuinos y sinceros";
-}
-$condicion1 = $value_irpsi >= 97;
-$condicion2 = $value_global >= 97;
-$array_esc_cli = [$value_pr,$hps["$Phipersenc"],$obs["$Pobs_comp"],$value_an,$value_hs,$sms["$Psomatizacion"],$des["$Pdepresion"],$sus["$Palsuenio"],$value_su_a];
-$count_esc_cli = 0;
-foreach ($array_esc_cli as $value) {
-    if($value>=97){
-        $count_esc_cli+=1;
-    }
-}
-$condicion3 = $count_esc_cli >= 2;
-$recomendacion_baremo = "";
-if ($condicion1 || $condicion2 || $condicion3) {
-    $recomendacion_baremo = "Aplicar baremación con población clínica";
-}
 
 ?>
 
@@ -576,7 +424,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                             <div id="contenido2" class="card" >
                                 <div class="card-body">
                                    <div class="row row-sm">
-                                        <div class="col-md-6" style="padding-right:0px;">
+                                        <div class="col-md-7" style="padding-right:0px;">
                                             <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
                                                 <div style="margin-bottom: 75px;">
                                                     <div class="table-responsive">
@@ -592,21 +440,21 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                                                 </tr>
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Índice global de gravedad o severidad</div> <div class="width-move">GSI</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Pmin,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Pmin,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$mins["$Pmin"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$gsi?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$gsi_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$gsi_pc?></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Total de Síntomas Positivos</div><div class="width-move">PST</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Pmag,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Pmag,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$mags["$Pmag"]?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$pst?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$pst_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$pst_pc?></div></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Distrés de síntomas Positivos</div><div class="width-move">PSDI</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Pmag,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Pmag,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$mags["$Pmag"]?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psdi?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psdi_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psdi_pc?></div></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -621,70 +469,70 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                                                 </tr>
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Somatización</div><div class="width-move">SOM</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Ppsicoreactividad,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$prs["$Ppsicoreactividad"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$som?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$som_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$som_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Obsesión-compulsión</div><div class="width-move">OBS</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Phipersenc,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$hps["$Phipersenc"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$obs?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$obs_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$obs_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Sensibilidad interpersonal</div><div class="width-move">INT</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Pobs_comp,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$obs["$Pobs_comp"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$int?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$int_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$int_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Depresión</div><div class="width-move">DEP</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Panciedad,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$ans["$Panciedad"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$dep?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$dep_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$dep_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Ansiedad</div><div class="width-move">ANS</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Phostilidad,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$hss["$Phostilidad"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$ans?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$ans_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$ans_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Hostilidad</div><div class="width-move">HOS</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$sms["$Psomatizacion"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$hos?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$hos_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$hos_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Ansiedad fóbica</div><div class="width-move">FOB</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$sms["$Psomatizacion"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$fob?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$fob_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$fob_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Ideación paranoide</div><div class="width-move">PAR</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$sms["$Psomatizacion"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$par?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$par_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$par_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-subtitle">Psicoticismo</div><div class="width-move">PSI</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=number_format($Psomatizacion,2)?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$sms["$Psomatizacion"]?></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psi?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psi_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psi_pc?></td>
                                                                 </tr>
                                                                 
                                                             </tbody>
                                                         </table>
-                                                        <table class="table mg-b-0 text-md-nowrap" style="margin-top:15px">
+                                                        <table class="table mg-b-0 text-md-nowrap" style="margin-top:5px">
                                                            
                                                             <tbody style="text-align: right;text-align: center;">
                                                                 <tr  class="tr_fill" style="font-weight: bold;">
@@ -699,15 +547,12 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" style="padding-left:0px;">
+                                        <div class="col-md-5" style="padding-left:0px;">
                                             <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 15px;height: 520px !important;width: 100%;" id="colorss"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 15px;height: 87px !important;width: 100%;" id="colorss2"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 80px !important;" id="flotLine2"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 100px !important;" id="flotLineIndGeneral"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 250px !important;" id="flotLineEscalasClinicas"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 20px;height: 60px !important;" id="flotLineIndRiesgoPat"></div>
-                                                <p class="mg-t-20" style="text-align: right;">Nota T: Media 50 y Desviacion tipica de 10</p>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 12px;height: 365px !important;width: 100%;" id="colorss"></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 12px;height: 100px !important;" id="flotLineIndGeneral"></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 12px;height: 250px !important;" id="flotLineEscalasClinicas"></div>
+                                                <span style="text-align: left;font-size: 14px;padding-left: 10px;">Nota T: Media 50 y Desviacion tipica de 10</span>
                                             </div>
                                         </div>
                                    </div>
@@ -726,35 +571,27 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                 <div class="card-body">
                                     <h4 class="tx-15">I. ÍNDICES GLOBALES</h4>
                                     <p class="tx-dark mb-0 tx-13">
-                                        
+                                        <?=$indiceglobal1?>
                                     </p>
                                 </div>
                                 <div class="card-body ">
-                                    <h4 class="tx-15">VALIDEZ DEL PERFIL</h4>
-                                    <p class="tx-dark mb-0 tx-13">El LSB-50 incluye dos escalas de validez diseñadas para detectar posibles sesgos de respuesta que podrían afectar la interpretación de los resultados: <br>
+                                    <h4 class="tx-15">II. DIMENSIONES SINTOMÁTICAS</h4>
+                                    <p class="tx-dark mb-0 tx-13">En este apartado se presentan los resultados de las dimensiones específicas del SCL 90 R, donde se identifican cuatro puntajes superiores a las demás dimensiones sintomáticas: <br>
                                     <?=$final_text_min?> <br><br>
                                     <?=$final_text_mag?>
                                     </p>
                                 </div>
                                 <div class="card-body">
-                                        <h4 class="tx-15">ÍNDICES GENERALES</h4>
-                                        <p class="tx-dark mb-0 tx-13">Los índices generales en el LSB-50 son medidas que proporcionan una visión global del nivel de sufrimiento psicopatológico del evaluado(a). En este caso, sus resultados indican que:<br>
+                                        <h4 class="tx-15">III. INDICADOR DE POSIBLE SIMULACIÓN DE SÍNTOMA</h4>
+                                        <p class="tx-dark mb-0 tx-13">PST= PD≤4 es altamente sospechoso de negación de síntoma o minimización de patología. PST T≥ 50 varones PST T≥60 Mujeres es altamente sospechoso, tendencia a aumentador o exageración de la patología.<br>
                                         <?=$final_text_global?> <br><br>
                                         <?=$final_text_num?><br><br>
-                                        <?=$final_text_int?><br><br>
-                                        A continuación, se presentan los resultados obtenidos en las escalas clínicas del LSB-50. Estas escalas proporcionan información sobre diferentes dimensiones psicopatológicas, permitiendo así comprender el perfil sintomático específico del evaluado(a). La interpretación de estas escalas nos ayudará a identificar las áreas de mayor relevancia clínica y a entender la forma particular en que se manifiesta el malestar psicológico en este caso. Se describen 4 escalas destacadas en sus resultados, las cuales, en conjunto, ofrecen una visión integral del cuadro clínico presentado.
-                                        <br><br>
-                                        <?=$final_text_an?><br><br>
-                                        <?=$final_text_hs?><br><br>
-                                        <?=$final_text_sua?><br><br>
-                                        <?=$final_text_pr?><br><br>
-                                        <?=$final_text_iprsi?><br><br>
                                         </p>
                                 </div>
                                 <div class="card-body ">
-                                        <h4 class="tx-15">Posible Simulación de síntoma, considerar las siguientes puntuaciones (NUM>46 Y INT>3,5)</h4>
+                                        <h4 class="tx-15">Ítems Adicionales - Síntomas misceláneos</h4>
                                         <p class="tx-dark mb-0 tx-13">
-                                        <?=$final_text_sint?>
+                                        Derogatis considera que, aunque son indicadores de la gravedad del estado del sujeto, no constituyen una dimensión sintomática especifica. 
                                         </p>
                                 </div>
                                 <div class="card-body">
@@ -847,81 +684,11 @@ if ($condicion1 || $condicion2 || $condicion3) {
             $(function() {
             'use strict';
                 var colorLine = "black";
-                var newCust = [
-                    [<?=$mins["$Pmin"]?>, 10],
-                    [<?=$mags["$Pmag"]?>, 0]
-                ];
                 
-                var plot = $.plot($('#flotLine2'), [{
-                    data: newCust,
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
-                    },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 1,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true
-                    },
-                    yaxis: {
-                        min: -5,
-                        max: 15,
-                        color: 'transparent',
-                        ticks: [[0, ''], [15, '']], 
-                        tickColor: 'transparent',
-                        tickLength: 0,
-                        show:false,
-                        font: {
-                            size: 10,
-                            color: '#999'
-                        }
-                    },
-                    xaxis: {
-                        color: '#eee',
-                        min:0,
-                        max: 99,
-                        tickColor: 'black',
-                        ticks: [
-                            [1, '1'],
-                            [3, '3'],
-                            [16, '16'],
-                            [50, '50'],
-                            [84, '84'],
-                            [96, '97'],
-                            [99, '99'],
-                        ],
-                        tickLength: 0,
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        position:'top'
-                    }
-                });
-
                 var flotLineIndGeneral = [
-                    [<?=$globals["$Pind_global_sev"]?>, 20],
-                    [<?=$nums["$Pnum_sintomas"]?>, 10],
-                    [<?=$ints["$Pind_intesidad_sintomas"]?>, 0]
+                    [<?=$gsi_t?>, 20],
+                    [<?=$pst_t?>, 10],
+                    [<?=$psdi_t?>, 0]
                 ];
                 
                 var plot = $.plot($('#flotLineIndGeneral'), [{
@@ -969,24 +736,31 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         min:0,
                         max: 99,
                         tickColor: 'transparent',
+                        ticks: [
+                            [0, '10'],
+                            [50, '50'],
+                            [63, '63'],
+                            [75, '75'],
+                            [99, '100']
+                        ],
+                        tickLength: 0,
                         font: {
                             size: 10,
-                            color: 'transparent'
+                            color: 'black'
                         },
-                        position:'top',
-                        show:false
+                        position:'top'
                     }
                 });
                 var flotLineEscalasClinicas = [
-                    [<?=$prs["$Ppsicoreactividad"]?>, 80],
-                    [<?=$hps["$Phipersenc"]?>, 70],
-                    [<?=$obs["$Pobs_comp"]?>, 60],
-                    [<?=$ans["$Panciedad"]?>, 50],
-                    [<?=$hss["$Phostilidad"]?>, 40],
-                    [<?=$sms["$Psomatizacion"]?>, 30],
-                    [<?=$des["$Pdepresion"]?>, 20],
-                    [<?=$sus["$Palsuenio"]?>, 10],
-                    [<?=$suas["$Palsuenio_ampl"]?>, 0]
+                    [<?=$som_t?>, 80],
+                    [<?=$obs_t?>, 70],
+                    [<?=$int_t?>, 60],
+                    [<?=$dep_t?>, 50],
+                    [<?=$ans_t?>, 40],
+                    [<?=$hos_t?>, 30],
+                    [<?=$fob_t?>, 20],
+                    [<?=$par_t?>, 10],
+                    [<?=$psi_t?>, 0]
                 ];
                 
                 var plot = $.plot($('#flotLineEscalasClinicas'), [{
@@ -1045,131 +819,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     }
                 });
             
-                var flotLineIndRiesgoPat = [
-                    [<?=$irpsis["$Pirp"]?>, 6]
-                ];
-                
-                var plot = $.plot($('#flotLineIndRiesgoPat'), [{
-                    data: flotLineIndRiesgoPat,
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
-                    },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 1,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true,
-                        tickColor: 'rgba(171, 167, 167, 0)'
-                    },
-                    yaxis: {
-                        min: 0,
-                        max: 12,
-                        color: '#eee',
-                        ticks: [[0, ''], [12, '']], 
-                        tickColor: 'rgba(171, 167, 167,0.2)',
-                        font: {
-                            size: 10,
-                            color: '#999'
-                        }
-                    },
-                    xaxis: {
-                        color: '#eee',
-                        min:0,
-                        max: 99,
-                        tickColor: 'black',
-                        ticks: [
-                            [1, '1'],
-                            [3, '3'],
-                            [16, '16'],
-                            [50, '50'],
-                            [84, '84'],
-                            [96, '97'],
-                            [99, '99'],
-                        ],
-                        tickLength: 0,
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        position:'bottom'
-                    }
-                });
 
-                var plot = $.plot($('#flotLineEscalasClinicas'), [{
-                    data: flotLineEscalasClinicas,
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
-                    },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 1,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true
-                    },
-                    yaxis: {
-                        min: -5,
-                        max: 85,
-                        color: 'black',
-                        ticks: [[0, ''], [85, '']], 
-                        tickColor: 'black',
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        show:false
-                    },
-                    xaxis: {
-                        color: '#eee',
-                        min:0,
-                        max: 99,
-                        tickColor: 'black',
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        position:'top',
-                        show:false
-                    }
-                });
-            
                 var colores = $.plot($('#colorss'), [{
                     data: [],
                     label: 'Data',
@@ -1202,48 +852,27 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         tickColor: 'rgba(171, 167, 167, 0)',
                          markings: [
                             {
-                                xaxis: { from: 0, to: 3 },
-                                color: '#c6d5ec'
+                                xaxis: { from: 0, to: 50 },
+                                color: '#4bb694'
                             },
                             {
-                                xaxis: { from: 3, to: 16 }, 
-                                color: '#95b4dd'
-                            }
-                            ,
+                                xaxis: { from: 50.5, to: 63 }, 
+                                color: '#ead3b4'
+                            },
                             {
-                                xaxis: { from: 16, to: 85 }, 
-                                color: '#40ab96'
-                            }
-                            ,
-                            {
-                                xaxis: { from: 84, to: 97 }, 
-                                color: '#fee1bb'
-                            }
-                            ,
-                            {
-                                xaxis: { from: 97, to: 99 }, 
-                                color: '#fef0db'
+                                xaxis: { from: 63, to: 100 },
+                                color: '#ffefdd', 
+                                lineWidth: 0.5
                             },
                             { // Línea punteada en X = 50
                                 xaxis: { from: 50, to: 50 },
                                 color: '#000', // color de la línea
                                 lineWidth: 0.5
                             },
-                            { // Línea horizontal en y = 6
-                                yaxis: { from: 10.3, to: 10.3 },
+                            { // Línea horizontal
+                                yaxis: { from: 8.4, to: 8.4 },
                                 color: 'white', // color rojo
-                                lineWidth: 1
-                            },
-                            { // Línea horizontal en y = 6
-                                yaxis: { from: 7.7, to: 7.7 },
-                                color: 'white', // color rojo
-                                lineWidth: 1
-                            }
-                            ,
-                            { // Línea horizontal en y = 6
-                                yaxis: { from: 1.1, to: 1.1 },
-                                color: 'white', // color rojo
-                                lineWidth: 1
+                                lineWidth: 5
                             }
                         ]
                     },
@@ -1272,67 +901,6 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     }
                 });
 
-                var colores = $.plot($('#colorss2'), [{
-                    data: [],
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
-                    },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 1,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true,
-                        tickColor: 'rgba(171, 167, 167, 0)',
-                         markings: [
-                            {
-                                xaxis: { from: 84, to: 94 }, 
-                                color: 'rgba(13, 165, 140, 0.26)'
-                            }
-                        ]
-                    },
-                    yaxis: {
-                        min: 0,
-                        max: 12,
-                        color: '#eee',
-                        ticks: [[0, ''], [12, '']], 
-                        tickColor: 'transparent',
-                        font: {
-                            size: 10,
-                            color: 'transparent'
-                        },
-                        show:false
-                    },
-                    xaxis: {
-                        color: '#eee',
-                        min:0,
-                        show:false,
-                        max: 99,
-                        tickColor: 'transparent',
-                        font: {
-                            size: 10,
-                            color: '#999'
-                        }
-                    }
-                });
             
             function labelFormatter(label, series) {
                 return '<div style="font-size:8pt; text-align:center; padding:2px; color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
@@ -1340,9 +908,6 @@ if ($condicion1 || $condicion2 || $condicion3) {
         });
         setTimeout(function() {
             document.getElementById('colorss').style.position = 'absolute';
-        }, 1000);
-        setTimeout(function() {
-            document.getElementById('colorss2').style.position = 'absolute';
         }, 1000);
         document.getElementById('baremo_id').addEventListener('change', function() {
             document.getElementById('form_baremo').submit();

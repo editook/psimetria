@@ -32,7 +32,6 @@ class Answer_Model
         $total = 0;
         foreach($answers as $answer){
             $total += (int)$answer['response'];
-            echo $total."<br>";
         }
         return $total;
     }
