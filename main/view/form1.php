@@ -266,9 +266,9 @@
 					<div class="col-md-12 col-lg-12 col-xl-12">
 							<div class="card card-table-two">
 								<div class="justify-center" style="place-items: center;">
-									<div class="boton-format" style="padding: 6px;
+									<div class="boton-format" style="padding: 10px;
     border-radius: 20px;
-    background-color: #64b4fa;
+    background-color: #0162e8;
     color: white;
     margin: 1px;
     text-align: center;
@@ -285,11 +285,11 @@
 									<table class="table table-striped table-bordered" style="border:1px solid black;table-layout: fixed;font-weight: bold;color:#0162e8;text-align-last: center;">
 										<thead>	
 											<tr>
-												<th style="width:70px;max-width: 70px;">0</th>
-												<th style="width:70px;max-width: 70px;">1</th>
-												<th style="width:70px;max-width: 70px;">2</th>
-												<th style="width:70px;max-width: 70px;">3</th>
-												<th style="width:70px;max-width: 70px;">4</th>
+												<th style="width:70px;max-width: 70px;background: #0162e8;color: white;">0</th>
+												<th style="width:70px;max-width: 70px;background: #0162e8;color: white;">1</th>
+												<th style="width:70px;max-width: 70px;background: #0162e8;color: white;">2</th>
+												<th style="width:70px;max-width: 70px;background: #0162e8;color: white;">3</th>
+												<th style="width:70px;max-width: 70px;background: #0162e8;color: white;">4</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -306,11 +306,7 @@
 									<br>
 								</div>
 
-								<div class="d-flex justify-content-between">
-									<h4 class="card-title mb-1">Listado de sintomas breves</h4>
-									<i class="mdi mdi-dots-horizontal text-gray"></i>
-								</div>
-								<span class="tx-12 tx-muted mb-3 ">Reactivo de sintomas lsb5, valores en escala de 0 a 4.</span>
+								
 								<div class="table-responsive country-table">
                                     <form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form1.php':''?>">
                                     <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
@@ -318,18 +314,7 @@
                                         <input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
                                         <input type="hidden" id="idClient" name="idClient" value="<?=$idClient?>">
 										<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
-                                        <thead>
-											<tr>
-                                                <th class="wd-lg-5p">ID</th>
-												<th class="wd-lg-100p">Sintoma</th>
-												<th class="wd-lg-25p tx-right">0</th>
-												<th class="wd-lg-25p tx-right">1</th>
-												<th class="wd-lg-25p tx-right">2</th>
-                                                <th class="wd-lg-25p tx-right">3</th>
-                                                <th class="wd-lg-25p tx-right">4</th>
-                                                <th class="wd-lg-5p">ID</th>
-											</tr>
-										</thead>
+                                        
 										<tbody>
                                             <?php
                                                 foreach($answers as $answer){

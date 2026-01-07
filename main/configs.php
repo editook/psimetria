@@ -16,5 +16,5 @@ const ROOT_FOLDER = __DIR__;
 const LOCALHOST_BASE = 'http://localhost/psimetria';
 const LOCALHOST = LOCALHOST_BASE.'/main';
 
-const VERSION_CODE = '1.0.6';
+const VERSION_CODE = '1.2.3';
 const WEB_TITLE = 'PSIMETRIA';

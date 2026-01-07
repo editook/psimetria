@@ -1,6 +1,6 @@
 <?php
 include_once('../configs.php');
-
+	//AF-5
 session_start();
 require '../../vendor/autoload.php';
 use Dompdf\Dompdf;
@@ -453,7 +453,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                                                     <th scope="row"  class="text-primary td_name"></th>
                                                                     
                                                                     <td class="td_valuepd">PD</td>
-                                                                    <td class="td_valuetb">TB</td>
+                                                                    <td class="td_valuetb">PC</td>
                                                                 </tr>
                                                         </tbody>
                                                     </table>

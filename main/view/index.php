@@ -468,20 +468,14 @@
 		<!-- Sticky js -->
 		<script src="../../assets/js/sticky.js"></script>
 
-		<!-- Internal Map -->
-		<script src="../../assets/plugins/jqvmap/jquery.vmap.min.js"></script>
-		<script src="../../assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-
 		<!-- Internal Chart js -->
 		<script src="../../assets/plugins/chart.js/Chart.bundle.min.js"></script>
 
 		<!--Internal  index js -->
 		<script src="../../assets/js/index.js"></script>
-		<script src="../../assets/js/jquery.vmap.sampledata.js"></script>
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
-		<script src="../../assets/js/jquery.vmap.sampledata.js"></script>
 		
 		<script>
 			function createCliente(){

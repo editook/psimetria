@@ -1,6 +1,6 @@
 <?php
     include_once('../configs.php');
-	//SCL-90-R
+	//CMASR-2
 	session_start();
 	include('../connection.php');
 	include("../models/model_register.php");
@@ -9,14 +9,15 @@
     $registerModel = new Register_Model();
     $questionModel = new Question_Model();
 	$answerModel = new Answer_Model();
-    $idClient = '0';
-    $idpatient = '0';
+    $idClient = 0;
+    $idpatient = 0;
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $idUser = $_POST['idClient'];
-        $idpatient = $_POST['patient'];
 		
+        $idpatient = $_POST['patient'];
 		$codes = $_POST['codes'];
+		$other_answer = $_POST['other_answer'];
         foreach ($_POST as $key => $value) {
             if (strpos($key, 'question_') === 0) {
                 $question_id = str_replace('question_', '', $key);
@@ -30,20 +31,19 @@
 		if($count > 0){
 			$status = 'PENDIENTE';
 		}
+		$response_input = $answerModel->maciUpdateProblem($other_answer,$idpatient);
 		$array = $registerModel->updateStatus($idUser,$idpatient,$status);
-		$is_share_link = $_POST['is_share'];
+        $is_share_link = $_POST['is_share'];
 		if($is_share_link == "1"){
 			echo "<script>
-				alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
+				alert('Formulario actualizado correctamente.');
 				window.location.href = 'https://www.google.com';
 			</script>";
 			exit;
 		}
 		else{
 			header("Location: ".LOCALHOST);
-			exit;
 		}
-        
     }
 	
 	$idCientCode = "";
@@ -58,6 +58,7 @@
 			$is_share  = true;
 		}
 	}
+
 	if($idCientCode == ""){
 		if(!isset($_SESSION['REST_type_user']) ){
 			header("Location: ".LOCALHOST."/signin.php");
@@ -72,7 +73,7 @@
 			$idpatient = $_GET['patient'];
 		}
 	}
-
+	
 	if($idCientCode != "" && $idPatientCode != ""){
 		$claveEncriptado = $registerModel->getKeyEncripter();
 
@@ -86,7 +87,7 @@
 		$text_button_send = "Enviar resultados";
 	}
 
-	$register = $registerModel->getById($idClient,$idpatient);
+    $register = $registerModel->getById($idClient,$idpatient);
 	if($register == null){
 		echo "<script>
 			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
@@ -97,9 +98,15 @@
 	if($register['status'] == 'TERMINADO'){
 		$is_view = true;
 	}
-    $answers = $answerModel->getAll($register['codes']);
+    $answers = $answerModel->getAll($register['codes'],1,160);
 	
+	$answer_part1 = $answerModel->getAll($register['codes'],1001,1100);
 	
+	$input_answer_response = $answerModel->getMaciInputProblem($idpatient);
+	$input_answer = "";
+	if($input_answer_response != null){
+		$input_answer = $input_answer_response['response_data'];
+	}
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +114,7 @@
 	<head>
 
 		<meta charset="UTF-8">
-		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=1'>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
 		<meta name="Author" content="Spruko Technologies Private Limited">
@@ -143,38 +150,83 @@
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
 		<style>
-		
-		.radio-grande {
-		appearance: none; /* quitamos el estilo nativo del radio */
-		-webkit-appearance: none;
-		width: 20px;
-					height: 20px;
-		border-radius: 50%;
-		background: white;
-		position: relative;
-		cursor: pointer;
-		font-size: 12px;
-		text-align: center;
+		.radio-grande{
+			appearance: none; /* quitamos el estilo nativo del radio */
+			-webkit-appearance: none;
+			width: 20px;
+						height: 20px;
+			border-radius: 50%;
+			background: white;
+			position: relative;
+			cursor: pointer;
+			font-size: 12px;
+			text-align: center;
 		}
-		.radio-grande::before {
-			content: attr(value); /* usa el value del input */
+		.radio-grande2{
+			appearance: none; /* quitamos el estilo nativo del radio */
+			-webkit-appearance: none;
+			width: 20px;
+						height: 20px;
+			border-radius: 50%;
+			background: white;
+			position: relative;
+			cursor: pointer;
+			font-size: 12px;
+			text-align: center;
+		}
+		.radio-grande2[value="0"]::before {
+			content: "2"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			color: rgba(0,0,0,1);
+			color: rgba(0,0,0,0.5);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande2[value="1"]::before {
+			content: "1"; /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,0.5);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande[value="1"]::before {
+			content: "X"; /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,0.5);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande[value="0"]::before {
+			content: "X"; /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,0.5);
 			font-size: 12px;
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande:checked {
-			background: #25498e;
+			background: #04468c;
+			color: rgba(0,0,0,1);
+		}
+		.radio-grande2:checked {
+			background: #04468c;
 			color: rgba(0,0,0,1);
 		}
 		.table-bordered th, .table-bordered td{
-			border:1px solid #2f4f7034;
+			border:1px solid rgba(0,0,0,1);
 		}
 		.table-striped tbody tr:nth-of-type(odd){
-			background-color:#E6F0FF;
+			background-color:#EEEFF6;
 		}
 		p{
 			font-size: 16px !important;
@@ -188,7 +240,18 @@
 		th{
 			font-size: 16px !important;
 		}
-
+		.col-id {
+			background-color: #04468c !important; 
+			color: white !important;            
+			font-weight: bold;
+			text-align: center;
+		}
+		.col-text {
+			background-color: #04468c !important; 
+			color: white !important;            
+			font-weight: bold;
+			text-align: center;
+		}
 		</style>
 	</head>
 
@@ -224,34 +287,34 @@
 					<div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
 					<h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1" style="text-align: center;">Formulario <?=$register['type_question_name']?></h2>
 					<br>
-						<div class="card" style="border: 0px solid transparent !important;box-shadow: none !important;background-color: #70bdd6 !important;">
+						<div class="card" style="border: 2px solid #737f9e">
 						
 							<div class="card-body">
 								<div class="row row-sm" style="place-items: center;">
 										<div class="col-lg-2 img-container" style="display: flex;justify-content: space-between;align-items: center;align-content: center;">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logolsb5.jpeg">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/cmasr2.png">
                                         </div>
 										<div class="col-lg-10">
 										<div class="row">
 											<div class="col-lg-5">
 												<div class="input-group mb-3">
-													<div class="input-group-text" style="background-color: white;">
-														<span class="input-group-text" id="basic-addon1" style="background-color: white;">Nombre completo</span>
-													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;background-color: white;" disabled value="<?=$register['id_client']?>" type="text">
+													<div class="input-group-text">
+														<span class="input-group-text" id="basic-addon1">Nombre completo</span>
+													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;" disabled value="<?=$register['id_client']?>" type="text">
 												</div><!-- input-group -->
 											</div>
 											<div class="col-lg-3">
 												<div class="input-group mb-3">
-													<div class="input-group-text" style="background-color: white;">
-														<span class="input-group-text" style="background-color: white;" id="basic-addon1">Edad</span>
-													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;background-color: white;" disabled value="<?=$register['age']?>" type="text">
+													<div class="input-group-text">
+														<span class="input-group-text" id="basic-addon1">Edad</span>
+													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;" disabled value="<?=$register['age']?>" type="text">
 												</div><!-- input-group -->
 											</div>
 											<div class="col-lg-4">
 												<div class="input-group mb-3">
-													<div class="input-group-text" style="background-color: white;">
-														<span class="input-group-text" style="background-color: white;" id="basic-addon1">Fecha</span>
-													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;background-color: white;" disabled value="<?= date('Y-m-d H:i:s'); ?>" type="text">
+													<div class="input-group-text">
+														<span class="input-group-text" id="basic-addon1">Fecha</span>
+													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;" disabled value="<?= date('Y-m-d H:i:s'); ?>" type="text">
 												</div><!-- input-group -->
 											</div>
 										</div>
@@ -265,97 +328,74 @@
 					</div>
 					<!-- row closed  -->
 					<div class="col-md-12 col-lg-12 col-xl-12">
-							<div class="card card-table-two">
-								<div class="justify-center" style="place-items: center;">
-									<div class="boton-format" style="padding: 10px;
-    border-radius: 20px;
-    background-color: #1b369c;
-    color: white;
-    margin: 1px;
-    text-align: center;
-    width: min-content;font-weight: bold;
-    height: auto;">
-										CUESTIONARIO
-									</div>
-									<p>Encontrara una serie de afirmaciones sobre <span style="font-weight: bold;">MOLESTIAS o PROBLEMAS</span> que pueden afectar en mayor o menor medida
-									a todas las personas. Conteste a cada una ellas teniendo en cuenta aquello o experimentado <span style="font-weight: bold;">durante las ultimas semanas, incluido el dia  de hoy.</span>
-									<br>
-									Para ello, marque junto a cada aformacion una de las siguientes opciones:	
-									</p>
-									<p style="font-weight: bold;
-    background: #1b369c;
-    color: white;
-    padding: 5px;
-    border-radius: .25rem;">HASTA QUÉ PUNTO SE HA SENTIDO MOLESTO POR EL SÍNTOMA	</p>
-									<table class="table table-bordered" style="border:1px solid black;table-layout: fixed;font-weight: bold;color:#4BB694;text-align-last: center;">
-										<thead>	
-											<tr>
-												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">0</th>
-												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">1</th>
-												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">2</th>
-												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">3</th>
-												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">4</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr style="color:#59a6c6">
-											<td>Nada</td>
-											<td>Poco</td>
-											<td>Moderadamente</td>
-											<td>Bastante</td>
-											<td>Mucho o Extremadamente</td>
-											</tr>
-											
-										</tbody>
-									</table>
-									<br>
+						<form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form3.php':''?>">
+						<div class="card card-table-two">
+							<div class="justify-center" style="place-items: center;">
+								<div class="boton-format" style="padding: 6px;
+										border-radius: 20px;
+										background-color: #64b4fa;
+										color: white;
+										margin: 1px;
+										text-align: center;
+										width: min-content;font-weight: bold;
+										height: auto;">
+										INSTRUCCIONES
 								</div>
-
-								<div class="table-responsive country-table">
-                                    <form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form1.php':''?>">
-                                    <table class="table table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap" style="background: #eceeb6 !important;">
-										<input type="hidden" name="is_share" value="<?=(int)$is_share?>">
-                                        <input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
-                                        <input type="hidden" id="idClient" name="idClient" value="<?=$idClient?>">
-										<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
-                                        
-										<tbody>
-                                            <?php
-                                                foreach($answers as $answer){
-                                            ?>
-											<tr>
-                                                <td style="color:#25498e;font-weight: bold;text-align: center;"><?=$answer['item_order']?></td>
-												<td><?=htmlspecialchars($answer['question'])?></td>
-												<td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-                                            	
+								<p>Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. Marca una "X" en la columna de Sí, si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración. <br>
+							 	<br> No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: "¿Es cierto en mi caso?". Si es así, encierra Sí en un círculo; si no lo es, encierra el No. </p>
+								<br>
+								
+							</div>
+							
+							<br>
+							
+						</div>
+						<div class="card card-table-two">
+							
+							<div class="table-responsive country-table">
+								
+								<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+									<input type="hidden" name="is_share" value="<?=(int)$is_share?>">
+									<input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
+									<input type="hidden" id="idClient" name="idClient" value="<?=$idClient?>">
+									<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
+									<thead>
+										<tr>
+											<th class="wd-lg-5p"></th>
+											<th class="wd-lg-100p"></th>
+											<th class="wd-lg-25p tx-right col-text">SI</th>
+											<th class="wd-lg-25p tx-right col-text">NO</th>
+											<th class="wd-lg-5p" ></th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php
+											foreach($answers as $answer){
+										?>
+										<tr>
+											<td class="col-id"><?=$answer['item_order']?></td>
+											<td><?=htmlspecialchars($answer['question'])?></td>
+											<td class="tx-right tx-medium tx-inverse">
+											<input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
 											</td>
-                                                <td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-                                                </td>
-                                                <td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="2" type="radio" <?=$answer['response']=='2'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-                                                </td>
-                                                <td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="3" type="radio" <?=$answer['response']=='3'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-                                                </td>
-                                                <td class="tx-right tx-medium tx-inverse">
-                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="4" type="radio" <?=$answer['response']=='4'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-                                                </td>
-                                                <td style="color:#25498e;font-weight: bold;text-align: center;"><?=$answer['item_order']?></td>
-											</tr>
-                                            
-                                            <?php }?>
-										</tbody>
-									</table>
-                                    <br>
-                                    <?php if(!$is_view){?>
-									<button type="submit" class="btn btn-primary"><?=$text_button_send?></button>
-									<?php }?>
-                                    </form>
-								</div>
+											<td class="tx-right tx-medium tx-inverse">
+											<input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?> <?=$is_view?'disabled':''?>>
+											</td>
+											
+											<td class="col-id"><?=$answer['item_order']?></td>
+										</tr>
+										
+										<?php }?>
+									</tbody>
+								</table>
+								<br>
+								<?php if(!$is_view){?>
+								<button type="submit" class="btn btn-primary"><?=$text_button_send?></button>
+								<?php }?>
 							</div>
 						</div>
+						</form>
+					</div>
                         
 				</div>
 				<!-- Container closed -->
@@ -407,15 +447,44 @@
 		<!-- Horizontalmenu js-->
 		<script src="../../assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
 
-				<!-- Sticky js -->
-		<script src="../../assets/js/sticky.js"></script>
-
 		<!-- Right-sidebar js -->
 		<script src="../../assets/plugins/sidebar/sidebar.js"></script>
 		<script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const radios = document.querySelectorAll("input[name='example1t']");
+				const textoSpan = document.getElementById("text_test_show1");
 
+				radios.forEach(radio => {
+					radio.addEventListener("change", function () {
+						if (this.checked) {
+							if (this.value === "1") {
+								textoSpan.textContent = "Muy bien, continua con la otra frase.";
+							} else if (this.value === "0") {
+								textoSpan.textContent = "Vuelve a leer correctamente el ejemplo.";
+							}
+						}
+					});
+				});
+
+				const radios2 = document.querySelectorAll("input[name='example2t']");
+				const textoSpan2 = document.getElementById("text_test_show2");
+
+				radios2.forEach(radio => {
+					radio.addEventListener("change", function () {
+						if (this.checked) {
+							if (this.value === "0") {
+								textoSpan2.textContent = "Muy bien, procede a responser las frases.";
+							} else if (this.value === "1") {
+								textoSpan2.textContent = "Vuelve a leer correctamente el ejemplo.";
+							}
+						}
+					});
+				});
+			});
+		</script>										
 	</body>
 </html>

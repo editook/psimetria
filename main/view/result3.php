@@ -1,6 +1,6 @@
 <?php
 include_once('../configs.php');
-
+//MACI
 session_start();
 
 include('../connection.php');

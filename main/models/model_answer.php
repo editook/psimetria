@@ -28,6 +28,15 @@ class Answer_Model
         return $total;
     }
 
+    public function getQuestion($answers,$item_order){
+        foreach($answers as $answer){
+            if($answer['item_order'] == $item_order){
+                return $answer['question'];
+            }
+        }
+        return "";
+    }
+
     public function sumatoriaTodo($answers){
         $total = 0;
         foreach($answers as $answer){
@@ -53,6 +62,16 @@ class Answer_Model
             }
         }
         return $total;
+    }
+
+    public function getArrayDataIndex($answers,$value){
+        $array = [];
+        foreach($answers as $asnwer){
+            if((int)$asnwer['response'] == $value){
+                $array[] = $asnwer['question'].' (Mucho)';
+            }
+        }
+        return $array;
     }
 
     public function getById($id)

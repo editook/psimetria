@@ -335,6 +335,7 @@
 															$redirect = $data['id_type_question'] == 2?'2':$redirect;
 															$redirect = $data['id_type_question'] == 3?'3':$redirect;
 															$redirect = $data['id_type_question'] == 4?'4':$redirect;
+															$redirect = $data['id_type_question'] == 5?'5':$redirect;
 															$text_test = "Ajustar";
 															if($data['status'] == 'TERMINADO'){
 																$text_test = "Ver prueba";
@@ -563,10 +564,11 @@
 				selectElement.innerHTML = '<option value="" disabled selected>Seleccionar</option>';
 
 				const rangos = {
-					1: [1, 4],
-					2: [5, 37],
-					3: [38, 45],
-					4: [46, 50]
+					1: [1, 4],//form1
+					2: [5, 37],//form2
+					3: [38, 45],//form3
+					4: [46, 50],//form4
+					5: [51, 56],//form5
 				};
 
 				const [min, max] = rangos[id] || [0, 0];

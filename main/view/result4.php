@@ -10,12 +10,13 @@ include("../models/model_register.php");
 include("../models/model_question.php");
 include("../models/model_answer.php");
 include("../models/model_baremo.php");
-include("../models/lsb50/model_baremo_clinica_psic_mujeres.php");
-include("../models/lsb50/model_baremo_clinica_psic_varones.php");
-include("../models/lsb50/model_baremo_pob_gral_mujeres.php");
-include("../models/lsb50/model_baremo_pob_gral_varones.php");
 
 include("../models/scl90/model_baremo_poblacion_general_no_clinica_mujeres.php");
+include("../models/scl90/model_baremo_poblacion_general_no_clinica_varones.php");
+include("../models/scl90/model_baremo_nuestra_psiquitria_varones.php");
+include("../models/scl90/model_baremo_nuestra_psiquitria_mujeres.php");
+include("../models/scl90/model_baremo_dmt_pacientes_disfusion.php");
+
 include("../models/scl90/model_scl_configuration.php");
 $registerModel = new Register_Model();
 $questionModel = new Question_Model();
@@ -64,18 +65,20 @@ if($register == null){
 }
 $baremos = $baremoModel->getAll($register['id_type_question']);
 //echo json_encode($register);
-
+if($register['baremo_id'] == 46){
+    $baremo = new ModelSCLBaremoPoblacionGeneralVarones();
+}
 if($register['baremo_id'] == 47){
     $baremo = new ModelSCLBaremoPoblacionGeneralMujeres();
 }
 if($register['baremo_id'] == 48){
-    $baremo = new ModelSCLBaremoPoblacionGeneralMujeres();
+    $baremo = new ModelSCLBaremoPacientesDisfusion();
 }
 if($register['baremo_id'] == 49){
-    $baremo = new ModelSCLBaremoPoblacionGeneralMujeres();
+    $baremo = new ModelSCLBaremoPsiquiatriaVarones();
 }
 if($register['baremo_id'] == 50){
-    $baremo = new ModelSCLBaremoPoblacionGeneralMujeres();
+    $baremo = new ModelSCLBaremoPsiquiatriaMujeres();
 }
 $answers = $answerModel->getAll($register['codes']);
 
@@ -180,7 +183,7 @@ if ($pst_t <= 50) {
 }
 
 $indiceglobal2 = "El Total de Síntomas Positivos (PST) contabiliza la cantidad total de síntomas presentes, indicando la amplitud y diversidad de la psicopatología, en este índice obtuvo una puntuación T de ";
-$indiceglobal2 .= $pst_t.", ".$resultado;
+$indiceglobal2 .= " ".$pst_t.", ".$resultado;
 
 if ($psdi_t <= 50) {
     $resultado = "Refleja que la intensidad del malestar asociado con los síntomas reportados se encuentra dentro del rango considerado normal. Los síntomas presentes no generan un malestar significativo y se alinean con lo esperado en la población general. Esta puntuación indica que, aunque pueda haber síntomas presentes, estos no son percibidos como altamente perturbadores.";
@@ -190,22 +193,27 @@ if ($psdi_t <= 50) {
     $resultado = "Refleja que la intensidad del malestar asociado con los síntomas reportados es elevada. El malestar generado por los síntomas es significativamente superior al observado en la población general. Esta puntuación refleja una alta severidad en la percepción del malestar, indicando que los síntomas presentes son intensamente perturbadores.";
 }
 
-$indiceglobal3 = "El Índice de Malestar Sintomático Positivo (PSDI) relaciona el malestar global con el número de síntomas, siendo un indicador de la intensidad media de los síntomas. En este caso, se observa una puntuación T de";
+$indiceglobal3 = "El Índice de Malestar Sintomático Positivo (PSDI) relaciona el malestar global con el número de síntomas, siendo un indicador de la intensidad media de los síntomas. En este caso, se observa una puntuación T de ";
 $indiceglobal3 .= $psdi_t.", ".$resultado;
 
 $array_ind = [$value_som,$value_obs,$value_int,$value_dep,$value_ans,$value_hos,$value_fob,$value_par,$value_psi];
-$array_pd = [$som_pc,$obs_pc,$int_pc,$dep_pc,$ans_pc,$hos_pc,$fob_pc,$par_pc,$psi_pc];
+
+//$array_pd = [$som_pc,$obs_pc,$int_pc,$dep_pc,$ans_pc,$hos_pc,$fob_pc,$par_pc,$psi_pc];
+$array_pd = [$som,$obs,$int,$dep,$ans,$hos,$fob,$par,$psi];
+$array_pd = array_map('floatval', $array_pd);
+
 $array_t = [$som_t,$obs_t,$int_t,$dep_t,$ans_t,$hos_t,$fob_t,$par_t,$psi_t];
 
-$top1 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$som_t,$som_pc,$value_som,0);
-$top2 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$obs_t,$obs_pc,$value_obs,1);
-$top3 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$int_t,$int_pc,$value_int,2);
-$top4 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$dep_t,$dep_pc,$value_dep,3);
-$top5 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$ans_t,$ans_pc,$value_ans,4);
-$top6 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$hos_t,$hos_pc,$value_hos,5);
-$top7 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$fob_t,$fob_pc,$value_fob,6);
-$top8 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$par_t,$par_pc,$value_par,7);
-$top9 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$psi_t,$psi_pc,$value_psi,8);
+$top1 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$som_t,$som,$value_som,0);
+$top2 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$obs_t,$obs,$value_obs,1);
+$top3 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$int_t,$int,$value_int,2);
+$top4 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$dep_t,$dep,$value_dep,3);
+$top5 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$ans_t,$ans,$value_ans,4);
+$top6 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$hos_t,$hos,$value_hos,5);
+$top7 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$fob_t,$fob,$value_fob,6);
+$top8 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$par_t,$par,$value_par,7);
+$top9 = $sclConfiguration->getIndex($array_t,$array_pd,$array_ind,$psi_t,$psi,$value_psi,8);
+
 $data_values = [
     "Somatización" => $top1,
     "Obsesión-compulsión" =>$top2, 
@@ -218,11 +226,22 @@ $data_values = [
     "Psicoticismo" => $top9
     
 ];
-
+$data_ts = [
+    "Somatización" => $som_t,
+    "Obsesión-compulsión" =>$obs_t, 
+    "Sensibilidad interpersonal" => $int_t,
+    "Depresión" => $dep_t,
+    "Ansiedad" => $ans_t,
+    "Hostilidad" => $hos_t,
+    "Ansiedad fóbica" => $fob_t,
+    "Ideación paranoide" => $par_t,
+    "Psicoticismo" => $psi_t
+    
+];
 asort($data_values);
 
         
-$data_tops = $sclConfiguration->getTop($data_values);
+$data_tops = $sclConfiguration->getTop($data_values,$data_ts);
 $datatop1 = $data_tops[0];
 $salidatop1 = $datatop1["name"]." esta dimensión ".$datatop1["message2"]." El resultado obtenido ".$datatop1["message1"];
 if($datatop1["message2"]=="" && $datatop1["message1"] == ""){
@@ -231,26 +250,101 @@ if($datatop1["message2"]=="" && $datatop1["message1"] == ""){
 
 $datatop2 = $data_tops[1];
 $salidatop2 = $datatop2["name"]." esta dimensión ".$datatop2["message2"]." El resultado obtenido ".$datatop2["message1"];
-
+if($datatop2["message2"]=="" && $datatop2["message1"] == ""){
+    $salidatop2 = "";
+}
 $datatop3 = $data_tops[2];
 $salidatop3 = $datatop3["name"]." esta dimensión ".$datatop3["message2"]." El resultado obtenido ".$datatop3["message1"];
-
+if($datatop3["message2"]=="" && $datatop3["message1"] == ""){
+    $salidatop3 = "";
+}
 $datatop4 = $data_tops[3];
 $salidatop4 = $datatop4["name"]." esta dimensión ".$datatop4["message2"]." El resultado obtenido ".$datatop4["message1"];
-
+if($datatop4["message2"]=="" && $datatop4["message1"] == ""){
+    $salidatop4 = "";
+}
 $indicador_salida = "";
 $sexo_value = $register["sex"];
-if ($pst_pc <= 4) {
+if ($pst <= 4) {
     $indicador_salida = "El resultado indica que se debe considerar negación de síntoma o minimización de patología.";
-} elseif ($sexo_value == "FEMENINO" && $pst_pc >= 60) {
-    $indicador_salida = "El resultado indica una tendencia a aumentador o exageración de la patología.";
-} elseif ($sexo_value == "MASCULINO" && $pst_pc >= 50) {
-    $indicador_salida = "El resultado indica una tendencia a aumentador o exageración de la patología.";
+} elseif ($sexo_value == "FEMENINO" && $pst >= 60) {
+    $indicador_salida = "El resultado indica una tendencia aumentador o exageración de la patología.";
+} elseif ($sexo_value == "MASCULINO" && $pst >= 50) {
+    $indicador_salida = "El resultado indica una tendencia aumentador o exageración de la patología.";
 } else {
     $indicador_salida = "No se observa una tendencia a maximizar o minimizar la patología.";
 }
+$cant_answers_text = 0;
+$pr44 = $answerModel->sumatoria($answers,[44]);
+$answers_text = "";
+if($pr44>=3){
+    $answers_text .= "44 Problemas para dormir";
+    $answers_text .= $pr44 == 3?" (Bastante) <br>":" (Extremadamente) <br>";
+    $cant_answers_text+=1;
+}
 
+$pr44 = $answerModel->sumatoria($answers,[19]);
 
+if($pr44>=3){
+    $answers_text .= "19 Poco apetito";
+    $answers_text .= $pr44 == 3?" (Bastante) <br>":" (Extremadamente) <br>";
+    $cant_answers_text+=1;
+}
+
+$pr44 = $answerModel->sumatoria($answers,[59]);
+
+if($pr44>=3){
+    $answers_text .= "59 Pensamientos acerca de la muerte o el morirse";
+    $answers_text .= $pr44 == 3?" (Bastante) <br>":" (Extremadamente) <br>";
+    $cant_answers_text+=1;
+}
+
+$pr44 = $answerModel->sumatoria($answers,[60]);
+
+if($pr44>=3){
+    $answers_text .= "60 Comer en exceso";
+    $answers_text .= $pr44 == 3?" (Bastante) <br>":" (Extremadamente) <br>";
+    $cant_answers_text+=1;
+}
+
+$pr44 = $answerModel->sumatoria($answers,[64]);
+
+if($pr44>=3){
+    $answers_text .= "64 Despertarse muy temprano";
+    $answers_text .= $pr44 == 3?" (Bastante) <br>":" (Extremadamente) <br>";
+    $cant_answers_text+=1;
+}
+
+$pr44 = $answerModel->sumatoria($answers,[66]);
+
+if($pr44>=3){
+    $answers_text .= "66 Sueño intranquilo";
+    $answers_text .= $pr44 == 3?" (Bastante) <br>":" (Extremadamente) <br>";
+    $cant_answers_text+=1;
+}
+
+$pr44 = $answerModel->sumatoria($answers,[89]);
+
+if($pr44>=3){
+    $answers_text .= "89 Sentimientos de culpa";
+    $answers_text .= $pr44 == 3?" (Bastante) <br>":" (Extremadamente) <br>";
+    $cant_answers_text+=1;
+}
+
+$recomendacion_baremo = "";
+$array = [$som_pc,$obs_pc,$int_pc,$dep_pc,$ans_pc,$hos_pc,$fob_pc,$par_pc,$psi_pc];
+if($gsi_pc>=90 || $sclConfiguration->contarMayoresIguales($array,90)>= 2){
+    $recomendacion_baremo = "Aplicar Baremos población psiquiátrica";
+}
+elseif($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2){
+    $cond_mujer = ($register['sex'] == "FEMENINO") && ($gsi_pc >= 80 || contarMayoresIguales($array, 80) >= 2);
+    $cond_varon = ($register['sex'] == "MASCULINO") && ($gsi_pc >= 70 || contarMayoresIguales($array, 70) >= 2);
+    if ($cond_mujer || $cond_varon) {
+        $recomendacion_baremo = "Aplicar Baremos población psiquiátrica";
+    } else {
+        $recomendacion_baremo = "Aplicar Baremos disfunción psicosomática témporo-mandibular";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -336,12 +430,12 @@ if ($pst_pc <= 4) {
 					<!-- row -->
 					<div class="row row-sm">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-							<div id="contenido1" class="card card-lsb5">
+							<div id="contenido1" class="card card-scl90">
 								<div class="card-body">
                                     <div class="row row-sm">
-                                        <div class="col-12 col-md-3 col-lg-2 img-container">
+                                        <div class="col-12 col-md-3 col-lg-2 img-container" style="padding-left: 25px;">
                                             <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png?v=<?=VERSION_CODE?>">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logolsb5.jpeg?v=<?=VERSION_CODE?>">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/scl90.jpeg?v=<?=VERSION_CODE?>">
                                         </div>
                                         <div class="col-12 col-md-9 col-lg-10">
                                             <div class="row">
@@ -376,7 +470,7 @@ if ($pst_pc <= 4) {
                                             </div>
                                             <div class="row row-sm">
                                                 
-                                                <div class="col-md-12 col-lg-6">
+                                                <div class="col-md-12 col-lg-7">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red" id="basic-addon1">Baremo</span>
@@ -384,7 +478,7 @@ if ($pst_pc <= 4) {
                                                         <form action="result2.php" method="post" id="form_baremo" style="margin:0;">
                                                             <input type="hidden" name="id_user" id="id_user" value="<?=$idClient?>">
                                                             <input type="hidden" name="id_register" id="id_register" value="<?=$register['id']?>">
-                                                            <select style="margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
+                                                            <select style="width: 400px;margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
                                                                 <?php
                                                                 foreach($baremos as $baremo){
                                                                 ?>
@@ -396,7 +490,7 @@ if ($pst_pc <= 4) {
                                                         </form>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-12 col-lg-6">
+                                                <div class="col-md-12 col-lg-5">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red" id="basic-addon1">Evaluador</span>
@@ -422,8 +516,8 @@ if ($pst_pc <= 4) {
 						</div>
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div id="contenido2" class="card" >
-                                <div class="card-body">
-                                   <div class="row row-sm">
+                                <div class="card-body" style="padding-left: 100px;padding-right: 100px;">
+                                   <div class="row row-sm" style="place-content: center;">
                                         <div class="col-md-7" style="padding-right:0px;">
                                             <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
                                                 <div style="margin-bottom: 75px;">
@@ -439,22 +533,22 @@ if ($pst_pc <= 4) {
                                                                     <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PC</div></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Índice global de gravedad o severidad</div> <div class="width-move">GSI</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$gsi?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$gsi_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$gsi_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Índice global de gravedad o severidad</div> <div class="width-move2">GSI</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$gsi?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$gsi_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$gsi_pc?></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Total de Síntomas Positivos</div><div class="width-move">PST</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$pst?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$pst_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$pst_pc?></div></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Total de Síntomas Positivos</div><div class="width-move2">PST</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$pst?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$pst_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$pst_pc?></div></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Distrés de síntomas Positivos</div><div class="width-move">PSDI</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psdi?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psdi_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psdi_pc?></div></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Distrés de síntomas Positivos</div><div class="width-move2">PSDI</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$psdi?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$psdi_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$psdi_pc?></div></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -468,66 +562,66 @@ if ($pst_pc <= 4) {
                                                                     <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PC</div></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Somatización</div><div class="width-move">SOM</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$som?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$som_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$som_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Somatización</div><div class="width-move2">SOM</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$som?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$som_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$som_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Obsesión-compulsión</div><div class="width-move">OBS</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$obs?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$obs_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$obs_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Obsesión-compulsión</div><div class="width-move2">OBS</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$obs?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$obs_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$obs_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Sensibilidad interpersonal</div><div class="width-move">INT</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$int?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$int_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$int_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Sensibilidad interpersonal</div><div class="width-move2">INT</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$int?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$int_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$int_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Depresión</div><div class="width-move">DEP</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$dep?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$dep_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$dep_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Depresión</div><div class="width-move2">DEP</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$dep?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$dep_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$dep_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Ansiedad</div><div class="width-move">ANS</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$ans?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$ans_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$ans_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Ansiedad</div><div class="width-move2">ANS</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$ans?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$ans_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$ans_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Hostilidad</div><div class="width-move">HOS</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$hos?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$hos_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$hos_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Hostilidad</div><div class="width-move2">HOS</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$hos?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$hos_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$hos_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Ansiedad fóbica</div><div class="width-move">FOB</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$fob?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$fob_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$fob_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Ansiedad fóbica</div><div class="width-move2">FOB</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$fob?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$fob_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$fob_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Ideación paranoide</div><div class="width-move">PAR</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$par?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$par_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$par_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Ideación paranoide</div><div class="width-move2">PAR</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$par?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$par_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$par_pc?></td>
                                                                 </tr>
 
                                                                 <tr class="tr_fill">
-                                                                    <td  class="td_fill"><div class="width-subtitle">Psicoticismo</div><div class="width-move">PSI</div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psi?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psi_t?></div></td>
-                                                                    <td class="td_valuepd2"><div class="borde-lsb5"><?=$psi_pc?></td>
+                                                                    <td  class="td_fill"><div class="width-subtitle">Psicoticismo</div><div class="width-move2">PSI</div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$psi?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$psi_t?></div></td>
+                                                                    <td class="td_valuepd2"><div class="borde-scl90"><?=$psi_pc?></td>
                                                                 </tr>
                                                                 
                                                             </tbody>
@@ -549,9 +643,10 @@ if ($pst_pc <= 4) {
                                         </div>
                                         <div class="col-md-5" style="padding-left:0px;">
                                             <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 12px;height: 365px !important;width: 100%;" id="colorss"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 12px;height: 100px !important;" id="flotLineIndGeneral"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 12px;height: 250px !important;" id="flotLineEscalasClinicas"></div>
+                                                <div class="content-4"><div class="content-green"><h4 class="content-txt" style="width: 195px;">Sin morbilidad</h4></div><div class="content-orange"><h4 class="content-txt" style="width: 50px;">Menor</h4></div><div class="content-yellow"><h4 class="content-txt" style="width: 140px;">Con morbilidad</h4></div></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 16px;height: 520px !important;width: 100%;" id="colorss"></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 12px;height: 150px !important;" id="flotLineIndGeneral"></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 370px !important;" id="flotLineEscalasClinicas"></div>
                                                 <span style="text-align: left;font-size: 14px;padding-left: 10px;">Nota T: Media 50 y Desviacion tipica de 10</span>
                                             </div>
                                         </div>
@@ -571,21 +666,25 @@ if ($pst_pc <= 4) {
                                 <div class="card-body">
                                     <h4 class="tx-15">I. ÍNDICES GLOBALES</h4>
                                     <p class="tx-dark mb-0 tx-13">
-                                        <?=$indiceglobal1?>
+                                        <?=$indiceglobal1?><br><br>
+                                        <?=$indiceglobal2?><br><br>
+                                        <?=$indiceglobal3?>
                                     </p>
                                 </div>
                                 <div class="card-body ">
                                     <h4 class="tx-15">II. DIMENSIONES SINTOMÁTICAS</h4>
                                     <p class="tx-dark mb-0 tx-13">En este apartado se presentan los resultados de las dimensiones específicas del SCL 90 R, donde se identifican cuatro puntajes superiores a las demás dimensiones sintomáticas: <br>
-                                    <?=$final_text_min?> <br><br>
-                                    <?=$final_text_mag?>
+                                    <br>
+                                    <?=$salidatop1?> <br><br>
+                                    <?=$salidatop2?> <br><br>
+                                    <?=$salidatop3?> <br><br>
+                                    <?=$salidatop4?> <br><br>
                                     </p>
                                 </div>
                                 <div class="card-body">
                                         <h4 class="tx-15">III. INDICADOR DE POSIBLE SIMULACIÓN DE SÍNTOMA</h4>
-                                        <p class="tx-dark mb-0 tx-13">PST= PD≤4 es altamente sospechoso de negación de síntoma o minimización de patología. PST T≥ 50 varones PST T≥60 Mujeres es altamente sospechoso, tendencia a aumentador o exageración de la patología.<br>
-                                        <?=$final_text_global?> <br><br>
-                                        <?=$final_text_num?><br><br>
+                                        <p class="tx-dark mb-0 tx-13">PST= PD≤4 es altamente sospechoso de negación de síntoma o minimización de patología. PST PD≥50 varones PST PD≥60 Mujeres es altamente sospechoso, tendencia aumentador o exageración de la patología.<br>
+                                        <?=$indicador_salida?> <br><br>
                                         </p>
                                 </div>
                                 <div class="card-body ">
@@ -595,7 +694,7 @@ if ($pst_pc <= 4) {
                                         </p>
                                 </div>
                                 <div class="card-body">
-                                        <h4 class="tx-15">Síntomas individuales </h4>
+                                        <h4 class="tx-15">Se identificaron (<?=$cant_answers_text?>/7) Items síntomas misceláneos con una intensidad que varia de bastante a extremadamente</h4>
                                         <p class="tx-dark mb-0 tx-13">
                                         <?=$answers_text?><br>
                                         </p>
@@ -867,10 +966,10 @@ if ($pst_pc <= 4) {
                             { // Línea punteada en X = 50
                                 xaxis: { from: 50, to: 50 },
                                 color: '#000', // color de la línea
-                                lineWidth: 0.5
+                                lineWidth: 0.9
                             },
                             { // Línea horizontal
-                                yaxis: { from: 8.4, to: 8.4 },
+                                yaxis: { from: 8.7, to: 8.7 },
                                 color: 'white', // color rojo
                                 lineWidth: 5
                             }

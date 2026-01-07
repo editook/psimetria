@@ -66,11 +66,12 @@ class ModelSclConfiguration {
     }
     // 
     public function getIndex($T,$S,$R,$compareT,$comparePD,$compareR,$sumIndirecta){
+        
         $valor1 = $this->GetAux1($T,$compareT);
         $valor2 = $this->GetAux2($T,$S,$compareT,$comparePD);
         $valor3 = $this->GetAux3($T,$S,$R,$compareT,$comparePD,$compareR);
         $valor4 = $this->GetAux4($T,$S,$R,$compareT,$comparePD,$compareR,$sumIndirecta);
-        //echo $valor4.'<br>';
+        
         return 1+$valor1+$valor2+$valor3+$valor4;
     }
 
@@ -90,6 +91,7 @@ class ModelSclConfiguration {
                 . "Síntomas como pensamientos suicidas, sentirse desesperanzado con respecto al futuro y la sensación de ser inútil o no valer nada son prominentes. "
                 . "Esta puntuación refleja una alta severidad de síntomas depresivos.";
             }
+            //echo $value_t.'<br>';//quizas es un problema
             return $resultado;
         }
 
@@ -233,7 +235,7 @@ class ModelSclConfiguration {
         }
     }
 
-    public function getTop($data_values,$response_ts){
+    public function getTop($data_values,$data_ts){
 
         $data_tops = [];
 
@@ -252,7 +254,7 @@ class ModelSclConfiguration {
         $i = 4;
         foreach ($data_values as $clave => $valor) {
             
-            $message = $this->getResponse1($array[i]->,$response_ts[i]);
+            $message = $this->getResponse1($clave,$data_ts["$clave"]);
             $data_tops[] = ["name"=>$clave,"valor"=>$valor,"message1"=>$message,"message2"=>$data_response["$clave"]];
             if($i == 1){
                 break;
@@ -260,5 +262,13 @@ class ModelSclConfiguration {
             $i -=1; 
         }
         return $data_tops;
+    }
+
+    function contarMayoresIguales($array,$value){
+        $count = 0;
+        foreach ($array as $v) {
+            if ($v >= $value) $count++;
+        }
+        return $count;
     }
 }

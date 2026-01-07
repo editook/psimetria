@@ -23,7 +23,8 @@ class ModelBaremoClinicaPsiVarones
                     $eventEmitterValue = $newValue;
                 }
             }
-            $mins["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $mins["$value"] = $eventEmitterValue;
         }
         return $mins;
     }
@@ -46,7 +47,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $mags["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $mags["$value"] = $eventEmitterValue;
         }
         return $mags;
     }
@@ -68,7 +70,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $prs["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $prs["$value"] = $eventEmitterValue;
         }
         return $prs;
     }
@@ -90,7 +93,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $hps["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $hps["$value"] = $eventEmitterValue;
         }
         return $hps;
     }
@@ -112,7 +116,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $obs["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $obs["$value"] = $eventEmitterValue;
         }
         return $obs;
     }
@@ -134,7 +139,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $ans["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $ans["$value"] = $eventEmitterValue;
         }
         return $ans;
     }
@@ -156,7 +162,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $hss["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $hss["$value"] = $eventEmitterValue;
         }
         return $hss;
     }
@@ -178,7 +185,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $sms["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $sms["$value"] = $eventEmitterValue;
         }
         return $sms;
     }
@@ -200,7 +208,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $des["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $des["$value"] = $eventEmitterValue;
         }
         return $des;
     }
@@ -222,7 +231,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $sus["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $sus["$value"] = $eventEmitterValue;
         }
         return $sus;
     }
@@ -244,7 +254,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $suas["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $suas["$value"] = $eventEmitterValue;
         }
         return $suas;
     }
@@ -266,7 +277,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $irpsis["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $irpsis["$value"] = $eventEmitterValue;
         }
         return $irpsis;
     }
@@ -288,7 +300,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $globals["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $globals["$value"] = $eventEmitterValue;
         }
         return $globals;
     }
@@ -310,7 +323,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $nums["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $nums["$value"] = $eventEmitterValue;
         }
         return $nums;
     }
@@ -333,7 +347,8 @@ class ModelBaremoClinicaPsiVarones
                 }
             }
             // Asignar el valor al array de datos
-            $ints["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $ints["$value"] = $eventEmitterValue;
         }
         return $ints;
     }
