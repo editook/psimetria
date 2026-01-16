@@ -139,7 +139,20 @@
 
 		<!---Skinmodes css-->
 		<link href="../../assets/css/skin-modes.css" rel="stylesheet" />
-
+		<style>
+			@media (max-width: 768px) {
+				.containermobile {
+					margin-top:50px;
+				}
+				.icons-list{
+					flex-wrap: nowrap;
+				}
+				.icons-list-item{
+					height: auto;
+    				width: auto;
+				}
+			}
+		</style>
 	</head>
 
 	<body class="main-body">
@@ -164,7 +177,7 @@
 			<div class="main-content horizontal-content">
 
 				<!-- container opened -->
-				<div class="container">
+				<div class="container containermobile">
 					<!-- /breadcrumb -->
 					<br>
 					<!-- row -->

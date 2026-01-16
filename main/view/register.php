@@ -125,28 +125,32 @@
 
 		<style>
 			.toast-copiado {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #1ab6cf;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    font-weight: bold;
-    z-index: 9999;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    animation: fadeOut 0.5s ease-in-out 4.5s forwards;
-}
+				position: fixed;
+				top: 20px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: #1ab6cf;
+				color: white;
+				padding: 15px 25px;
+				border-radius: 8px;
+				font-weight: bold;
+				z-index: 9999;
+				box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+				animation: fadeOut 0.5s ease-in-out 4.5s forwards;
+			}
 
-/* Animación para desvanecerse */
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-10px);
-    }
-}
-
+			/* Animación para desvanecerse */
+			@keyframes fadeOut {
+				to {
+					opacity: 0;
+					transform: translateX(-50%) translateY(-10px);
+				}
+			}
+			@media (max-width: 768px) {
+				.containermobile {
+					margin-top:50px;
+				}
+			}
 		</style>
 
 	</head>
@@ -174,7 +178,7 @@
 			<div class="main-content horizontal-content">
 
 				<!-- container opened -->
-				<div class="container">
+				<div class="container containermobile">
 				<br>
 
 				<div class="row row-sm">

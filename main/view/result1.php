@@ -25,6 +25,11 @@ $baremoConfiguration = new ModelLsbConfiguration();
 $idClient = 0;
 $idpatient = 0;
 
+$device = $registerModel->getDeviceType();
+if ($device === 'mobile') {
+    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    exit;
+}
 
 if(!isset($_SESSION['REST_type_user'])){
     header("Location: ".LOCALHOST."/signin.php");
@@ -745,32 +750,32 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                         </div>
                                         <div class="col-12 col-md-9 col-lg-10">
                                             <div class="row">
-                                                <div class="col-md-12 col-lg-12">
+                                                <div class="col-md-4 col-lg-4">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red">Id</span>
                                                         </div><input class="form-control" style="color: black;" value="<?=$register['id_client']?>" type="text"/>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-6 col-lg-3">
+                                                <div class="col-md-2 col-lg-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red">Edad</span>
                                                         </div><input class="form-control" style="text-align: center;color: black;" value="<?=$register['age']?>" type="text"/>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-6 col-lg-3">
+                                                <div class="col-md-3 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red">Sexo</span>
                                                         </div><input class="form-control" style="text-align: center;color: black;" value="<?=$register['sex']?>" type="text"/>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-12 col-lg-6">
+                                                <div class="col-md-3 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input color-red">Fecha</span>
-                                                        </div><input class="form-control" style="text-align: center;color: black;" value="<?= date('Y-m-d H:i:s'); ?>" type="text"/>
+                                                        </div><input class="form-control" style="text-align: center;color: black;" value="<?= date('Y-m-d H:i'); ?>" type="text"/>
                                                     </div><!-- input-group -->
                                                 </div>
                                             </div>

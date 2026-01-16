@@ -29,6 +29,12 @@ $baremoModel = new Baremo_Model();
 $idClient = 0;
 $idpatient = 0;
 
+$device = $registerModel->getDeviceType();
+if ($device === 'mobile') {
+    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    exit;
+}
+
 if(!isset($_SESSION['REST_type_user'])){
     header("Location: ".LOCALHOST."/signin.php");
 }
@@ -200,7 +206,7 @@ if ($value_emo <= 3) {
 } else { // Para valores >= 98
     $text_emo = "Este rango refleja una percepción muy positiva sobre el control emocional y la capacidad de respuesta adaptativa. Se percibe como emocionalmente estable, seguro y capaz de manejar con éxito incluso las situaciones más demandantes. Es probable que tenga un alto nivel de aceptación social, un sólido bienestar emocional y un autocontrol. Este rango también sugiere una mínima probabilidad de experimentar estados emocionales negativos como ansiedad o depresión, y una alta capacidad para fomentar relaciones interpersonales saludables y positivas.";
 }
-$text_emo = "El nivel de autoconcepto de ".$register['id_client']." en el campo EMOCIONAL obtuvo(Pc ".$value_emo.") ".$text_emo;
+$text_emo = "El nivel de autoconcepto de ".$register['id_client']." en el campo EMOCIONAL obtuvo un percentil de ".$value_emo." ".$text_emo;
 
 $value_fam = $fam_pc["$fam_pd"];
 $text_fam = "";
@@ -324,37 +330,35 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                         </div>
                                         <div class="col-12 col-md-9 col-lg-10">
                                             <div class="row">
-                                                <div class="col-md-12 col-lg-12">
+                                                <div class="col-md-4 col-lg-4">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Id</span>
                                                         </div><input  style="border: 1px solid black !important;color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-6 col-lg-3">
+                                                <div class="col-md-2 col-lg-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Edad</span>
                                                         </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-6 col-lg-3">
+                                                <div class="col-md-3 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Sexo</span>
                                                         </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-12 col-lg-6">
+                                                <div class="col-md-3 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Fecha</span>
-                                                        </div><input  style="border: 0.5px solid black !important;text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i:s'); ?>" type="text">
+                                                        </div><input  style="border: 0.5px solid black !important;text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i'); ?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                            </div>
-                                            <div class="row row-sm">
-                                                <div class="col-md-12 col-lg-12">
+                                                <div class="col-md-6 col-lg-6">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input" id="basic-addon1">Baremo</span>
@@ -374,14 +378,13 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                                         </form>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-12 col-lg-12">
+                                                <div class="col-md-6 col-lg-6">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input" id="basic-addon1">Responsable de aplicación</span>
                                                         </div><input style="border: 0.5px solid black !important;color: black;" aria-describedby="basic-addon1" class="form-control" value="Edgar Espinoza Jimenez" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                     </div>

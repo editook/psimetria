@@ -107,9 +107,235 @@
 	if($input_answer_response != null){
 		$input_answer = $input_answer_response['response_data'];
 	}
+	$device = $registerModel->getDeviceType();
 ?>
 
 <!DOCTYPE html>
+<?php if (($device === 'tablet' || $device === 'mobile')) { ?>
+
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title><?=WEB_TITLE?> </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen w-full bg-gradient-to-br from-[#1F2B3D] via-[#283B50] to-[#3C506D] flex items-center justify-center p-4 font-sans text-white">
+
+  <main class="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden">
+
+    <!-- CONTENEDOR DINÁMICO -->
+    <div id="app"></div>
+
+  </main>
+
+<script>
+/* ===========================
+   DATOS
+=========================== */
+
+var questions = <?php echo json_encode($answers)?>;
+
+const options = [
+  { value: 1, text: 'Si', class: 'from-sky-400 to-cyan-400' },
+  { value: 0, text: 'No', class: 'from-emerald-400 to-teal-400' }
+];
+//from-fuchsia-600 to-purple-700
+//from-slate-700 to-gray-900
+/* ===========================
+   ESTADO
+=========================== */
+let currentIndex = 0;
+let answers = [];
+let patient = {};
+let finished = false;
+let submittedAt = null;
+
+/* ===========================
+   RENDER
+=========================== */
+function render() {
+  const app = document.getElementById('app');
+
+  if (!patient.name) {
+    app.innerHTML = renderPatientForm();
+    return;
+  }
+
+  if (!finished) {
+    app.innerHTML = renderQuestion();
+    return;
+  }
+
+  app.innerHTML = renderSummary();
+}
+
+/* ===========================
+   FORMULARIO PACIENTE
+=========================== */
+function renderPatientForm() {
+  return `
+  <div class="p-8 sm:p-12">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-cyan-300">FORMULARIO <?=$register['type_question_name']?></h2>
+        </div>
+		
+		<div class="mb-4">
+		<label for="fullName" class="block mb-2 text-sm font-medium text-gray-300">Nombre Completo</label>
+		<input type="text" disabled value="<?=$register['id_client']?>" id="fullName" formControlName="fullName"
+			class="w-full bg-black/20 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
+			placeholder="Ej. Juan Pérez">
+		</div>
+        
+        <div class="mb-8 p-4 bg-black/20 border border-white/10 rounded-lg text-left text-sm text-gray-300 space-y-3">
+          <h3 class="text-base font-bold text-cyan-300 text-center">INSTRUCCIONES</h3>
+          <p>Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. Marca una "X" en la columna de Sí, si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración.</p>
+			<br>
+		  <p>No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: "¿Es cierto en mi caso?". Si es así, encierra Sí en un círculo; si no lo es, encierra el No.</p>
+          
+        </div>
+
+        
+		
+		<button type="button" onclick="startQuiz()"
+		class="w-full py-3 px-8 font-bold rounded-full text-white shadow-lg
+         bg-gradient-to-r from-[#3C506D] to-[#627892]
+         hover:scale-105 hover:shadow-2xl
+         transform transition-all duration-300
+         focus:outline-none focus:ring-4 focus:ring-[#627892]/50
+         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+		Comenzar Cuestionario
+		</button>
+        
+      </div>`;
+}
+
+function startQuiz() {
+  patient.name = document.getElementById('fullName').value;
+  render();
+}
+
+/* ===========================
+   PREGUNTAS
+=========================== */
+function renderQuestion() {
+  const progress = Math.round((currentIndex / questions.length) * 100);
+
+  return `
+  <div class="p-8">
+
+    <div class="text-center border-b border-white/10 pb-4 mb-4">
+      <p class="font-bold">${patient.name}</p>
+    </div>
+
+    <p class="text-cyan-300 mb-2">Pregunta ${currentIndex + 1} de ${questions.length}</p>
+    <div class="w-full bg-black/30 rounded-full h-2 mb-6">
+      <div class="h-2 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full"
+        style="width:${progress}%"></div>
+    </div>
+
+    <h2 class="text-2xl font-bold text-center mb-6">
+      ${questions[currentIndex].question}
+    </h2>
+
+    <div class="grid grid-cols-2 gap-4">
+      ${options.map(o => `
+        <button onclick="answer(${o.value})"
+          class="py-4 rounded-xl bg-gradient-to-br ${o.class} font-bold">
+          ${o.text}
+        </button>
+      `).join('')}
+    </div>
+
+    <button onclick="back()" class="mt-6 text-gray-400 hover:text-white">
+      ← Anterior
+    </button>
+  </div>`;
+}
+
+function answer(value) {
+  answers[currentIndex] = value;
+  currentIndex++;
+
+  if (currentIndex === questions.length) {
+    finished = true;
+    submittedAt = new Date();
+  }
+  render();
+}
+
+function back() {
+  if (currentIndex > 0) currentIndex--;
+  render();
+}
+
+/* ===========================
+   RESUMEN
+=========================== */
+function renderSummary() {
+  return `
+  <div class="p-8 text-center">
+
+    <h2 class="text-3xl font-bold text-emerald-400 mb-2">¡Completado!</h2>
+    <p class="text-gray-300 mb-4">Gracias por responder</p>
+
+    <div class="bg-black/30 p-4 rounded-lg text-left mb-4">
+      <p><b>Nombre:</b> ${patient.name}</p>
+      <p><b>Edad:</b> <?=$register['age']?></p>
+      <p><b>Fecha:</b> ${submittedAt.toLocaleString()}</p>
+    </div>
+
+    <div class="bg-black/30 p-4 rounded-lg text-left max-h-48 overflow-y-auto">
+      ${questions.map((q, i) => `
+        <div class="flex justify-between border-b border-white/10 py-1">
+          <span class="truncate">${q.question}</span>
+          <b class="text-emerald-400">${answers[i]}</b>
+        </div>
+      `).join('')}
+    </div>
+	<br>
+    <button onclick="reset()" class="w-full py-3 px-8 font-bold rounded-full text-white shadow-lg
+         bg-gradient-to-r from-[#3C506D] to-[#627892]
+         hover:scale-105 hover:shadow-2xl
+         transform transition-all duration-300
+         focus:outline-none focus:ring-4 focus:ring-[#627892]/50
+         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+      Enviar resultados
+    </button>
+  </div>`;
+}
+
+function reset() {
+	
+
+  	const data = new FormData();
+	data.append('idClient', "<?php echo $idClient?>");
+	data.append('patient', "<?php echo $idpatient;?>");
+	data.append('codes', "<?php echo $register['codes']?>");
+	data.append('is_share', <?php echo (int)$is_share?>);
+	questions.forEach((q, index) => {
+		data.append(`question_${q.id}`, answers[index]);
+	});
+	
+	
+	fetch('form5.php', {
+		method: 'POST',
+		body: data
+	});
+	window.location.href = 'https://www.google.com';
+}
+
+/* INIT */
+render();
+</script>
+
+</body>
+</html>
+
+
+<?php } else { ?>
 <html lang="es">
 	<head>
 
@@ -488,3 +714,4 @@
 		</script>										
 	</body>
 </html>
+<?php } ?>

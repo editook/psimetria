@@ -97,10 +97,257 @@
 		$is_view = true;
 	}
     $answers = $answerModel->getAll($register['codes']);
-	
+	$device = $registerModel->getDeviceType();
 ?>
 
 <!DOCTYPE html>
+<?php if (($device === 'tablet' || $device === 'mobile')) { ?>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Cuestionario Numérico</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen w-full bg-gradient-to-br from-gray-900 via-emerald-900 to-gray-900 flex items-center justify-center p-4 text-white font-sans">
+
+<main class="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden">
+  <div id="app"></div>
+</main>
+
+<script>
+/* =============================
+   DATOS
+============================= */
+var questions = <?php echo json_encode($answers)?>;
+//questions = questions.slice(0, 10);
+let answers = Array(questions.length).fill(null);
+let index = 0;
+let patient = null;
+let finished = false;
+let submittedAt = null;
+
+/* =============================
+   RENDER PRINCIPAL
+============================= */
+function render() {
+  const app = document.getElementById('app');
+
+  if (!patient) {
+    app.innerHTML = renderPatientForm();
+    return;
+  }
+
+  if (!finished) {
+    app.innerHTML = renderQuestion();
+    restoreAnswer();
+    return;
+  }
+
+  app.innerHTML = renderSummary();
+}
+
+/* =============================
+   FORMULARIO PACIENTE
+============================= */
+function renderPatientForm() {
+  return `
+  <div class="p-8 sm:p-12">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-cyan-300">FORMULARIO <?=$register['type_question_name']?></h2>
+        </div>
+
+		<div class="mb-4">
+		<label for="fullName" class="block mb-2 text-sm font-medium text-gray-300">Nombre Completo</label>
+		<input type="text" id="fullName" value="<?=$register['id_client']?>" formControlName="fullName"
+			class="w-full bg-black/20 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
+			placeholder="Ej. Juan Pérez">
+		</div>
+
+        <div class="mb-8 p-4 bg-black/20 border border-white/10 rounded-lg text-left text-sm text-gray-300 space-y-3">
+          <h3 class="text-base font-bold text-cyan-300 text-center">INSTRUCCIONES</h3>
+          <p>A continuación encontrarás una serie de frases. Lee cada una de ellas cuidadosamente y contesta con un valor entre 1 y 99, según tu grado de acuerdo con lo que se indica.</p>
+          <div class="flex justify-between items-center px-4 py-1 bg-gray-900/50 rounded-md">
+            <span class="font-semibold text-rose-400">1 = En total desacuerdo</span>
+            <span class="font-semibold text-emerald-400">99 = En total acuerdo</span>
+          </div>
+          <p>Por ejemplo, si la frase dice "La música ayuda al bienestar humano" y estás muy de acuerdo, contestarías con un valor alto, como por ejemplo el 94.</p>
+          <div class="p-2 bg-gray-900/50 rounded-md border border-gray-600 font-mono text-xs">
+            <span>La música ayuda al bienestar humano .............................. </span><span class="font-bold text-emerald-400">94</span>
+          </div>
+          <p>Por lo contrario, si estás muy poco de acuerdo, elegirías un valor bajo, por ejemplo el 9.</p>
+          <div class="p-2 bg-gray-900/50 rounded-md border border-gray-600 font-mono text-xs">
+            <span>La música ayuda al bienestar humano .............................. </span><span class="font-bold text-rose-400">9</span>
+          </div>
+          <p>No olvides que dispones de muchas opciones de respuesta, en concreto, puedes elegir entre 99 valores. Escoge el que más se ajuste a tu criterio.</p>
+          <p class="font-bold text-center text-white pt-2">RECUERDA: CONTESTA CON LA MÁXIMA SINCERIDAD.</p>
+        </div>
+
+        <button type="button" onclick="startQuiz()"
+            class="w-full text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-emerald-300/50 bg-gradient-to-r from-cyan-400 to-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+            Comenzar Cuestionario
+        </button>
+      </div>`;
+}
+
+function startQuiz() {
+  patient = {
+    name: document.getElementById('fullName').value
+  };
+  render();
+}
+
+/* =============================
+   PREGUNTA
+============================= */
+function renderQuestion() {
+  const progress = Math.round((index / questions.length) * 100);
+  const value = answers[index] ?? '';
+
+  return `
+  <div class="p-8">
+
+    <!-- Header -->
+    <div class="text-center mb-6 border-b border-white/10 pb-4">
+      <p class="font-bold">${patient.name}</p>
+    </div>
+
+    <!-- Progreso -->
+    <p class="text-cyan-300 mb-2">PREGUNTA ${index + 1} DE ${questions.length}</p>
+    <div class="w-full bg-black/20 rounded-full h-2.5 mb-6">
+      <div class="bg-gradient-to-r from-cyan-400 to-emerald-400 h-2.5 rounded-full"
+           style="width:${progress}%"></div>
+    </div>
+
+    <!-- Pregunta -->
+    <h2 class="text-2xl font-bold text-center mb-6 min-h-[80px]">
+      ${questions[index].question}
+    </h2>
+
+    <!-- Respuesta -->
+    <form onsubmit="submitAnswer(event)" class="flex flex-col items-center gap-6">
+      <div class="text-center">
+        <label class="text-sm text-gray-400 block mb-2">
+          Ingrese un valor de 1 a 99
+        </label>
+        <input id="answerInput" type="number" min="1" max="99" required
+          value="${value}"
+          class="w-40 text-center text-3xl font-bold bg-black/20 border border-white/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-cyan-400"/>
+      </div>
+
+      <button class="px-12 py-3 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 font-bold">
+        Siguiente
+      </button>
+    </form>
+
+    <!-- Navegación -->
+    <div class="mt-8 text-center">
+      <button onclick="goBack()" ${index === 0 ? 'disabled' : ''}
+        class="text-gray-400 hover:text-white disabled:opacity-50">
+        ← Anterior
+      </button>
+    </div>
+
+  </div>`;
+}
+
+/* =============================
+   LOGICA RESPUESTAS
+============================= */
+function submitAnswer(e) {
+  e.preventDefault();
+  const value = Number(answerInput.value);
+
+  if (value < 1 || value > 99) return;
+
+  answers[index] = value;
+  index++;
+
+  if (index >= questions.length) {
+    finished = true;
+    submittedAt = new Date();
+  }
+  render();
+}
+
+function goBack() {
+  if (index > 0) index--;
+  render();
+}
+
+function restoreAnswer() {
+  const input = document.getElementById('answerInput');
+  if (input) input.select();
+}
+
+/* =============================
+   RESUMEN FINAL
+============================= */
+function renderSummary() {
+  return `
+  <div class="p-8 text-center min-h-[500px] flex flex-col justify-center">
+
+    <h2 class="text-3xl font-bold mb-2 text-emerald-400">
+      ¡Completado!
+    </h2>
+    <p class="text-gray-300 mb-4">Gracias por responder</p>
+
+    <div class="bg-black/20 p-4 rounded-lg text-left mb-4">
+      <p><b>Nombre:</b> ${patient.name}</p>
+      <p><b>Fecha:</b> ${submittedAt.toLocaleString()}</p>
+    </div>
+
+    <div class="bg-black/20 p-4 rounded-lg max-h-48 overflow-y-auto text-left">
+      ${questions.map((q, i) => `
+        <div class="flex justify-between border-b border-white/10 py-1 text-sm">
+          <span class="truncate pr-2">${q.question}</span>
+          <span class="font-bold text-emerald-400">${answers[i]}</span>
+        </div>
+      `).join('')}
+    </div>
+
+    <button onclick="restart()"
+      class="mt-6 py-3 px-8 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 font-bold">
+      Enviar resultados
+    </button>
+
+  </div>`;
+}
+
+/* =============================
+   RESET
+============================= */
+function restart() {
+  
+  const data = new FormData();
+	data.append('idClient', "<?php echo $idClient?>");
+	data.append('patient', "<?php echo $idpatient;?>");
+	data.append('codes', "<?php echo $register['codes']?>");
+	data.append('is_share', <?php echo (int)$is_share?>);
+	questions.forEach((q, index) => {
+		data.append(`response_${q.id}`, answers[index]);
+		console.log(answers[index]);
+	});
+	
+	
+	fetch('form2.php', {
+		method: 'POST',
+		body: data
+	});
+	window.location.href = 'https://www.google.com';
+}
+
+/* INIT */
+render();
+</script>
+
+</body>
+</html>
+
+<?php } else { ?>
+
 <html lang="es">
 	<head>
 
@@ -441,3 +688,4 @@
 		</script>
 	</body>
 </html>
+<?php } ?>

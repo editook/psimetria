@@ -24,6 +24,12 @@ $baremoModel = new Baremo_Model();
 $idClient = 0;
 $idpatient = 0;
 
+$device = $registerModel->getDeviceType();
+if ($device === 'mobile') {
+    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    exit;
+}
+
 if(!isset($_SESSION['REST_type_user'])){
     header("Location: ".LOCALHOST."/signin.php");
 }
@@ -484,12 +490,12 @@ if($answer_questions1['response'] == '1'){
                                                         
                                                         <tbody style="text-align: right;text-align: center;">
                                                             <tr  class="tr_fill" style="font-weight: bold;">
-                                                                <td class="td_fill-masr2" >Escalas</td>
+                                                                <td class="td_fill-masr2" ><div class="borde-text">Escalas</div></td>
                                                                 <th scope="row"  class="text-primary td_name_masr2"></th>
                                                                 
-                                                                <td class="td_valuepd">PD</td>
-                                                                <td class="td_valuetb">PC</td>
-                                                                <td class="td_valuetb">T</td>
+                                                                <td class="td_valuepd"><div class="borde-text">PD</div></td>
+                                                                <td class="td_valuetb"><div class="borde-text">PC</div></td>
+                                                                <td class="td_valuetb"><div class="borde-text">T</div></td>
                                                             </tr>
                                                             <tr  class="tr_fill" style="border-bottom: 2px solid #beecdb !important;">
                                                                     
@@ -527,7 +533,7 @@ if($answer_questions1['response'] == '1'){
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$soc_t?></div></td>
                                                             </tr>
                                                             <tr class="tr_fill">
-                                                            <td class="td_fill-masr2">Ansiedad Total</td>
+                                                            <td class="td_fill-masr2" style="font-weight: bold;">Ansiedad Total</td>
                                                                 <th class="text-primary td_name_masr2" scope="row">TOT</th>
                                                                 
                                                                 <td class="td_valuepd"><div class="borde-masr2"><?=$tot?></div></td>
@@ -549,9 +555,9 @@ if($answer_questions1['response'] == '1'){
                                                                     <td class="td_fill-masr2"></td>
                                                                     <th scope="row"  class="text-primary td_name_masr2"></th>
                                                                     
-                                                                    <td class="td_valuepd">PD</td>
-                                                                    <td class="td_valuetb">PC</td>
-                                                                    <td class="td_valuetb">T</td>
+                                                                    <td class="td_valuepd"><div class="borde-text">PD</div></td>
+                                                                    <td class="td_valuetb"><div class="borde-text">PC</div></td>
+                                                                    <td class="td_valuetb"><div class="borde-text">T</div></td>
                                                                 </tr>
                                                         </tbody>
                                                     </table>
@@ -749,17 +755,18 @@ if($answer_questions1['response'] == '1'){
                                 color: '#4fab8a'
                             },
                             {
-                                xaxis: { from: 60, to: 71 },
+                                xaxis: { from: 60, to: 99 },
                                 color: '#eed7a4'
-                            },
-                            {
-                                xaxis: { from: 71, to: 80 },
-                                color: '#faf4e6'
                             },
                             { // Línea punteada en X = 50
                                 xaxis: { from: 50, to: 50 },
                                 color: '#000', // color de la línea
                                 lineWidth: 0.5
+                            },
+                            { 
+                                yaxis: { from: 3.2, to: 3.2 },
+                                color: 'white',
+                                lineWidth: 2.5
                             },
                         ]
                     },
@@ -810,7 +817,7 @@ if($answer_questions1['response'] == '1'){
                     },
                     points: {
                         show: true,
-                        radius:3,
+                        radius:4,
                         fill: true,
                         fillColor: colorLine,
                         lineWidth:2.5
@@ -821,12 +828,12 @@ if($answer_questions1['response'] == '1'){
                         show:false
                     },
                     grid: {
-                        borderWidth: 5,
-                        hoverable: true,
-                        borderColor: 'white',
+                        borderWidth: 0,
+                        hoverable: false,
+                        borderColor: 'transparent',
                         borderRadius: 0,
-                        innerMargin: -2,
-                        show:true,
+                        innerMargin: 0,
+                        show:false,
                          markings: [
                             
                          ]
@@ -886,7 +893,7 @@ if($answer_questions1['response'] == '1'){
                     },
                     points: {
                         show: true,
-                        radius:3,
+                        radius:4,
                         fill: true,
                         fillColor: colorLine,
                         lineWidth:2.5

@@ -163,9 +163,9 @@ input{
 }
 .borde-text{
     padding: 1px 2px;
-    border: 1px solid #377da7;
+    border: 1px solid #4fab8a;
     border-radius: 10px;
-    background-color: #204963;
+    background-color: #4fab8a;
     color: white;
     margin: 1px;
     text-align: center;
@@ -267,3 +267,4 @@ input{
 .txt-force-black{
     color: black;
 }
+
