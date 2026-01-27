@@ -100,7 +100,7 @@
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -164,7 +164,7 @@
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			
 			<!-- main-header opened -->
@@ -326,7 +326,7 @@
 														<span class="label text-<?=$data['status']=='PENDIENTE'?'warning':'success'?> d-flex"><div class="dot-label bg-<?=$data['status']=='PENDIENTE'?'warning':'success'?>-300 me-1"></div><?=$data['status']?></span>
 													</td>
                                                     <td>
-                                                        <?=htmlspecialchars($data['name'])?>
+                                                        <?=htmlspecialchars($baremoModel->spnippingText($data['name']))?>
 													</td>
                                                     <td>
                                                         <?=$data['type_question_name']?>

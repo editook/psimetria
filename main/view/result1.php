@@ -676,7 +676,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -723,7 +723,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			<!-- main-header opened -->
 			<?php include("../include/header_top.php");?>
@@ -741,6 +741,20 @@ if ($condicion1 || $condicion2 || $condicion3) {
 					<!-- row -->
 					<div class="row row-sm">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                            <div id="contenidoID" class="card-lsb5" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;">
+                                <div  class="card-body" style="padding:10px 5px 10px 5px">
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="input-group">
+                                                <div class="input-group-text setting-input">
+                                                    <span class="input-group-text setting-input">Id</span>
+                                                </div><input  style="color: black;    height: 30px !important;" class="form-control" value="<?=$register['id_client']?>" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+								</div>
+                            </div>
 							<div id="contenido1" class="card card-lsb5">
 								<div class="card-body">
                                     <div class="row row-sm">
@@ -838,9 +852,9 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                                             <tbody style="text-align: right;text-align: center;">
                                                                 <tr  class="tr_fill" style="font-weight: bold;">
                                                                     
-                                                                    <td class="td_fill"><div class="borde-text">Escala de validez</div></td>
-                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PD</div></td>
-                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PC</div></td>
+                                                                    <td class="td_fill"><div class="borde-text-lsb50">Escala de validez</div></td>
+                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text-lsb50">PD</div></td>
+                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text-lsb50">PC</div></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-move1">Min</div>Minimacion</td>
@@ -858,9 +872,9 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                                             
                                                             <tbody style="text-align: right;text-align: center;">
                                                                 <tr  class="tr_fill" style="font-weight: bold;">
-                                                                    <td class="td_fill"><div class="borde-text">Indices generales</div></td>
-                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PD</div></td>
-                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PC</div></td>
+                                                                    <td class="td_fill"><div class="borde-text-lsb50">Indices generales</div></td>
+                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text-lsb50">PD</div></td>
+                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text-lsb50">PC</div></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-move1">Global</div>Índice Global de severidad</td>
@@ -883,9 +897,9 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                                             
                                                             <tbody style="text-align: right;text-align: center;">
                                                                 <tr  class="tr_fill" style="font-weight: bold;">
-                                                                    <td class="td_fill"><div class="borde-text">Escalas clinicas</div></td>
-                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PD</div></td>
-                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PC</div></td>
+                                                                    <td class="td_fill"><div class="borde-text-lsb50">Escalas clinicas</div></td>
+                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text-lsb50">PD</div></td>
+                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text-lsb50">PC</div></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-move1">Pr</div>Psicoreactividad</td>
@@ -947,9 +961,9 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                                            
                                                             <tbody style="text-align: right;text-align: center;">
                                                                 <tr  class="tr_fill" style="font-weight: bold;">
-                                                                    <td class="td_fill"><div class="borde-text">Índices de riesgo patológico</div></td>
-                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PD</div></td>
-                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text">PC</div></td>
+                                                                    <td class="td_fill"><div class="borde-text-lsb50">Índices de riesgo patológico</div></td>
+                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text-lsb50">PD</div></td>
+                                                                    <td class="td_valuepd2" style="width: 70px;"><div class="borde-text-lsb50">PC</div></td>
                                                                 </tr>
                                                                 <tr class="tr_fill">
                                                                     <td  class="td_fill"><div class="width-move1">IRPsi</div>Índice de riesgo psicopatológico</td>
@@ -984,74 +998,80 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
-                                    <h1 style="text-align: center;">INFORME CUALITATIVO LSB-50</h1>
+                                    <h1 style="text-align: center;" id="jsonvalue1">INFORME CUALITATIVO LSB-50</h1>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="tx-15">INTRODUCCIÓN</h4>
-                                    <p class="tx-dark mb-0 tx-13">El LSB-50 (Listado de Síntomas Breve) es un instrumento de evaluación psicopatológica diseñado para proporcionar información sobre las variables clínicas de la persona evaluada. El presente informe ha sido creado con el objetivo de facilitar la interpretación de los resultados obtenidos a partir de sus respuestas y puntuaciones en el LSB-50.</p>
+                                    <h4 class="tx-15" id="jsonvalue2">INTRODUCCIÓN</h4>
+                                    <p class="tx-dark mb-0" id="jsonvalue3">El LSB-50 (Listado de Síntomas Breve) es un instrumento de evaluación psicopatológica diseñado para proporcionar información sobre las variables clínicas de la persona evaluada. El presente informe ha sido creado con el objetivo de facilitar la interpretación de los resultados obtenidos a partir de sus respuestas y puntuaciones en el LSB-50.</p>
                                 </div>
                                 <div class="card-body ">
-                                    <h4 class="tx-15">VALIDEZ DEL PERFIL</h4>
-                                    <p class="tx-dark mb-0 tx-13">El LSB-50 incluye dos escalas de validez diseñadas para detectar posibles sesgos de respuesta que podrían afectar la interpretación de los resultados: <br>
-                                    <?=$final_text_min?> <br><br>
-                                    <!--?=$final_text_mag?-->
+                                    <h4 class="tx-15" id="jsonvalue4">VALIDEZ DEL PERFIL</h4>
+                                    <p class="tx-dark mb-0" id="jsonvalue5">El LSB-50 incluye dos escalas de validez diseñadas para detectar posibles sesgos de respuesta que podrían afectar la interpretación de los resultados: <br>
+                                     
                                     </p>
+                                    <p id="jsonvalue5_1"><?=$final_text_min?></p><br><br>
                                 </div>
-                                <div class="card-body">
-                                        <h4 class="tx-15">ÍNDICES GENERALES</h4>
-                                        <p class="tx-dark mb-0 tx-13">Los índices generales en el LSB-50 son medidas que proporcionan una visión global del nivel de sufrimiento psicopatológico del evaluado(a). En este caso, sus resultados indican que:<br>
+                                <div class="card-body tx-dark">
+                                        <h4 class="tx-15" id="jsonvalue6">ÍNDICES GENERALES</h4>
+                                        <p class="tx-dark mb-0" id="jsonvalue7">Los índices generales en el LSB-50 son medidas que proporcionan una visión global del nivel de sufrimiento psicopatológico del evaluado(a). En este caso, sus resultados indican que:<br>
+                                        </p>
                                         <br>
-                                        <?=$final_text_global?> <br><br>
-                                        <?=$final_text_num?><br><br>
-                                        <?=$final_text_int?><br><br>
-                                        </p>
-                                        <h4 class="tx-15">ÍNDICES DE RIESGO PATOLÓGICO </h4><br>
-                                        <p>
-                                        Explora la presencia de síntomas cuya probabilidad de aparición e intensidad es baja en la población general, no clínica y, por el contrario, alta en la población clínica. Evalúa la presencia de síntomas asociados a la población clínica psicopatológica, formando un conglomerado de desvalorización, incomprensión, miedo, somatización y hostilidad junto con ideas de suicidio. En su conjunto, resultan predictivos para la inclusión del evaluado en una población afectada con psicopatología.
+                                        <p id="jsonvalue7_1"><?=$final_text_global?></p>
+                                         <br><br>
+                                         <p id="jsonvalue7_2"><?=$final_text_num?></p>
                                         <br><br>
-                                        <?=$final_text_baja?><br><br>
-                                        </p>
-                                        <h4 class="tx-15">ÍNDICES DE RIESGO PATOLÓGICO </h4><br>  
-                                        <p>
-                                        La valoración de las escalas del LSB-50 informa sobre el perfil psicopatológico del sujeto, es decir, sobre cuál es la forma de expresión particular de la psicopatología.  A continuación se describen las cuatro escalas con mayor puntuación relativa dentro del conjunto clínico:                         
+                                        <p id="jsonvalue7_3"><?=$final_text_int?></p><br><br>
                                         
-                                            <br><br>
-                                        <?=$final_text_baja?><br><br>
+                                        <h4 class="tx-15" id="jsonvalue8">ÍNDICES DE RIESGO PATOLÓGICO </h4><br>
+                                        <p id="jsonvalue9">
+                                        Explora la presencia de síntomas cuya probabilidad de aparición e intensidad es baja en la población general, no clínica y, por el contrario, alta en la población clínica. Evalúa la presencia de síntomas asociados a la población clínica psicopatológica, formando un conglomerado de desvalorización, incomprensión, miedo, somatización y hostilidad junto con ideas de suicidio. En su conjunto, resultan predictivos para la inclusión del evaluado en una población afectada con psicopatología.
                                         </p>
-                                        <h4 class="tx-15">ESCALAS CLÍNICAS </h4><br>  
-                                        <p>
-                                           La valoración de las escalas del LSB-50 informa sobre el perfil psicopatológico del sujeto, es decir, sobre cuál es la forma de expresión particular de la psicopatología.  A continuación se describen las cuatro escalas con mayor puntuación relativa dentro del conjunto clínico:     
                                         <br><br>
-                                        <?=$salidatop1?><br><br>
-                                        <?=$salidatop2?><br><br>
-                                        <?=$salidatop3?><br><br>
-                                        <?=$salidatop4?><br><br>
-
+                                        <p id="jsonvalue9_1"><?=$final_text_baja?></p>
+                                        <br><br>
+                                        
+                                        <h4 class="tx-15" id="jsonvalue10">ÍNDICES DE RIESGO PATOLÓGICO </h4><br>  
+                                        <p id="jsonvalue11">
+                                        La valoración de las escalas del LSB-50 informa sobre el perfil psicopatológico del sujeto, es decir, sobre cuál es la forma de expresión particular de la psicopatología.  A continuación se describen las cuatro escalas con mayor puntuación relativa dentro del conjunto clínico:                         
                                         </p>
-                                        <h4 class="tx-15"> <?=$message_criterios;?></h4><br>  
-                                        <p>
+                                        <br><br>
+                                        <p id="jsonvalue11_1"><?=$final_text_baja?></p><br><br>
+                                        
+                                        <h4 class="tx-15" id="jsonvalue12">ESCALAS CLÍNICAS </h4><br>  
+                                        <p id="jsonvalue13">
+                                           La valoración de las escalas del LSB-50 informa sobre el perfil psicopatológico del sujeto, es decir, sobre cuál es la forma de expresión particular de la psicopatología.  A continuación se describen las cuatro escalas con mayor puntuación relativa dentro del conjunto clínico:     
+                                        </p>
+                                        <br><br>
+                                        <p id="jsonvalue13_1"><?=$salidatop1?></p><br><br>
+                                        <p id="jsonvalue13_2"><?=$salidatop2?></p><br><br>
+                                        <p id="jsonvalue13_3"><?=$salidatop3?></p><br><br>
+                                        <p id="jsonvalue13_4"><?=$salidatop4?></p><br><br>
+
+                                        
+                                        <h4 class="tx-15" id="jsonvalue14"> <?=$message_criterios;?></h4><br>  
+                                        <p id="jsonvalue15">
                                             <?=$message_criterios_out?>
                                         </p>
-                                        <h4 class="tx-15">Se identificaron(<?=$cant_magnificacion?>/8) ítems de magnificación que van de bastante a mucho</h4>
-                                        <p>
+                                        <h4 class="tx-15" id="jsonvalue16">Se identificaron(<?=$cant_magnificacion?>/8) ítems de magnificación que van de bastante a mucho</h4>
+                                        <p id="jsonvalue17">
                                             <?=$message_magnificacion?>
                                         </p>
-                                        <h4 class="tx-15">Se identificaron(<?=$cant_magnificacion2?>/8) ítems de disimulación que van de poco a nada</h4>
-                                        <p>
+                                        <h4 class="tx-15" id="jsonvalue18">Se identificaron(<?=$cant_magnificacion2?>/8) ítems de disimulación que van de poco a nada</h4>
+                                        <p id="jsonvalue19">
                                             <?=$message_magnificacion2?>
                                         </p>
-                                        <h4 class="tx-15">Síntomas individuales</h4>
-                                        <p>
+                                        <h4 class="tx-15" id="jsonvalue20">Síntomas individuales</h4>
+                                        <p id="jsonvalue21">
                                             Por último, se valorarán los aspectos idiosincrásicos o tendencias particulares, se identifico (<?=$cant_sintomas_ind?>/50) puntuados con la máxima intensidad («4»)
-                                            <br><br>
-                                            <?=$message_sintomas?>
+                                              
                                         </p>
+                                        <br><br>
+                                        <p id="jsonvalue21_1"><?=$message_sintomas?></p>
+                                        
                                 </div>
                                 
                             </div>
-                            <div style="justify-self: center;position: absolute;bottom: 0px;">
-                                    <img id="contenido4"  alt="" class="float-sm-right mg-sm-t-0" style="width:150px" src="../../assets/img/lsb50/image.png">
-                            </div>
+                            
                             
                         </div>
 
@@ -1124,10 +1144,102 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
-        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
+        
+        <script src="../../assets/js/flot-circle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
         <script>
-            var pathprint = "<?php echo LOCALHOST; ?>";
+            const name_user = "<?php echo $register['id_client'] ?>";
+            const testname = "<?php echo $register['type_question_name']?>";
+            const filenamepdf = (name_user+"_"+testname).replace(/\s+/g, '');
+            var jsonpdf = [];
+            jsonpdf.push({type:2,image:"contenido1"} );
+            jsonpdf.push({type:2,image:"contenido2"} );
+            jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue2')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue3')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue4')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue5')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue5_1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue6')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue7')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue7_1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue7_2')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue7_3')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue8')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue9')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue9_1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue10')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue11')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue11_1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue12')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13_1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13_2')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13_3')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13_4')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue14')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue15')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue16')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue17')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue18')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue19')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue20')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue21')} );     
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue21_1')} );                       
+            
             $(function() {
             'use strict';
                 var colorLine = "black";
@@ -1636,5 +1748,6 @@ if ($condicion1 || $condicion2 || $condicion3) {
             document.getElementById('form_baremo').submit();
         });
         </script>
+        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
 	</body>
 </html>

@@ -188,16 +188,42 @@ function renderPatientForm() {
           <p>Encontrara una serie de afirmaciones sobre MOLESTIAS o PROBLEMAS que pueden afectar en mayor o menor medida a todas las personas. Conteste a cada una ellas teniendo en cuenta aquello o experimentado durante las ultimas semanas, incluido el dia de hoy.</p>
           <p>Para ello, marque junto a cada afirmación una de las siguientes opciones:</p>
           
-          <div class="bg-gray-900/50 rounded-md p-3">
-              <p class="text-center font-semibold mb-2">HASTA QUÉ PUNTO SE HA SENTIDO MOLESTO POR EL SÍNTOMA</p>
-              <div class="flex justify-between text-center text-xs sm:text-sm font-mono">
-                  <div><span class="font-bold block">0</span><span>Nada</span></div>
-                  <div><span class="font-bold block">1</span><span>Poco</span></div>
-                  <div><span class="font-bold block">2</span><span>Moderadamente</span></div>
-                  <div><span class="font-bold block">3</span><span>Bastante</span></div>
-                  <div><span class="font-bold block">4</span><span>Mucho</span></div>
-              </div>
-          </div>
+          	<div class="bg-gray-900/50 rounded-xl p-4">
+				<p class="text-center font-semibold text-sm sm:text-base mb-4">
+					HASTA QUÉ PUNTO SE HA SENTIDO MOLESTO POR EL SÍNTOMA
+				</p>
+
+				<div class="grid grid-cols-3 sm:grid-cols-5 gap-3 text-center font-mono">
+					
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">0</span>
+					<span class="text-xs">Nada</span>
+					</div>
+
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">1</span>
+					<span class="text-xs">Poco</span>
+					</div>
+
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">2</span>
+					<span class="text-xs break-words">Moderadamente</span>
+					</div>
+
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">3</span>
+					<span class="text-xs">Bastante</span>
+					</div>
+
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">4</span>
+					<span class="text-xs">Mucho</span>
+					</div>
+
+				</div>
+			</div>
+
+
         </div>
 
         
@@ -360,7 +386,7 @@ render();
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -441,7 +467,7 @@ render();
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			
 			<!-- main-header opened -->

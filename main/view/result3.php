@@ -1605,8 +1605,11 @@ if($decimo_dos != null){
     $tiposresponsalbilidad16 = "Se observa una puntuación de TB ".$decimo_dos['total'].' en la escala de '.$decimo_dos['llave'].' (';
     $tiposresponsalbilidad16 .= $decimo_dos['objetivo']."), En este caso, la baja puntuación indica que ".$decimo_dos['interpretacion'];
 }
-
-$decimo_tres = $maciConfigurationModel->getPuntosFuertesTB([$decimo_dos['llave']],$desagradoPropioTB,$difusionIdentidadTB,$insencibilidadSocialTB,$desvalorizacionMismoTB,$incomodidadRespetoTB,$inseguridadIgualTB,$discordanciaFamiliarTB,$abusosInfanciaTB);
+$llave = [];
+if($decimo_dos != null){
+    $llave = [$decimo_dos['llave']];
+}
+$decimo_tres = $maciConfigurationModel->getPuntosFuertesTB($llave,$desagradoPropioTB,$difusionIdentidadTB,$insencibilidadSocialTB,$desvalorizacionMismoTB,$incomodidadRespetoTB,$inseguridadIgualTB,$discordanciaFamiliarTB,$abusosInfanciaTB);
 
 $tiposresponsalbilidad17 = "";
 if($decimo_tres != null){
@@ -1731,7 +1734,7 @@ if($answer_questions2['response'] == '1'){
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -1776,7 +1779,7 @@ if($answer_questions2['response'] == '1'){
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
             <header>
                 <!-- main-header opened -->
                 <?php include("../include/header_top.php");?>
@@ -1795,6 +1798,20 @@ if($answer_questions2['response'] == '1'){
 					<!-- row -->
 					<div class="row row-sm">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                            <div id="contenidoID" class="card-maci" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;">
+                                <div  class="card-body" style="padding:10px 5px 10px 5px">
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="input-group">
+                                                <div class="input-group-text setting-input">
+                                                    <span class="input-group-text setting-input">Id</span>
+                                                </div><input  style="color: black;    height: 30px !important;" class="form-control" value="<?=$register['id_client']?>" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+								</div>
+                            </div>
 							<div id="contenido1" class="card card-maci">
 								<div class="card-body">
                                     <div class="row row-sm">
@@ -1871,9 +1888,9 @@ if($answer_questions2['response'] == '1'){
 							</div>
 						</div>
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div   id="contenido2" class="card" >
-                                <div class="card-body margen-parent">
-                                    <h2 style="place-self: flex-start;">Escalas,PD, TB y Grafico Asociado</h2>
+                            <div id="contenido2" class="card">
+                                <div class="card-body" style="justify-items: center;">
+                                    <h2 style="place-self: flex-start;margin-left: 11rem;">Escalas,PD, TB y Grafico Asociado</h2>
                                     <div class="row row-sm">
                                         <div class="col-md-6" style="padding-right:0px;">
                                             <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
@@ -2160,124 +2177,124 @@ if($answer_questions2['response'] == '1'){
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
-                                    <h1 style="text-align: center;">INFORME INTERPRETATIVO MACI</h1>
+                                    <h1 style="text-align: center;" id="jsonvalue1">INFORME INTERPRETATIVO MACI</h1>
                                 </div>
                                 <div class="card-body">
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">ACTITUD ANTE LA PRUEBA</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13"  id="jsonvalue2">ACTITUD ANTE LA PRUEBA</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13">En esta sección se analizan las puntuaciones obtenidas por el adolescente en las escalas de Validez (V), Transparencia (X), Deseabilidad (Y) y Alteración (Z). Estos indicadores afectan a la fiabilidad y validez de este Inventario clínico y pretenden detectar estilos infrecuentes de respuestas.</p>
-                                    <br>
-                                    
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Validez (V)</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$validesV?></p>
+                                    <p class="tx-dark mb-0 tx-13"  id="jsonvalue3">En esta sección se analizan las puntuaciones obtenidas por el adolescente en las escalas de Validez (V), Transparencia (X), Deseabilidad (Y) y Alteración (Z). Estos indicadores afectan a la fiabilidad y validez de este Inventario clínico y pretenden detectar estilos infrecuentes de respuestas.</p>
                                     <br>
                                     
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Transparencia  (X)</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13"  id="jsonvalue4">Validez (V)</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$transpareciaX?></p>
+                                    <p class="tx-dark mb-0 tx-13"  id="jsonvalue5"><?=$validesV?></p>
+                                    <br>
+                                    
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13"  id="jsonvalue6">Transparencia  (X)</span></p>
+                                    <br>
+                                    <p class="tx-dark mb-0 tx-13"  id="jsonvalue7"><?=$transpareciaX?></p>
                                     <br>
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Deseabilidad (Y)</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13"  id="jsonvalue8">Deseabilidad (Y)</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$deseabilidadY?></p>
+                                    <p class="tx-dark mb-0 tx-13"  id="jsonvalue9"><?=$deseabilidadY?></p>
                                     <br>
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Alteración (Z)</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue10">Alteración (Z)</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$alteracionZ?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue11"><?=$alteracionZ?></p>
                                     <br><br><br><br>
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">EJE II SEVERIDAD DEL PERFIL CLÍNICO</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue12">EJE II SEVERIDAD DEL PERFIL CLÍNICO</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13">Este apartado refleja la posible existencia de puntuaciones destacadas en las escalas de <span class="title fw-semibold tx-13">Trastornos de la Personalidad Graves (Tendencias Límite):</span> </p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue13">Este apartado refleja la posible existencia de puntuaciones destacadas en las escalas de <span class="title fw-semibold tx-13" id="jsonvalue13_1">Trastornos de la Personalidad Graves (Tendencias Límite):</span> </p>
                                     
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$gravestendencia?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue14"><?=$gravestendencia?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">TIPOS DE RESPONSABILIDAD</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue15">TIPOS DE RESPONSABILIDAD</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13">Los prototipos de personalidad en el MACI (Inventario Clínico para Adolescentes de Millon) miden patrones persistentes de pensamientos, sentimientos y comportamientos que caracterizan la forma en que un adolescente se relaciona consigo mismo y con los demás. En este apartado se detalla los patrones de personalidad en las que ha obtenido puntuaciones que indican la presencia de rasgos de personalidad:</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue16">Los prototipos de personalidad en el MACI (Inventario Clínico para Adolescentes de Millon) miden patrones persistentes de pensamientos, sentimientos y comportamientos que caracterizan la forma en que un adolescente se relaciona consigo mismo y con los demás. En este apartado se detalla los patrones de personalidad en las que ha obtenido puntuaciones que indican la presencia de rasgos de personalidad:</p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue17"><?=$tiposresponsalbilidad?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad2?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue18"><?=$tiposresponsalbilidad2?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad3?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue19"><?=$tiposresponsalbilidad3?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad4?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue20"><?=$tiposresponsalbilidad4?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad5?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue21"><?=$tiposresponsalbilidad5?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">EJE I: SÍNDROMES CLÍNICOS</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue22">EJE I: SÍNDROMES CLÍNICOS</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad6?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad7?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue23"><?=$tiposresponsalbilidad6?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad8?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue24"><?=$tiposresponsalbilidad7?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad9?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue25"><?=$tiposresponsalbilidad8?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad10?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue26"><?=$tiposresponsalbilidad9?></p>
+                                    <br>
+                                    <br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue27"><?=$tiposresponsalbilidad10?></p>
                                     <br><br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">PREOCUPACIONES EXPRESADAS</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue28">PREOCUPACIONES EXPRESADAS</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13">El MACI (Inventario Clínico para Adolescentes de Millon) las preocupaciones expresadas se centran en los sentimientos y actitudes acerca de cuestiones que tienden a preocupar a la mayoría de los adolescentes con problemas. La intensidad con que se experimenta queda reflejada en la evaluación de las puntuaciones de cada escala, hay que destacar que estas escalas representan percepciones más que criterios o comportamientos objetivamente observables. A continuación, se detallarán las preocupaciones destacadas:							</p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad11?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue29">El MACI (Inventario Clínico para Adolescentes de Millon) las preocupaciones expresadas se centran en los sentimientos y actitudes acerca de cuestiones que tienden a preocupar a la mayoría de los adolescentes con problemas. La intensidad con que se experimenta queda reflejada en la evaluación de las puntuaciones de cada escala, hay que destacar que estas escalas representan percepciones más que criterios o comportamientos objetivamente observables. A continuación, se detallarán las preocupaciones destacadas:							</p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad12?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue30"><?=$tiposresponsalbilidad11?></p>
+                                    <br>
+                                    <br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue31"><?=$tiposresponsalbilidad12?></p>
 
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad13?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue32"><?=$tiposresponsalbilidad13?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad14?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue33"><?=$tiposresponsalbilidad14?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad15?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue34"><?=$tiposresponsalbilidad15?></p>
                                     <br><br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">PUNTOS FUERTES</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue35">PUNTOS FUERTES</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13">A continuación, se presentan los puntos fuertes identificados con tasas base (TB) menores o iguales a 35.</p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad16?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue36">A continuación, se presentan los puntos fuertes identificados con tasas base (TB) menores o iguales a 35.</p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad17?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue37"><?=$tiposresponsalbilidad16?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad18?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue38"><?=$tiposresponsalbilidad17?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad19?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue39"><?=$tiposresponsalbilidad18?></p>
+                                    <br>
+                                    <br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue40"><?=$tiposresponsalbilidad19?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">RESPUESTAS DESTACADAS</span></p>
+                                    <p class="tx-dark mb-0 tx-13" ><span class="title fw-semibold tx-13" id="jsonvalue41">RESPUESTAS DESTACADAS</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad20?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue42"><?=$tiposresponsalbilidad20?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">D. Incomodidad respecto al sexo</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue43">D. Incomodidad respecto al sexo</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad21?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue44"><?=$tiposresponsalbilidad21?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">H. Abusos en la infancia</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue45">H. Abusos en la infancia</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad22?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue46"><?=$tiposresponsalbilidad22?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Otros respuestas relevantes</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue47">Otros respuestas relevantes</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$tiposresponsalbilidad23?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue48"><?=$tiposresponsalbilidad23?></p>
                                 </div>
                                 
                             </div>
@@ -2352,10 +2369,147 @@ if($answer_questions2['response'] == '1'){
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
-        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
+        
+        <script src="../../assets/js/flot-circle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
         <script>
-            var pathprint = "<?php echo LOCALHOST; ?>";
+            const name_user = "<?php echo $register['id_client'] ?>";
+            const testname = "<?php echo $register['type_question_name']?>";
+            const filenamepdf = (name_user+"_"+testname).replace(/\s+/g, '');
+            var jsonpdf = [];
+            jsonpdf.push({type:2,image:"contenido1"} );
+            jsonpdf.push({type:2,image:"contenido2"} );
+            jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue2')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue3')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue4')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue5')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue6')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue7')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue8')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue9')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue10')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue11')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue12')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue13_1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue14')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue15')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue16')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue17')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue18')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue19')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue20')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue21')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue22')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue23')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue24')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue25')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue26')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue27')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue28')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue29')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue30')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue31')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue32')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue33')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue34')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue35')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue36')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue37')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue38')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue39')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue40')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue41')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue42')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue43')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue44')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue45')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue46')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue47')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue48')} );
+            
             $(function() {
             'use strict';
                 var colorLine = "black";
@@ -2819,5 +2973,6 @@ if($answer_questions2['response'] == '1'){
         });
 
         </script>
+        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
 	</body>
 </html>

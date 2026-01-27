@@ -365,7 +365,7 @@ render();
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -449,7 +449,7 @@ render();
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			
 			<!-- main-header opened -->
@@ -567,10 +567,9 @@ render();
 										<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
                                         <thead>
 											<tr>
-                                                <th class="wd-lg-5p">ID</th>
+                                                <th class="wd-lg-5p"></th>
 												<th class="wd-lg-100p">Conteste de 1 a 99 en las casillas correspondientes a cada pregunta</th>
 												<th class="wd-lg-25p tx-center">1-99</th>
-                                                <th class="wd-lg-5p">ID</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -584,7 +583,6 @@ render();
 												<input type="number" name="response_<?=$answer['id']?>" value="<?=$answer['response']!=0?$answer['response']:''?>" <?=$is_view?'disabled':''?> min="1" max="99">
                                                 </td>
                                                 
-                                                <td><?=$answer['item_order']?></td>
 											</tr>
                                             
                                             <?php }?>

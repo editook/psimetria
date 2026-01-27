@@ -237,6 +237,9 @@ if ($value_fis <= 3) {
     $text_fis = "Este rango indica una percepción muy positiva de su aspecto físico y la condición física. Se siente atractivo y elegante, se percibe como exitoso en actividades deportivas y valorado socialmente por estas habilidades. Este nivel de autoconcepto físico está asociado con una integración social y un bienestar físico y emocional.";
 }
 $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_client']." obtuvo un percentil de ".$value_fis.", ".$text_fis;
+$title_ = "AUTOCONCEPTO";
+$comment_1 = "El autoconcepto es la percepción que una persona tiene de sí misma, basada en sus experiencias y relaciones con los demás. El AF-5 evalúa cinco dimensiones clave del autoconcepto:";
+
 ?>
 
 <!DOCTYPE html>
@@ -257,7 +260,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -303,7 +306,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			<!-- main-header opened -->
 			<?php include("../include/header_top.php");?>
@@ -321,7 +324,22 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 					<!-- row -->
 					<div class="row row-sm">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-							<div id="contenido1" class="card card-af5">
+                            <div id="contenidoID" class="card-af5" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;">
+                                <div  class="card-body" style="padding:10px 5px 10px 5px">
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="input-group">
+                                                <div class="input-group-text setting-input">
+                                                    <span class="input-group-text setting-input">Id</span>
+                                                </div><input  style="color: black;    height: 30px !important;" class="form-control" value="<?=$register['id_client']?>" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+								</div>
+                            </div>
+                            
+							<div id="contenido1" class="card card-af5 ">
 								<div  class="card-body">
                                     <div class="row row-sm">
                                         <div class="col-12 col-md-3 col-lg-2 img-container">
@@ -334,39 +352,39 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Id</span>
-                                                        </div><input  style="border: 1px solid black !important;color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
+                                                        </div><input  style="color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                                 <div class="col-md-2 col-lg-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Edad</span>
-                                                        </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
+                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Sexo</span>
-                                                        </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
+                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Fecha</span>
-                                                        </div><input  style="border: 0.5px solid black !important;text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i'); ?>" type="text">
+                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i'); ?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-6 col-lg-6">
+                                                <div class="col-md-12 col-lg-12">
                                                     <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
+                                                        <div class="input-group-text setting-input" style="width: 10%;">
                                                             <span class="input-group-text setting-input" id="basic-addon1">Baremo</span>
                                                         </div>
-                                                        <form action="result2.php" method="post" id="form_baremo" style="margin:0;">
+                                                        <form action="result2.php" method="post" id="form_baremo" style="margin:0;width: 90%;">
                                                             <input type="hidden" name="id_user" id="id_user" value="<?=$idClient?>">
                                                             <input type="hidden" name="id_register" id="id_register" value="<?=$register['id']?>">
-                                                            <select  style="border: 0.5px solid black !important;margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
+                                                            <select  style="margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
                                                                 <?php
                                                                 foreach($baremos as $baremo){
                                                                 ?>
@@ -378,11 +396,11 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                                                         </form>
                                                     </div><!-- input-group -->
                                                 </div>
-                                                <div class="col-md-6 col-lg-6">
+                                                <div class="col-md-12 col-lg-12">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input" id="basic-addon1">Responsable de aplicación</span>
-                                                        </div><input style="border: 0.5px solid black !important;color: black;" aria-describedby="basic-addon1" class="form-control" value="Edgar Espinoza Jimenez" type="text">
+                                                        </div><input style="color: black;" aria-describedby="basic-addon1" class="form-control" value="Edgar Espinoza Jimenez" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                             </div>
@@ -393,7 +411,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 							</div>
 						</div>
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div  id="contenido2" class="card" >
+                            <div  id="contenido2" class="card " >
                                 <div class="card-body">
                                     <div class="row row-sm">
                                         <div class="col-md-6" style="padding-right:0px;">
@@ -478,45 +496,43 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                         </div>
 						
                         <div class="col-md-12">
-                            <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
+                            <div id="contenido3" class="card card-body " style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
-                                    <h1 style="text-align: center;">AUTOCONCEPTO</h1>
+                                    <h1 style="text-align: center;" id="jsonvalue1"><?=$title_?></h1>
                                 </div>
                                 <div class="card-body">
-                                    <p class="tx-dark mb-0 tx-13">El autoconcepto es la percepción que una persona tiene de sí misma, basada en sus experiencias y relaciones con los demás. El AF-5 evalúa cinco dimensiones clave del autoconcepto:</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue2"><?=$comment_1?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title  fw-semibold tx-13">Académico/Laboral:</span> Cómo se percibe la persona en relación con su desempeño académico o laboral.</p>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Social:</span>  Cómo se percibe la persona en sus relaciones sociales y su capacidad para integrarse en grupos.</p>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Emocional:</span> Cómo se percibe la persona en cuanto a su estado emocional y capacidad para manejar sus emociones.</p>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Familiar:</span> Cómo se percibe la persona en relación con su familia y su sentido de pertenencia e integración en ella.</p>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Físico:</span> Cómo se percibe la persona en cuanto a su aspecto físico y condición física.</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue3"><span class="title  fw-semibold tx-13" id="jsonvalue4">Académico/Laboral:</span> Cómo se percibe la persona en relación con su desempeño académico o laboral.</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue5"><span class="title fw-semibold tx-13" id="jsonvalue6">Social:</span>  Cómo se percibe la persona en sus relaciones sociales y su capacidad para integrarse en grupos.</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue7"><span class="title fw-semibold tx-13" id="jsonvalue8">Emocional:</span> Cómo se percibe la persona en cuanto a su estado emocional y capacidad para manejar sus emociones.</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue9"><span class="title fw-semibold tx-13" id="jsonvalue10">Familiar:</span> Cómo se percibe la persona en relación con su familia y su sentido de pertenencia e integración en ella.</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue11"><span class="title fw-semibold tx-13" id="jsonvalue12">Físico:</span> Cómo se percibe la persona en cuanto a su aspecto físico y condición física.</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13">La evaluación del autoconcepto es de gran interés porque la opinión que cada persona tiene de sí misma condiciona en gran manera sus expectativas y, consecuentemente, sus logros y resultados y su grado de adaptación social. </p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue13">La evaluación del autoconcepto es de gran interés porque la opinión que cada persona tiene de sí misma condiciona en gran manera sus expectativas y, consecuentemente, sus logros y resultados y su grado de adaptación social. </p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_aca?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue14"><?=$text_aca?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Nota:</span> En niños y adolescentes, el autoconcepto académico también correlaciona positivamente con los estilos parentales de inducción, afecto y apoyo; y, negativamente, con los de coerción, indiferencia y negligencia (Musitu y Allatt, 1994; Estarelles, 1987; Musitu, Román y Gutiérrez, 1996; Lamb, Ketterlinus y Fracasso, 1992).</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue15"><span class="title fw-semibold tx-13" id="jsonvalue16">Nota:</span> En niños y adolescentes, el autoconcepto académico también correlaciona positivamente con los estilos parentales de inducción, afecto y apoyo; y, negativamente, con los de coerción, indiferencia y negligencia (Musitu y Allatt, 1994; Estarelles, 1987; Musitu, Román y Gutiérrez, 1996; Lamb, Ketterlinus y Fracasso, 1992).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_soc?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue17"><?=$text_soc?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Nota:</span> En niños y adolescentes, esta dimensión está relacionada muy positivamente con las prácticas de socialización parental de afecto, comprensión y apoyo; y negativamente, con la coerción, la negligencia y la indiferencia (Musitu y Allatt, 1994; Musitu, Román yGutiérrez, 1996).</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue18"><span class="title fw-semibold tx-13" id="jsonvalue19">Nota:</span> En niños y adolescentes, esta dimensión está relacionada muy positivamente con las prácticas de socialización parental de afecto, comprensión y apoyo; y negativamente, con la coerción, la negligencia y la indiferencia (Musitu y Allatt, 1994; Musitu, Román yGutiérrez, 1996).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_emo?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue20"><?=$text_emo?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Nota:</span> En niños y adolescentes, esta dimensión correlaciona positivamente con las prácticas parentales de afecto, comprensión, inducción y apoyo, mientras que lo hace negativamente con la coerción verbal y física, la indiferencia, la negligencia y los malos tratos (Broderick,1993; Pinazo, 1993; Gracia, 1991; Lila, 1995; Herrero, 1992, 1994; Cava, 1995, 1998; Llinares,1998; Musitu, Román y Gutiérrez, 1996; Gracia y Musitu, 1993).</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue21"><span class="title fw-semibold tx-13" id="jsonvalue22">Nota:</span> En niños y adolescentes, esta dimensión correlaciona positivamente con las prácticas parentales de afecto, comprensión, inducción y apoyo, mientras que lo hace negativamente con la coerción verbal y física, la indiferencia, la negligencia y los malos tratos (Broderick,1993; Pinazo, 1993; Gracia, 1991; Lila, 1995; Herrero, 1992, 1994; Cava, 1995, 1998; Llinares,1998; Musitu, Román y Gutiérrez, 1996; Gracia y Musitu, 1993).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_fam?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue23"><?=$text_fam?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Nota:</span>  En niños y adolescentes, el autoconcepto familiar se relaciona positivamente con los estilos parentales de afecto, comprensión y apoyo; y negativamente con la coerción, la violencia, la indiferencia y la negligencia (Gracia, Herrero y Musitu, 1995; Gracia, 1991;Agudelo, 1997; Arango, 1996).</p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue24"><span class="title fw-semibold tx-13" id="jsonvalue25">Nota:</span>  En niños y adolescentes, el autoconcepto familiar se relaciona positivamente con los estilos parentales de afecto, comprensión y apoyo; y negativamente con la coerción, la violencia, la indiferencia y la negligencia (Gracia, Herrero y Musitu, 1995; Gracia, 1991;Agudelo, 1997; Arango, 1996).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_fis?></p>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue26"><?=$text_fis?></p>
                                     <br><br>
                                 </div>
                                 
                             </div>
-                            <div style="justify-self: center;position: absolute;bottom: 0px;">
-                                    <!--img id="contenido4"  alt="" class="float-sm-right mg-sm-t-0" style="width:auto" src="../../assets/img/lsb50/image.png"-->
-                            </div>
+                            
                         </div>
 
 					</div>
@@ -588,12 +604,56 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
-        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
+        
         <script src="../../assets/js/flot-circle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <script>
-           var pathprint = "<?php echo LOCALHOST; ?>";
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+
+        <script>
+            const name_user = "<?php echo $register['id_client'] ?>";
+            const testname = "<?php echo $register['type_question_name']?>";
+            const filenamepdf = (name_user+"_"+testname).replace(/\s+/g, '');
+            
+            var jsonpdf = [];
+            //jsonpdf.push({type:1,imageurl:pathBase+'/assets/img/brand/image.png'} );
+            jsonpdf.push({type:2,image:"contenido1"} );
+            jsonpdf.push({type:2,image:"contenido2"} );
+            jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue2')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue3'),subtitle:getvalue('jsonvalue4')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue5'),subtitle:getvalue('jsonvalue6')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue7'),subtitle:getvalue('jsonvalue8')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue9'),subtitle:getvalue('jsonvalue10')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue11'),subtitle:getvalue('jsonvalue12')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue14')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue15'),subtitle:getvalue('jsonvalue16')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue17')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue18'),subtitle:getvalue('jsonvalue19')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue20')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue21'),subtitle:getvalue('jsonvalue22')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue23')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue24'),subtitle:getvalue('jsonvalue25')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue26')} );
+            
             $(function() {
             'use strict';
                 var colorLine = "black";
@@ -717,6 +777,8 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
             function labelFormatter(label, series) {
                 return '<div style="font-size:8pt; text-align:center; padding:2px; color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
             }
+
+            
         });
 
         document.getElementById('baremo_id').addEventListener('change', function() {
@@ -724,5 +786,6 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
         });
 
         </script>
+        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
 	</body>
 </html>

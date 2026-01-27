@@ -353,7 +353,7 @@ render();
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -401,7 +401,7 @@ render();
 			text-align: center;
 		}
 		.radio-grande2[value="0"]::before {
-			content: "2"; /* usa el value del input */
+			content: "No"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -411,7 +411,7 @@ render();
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande2[value="1"]::before {
-			content: "1"; /* usa el value del input */
+			content: "Si"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -421,7 +421,7 @@ render();
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande[value="1"]::before {
-			content: "X"; /* usa el value del input */
+			content: "Si"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -431,7 +431,7 @@ render();
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande[value="0"]::before {
-			content: "X"; /* usa el value del input */
+			content: "No"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -490,7 +490,7 @@ render();
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			
 			<!-- main-header opened -->
@@ -567,7 +567,7 @@ render();
 										height: auto;">
 										INSTRUCCIONES
 								</div>
-								<p>Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. Marca una "X" en la columna de Sí, si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración. <br>
+								<p>Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. Marca con una "Si", si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración. <br>
 							 	<br> No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: "¿Es cierto en mi caso?". Si es así, encierra Sí en un círculo; si no lo es, encierra el No. </p>
 								<br>
 								

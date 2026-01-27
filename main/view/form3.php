@@ -395,7 +395,7 @@ render();
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -520,7 +520,7 @@ render();
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			
 			<!-- main-header opened -->
@@ -617,11 +617,9 @@ render();
 									<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
 									<thead>
 										<tr>
-											<th class="wd-lg-5p">ID</th>
 											<th class="wd-lg-100p">PROBLEMAS</th>
 											<th class="wd-lg-25p tx-right">1</th>
 											<th class="wd-lg-25p tx-right">2</th>
-											<th class="wd-lg-5p">ID</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -629,7 +627,6 @@ render();
 											foreach($answer_part1 as $answer){
 										?>
 										<tr>
-											<td><?=$answer['item_order']?></td>
 											<td><?=htmlspecialchars($answer['question'])?></td>
 											<td class="tx-right tx-medium tx-inverse">
 											<input class="radio-grande2" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
@@ -638,7 +635,6 @@ render();
 											<input class="radio-grande2" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?>  <?=$is_view?'disabled':''?>>
 											</td>
 											
-											<td><?=$answer['item_order']?></td>
 										</tr>
 										
 										<?php }?>
@@ -665,7 +661,7 @@ render();
 								<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap" style="color:red">
 								<thead>
 									<tr>
-										<th class="wd-lg-5p">ID</th>
+										<th class="wd-lg-5p"></th>
 										<th class="wd-lg-100p">Ejemplos</th>
 										<th class="wd-lg-25p tx-right">V</th>
 										<th class="wd-lg-25p tx-right">F</th>
@@ -710,11 +706,11 @@ render();
 									<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
 									<thead>
 										<tr>
-											<th class="wd-lg-5p">ID</th>
+											<th class="wd-lg-5p"></th>
 											<th class="wd-lg-100p"></th>
 											<th class="wd-lg-25p tx-right">V</th>
 											<th class="wd-lg-25p tx-right">F</th>
-											<th class="wd-lg-5p">ID</th>
+											<th class="wd-lg-5p"></th>
 										</tr>
 									</thead>
 									<tbody>

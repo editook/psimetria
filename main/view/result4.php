@@ -370,7 +370,7 @@ elseif($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -417,7 +417,7 @@ elseif($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			<!-- main-header opened -->
 			<?php include("../include/header_top.php");?>
@@ -435,6 +435,20 @@ elseif($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2
 					<!-- row -->
 					<div class="row row-sm">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                            <div id="contenidoID" class="card-scl90" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;">
+                                <div  class="card-body" style="padding:10px 5px 10px 5px">
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="input-group">
+                                                <div class="input-group-text setting-input">
+                                                    <span class="input-group-text setting-input">Id</span>
+                                                </div><input  style="color: black;    height: 30px !important;" class="form-control" value="<?=$register['id_client']?>" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+								</div>
+                            </div>
 							<div id="contenido1" class="card card-scl90">
 								<div class="card-body">
                                     <div class="row row-sm">
@@ -661,49 +675,71 @@ elseif($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
-                                    <h1 style="text-align: center;">INFORME CUESTIONARIO DE 90 SÍNTOMAS (SCL-90-R)</h1>
+                                    <h1 style="text-align: center;"  id="jsonvalue1">INFORME CUESTIONARIO DE 90 SÍNTOMAS (SCL-90-R)</h1>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="tx-15">I. ÍNDICES GLOBALES</h4>
-                                    <p class="tx-dark mb-0 tx-13">
-                                        <?=$indiceglobal1?><br><br>
-                                        <?=$indiceglobal2?><br><br>
+                                    <h4 class="tx-15" id="jsonvalue2">I. ÍNDICES GLOBALES</h4>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue3">
+                                        <?=$indiceglobal1?>
+                                    </p>
+                                    <br><br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue4">
+                                        <?=$indiceglobal2?>
+                                    </p>
+                                    <br><br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue5">
                                         <?=$indiceglobal3?>
                                     </p>
+
                                 </div>
                                 <div class="card-body ">
-                                    <h4 class="tx-15">II. DIMENSIONES SINTOMÁTICAS</h4>
-                                    <p class="tx-dark mb-0 tx-13">En este apartado se presentan los resultados de las dimensiones específicas del SCL 90 R, donde se identifican cuatro puntajes superiores a las demás dimensiones sintomáticas: <br>
-                                    <br>
-                                    <?=$salidatop1?> <br><br>
-                                    <?=$salidatop2?> <br><br>
-                                    <?=$salidatop3?> <br><br>
-                                    <?=$salidatop4?> <br><br>
+                                    <h4 class="tx-15" id="jsonvalue6">II. DIMENSIONES SINTOMÁTICAS</h4>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue7">En este apartado se presentan los resultados de las dimensiones específicas del SCL 90 R, donde se identifican cuatro puntajes superiores a las demás dimensiones sintomáticas: <br>
                                     </p>
+                                    <br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue8">
+                                        <?=$salidatop1?>
+                                    </p>
+                                    <br><br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue9">
+                                        <?=$salidatop2?>
+                                    </p>
+                                    <br><br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue10">
+                                        <?=$salidatop3?>
+                                    </p>
+                                    <br><br>
+                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue11">
+                                        <?=$salidatop4?>
+                                    </p>
+                                    
                                 </div>
                                 <div class="card-body">
-                                        <h4 class="tx-15">III. INDICADOR DE POSIBLE SIMULACIÓN DE SÍNTOMA</h4>
-                                        <p class="tx-dark mb-0 tx-13">PST= PD≤4 es altamente sospechoso de negación de síntoma o minimización de patología. PST PD≥50 varones PST PD≥60 Mujeres es altamente sospechoso, tendencia aumentador o exageración de la patología.<br>
-                                        <?=$indicador_salida?> <br><br>
+                                        <h4 class="tx-15" id="jsonvalue12">III. INDICADOR DE POSIBLE SIMULACIÓN DE SÍNTOMA</h4>
+                                        <p class="tx-dark mb-0 tx-13" id="jsonvalue13">PST= PD<=4 es altamente sospechoso de negación de síntoma o minimización de patología. PST PD>=50 varones PST PD>=60 Mujeres es altamente sospechoso, tendencia aumentador o exageración de la patología.
                                         </p>
+                                        <br>
+                                        <p class="tx-dark mb-0 tx-13" id="jsonvalue14">
+                                            <?=$indicador_salida?>
+                                        </p>
+                                        <br><br>
+                                    
                                 </div>
                                 <div class="card-body ">
-                                        <h4 class="tx-15">Ítems Adicionales - Síntomas misceláneos</h4>
-                                        <p class="tx-dark mb-0 tx-13">
+                                        <h4 class="tx-15" id="jsonvalue15">Ítems Adicionales - Síntomas misceláneos</h4>
+                                        <p class="tx-dark mb-0 tx-13" id="jsonvalue16">
                                         Derogatis considera que, aunque son indicadores de la gravedad del estado del sujeto, no constituyen una dimensión sintomática especifica. 
                                         </p>
                                 </div>
                                 <div class="card-body">
-                                        <h4 class="tx-15">Se identificaron (<?=$cant_answers_text?>/7) Items síntomas misceláneos con una intensidad que varia de bastante a extremadamente</h4>
-                                        <p class="tx-dark mb-0 tx-13">
+                                        <h4 class="tx-15" id="jsonvalue17">Se identificaron (<?=$cant_answers_text?>/7) Items síntomas misceláneos con una intensidad que varia de bastante a extremadamente</h4>
+                                        <p class="tx-dark mb-0 tx-13" id="jsonvalue18">
                                         <?=$answers_text?><br>
                                         </p>
                                 </div>
                                 
                             </div>
-                            <div style="justify-self: center;position: absolute;bottom: 0px;">
-                                    <img id="contenido4"  alt="" class="float-sm-right mg-sm-t-0" style="width:150px" src="../../assets/img/lsb50/image.png">
-                            </div>
+                            
                             
                         </div>
 
@@ -776,10 +812,63 @@ elseif($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
-        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
+
+        <script src="../../assets/js/flot-circle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
         <script>
-            var pathprint = "<?php echo LOCALHOST; ?>";
+            const name_user = "<?php echo $register['id_client'] ?>";
+            const testname = "<?php echo $register['type_question_name']?>";
+            const filenamepdf = (name_user+"_"+testname).replace(/\s+/g, '');
+            var jsonpdf = [];
+            jsonpdf.push({type:2,image:"contenido1"} );
+            jsonpdf.push({type:2,image:"contenido2"} );
+            jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue2')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue3')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue4')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue5')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue6')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue7')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue8')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue9')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} ); 
+            jsonpdf.push({type:5,text:getvalue('jsonvalue10')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue11')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue12')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue14')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue15')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue16')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue17')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue18')} );
             $(function() {
             'use strict';
                 var colorLine = "black";
@@ -1012,5 +1101,6 @@ elseif($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2
             document.getElementById('form_baremo').submit();
         });
         </script>
+        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
 	</body>
 </html>

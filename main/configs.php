@@ -17,4 +17,5 @@ const LOCALHOST_BASE = 'http://localhost/psimetria';
 const LOCALHOST = LOCALHOST_BASE.'/main';
 
 const VERSION_CODE = '1.2.3';
+const TESTING = '1';//1=si,0=no
 const WEB_TITLE = 'PSIMETRIA';

@@ -115,7 +115,7 @@
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -164,7 +164,7 @@
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			<!-- main-header opened -->
 			<?php include("../include/header_top.php");?>
@@ -488,7 +488,7 @@
 		<script src="../../assets/js/index.js"></script>
 
 		<!-- custom js -->
-		<script src="../../assets/js/custom.js"></script>
+		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
 		
 		<script>
 			function createCliente(){

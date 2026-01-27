@@ -299,91 +299,21 @@ $(function() {
 	  e.preventDefault();
 	  $('html, body').animate({scrollTop:0}, '300');
 	});
-		
 	
-	
-	// ______________Skins 
-		
-	////////////////////////////////////////////////////
-	/*  ############# Horizontal version ########*/
-	//////////////////////////////////////////////////
-
-
-	/* ###########  Horizontal Light  ###########*/
-
-	// $('body').addClass('horizontal-light'); //
-
-	/* ###########  Horizontal color  ###########*/
-
-	// $('body').addClass('horizontal-color'); //
-
-	/* ###########  Horizontal dark  ###########*/
-
-	// $('body').addClass(' horizontal-dark'); //
-
-	/* ###########  Horizontal gradient  ###########*/
-
-	// $('body').addClass(' horizontal-gradient'); //
-		
-		
-	////////////////////////////////////////////////////
-	/*  ############# Leftmenu version ########*/
-	//////////////////////////////////////////////////
-
-	/* ###########  Leftmenu Light  ###########*/
-
-	// $('body').addClass('leftmenu-light'); //
-
-	/* ###########  Leftmenu color  ###########*/
-
-	//  $('body').addClass('leftmenu-color');  //
-
-	/* ###########  Leftmenu dark  ###########*/
-
-	// $('body').addClass('leftmenu-dark'); //
-
-	/* ###########  Leftmenu gradient  ###########*/
-
-	// $('body').addClass('leftmenu-gradient'); //
-
-
-	////////////////////////////////////////////////////
-	/*  ############# Leftmenu Light Image ########*/
-	//////////////////////////////////////////////////
-		
-		
-	/* ###########  backgroundimage-1  ###########*/
-
-	// $('body').addClass(' leftbgimage1'); 
-
-	/* ###########  backgroundimage-2  ###########*/
-
-	// $('body').addClass('leftbgimage2'); //
-
-	/* ###########  backgroundimage-3  ###########*/
-
-	// $('body').addClass(' leftbgimage3'); //
-
-	/* ###########  backgroundimage-4  ###########*/
-
-	// $('body').addClass(' leftbgimage4'); //
-
-	/* ###########  backgroundimage-5	  ###########*/
-
-	// $('body').addClass(' leftbgimage5'); //
-
-
-	////////////////////////////////////////////////////
-	/*  ############# Body Style ########*/
-	//////////////////////////////////////////////////
-
-	// $('body').addClass(' body-style1'); //
-
-	/*Theme Layouts*/
-	// $('body').addClass('dark-theme');
-
-	/*-- width styles ---*/
-	// $('body').addClass('boxed'); //
 	
 });
-	
+function getvalue(identity){
+	const $el = $('#' + identity);
+	const html = $el.html();
+	if (html.includes('<br')) {
+		const $el = $('#' + identity);
+		return html
+			.split(/<br\s*\/?>/i)
+			.map(text =>
+				$('<div>').html(text).text().trim()
+			)
+			.filter(text => text.length > 0);
+
+	} 
+	return $el.clone().children().remove().end().text().trim();
+}

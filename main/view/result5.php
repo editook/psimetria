@@ -205,7 +205,7 @@ if ($tot_t <= 39) {
 }
 $ouput3 .= $resultado;
 
-$ouput4 = $register['id_client']."obtuvo una puntuación T de ".$fis_t.", ";
+$ouput4 = $register['id_client']." obtuvo una puntuación T de ".$fis_t.", ";
 $resultado = "";
 if ($fis_t <= 39) {
     $resultado = "indica que experimenta síntomas físicos de ansiedad menos problemáticos que la mayoría de su edad. "
@@ -230,7 +230,7 @@ if ($fis_t <= 39) {
 }
 $ouput4 .= $resultado;
 
-$ouput5 = $register['id_client']."obtuvo una puntuación T de ".$inq_t.", ";
+$ouput5 = $register['id_client']." obtuvo una puntuación T de ".$inq_t.", ";
 $resultado = "";
 if ($inq_t <= 39) {
     $resultado = "indica que experimenta un nivel de inquietud menos problemático que la mayoría de su edad. "
@@ -254,7 +254,7 @@ if ($inq_t <= 39) {
 }
 $ouput5 .= $resultado;
 
-$ouput6 = $register['id_client']."obtuvo una puntuación T de ".$soc_t.", ";
+$ouput6 = $register['id_client']." obtuvo una puntuación T de ".$soc_t.", ";
 $resultado = "";
 if ($soc_t <= 39) {
     $resultado = "indica que experimenta un nivel de ansiedad social menos problemático que la mayoría de su edad. "
@@ -340,7 +340,7 @@ if($answer_questions1['response'] == '1'){
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -386,7 +386,7 @@ if($answer_questions1['response'] == '1'){
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			<!-- main-header opened -->
 			<?php include("../include/header_top.php");?>
@@ -404,6 +404,20 @@ if($answer_questions1['response'] == '1'){
 					<!-- row -->
 					<div class="row row-sm">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                            <div id="contenidoID" class="card-af5" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;">
+                                <div  class="card-body" style="padding:10px 5px 10px 5px">
+                                    <div class="row row-sm">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="input-group">
+                                                <div class="input-group-text setting-input">
+                                                    <span class="input-group-text setting-input">Id</span>
+                                                </div><input  style="color: black;    height: 30px !important;" class="form-control" value="<?=$register['id_client']?>" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+								</div>
+                            </div>
 							<div id="contenido1" class="card card-af5">
 								<div  class="card-body">
                                     <div class="row row-sm">
@@ -417,28 +431,28 @@ if($answer_questions1['response'] == '1'){
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Id</span>
-                                                        </div><input  style="border: 1px solid black !important;color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
+                                                        </div><input  style="color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                                 <div class="col-md-6 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Edad</span>
-                                                        </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
+                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                                 <div class="col-md-6 col-lg-3">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Sexo</span>
-                                                        </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
+                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                                 <div class="col-md-12 col-lg-6">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input">Fecha</span>
-                                                        </div><input  style="border: 0.5px solid black !important;text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i:s'); ?>" type="text">
+                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i:s'); ?>" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                             </div>
@@ -451,7 +465,7 @@ if($answer_questions1['response'] == '1'){
                                                         <form action="result2.php" method="post" id="form_baremo" style="margin:0;">
                                                             <input type="hidden" name="id_user" id="id_user" value="<?=$idClient?>">
                                                             <input type="hidden" name="id_register" id="id_register" value="<?=$register['id']?>">
-                                                            <select  style="border: 0.5px solid black !important;margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
+                                                            <select  style="margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
                                                                 <?php
                                                                 foreach($baremos as $baremo){
                                                                 ?>
@@ -467,7 +481,7 @@ if($answer_questions1['response'] == '1'){
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-text setting-input">
                                                             <span class="input-group-text setting-input" id="basic-addon1">Responsable de aplicación</span>
-                                                        </div><input style="border: 0.5px solid black !important;color: black;" aria-describedby="basic-addon1" class="form-control" value="Edgar Espinoza Jimenez" type="text">
+                                                        </div><input style="color: black;" aria-describedby="basic-addon1" class="form-control" value="Edgar Espinoza Jimenez" type="text">
                                                     </div><!-- input-group -->
                                                 </div>
                                                 
@@ -493,18 +507,16 @@ if($answer_questions1['response'] == '1'){
                                                                 <td class="td_fill-masr2" ><div class="borde-text">Escalas</div></td>
                                                                 <th scope="row"  class="text-primary td_name_masr2"></th>
                                                                 
-                                                                <td class="td_valuepd"><div class="borde-text">PD</div></td>
+                                                                <td class="td_valuetb"><div class="borde-text">PD</div></td>
                                                                 <td class="td_valuetb"><div class="borde-text">PC</div></td>
                                                                 <td class="td_valuetb"><div class="borde-text">T</div></td>
                                                             </tr>
-                                                            <tr  class="tr_fill" style="border-bottom: 2px solid #beecdb !important;">
-                                                                    
-                                                            </tr>
+                                                            
                                                             <tr class="tr_fill">
                                                                 <td class="td_fill-masr2">Defensividad</td>
                                                                 <th class="text-primary td_name_masr2" scope="row">DEF</th>
                                                                 
-                                                                <td class="td_valuepd"><div class="borde-masr2"><?=$def?></div></td>
+                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$def?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$def_pc?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$def_t?></div></td>
                                                             </tr>
@@ -512,7 +524,7 @@ if($answer_questions1['response'] == '1'){
                                                             <td class="td_fill-masr2">Ansiedad Fisiológica</td>
                                                                 <th class="text-primary td_name_masr2" scope="row">FIS</th>
                                                                 
-                                                                <td class="td_valuepd"><div class="borde-masr2"><?=$fis?></div></td>
+                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$fis?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$fis_pc?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$fis_t?></div></td>
                                                             </tr>
@@ -520,7 +532,7 @@ if($answer_questions1['response'] == '1'){
                                                             <td class="td_fill-masr2">Inquietud</td>
                                                                 <th class="text-primary td_name_masr2" scope="row" >INQ</th>
                                                                 
-                                                                <td class="td_valuepd"><div class="borde-masr2"><?=$inq?></div></td>
+                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$inq?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$inq_pc?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$inq_t?></div></td>
                                                             </tr>
@@ -528,7 +540,7 @@ if($answer_questions1['response'] == '1'){
                                                             <td class="td_fill-masr2">Ansiedad Social</td>
                                                                 <th class="text-primary td_name_masr2" scope="row">SOC</th>
                                                                 
-                                                                <td class="td_valuepd"><div class="borde-masr2"><?=$soc?></div></td>
+                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$soc?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$soc_pc?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$soc_t?></div></td>
                                                             </tr>
@@ -536,7 +548,7 @@ if($answer_questions1['response'] == '1'){
                                                             <td class="td_fill-masr2" style="font-weight: bold;">Ansiedad Total</td>
                                                                 <th class="text-primary td_name_masr2" scope="row">TOT</th>
                                                                 
-                                                                <td class="td_valuepd"><div class="borde-masr2"><?=$tot?></div></td>
+                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$tot?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$tot_pc?></div></td>
                                                                 <td class="td_valuetb"><div class="borde-masr2"><?=$tot_t?></div></td>
                                                             </tr>
@@ -544,18 +556,16 @@ if($answer_questions1['response'] == '1'){
                                                             <td class="td_fill-masr2">Inconsistencia</td>
                                                                 <th class="text-primary td_name_masr2" scope="row">INC</th>
                                                                 
-                                                                <td class="td_valuepd"><div class="borde-masr2"><?=$inc?></div></td>
+                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$inc?></div></td>
                                                                 <td class="td_valuetb"></td>
                                                                 <td class="td_valuetb"></td>
                                                             </tr>
-                                                            <tr  class="tr_fill" style="border-bottom: 2px solid #beecdb !important;">
-                                                                    
-                                                            </tr>
+                                                            
                                                             <tr  class="tr_fill" style="font-weight: bold;">
                                                                     <td class="td_fill-masr2"></td>
                                                                     <th scope="row"  class="text-primary td_name_masr2"></th>
                                                                     
-                                                                    <td class="td_valuepd"><div class="borde-text">PD</div></td>
+                                                                    <td class="td_valuetb"><div class="borde-text">PD</div></td>
                                                                     <td class="td_valuetb"><div class="borde-text">PC</div></td>
                                                                     <td class="td_valuetb"><div class="borde-text">T</div></td>
                                                                 </tr>
@@ -565,12 +575,12 @@ if($answer_questions1['response'] == '1'){
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" style="padding-left:0px;">
+                                        <div class="col-md-6" style="padding-left:0px;padding-right:0px">
                                             <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                <div class="content-4"><div class="content-green"><h4 class="content-txt" style="width: 218px;">Bajo</h4></div><div class="content-orange"><h4 class="content-txt" style="width: 117px;">Media</h4></div><div class="content-yellow"><h4 class="content-txt" style="width: 60px;">Moderado</h4></div><div class="content-grave"><h4 class="content-txt" style="width: 140px;">Grave</h4></div></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 16px;height: 255px !important;width: 100%;" id="colorss"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 2px;height: 205px !important;" id="flotLine2"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 0px;height: 55px !important;" id="flotLineIndRiesgoPat"></div>
+                                                <div class="content-4"><div class="content-green"><h4 class="content-txt" style="width: 268px;">Bajo</h4></div><div class="content-orange"><h4 class="content-txt" style="width: 143px;">Media</h4></div><div class="content-yellow"><h4 class="content-txt" style="width: 76px;">Moderado</h4></div><div class="content-grave"><h4 class="content-txt" style="width: 70px;">Grave</h4></div></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 255px !important;width: 100%;" id="colorss"></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 15px;height: 185px !important;width: 100%;" id="flotLine2"></div>
+                                                <div class="ht-100 ht-sm-300" style="margin-top: 0px;height: 45px !important;width: 100%;" id="flotLineIndRiesgoPat"></div>
                                                 <p class="mg-t-20" style="text-align: left;color: #000000;font-size: 15px !important;margin-left: 20px;"><span style="font-weight: bold;">Nota:</span> Nota: Puntuación típica T (Media=50; Dt = 10)</p>
                                             </div>
                                         </div>
@@ -584,55 +594,53 @@ if($answer_questions1['response'] == '1'){
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
-                                    <h3 style="text-align: center;color: black;font-weight: bold;">Informe escala de ansiedad manifiesta en niños revisada (CMASR-2)</h3>
+                                    <h3 style="text-align: center;color: black;font-weight: bold;" id="jsonvalue1">Informe escala de ansiedad manifiesta en niños revisada (CMASR-2)</h3>
                                 </div>
                                 <div class="card-body">
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black">La Escala de Ansiedad Manifiesta en Niños Revisada, Segunda Edición (CMASR-2) es un instrumento de autoinforme diseñado para evaluar el nivel y la naturaleza de la ansiedad en niños y adolescentes de 6 a 19 años. Consta de 49 reactivos que el examinado responde con "Sí" o "No". </p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black"  id="jsonvalue2">La Escala de Ansiedad Manifiesta en Niños Revisada, Segunda Edición (CMASR-2) es un instrumento de autoinforme diseñado para evaluar el nivel y la naturaleza de la ansiedad en niños y adolescentes de 6 a 19 años. Consta de 49 reactivos que el examinado responde con "Sí" o "No". </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title  fw-semibold tx-13">Validez de las Respuestas, </span> El CMASR-2 evalúa la validez de las respuestas del examinado. Esto se logra a través de dos índices:</p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black"  id="jsonvalue3"><span class="title  fw-semibold tx-13"  id="jsonvalue4">Validez de las Respuestas, </span> El CMASR-2 evalúa la validez de las respuestas del examinado. Esto se logra a través de dos índices:</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Índice de Respuestas Inconsistentes (INC),</span>  Evalúa si respondió de manera consistente la prueba. Puntuaciones altas en este indican que las respuestas pueden haber sido dadas al azar o sin suficiente atención.</p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue5"><span class="title fw-semibold tx-13" id="jsonvalue6">Índice de Respuestas Inconsistentes (INC),</span>  Evalúa si respondió de manera consistente la prueba. Puntuaciones altas en este indican que las respuestas pueden haber sido dadas al azar o sin suficiente atención.</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"> <?=$ouput1;?></p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue7"> <?=$ouput1;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Defensividad (DEF), </span>  Indica si intentó presentar una imagen excesivamente positiva de sí mismo.</p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue8"><span class="title fw-semibold tx-13" id="jsonvalue9">Defensividad (DEF), </span>  Indica si intentó presentar una imagen excesivamente positiva de sí mismo.</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"> <?=$ouput2;?></p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue10"> <?=$ouput2;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Ansiedad General (TOT), </span>  La puntuación de Ansiedad total es considerada la más robusta del CMASR-2. Proporciona una visión general del nivel de ansiedad que experimenta el examinado.</p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue11"><span class="title fw-semibold tx-13" id="jsonvalue12">Ansiedad General (TOT), </span>  La puntuación de Ansiedad total es considerada la más robusta del CMASR-2. Proporciona una visión general del nivel de ansiedad que experimenta el examinado.</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"> <?=$ouput3;?></p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue13"> <?=$ouput3;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Escalas relacionadas con la ansiedad, </span>  proporciona resultados en tres escalas principales que ofrecen una comprensión más detallada de la naturaleza de la ansiedad del evaluado:</p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue14"><span class="title fw-semibold tx-13" id="jsonvalue15">Escalas relacionadas con la ansiedad, </span>  proporciona resultados en tres escalas principales que ofrecen una comprensión más detallada de la naturaleza de la ansiedad del evaluado:</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Ansiedad Fisiológica (FIS), </span>  Evalúa las manifestaciones físicas de la ansiedad. Se enfoca en aspectos somáticos como náuseas, dificultades de sueño, dolores de cabeza y fatiga. </p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue16"><span class="title fw-semibold tx-13" id="jsonvalue17">Ansiedad Fisiológica (FIS), </span>  Evalúa las manifestaciones físicas de la ansiedad. Se enfoca en aspectos somáticos como náuseas, dificultades de sueño, dolores de cabeza y fatiga. </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"> <?=$ouput4;?></p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue18"> <?=$ouput4;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Inquietud (INQ), </span>   Evalúa sentimientos de nerviosismo, preocupaciones sobre posibles daños, y una hipersensibilidad general a las presiones del entorno.  </p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue19"><span class="title fw-semibold tx-13" id="jsonvalue20">Inquietud (INQ), </span>   Evalúa sentimientos de nerviosismo, preocupaciones sobre posibles daños, y una hipersensibilidad general a las presiones del entorno.  </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"> <?=$ouput5;?></p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue21"> <?=$ouput5;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Ansiedad Social (SOC), </span>   Evalúa la ansiedad en situaciones sociales y de desempeño. Mide preocupaciones relacionadas con las interacciones sociales, el miedo a ser juzgado negativamente por otros, y la ansiedad asociada con el rendimiento en situaciones públicas o académicas. </p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue22"><span class="title fw-semibold tx-13" id="jsonvalue23">Ansiedad Social (SOC), </span>   Evalúa la ansiedad en situaciones sociales y de desempeño. Mide preocupaciones relacionadas con las interacciones sociales, el miedo a ser juzgado negativamente por otros, y la ansiedad asociada con el rendimiento en situaciones públicas o académicas. </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"> <?=$ouput6;?></p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue24"> <?=$ouput6;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Ítems Críticos </span> </p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13" id="jsonvalue25">Ítems Críticos </span> </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"> <?=$ouput7;?></p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue26"> <?=$ouput7;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13">Ítems significativos </span> </p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13" id="jsonvalue27">Ítems significativos </span> </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"> <?=$ouput8;?></p>
+                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue28"> <?=$ouput8;?></p>
                                     <br><br>
                                     
                                     <br><br>
                                 </div>
                                 
                             </div>
-                            <div style="justify-self: center;position: absolute;bottom: 0px;">
-                                    <!--img id="contenido4"  alt="" class="float-sm-right mg-sm-t-0" style="width:auto" src="../../assets/img/lsb50/image.png"-->
-                            </div>
+                            
                         </div>
 
 					</div>
@@ -704,11 +712,59 @@ if($answer_questions1['response'] == '1'){
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
-        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
+        
         <script src="../../assets/js/flot-circle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         <script>
-           var pathprint = "<?php echo LOCALHOST; ?>";
+            
+            const name_user = "<?php echo $register['id_client'] ?>";
+            const testname = "<?php echo $register['type_question_name']?>";
+            const filenamepdf = (name_user+"_"+testname).replace(/\s+/g, '');
+            var jsonpdf = [];
+            jsonpdf.push({type:2,image:"contenido1"} );
+            jsonpdf.push({type:2,image:"contenido2"} );
+            jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue2')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue3'),subtitle:getvalue('jsonvalue4')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue5'),subtitle:getvalue('jsonvalue6')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue7')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue8'),subtitle:getvalue('jsonvalue9')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue10')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue11'),subtitle:getvalue('jsonvalue12')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue14'),subtitle:getvalue('jsonvalue15')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue16'),subtitle:getvalue('jsonvalue17')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue18')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue19'),subtitle:getvalue('jsonvalue20')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue21')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue22'),subtitle:getvalue('jsonvalue23')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue24')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue25')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue26')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:7,text:getvalue('jsonvalue27')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:8,text:getvalue('jsonvalue28')} );
 
             $(function() {
             'use strict';
@@ -755,8 +811,12 @@ if($answer_questions1['response'] == '1'){
                                 color: '#4fab8a'
                             },
                             {
-                                xaxis: { from: 60, to: 99 },
+                                xaxis: { from: 60, to: 71 },
                                 color: '#eed7a4'
+                            },
+                            {
+                                xaxis: { from: 71, to: 80 },
+                                color: '#FAF4E6'//FAF4E6
                             },
                             { // Línea punteada en X = 50
                                 xaxis: { from: 50, to: 50 },
@@ -783,15 +843,24 @@ if($answer_questions1['response'] == '1'){
                         show:false
                     },
                     xaxis: {
-                        color: '#eee',
+                        color: 'black',
                         min:0,
-                        show:false,
-                        max: 99,
-                        tickColor: 'transparent',
+                        max: 80,
+                        tickColor: 'black',
+                        tickLength: 0,
+                        ticks: [
+                            [1, '1'],
+                            [39, '39'],
+                            [50, '50'],
+                            [60, '60'],
+                            [70, '70'],
+                            [80, '80'],
+                        ],
                         font: {
-                            size: 10,
-                            color: '#999'
-                        }
+                            size: 12,
+                            color: 'black'
+                        },
+                        position:'top'
                     }
                 });
 
@@ -829,11 +898,11 @@ if($answer_questions1['response'] == '1'){
                     },
                     grid: {
                         borderWidth: 0,
-                        hoverable: false,
+                        hoverable: true,
                         borderColor: 'transparent',
                         borderRadius: 0,
                         innerMargin: 0,
-                        show:false,
+                        show:true,
                          markings: [
                             
                          ]
@@ -851,26 +920,10 @@ if($answer_questions1['response'] == '1'){
                         }
                     },
                     xaxis: {
-                        color: '#eee',
+                        color: 'transparent',
                         min:0,
-                        max: 99,
-                        tickColor: 'black',
-                        tickLength: 0,
-                        ticks: [
-                            [1, '1'],
-                            [39, '39'],
-                            [50, '50'],
-                            [30, '30'],
-                            [50, '50'],
-                            [60, '60'],
-                            [70, '70'],
-                            [80, '80'],
-                        ],
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        position:'top'
+                        max: 80,
+                        show:false
                     }
                 });
               
@@ -924,13 +977,11 @@ if($answer_questions1['response'] == '1'){
                     xaxis: {
                         color: '#eee',
                         min:0,
-                        max: 99,
-                        tickColor: 'white',
+                        max: 90,
+                        tickColor: 'black',
                         ticks: [
                             [1, '1'],
                             [39, '39'],
-                            [50, '50'],
-                            [30, '30'],
                             [50, '50'],
                             [60, '60'],
                             [70, '70'],
@@ -938,9 +989,10 @@ if($answer_questions1['response'] == '1'){
                         ],
                         tickLength: 0,
                         font: {
-                            size: 10,
-                            color: 'transparent'
+                            size: 12,
+                            color: 'black'
                         },
+                        show:false,
                         position:'bottom'
                     }
                 });
@@ -957,5 +1009,6 @@ if($answer_questions1['response'] == '1'){
         });
 
         </script>
+        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
 	</body>
 </html>

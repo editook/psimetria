@@ -1,50 +1,141 @@
 
-function printContent(type_question_id,id,belong_id,baremo_id) {
-    const overlay = document.getElementById("loadingOverlay");
-    overlay.style.display = "flex"; // mostrar overlay
-    var datos = `${type_question_id}|${id}|${belong_id}|${baremo_id}`;
-    var base64 = btoa(datos);
+const sizeFont = 11;
+const lineHeight = sizeFont * 0.36;
+const font = 'helvetica';
+const margeinLeft = 15;
+let Yvalue = 10;
+const maxWidth = 180;
 
-    // Crear FormData (empaqueta todo como si fuera un form POST con archivos)
-    let formData = new FormData();
-    formData.append("type_question_id", base64);
-
-    const divs = ['contenido1', 'contenido2', 'contenido3'];
-
-    let promises = divs.map((divId, index) => {
-        return html2canvas(document.getElementById(divId)).then(canvas => {
-            return new Promise((resolve) => {
-                canvas.toBlob(function(blob) {
-                    let file = new File([blob], `image_contenido${index + 1}.png`, { type: "image/png" });
-                    formData.append(`image_contenido${index + 1}`, file);
-                    resolve();
-                }, "image/png");
-            });
-        });
+const { jsPDF } = window.jspdf;
+async function descargarPDF() {
+    const pdf = new jsPDF({
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait'
     });
 
-    // Cuando todas las capturas estén listas, enviar por fetch
-    Promise.all(promises).then(() => {
-        fetch(pathprint+"/view/print.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(res => res.text())
-        .then(res => {
-            
-            if(res != '0'){
-                overlay.style.display = "none"; // ocultar overlay
-                //window.location.href = res;
-                window.open(res, "_blank");
-            }
-            else{
-                overlay.style.display = "none"; // ocultar overlay
-                alert("EL PDF NO PUDO SER GENERADO");
-            }
-        })
-        .catch(err => {
-            overlay.style.display = "none"; // ocultar overlay
-            console.log(err);
-        });
+    for (const item of jsonpdf) {
+        switch (item.type) {
+            case 1:
+            await addImageURL(pdf,item.imageurl);
+            break;
+            case 2:
+            await addImage(pdf,item.image);
+            break;
+            case 3:
+            await addnewPage(pdf);
+            break;
+            case 4:
+            await addTitle(pdf,item.text);
+            break;
+            case 5:
+            await addText(pdf,item.text);
+            break;
+            case 6:
+            await addTitleWidthText(pdf,item);
+            break;
+            case 7:
+            await addSubTitle(pdf,item.text);
+            break;
+            case 8:
+            await addText(pdf,item.text,false);
+            break;
+            default:
+                break;
+        }
+    }
+    pdf.save(filenamepdf + '.pdf');
+}
+
+async function addImageURL(pdf, url) {
+    const imgWidth = 40;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const x = (pageWidth - imgWidth) / 2;
+
+    return new Promise(resolve => {
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.src = url;
+        img.onload = () => {
+            pdf.addImage(img, 'PNG', x, Yvalue, imgWidth, imgWidth);
+            Yvalue += 30;
+            resolve();
+        };
     });
+}
+
+async function addImage(pdf, value) {
+    const elemento = document.getElementById(value);
+    const canvas = await html2canvas(elemento, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL('image/png');
+    pdf.addImage(imgData, 'PNG', margeinLeft, Yvalue, maxWidth, 0);
+    const imgHeightPx = canvas.height;
+    const imgWidthPx = canvas.width;
+    const imgWidthMm = maxWidth;
+    const imgHeightMm = (imgHeightPx * imgWidthMm) / imgWidthPx;
+    Yvalue += imgHeightMm;
+    //Yvalue += 30;
+    await addnewLine(pdf);
+}
+async function addTitleWidthText(pdf,value){
+    pdf.setFont(font, 'bold');
+    pdf.text(value.subtitle, margeinLeft, Yvalue);
+    pdf.setFont(font, 'normal');
+    let increment = 3;
+    if(value.subtitle.length>25){
+        increment = 6;
+    }
+    let anchoTitulo = pdf.getTextWidth(value.subtitle)+increment;
+    pdf.text(value.text,(margeinLeft + anchoTitulo),Yvalue,{ maxWidth: maxWidth - anchoTitulo,align: 'justify' });
+    let length = (value.subtitle+value.text).length;
+    if(length>94){
+        const count = length/94;
+        Yvalue += count * lineHeight;
+    }
+    
+    await addnewLine(pdf);
+    
+}
+async function addText(pdf,text,justificated = true){
+    if(!justificated){
+        pdf.text(text, margeinLeft, Yvalue,{maxWidth: maxWidth});
+    }
+    else{
+        pdf.text(text, margeinLeft, Yvalue,{maxWidth: maxWidth,align: 'justify'});
+    }
+    let length = text.length;
+    if(Array.isArray(text)){
+        length = text.reduce((t, s) => t + s.length, 0);
+    }
+    if(length>94){
+        const count = length/94;
+        Yvalue += count * lineHeight;
+    }
+    await addnewLine(pdf);
+}
+async function addTitle(pdf,text){
+    pdf.setFont(font, 'bold');
+    pdf.setFontSize(16);
+    pdf.text(text,105,Yvalue,{ maxWidth: maxWidth,align: 'center' });
+    await addnewLine(pdf);
+}
+async function addSubTitle(pdf,text){
+    pdf.setFont(font, 'bold');
+    pdf.text(text,margeinLeft,Yvalue,{ maxWidth: maxWidth });
+    await addnewLine(pdf);
+}
+async function addnewLine(pdf){
+    Yvalue += lineHeight;
+    if (Yvalue > 260) {
+        pdf.addPage();
+        Yvalue = 10;
+        await addImage(pdf,"contenidoID");
+        await addnewLine(pdf);
+    }
+    pdf.setFontSize(sizeFont);
+    pdf.setFont(font, 'normal');
+}
+async function addnewPage(pdf){
+    pdf.addPage();
+    Yvalue = 20;
 }

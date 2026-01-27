@@ -135,7 +135,7 @@ input{
 .card-lsb5{
     border: 0px solid transparent !important;
     box-shadow: none !important;
-    background-color: #dcdcdc !important;
+    background-color: #79c4b6 !important;
 }
 .borde-lsb5{
     padding: 1px 2px;
@@ -172,7 +172,17 @@ input{
     width: 100%;
     height: auto;
 }
-
+.borde-text-lsb50{
+    padding: 1px 2px;
+    border: 1px solid #377da7;
+    border-radius: 10px;
+    background-color: #204963;
+    color: white;
+    margin: 1px;
+    text-align: center;
+    width: 100%;
+    height: auto;
+}
 .td_valuepd2{
     padding:0px 0px 0px 10px !important;
     border-top:none !important;
@@ -204,7 +214,7 @@ input{
 .card-af5{
     border: 0px solid transparent !important;
     box-shadow: none !important;
-    background-color: #edefed !important;
+    background-color: #D5D7D5 !important;
 }
 /*setting maci*/
 .card-maci{

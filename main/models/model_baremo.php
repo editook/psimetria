@@ -1,7 +1,11 @@
 <?php
 class Baremo_Model
 {
-   
+   function spnippingText($texto, $limite = 50) {
+        return mb_strlen($texto, 'UTF-8') > $limite
+            ? mb_substr($texto, 0, $limite, 'UTF-8') . '...'
+            : $texto;
+    }
 
     public function getById($id)
     {
