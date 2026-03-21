@@ -803,165 +803,188 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         </div>
                     </div>
 
-                    <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding-top: 50px;">
-                        <div class="col-md-7" style="padding: 0;">
+                    <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
+                        <div class="row">
+                            <div class="col-md-6" style="padding: 0;">
 
-                            <div class="lsb-panel">
+                                <div class="lsb-panel">
 
-                                <!-- ESCALAS DE VALIDEZ -->
-                                <div class="section">
-                                    <div class="section-header">
-                                        <span>ESCALAS DE VALIDEZ</span>
-                                        <div class="header-pills">
-                                            <span>PD</span>
-                                            <span>Pc</span>
+                                    <!-- ESCALAS DE VALIDEZ -->
+                                    <div class="section">
+                                        <div class="section-header">
+                                            <div class="title-pill">
+                                                ESCALA DE VALIDEZ
+                                            </div>
+
+                                            <div class="header-pills">
+                                                <span class="pill">PD</span>
+                                                <span class="pill">Pc</span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">Min</span>
+                                            <span class="label-text">Minimización</span>
+                                            <span class="value mr4">2,12</span>
+                                            <span class="value ml4">10</span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">Mag</span>
+                                            <span class="label-text">Magnificación</span>
+                                            <span class="value mr4">2,12</span>
+                                            <span class="value ml4">85</span>
                                         </div>
                                     </div>
 
-                                    <div class="row-item">
-                                        <span class="code">Min</span>
-                                        <span class="label-text">Minimización</span>
-                                        <span class="value">2,12</span>
-                                        <span class="value">10</span>
-                                    </div>
+                                    <!-- INDICES GENERALES -->
+                                    <div class="section">
+                                        <div class="section-header">
+                                            <div class="title-pill">
+                                                ÍNDICES GENERALES
+                                            </div>
+                                            <div class="header-pills">
+                                                <span class="pill">PD</span>
+                                                <span class="pill">Pc</span>
+                                            </div>
+                                        </div>
 
-                                    <div class="row-item">
-                                        <span class="code">Mag</span>
-                                        <span class="label-text">Magnificación</span>
-                                        <span class="value">2,12</span>
-                                        <span class="value">85</span>
-                                    </div>
-                                </div>
+                                        <div class="row-item">
+                                            <span class="code">GLOBAL</span>
+                                            <span class="label-text">Índice global de severidad</span>
+                                            <span class="value mr4">1,98</span>
+                                            <span class="value ml4">99</span>
+                                        </div>
 
-                                <!-- INDICES GENERALES -->
-                                <div class="section">
-                                    <div class="section-header">
-                                        <span>ÍNDICES GENERALES</span>
-                                        <div class="header-pills">
-                                            <span>PD</span>
-                                            <span>Pc</span>
+                                        <div class="row-item">
+                                            <span class="code">NUM</span>
+                                            <span class="label-text">Número de síntomas presentes</span>
+                                            <span class="value mr4">50</span>
+                                            <span class="value ml4">99</span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">INT</span>
+                                            <span class="label-text">Índice de intensidad de síntomas presentes</span>
+                                            <span class="value mr4">1,98</span>
+                                            <span class="value ml4">65</span>
                                         </div>
                                     </div>
 
-                                    <div class="row-item">
-                                        <span class="code">GLOBAL</span>
-                                        <span class="label-text">Índice global de severidad</span>
-                                        <span class="value">1,98</span>
-                                        <span class="value">99</span>
-                                    </div>
+                                    <!-- ESCALAS CLINICAS -->
+                                    <div class="section">
+                                        <div class="section-header">
+                                            <div class="title-pill">
+                                                ESCALAS CLÍNICAS
+                                            </div>
+                                            <div class="header-pills">
+                                                <span class="pill">PD</span>
+                                                <span class="pill">Pc</span>
+                                            </div>
+                                        </div>
 
-                                    <div class="row-item">
-                                        <span class="code">NUM</span>
-                                        <span class="label-text">Número de síntomas presentes</span>
-                                        <span class="value">50</span>
-                                        <span class="value">99</span>
-                                    </div>
+                                        <div class="row-item">
+                                            <span class="code">Pr</span>
+                                            <span class="label-text">Psicorreactividad</span>
+                                            <span class="value mr4">1,86</span>
+                                            <span class="value ml4">98</span>
+                                        </div>
 
-                                    <div class="row-item">
-                                        <span class="code">INT</span>
-                                        <span class="label-text">Índice de intensidad de síntomas presentes</span>
-                                        <span class="value">1,98</span>
-                                        <span class="value">65</span>
-                                    </div>
-                                </div>
+                                        <div class="row-item">
+                                            <span class="code">Hp</span>
+                                            <span class="label-text">Hipersensibilidad</span>
+                                            <span class="value mr4">2,14</span>
+                                            <span class="value ml4">99</span>
+                                        </div>
 
-                                <!-- ESCALAS CLINICAS -->
-                                <div class="section">
-                                    <div class="section-header">
-                                        <span>ESCALAS CLÍNICAS</span>
-                                        <div class="header-pills">
-                                            <span>PD</span>
-                                            <span>Pc</span>
+                                        <div class="row-item">
+                                            <span class="code">Ob</span>
+                                            <span class="label-text">Obsesión-compulsión</span>
+                                            <span class="value mr4">1,57</span>
+                                            <span class="value ml4">90</span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">An</span>
+                                            <span class="label-text">Ansiedad</span>
+                                            <span class="value mr4">2</span>
+                                            <span class="value ml4">99</span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">Hs</span>
+                                            <span class="label-text">Hostilidad</span>
+                                            <span class="value mr4">2,33</span>
+                                            <span class="value ml4">99</span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">Sm</span>
+                                            <span class="label-text">Somatización</span>
+                                            <span class="value mr4">2</span>
+                                            <span class="value ml4">96</span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">De</span>
+                                            <span class="label-text">Depresión</span>
+                                            <span class="value mr4">1,9</span>
+                                            <span class="value ml4">96</span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">Su</span>
+                                            <span class="label-text">Alteraciones del sueño</span>
+                                            <span class="value mr4">2</span>
+                                            <span class="value ml4">85</span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="code">Su-a</span>
+                                            <span class="label-text">Alteraciones del sueño - ampliada</span>
+                                            <span class="value mr4">2,14</span>
+                                            <span class="value ml4">96</span>
                                         </div>
                                     </div>
 
-                                    <div class="row-item">
-                                        <span class="code">Pr</span>
-                                        <span class="label-text">Psicorreactividad</span>
-                                        <span class="value">1,86</span>
-                                        <span class="value">98</span>
-                                    </div>
+                                    <!-- INDICE DE RIESGO -->
+                                    <div class="section">
+                                        <div class="section-header">
+                                            <div class="title-pill">
+                                                INDICE DE RIESGO PSICOPATOLÓGICO
+                                            </div>
+                                            <div class="header-pills">
+                                                <span class="pill">PD</span>
+                                                <span class="pill">Pc</span>
+                                            </div>
+                                        </div>
 
-                                    <div class="row-item">
-                                        <span class="code">Hp</span>
-                                        <span class="label-text">Hipersensibilidad</span>
-                                        <span class="value">2,14</span>
-                                        <span class="value">99</span>
-                                    </div>
-
-                                    <div class="row-item">
-                                        <span class="code">Ob</span>
-                                        <span class="label-text">Obsesión-compulsión</span>
-                                        <span class="value">1,57</span>
-                                        <span class="value">90</span>
-                                    </div>
-
-                                    <div class="row-item">
-                                        <span class="code">An</span>
-                                        <span class="label-text">Ansiedad</span>
-                                        <span class="value">2</span>
-                                        <span class="value">99</span>
-                                    </div>
-
-                                    <div class="row-item">
-                                        <span class="code">Hs</span>
-                                        <span class="label-text">Hostilidad</span>
-                                        <span class="value">2,33</span>
-                                        <span class="value">99</span>
-                                    </div>
-
-                                    <div class="row-item">
-                                        <span class="code">Sm</span>
-                                        <span class="label-text">Somatización</span>
-                                        <span class="value">2</span>
-                                        <span class="value">96</span>
-                                    </div>
-
-                                    <div class="row-item">
-                                        <span class="code">De</span>
-                                        <span class="label-text">Depresión</span>
-                                        <span class="value">1,9</span>
-                                        <span class="value">96</span>
-                                    </div>
-
-                                    <div class="row-item">
-                                        <span class="code">Su</span>
-                                        <span class="label-text">Alteraciones del sueño</span>
-                                        <span class="value">2</span>
-                                        <span class="value">85</span>
-                                    </div>
-
-                                    <div class="row-item">
-                                        <span class="code">Su-a</span>
-                                        <span class="label-text">Alteraciones del sueño - ampliada</span>
-                                        <span class="value">2,14</span>
-                                        <span class="value">96</span>
-                                    </div>
-                                </div>
-
-                                <!-- INDICE DE RIESGO -->
-                                <div class="section">
-                                    <div class="section-header">
-                                        <span>INDICE DE RIESGO PSICOPATOLÓGICO</span>
-                                        <div class="header-pills">
-                                            <span>PD</span>
-                                            <span>Pc</span>
+                                        <div class="row-item">
+                                            <span class="code">IRPsi</span>
+                                            <span class="label-text">Índice de riesgo psicopatológico</span>
+                                            <span class="value mr4">2,17</span>
+                                            <span class="value ml4">99</span>
                                         </div>
                                     </div>
 
-                                    <div class="row-item">
-                                        <span class="code">IRPsi</span>
-                                        <span class="label-text">Índice de riesgo psicopatológico</span>
-                                        <span class="value">2,17</span>
-                                        <span class="value">99</span>
-                                    </div>
                                 </div>
 
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 700px !important;width: 100%;" id="colorss"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 130px !important;width: 100%;" id="colorss2"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: -10px;height: 130px !important;" id="flotLine2"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: 5px;height: 130px !important;" id="flotLineIndGeneral"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 370px !important;" id="flotLineEscalasClinicas"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 55px !important;" id="flotLineIndRiesgoPat"></div>
+                                <p style="text-align: left;font-size: 15px !important;">Nota Pc: (Percentil), escala ordinal.</p>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-md-5"></div>
+                        
                     </div>
 
                     <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
@@ -1216,15 +1239,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                         </div>
                                     </div>
                                     <div class="col-md-5" style="padding-left:0px;">
-                                        <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                                            <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 700px !important;width: 100%;" id="colorss"></div>
-                                            <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 130px !important;width: 100%;" id="colorss2"></div>
-                                            <div class="ht-100 ht-sm-300" style="margin-top: -10px;height: 130px !important;" id="flotLine2"></div>
-                                            <div class="ht-100 ht-sm-300" style="margin-top: 5px;height: 130px !important;" id="flotLineIndGeneral"></div>
-                                            <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 370px !important;" id="flotLineEscalasClinicas"></div>
-                                            <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 55px !important;" id="flotLineIndRiesgoPat"></div>
-                                            <p style="text-align: left;font-size: 15px !important;">Nota Pc: (Percentil), escala ordinal.</p>
-                                        </div>
+                                        
                                     </div>
                                 </div>
 
