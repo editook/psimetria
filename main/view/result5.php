@@ -577,7 +577,7 @@ if($answer_questions1['response'] == '1'){
                                         </div>
                                         <div class="col-md-6" style="padding-left:0px;padding-right:0px">
                                             <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                <div class="content-4"><div class="content-green"><h4 class="content-txt" style="width: 268px;">Bajo</h4></div><div class="content-orange"><h4 class="content-txt" style="width: 143px;">Media</h4></div><div class="content-yellow"><h4 class="content-txt" style="width: 76px;">Moderado</h4></div><div class="content-grave"><h4 class="content-txt" style="width: 70px;">Grave</h4></div></div>
+                                                <div class="content-4"><div class="content-green"><h4 class="content-txt" style="width: 268px;">Bajo</h4></div><div class="content-orange"><h4 class="content-txt" style="width: 143px;">Media</h4></div><div class="content-yellow"><h4 class="content-txt" style="width: 76px;">Moderado</h4></div><div class="content-grave"><h4 class="content-txt" style="width: 63px;">Grave</h4></div></div>
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 255px !important;width: 100%;" id="colorss"></div>
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 15px;height: 185px !important;width: 100%;" id="flotLine2"></div>
                                                 <div class="ht-100 ht-sm-300" style="margin-top: 0px;height: 45px !important;width: 100%;" id="flotLineIndRiesgoPat"></div>

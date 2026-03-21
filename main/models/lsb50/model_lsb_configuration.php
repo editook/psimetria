@@ -146,7 +146,7 @@ class ModelLsbConfiguration {
             return $descripcion;
         }
 
-        if($valuestring == "Obsesión-compulsión"){
+        if($valuestring == "Obsesión-Compulsión"){
             
             $I22 = $value_t; // Valor correspondiente a la celda I22
             $descripcion = "";
