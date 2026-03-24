@@ -8,6 +8,11 @@ background: #0162e8;
 color: #fff;
 border-radius: 10px;
 ">
-<button type="button" onclick="descargarPDF()" style="margin: 5px;" class="btn btn-primary">DESCARGAR</button>
+<button id="btnDownload" type="button" onclick="descargarPDF()" class="btn btn-primary">
+        <span id="btnText">DESCARGAR</span>
+        <span id="btnLoader" style="display:none; margin-left:8px;">
+            ⏳
+        </span>
+    </button>
             
 </div>

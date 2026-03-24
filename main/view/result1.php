@@ -726,27 +726,24 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
 
                 <!-- row -->
-                <div class="row row-sm">
+                <div class="row row-sm container-short">
 
                     <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                        <div id="contenidoID" class="card-lsb5" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;z-index: -1;">
-                            <div class="card-body" style="padding:10px 5px 10px 5px">
-                                <div class="row row-sm">
-                                    <div class="col-md-12 col-lg-12">
-                                        <div class="input-group">
-                                            <div class="input-group-text setting-input">
-                                                <span class="input-group-text setting-input">Id</span>
-                                            </div><input style="color: black;    height: 30px !important;" class="form-control" value="<?= $register['id_client'] ?>" type="text">
-                                        </div>
+                        <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
+                            
+                            <div class="container-header">
+                                <div class="container-body">
+                                    <div class="container-row-bg">
+                                        <span class="label">Id:</span>
+                                        <input class="field form-control" value="<?= $register['id_client'] ?>" />
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
-                        <div class="lsb-header">
+                        <div id="contenido1" class="container-header">
 
-                            <div class="lsb-left">
+                            <div class="container-left">
                                 <div class="perfil-vertical">PERFIL</div>
                                 <div style="
                                         height: stretch;
@@ -758,31 +755,31 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                 <img src="../../assets/img/test_image/logolsb5.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
                             </div>
 
-                            <div id="contenido1" class="lsb-body">
+                            <div  class="container-body">
 
-                                <div class="lsb-row">
+                                <div class="container-row">
                                     <span class="label">Id:</span>
-                                    <input class="field" value="<?= $register['id_client'] ?>" />
+                                    <input class="field form-control" value="<?= $register['id_client'] ?>" />
                                 </div>
 
-                                <div class="lsb-row">
+                                <div class="container-row">
                                     <span class="label">Edad:</span>
-                                    <input class="field max" value="<?= $register['age'] ?>" />
+                                    <input class="field form-control max" value="<?= $register['age'] ?>" />
 
                                     <span class="label">Sexo:</span>
-                                    <input class="field max" value="<?= $register['sex'] ?>" />
+                                    <input class="field form-control max" value="<?= $register['sex'] ?>" />
 
                                     <span class="label">Fecha de aplicación:</span>
-                                    <input class="field max" value="<?= date('d/m/Y') ?>" />
+                                    <input class="field form-control max" value="<?= date('d/m/Y') ?>" />
                                 </div>
 
-                                <div class="lsb-row">
+                                <div class="container-row">
                                     <span class="label">Baremo:</span>
 
                                     <form action="result2.php" method="post" id="form_baremo" style="margin:0;width: 100%;">
                                         <input type="hidden" name="id_user" id="id_user" value="<?= $idClient ?>">
                                         <input type="hidden" name="id_register" id="id_register" value="<?= $register['id'] ?>">
-                                        <select class="field max-left" id="baremo_id" name="baremo_id">
+                                        <select class="field form-control max-left" id="baremo_id" name="baremo_id">
                                             <?php
                                             foreach ($baremos as $baremo) {
                                             ?>
@@ -794,23 +791,23 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                     </form>
                                 </div>
 
-                                <div class="lsb-row">
+                                <div class="container-row row-m0">
                                     <span class="label">Responsable de la aplicación:</span>
-                                    <input class="field max-left" value="<?= $register['evaluador'] ?>">
+                                    <input class="field form-control max-left" value="<?= $register['evaluador'] ?>">
                                 </div>
 
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
-                        <div class="row">
+                    <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
+                        <div  class="row">
                             <div class="col-md-6" style="padding: 0;">
 
-                                <div class="lsb-panel">
+                                <div class="container-panel">
 
                                     <!-- ESCALAS DE VALIDEZ -->
-                                    <div class="section">
+                                    <div>
                                         <div class="section-header">
                                             <div class="title-pill">
                                                 ESCALA DE VALIDEZ
@@ -826,15 +823,15 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                         <div class="row-item">
                                             <span class="code">Min</span>
                                             <span class="label-text">Minimización</span>
-                                            <span class="value mr4">2,12</span>
-                                            <span class="value ml4">10</span>
+                                            <span class="value mr4"><?= number_format($Pmin, 2) ?></span>
+                                            <span class="value ml4"><?= $mins["$Pmin"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">Mag</span>
                                             <span class="label-text">Magnificación</span>
-                                            <span class="value mr4">2,12</span>
-                                            <span class="value ml4">85</span>
+                                            <span class="value mr4"><?= number_format($Pmag, 2) ?></span>
+                                            <span class="value ml4"><?= $mags["$Pmag"] ?></span>
                                         </div>
                                     </div>
 
@@ -853,22 +850,22 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                         <div class="row-item">
                                             <span class="code">GLOBAL</span>
                                             <span class="label-text">Índice global de severidad</span>
-                                            <span class="value mr4">1,98</span>
-                                            <span class="value ml4">99</span>
+                                            <span class="value mr4"><?= number_format($Pind_global_sev, 2) ?></span>
+                                            <span class="value ml4"><?= $globals["$Pind_global_sev"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">NUM</span>
                                             <span class="label-text">Número de síntomas presentes</span>
-                                            <span class="value mr4">50</span>
-                                            <span class="value ml4">99</span>
+                                            <span class="value mr4"><?= number_format($Pnum_sintomas, 2) ?></span>
+                                            <span class="value ml4"><?= $nums["$Pnum_sintomas"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">INT</span>
                                             <span class="label-text">Índice de intensidad de síntomas presentes</span>
-                                            <span class="value mr4">1,98</span>
-                                            <span class="value ml4">65</span>
+                                            <span class="value mr4"><?= number_format($Pind_intesidad_sintomas, 2) ?></span>
+                                            <span class="value ml4"><?= $ints["$Pind_intesidad_sintomas"] ?></span>
                                         </div>
                                     </div>
 
@@ -887,64 +884,64 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                         <div class="row-item">
                                             <span class="code">Pr</span>
                                             <span class="label-text">Psicorreactividad</span>
-                                            <span class="value mr4">1,86</span>
-                                            <span class="value ml4">98</span>
+                                            <span class="value mr4"><?= number_format($Ppsicoreactividad, 2) ?></span>
+                                            <span class="value ml4"><?= $prs["$Ppsicoreactividad"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">Hp</span>
                                             <span class="label-text">Hipersensibilidad</span>
-                                            <span class="value mr4">2,14</span>
-                                            <span class="value ml4">99</span>
+                                            <span class="value mr4"><?= number_format($Phipersenc, 2) ?></span>
+                                            <span class="value ml4"><?= $hps["$Phipersenc"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">Ob</span>
                                             <span class="label-text">Obsesión-compulsión</span>
-                                            <span class="value mr4">1,57</span>
-                                            <span class="value ml4">90</span>
+                                            <span class="value mr4"><?= number_format($Pobs_comp, 2) ?></span>
+                                            <span class="value ml4"><?= $obs["$Pobs_comp"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">An</span>
                                             <span class="label-text">Ansiedad</span>
-                                            <span class="value mr4">2</span>
-                                            <span class="value ml4">99</span>
+                                            <span class="value mr4"><?= number_format($Panciedad, 2) ?></span>
+                                            <span class="value ml4"><?= $ans["$Panciedad"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">Hs</span>
                                             <span class="label-text">Hostilidad</span>
-                                            <span class="value mr4">2,33</span>
-                                            <span class="value ml4">99</span>
+                                            <span class="value mr4"><?= number_format($Phostilidad, 2) ?></span>
+                                            <span class="value ml4"><?= $hss["$Phostilidad"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">Sm</span>
                                             <span class="label-text">Somatización</span>
-                                            <span class="value mr4">2</span>
-                                            <span class="value ml4">96</span>
+                                            <span class="value mr4"><?= number_format($Psomatizacion, 2) ?></span>
+                                            <span class="value ml4"><?= $sms["$Psomatizacion"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">De</span>
                                             <span class="label-text">Depresión</span>
-                                            <span class="value mr4">1,9</span>
-                                            <span class="value ml4">96</span>
+                                            <span class="value mr4"><?= number_format($Pdepresion, 2) ?></span>
+                                            <span class="value ml4"><?= $des["$Pdepresion"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">Su</span>
                                             <span class="label-text">Alteraciones del sueño</span>
-                                            <span class="value mr4">2</span>
-                                            <span class="value ml4">85</span>
+                                            <span class="value mr4"><?= number_format($Palsuenio, 2) ?></span>
+                                            <span class="value ml4"><?= $sus["$Palsuenio"] ?></span>
                                         </div>
 
                                         <div class="row-item">
                                             <span class="code">Su-a</span>
                                             <span class="label-text">Alteraciones del sueño - ampliada</span>
-                                            <span class="value mr4">2,14</span>
-                                            <span class="value ml4">96</span>
+                                            <span class="value mr4"><?= number_format($Palsuenio_ampl, 2) ?></span>
+                                            <span class="value ml4"><?= $suas["$Palsuenio_ampl"] ?></span>
                                         </div>
                                     </div>
 
@@ -963,23 +960,35 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                         <div class="row-item">
                                             <span class="code">IRPsi</span>
                                             <span class="label-text">Índice de riesgo psicopatológico</span>
-                                            <span class="value mr4">2,17</span>
-                                            <span class="value ml4">99</span>
+                                            <span class="value mr4"><?= number_format($Pirp, 2) ?></span>
+                                            <span class="value ml4"><?= $irpsis["$Pirp"] ?></span>
                                         </div>
+                                    </div>
+                                    <div class="section">
+                                        <div class="section-header">
+                                            <div class="title-pill-none">
+                                                
+                                            </div>
+                                            <div class="header-pills">
+                                                <span class="pill">PD</span>
+                                                <span class="pill">Pc</span>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                 </div>
 
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="padding:0px">
                                 <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 700px !important;width: 100%;" id="colorss"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 130px !important;width: 100%;" id="colorss2"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top: -10px;height: 130px !important;" id="flotLine2"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top: 5px;height: 130px !important;" id="flotLineIndGeneral"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 370px !important;" id="flotLineEscalasClinicas"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 55px !important;" id="flotLineIndRiesgoPat"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height:680px !important;width: 100%;" id="colorss"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 115px !important;width: 100%;" id="colorss2"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: -10px;margin-bottom:3px;height: 115px !important;" id="flotLine2"></div>
+                                <div class="ht-100 ht-sm-300" style="height: 130px !important;" id="flotLineIndGeneral"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top:10px;height: 350px !important;" id="flotLineEscalasClinicas"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top:15px;   margin-bottom: 15px;height: 65px !important;" id="flotLineIndRiesgoPat"></div>
                                 <p style="text-align: left;font-size: 15px !important;">Nota Pc: (Percentil), escala ordinal.</p>
                                 </div>
                             </div>
@@ -987,335 +996,66 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         
                     </div>
 
-                    <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                        <div id="contenido2" class="card">
-                            <div class="card-body" style="padding-left: 100px;padding-right: 100px;">
-                                <div class="row row-sm" style="place-content: center;">
-                                    <div class="col-md-7" style="padding-right:0px;">
-                                        <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                            <div style="margin-bottom: 75px;">
-                                                <div class="table-responsive">
-                                                    <table class="table mg-b-0 text-md-nowrap">
-
-                                                        <tbody style="text-align: right;text-align: center;">
-                                                            <tr class="tr_fill" style="font-weight: bold;">
-
-                                                                <td class="td_fill">
-                                                                    <div class="borde-text-lsb50">Escala de validez</div>
-                                                                </td>
-                                                                <td class="td_valuepd2" style="width: 70px;">
-                                                                    <div class="borde-text-lsb50">PD</div>
-                                                                </td>
-                                                                <td class="td_valuepd2" style="width: 70px;">
-                                                                    <div class="borde-text-lsb50">PC</div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Min</div>Minimacion
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Pmin, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $mins["$Pmin"] ?>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Mag</div>Magnificacion
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Pmag, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $mags["$Pmag"] ?></div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <table class="table mg-b-0 text-md-nowrap" style="margin-top:5px">
-
-                                                        <tbody style="text-align: right;text-align: center;">
-                                                            <tr class="tr_fill" style="font-weight: bold;">
-                                                                <td class="td_fill">
-                                                                    <div class="borde-text-lsb50">Indices generales</div>
-                                                                </td>
-                                                                <td class="td_valuepd2" style="width: 70px;">
-                                                                    <div class="borde-text-lsb50">PD</div>
-                                                                </td>
-                                                                <td class="td_valuepd2" style="width: 70px;">
-                                                                    <div class="borde-text-lsb50">PC</div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Global</div>Índice Global de severidad
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Pind_global_sev, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $globals["$Pind_global_sev"] ?>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Num</div>Número de síntomas presentes
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Pnum_sintomas, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $nums["$Pnum_sintomas"] ?>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Int</div>Índice de intensidad de síntomas presentes
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Pind_intesidad_sintomas, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $ints["$Pind_intesidad_sintomas"] ?>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <table class="table mg-b-0 text-md-nowrap" style="margin-top:5px">
-
-                                                        <tbody style="text-align: right;text-align: center;">
-                                                            <tr class="tr_fill" style="font-weight: bold;">
-                                                                <td class="td_fill">
-                                                                    <div class="borde-text-lsb50">Escalas clinicas</div>
-                                                                </td>
-                                                                <td class="td_valuepd2" style="width: 70px;">
-                                                                    <div class="borde-text-lsb50">PD</div>
-                                                                </td>
-                                                                <td class="td_valuepd2" style="width: 70px;">
-                                                                    <div class="borde-text-lsb50">PC</div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Pr</div>Psicoreactividad
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Ppsicoreactividad, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $prs["$Ppsicoreactividad"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Hp</div>Hipersensibilidad
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Phipersenc, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $hps["$Phipersenc"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Op</div>Obsesión-Compulsión
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Pobs_comp, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $obs["$Pobs_comp"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">An</div>Ansiedad
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Panciedad, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $ans["$Panciedad"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Hs</div>Hostilidad
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Phostilidad, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $hss["$Phostilidad"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Sm</div>Somatización
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Psomatizacion, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $sms["$Psomatizacion"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">De</div>Depresión
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Pdepresion, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $des["$Pdepresion"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Su</div>Alteración de sueño
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Palsuenio, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $sus["$Palsuenio"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">Su-a</div>Alteración de sueño ampliada
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Palsuenio_ampl, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $suas["$Palsuenio_ampl"] ?>
-                                                                </td>
-                                                            </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                    <table class="table mg-b-0 text-md-nowrap" style="margin-top:5px">
-
-                                                        <tbody style="text-align: right;text-align: center;">
-                                                            <tr class="tr_fill" style="font-weight: bold;">
-                                                                <td class="td_fill">
-                                                                    <div class="borde-text-lsb50">Índices de riesgo patológico</div>
-                                                                </td>
-                                                                <td class="td_valuepd2" style="width: 70px;">
-                                                                    <div class="borde-text-lsb50">PD</div>
-                                                                </td>
-                                                                <td class="td_valuepd2" style="width: 70px;">
-                                                                    <div class="borde-text-lsb50">PC</div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">
-                                                                    <div class="width-move1">IRPsi</div>Índice de riesgo psicopatológico
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= number_format($Pirp, 2) ?></div>
-                                                                </td>
-                                                                <td class="td_valuepd2">
-                                                                    <div class="borde-lsb5"><?= $irpsis["$Pirp"] ?>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5" style="padding-left:0px;">
-                                        
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                    </div>
+                    
 
                     <div class="col-md-12">
                         <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                             <div class="main-content-label mg-b-5">
                                 <h1 style="text-align: center;" id="jsonvalue1">INFORME CUALITATIVO LSB-50</h1>
                             </div>
-                            <div class="card-body">
-                                <h4 class="tx-15" id="jsonvalue2">INTRODUCCIÓN</h4>
-                                <p class="tx-dark mb-0" id="jsonvalue3">El LSB-50 (Listado de Síntomas Breve) es un instrumento de evaluación psicopatológica diseñado para proporcionar información sobre las variables clínicas de la persona evaluada. El presente informe ha sido creado con el objetivo de facilitar la interpretación de los resultados obtenidos a partir de sus respuestas y puntuaciones en el LSB-50.</p>
-                            </div>
-                            <div class="card-body ">
-                                <h4 class="tx-15" id="jsonvalue4">VALIDEZ DEL PERFIL</h4>
-                                <p class="tx-dark mb-0" id="jsonvalue5">El LSB-50 incluye dos escalas de validez diseñadas para detectar posibles sesgos de respuesta que podrían afectar la interpretación de los resultados: <br>
+                            <h4 class="tx-15" id="jsonvalue2">INTRODUCCIÓN</h4>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue3">El LSB-50 (Listado de Síntomas Breve) es un instrumento de evaluación psicopatológica diseñado para proporcionar información sobre las variables clínicas de la persona evaluada. El presente informe ha sido creado con el objetivo de facilitar la interpretación de los resultados obtenidos a partir de sus respuestas y puntuaciones en el LSB-50.</p>
+                            <br>
+                            <h4 class="tx-15" id="jsonvalue4">VALIDEZ DEL PERFIL</h4>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue5">El LSB-50 incluye dos escalas de validez diseñadas para detectar posibles sesgos de respuesta que podrían afectar la interpretación de los resultados:</p>
+                            <br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue5_1"><?= $final_text_min ?></p><br><br>
+                            <h4 class="tx-15" id="jsonvalue6">ÍNDICES GENERALES</h4>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue7">Los índices generales en el LSB-50 son medidas que proporcionan una visión global del nivel de sufrimiento psicopatológico del evaluado(a). En este caso, sus resultados indican que:<br>
+                            </p>
+                            <br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue7_1"><?= $final_text_global ?></p>
+                            <br><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue7_2"><?= $final_text_num ?></p>
+                            <br><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue7_3"><?= $final_text_int ?></p><br><br>
 
-                                </p>
-                                <p id="jsonvalue5_1"><?= $final_text_min ?></p><br><br>
-                            </div>
-                            <div class="card-body tx-dark">
-                                <h4 class="tx-15" id="jsonvalue6">ÍNDICES GENERALES</h4>
-                                <p class="tx-dark mb-0" id="jsonvalue7">Los índices generales en el LSB-50 son medidas que proporcionan una visión global del nivel de sufrimiento psicopatológico del evaluado(a). En este caso, sus resultados indican que:<br>
-                                </p>
-                                <br>
-                                <p id="jsonvalue7_1"><?= $final_text_global ?></p>
-                                <br><br>
-                                <p id="jsonvalue7_2"><?= $final_text_num ?></p>
-                                <br><br>
-                                <p id="jsonvalue7_3"><?= $final_text_int ?></p><br><br>
+                            <h4 class="tx-15" id="jsonvalue8">ÍNDICES DE RIESGO PATOLÓGICO </h4><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue9">
+                                Explora la presencia de síntomas cuya probabilidad de aparición e intensidad es baja en la población general, no clínica y, por el contrario, alta en la población clínica. Evalúa la presencia de síntomas asociados a la población clínica psicopatológica, formando un conglomerado de desvalorización, incomprensión, miedo, somatización y hostilidad junto con ideas de suicidio. En su conjunto, resultan predictivos para la inclusión del evaluado en una población afectada con psicopatología.
+                            </p>
+                            <br><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue9_1"><?= $final_text_baja ?></p>
+                            <br><br>
 
-                                <h4 class="tx-15" id="jsonvalue8">ÍNDICES DE RIESGO PATOLÓGICO </h4><br>
-                                <p id="jsonvalue9">
-                                    Explora la presencia de síntomas cuya probabilidad de aparición e intensidad es baja en la población general, no clínica y, por el contrario, alta en la población clínica. Evalúa la presencia de síntomas asociados a la población clínica psicopatológica, formando un conglomerado de desvalorización, incomprensión, miedo, somatización y hostilidad junto con ideas de suicidio. En su conjunto, resultan predictivos para la inclusión del evaluado en una población afectada con psicopatología.
-                                </p>
-                                <br><br>
-                                <p id="jsonvalue9_1"><?= $final_text_baja ?></p>
-                                <br><br>
-
-                                <h4 class="tx-15" id="jsonvalue12">ESCALAS CLÍNICAS </h4><br>
-                                <p id="jsonvalue13">
-                                    La valoración de las escalas del LSB-50 informa sobre el perfil psicopatológico del sujeto, es decir, sobre cuál es la forma de expresión particular de la psicopatología. A continuación se describen las cuatro escalas con mayor puntuación relativa dentro del conjunto clínico:
-                                </p>
-                                <br><br>
-                                <p id="jsonvalue13_1"><?= $salidatop1 ?></p><br><br>
-                                <p id="jsonvalue13_2"><?= $salidatop2 ?></p><br><br>
-                                <p id="jsonvalue13_3"><?= $salidatop3 ?></p><br><br>
-                                <p id="jsonvalue13_4"><?= $salidatop4 ?></p><br><br>
+                            <h4 class="tx-15" id="jsonvalue12">ESCALAS CLÍNICAS </h4><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13">
+                                La valoración de las escalas del LSB-50 informa sobre el perfil psicopatológico del sujeto, es decir, sobre cuál es la forma de expresión particular de la psicopatología. A continuación se describen las cuatro escalas con mayor puntuación relativa dentro del conjunto clínico:
+                            </p>
+                            <br><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13_1"><?= $salidatop1 ?></p><br><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13_2"><?= $salidatop2 ?></p><br><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13_3"><?= $salidatop3 ?></p><br><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13_4"><?= $salidatop4 ?></p><br><br>
 
 
-                                <h4 class="tx-15" id="jsonvalue14"> <?= $message_criterios; ?></h4><br>
-                                <p id="jsonvalue15">
-                                    <?= $message_criterios_out ?>
-                                </p>
-                                <h4 class="tx-15" id="jsonvalue16">Se identificaron(<?= $cant_magnificacion ?>/8) ítems de magnificación que van de bastante a mucho</h4>
-                                <p id="jsonvalue17">
-                                    <?= $message_magnificacion ?>
-                                </p>
-                                <h4 class="tx-15" id="jsonvalue18">Se identificaron(<?= $cant_magnificacion2 ?>/8) ítems de disimulación que van de poco a nada</h4>
-                                <p id="jsonvalue19">
-                                    <?= $message_magnificacion2 ?>
-                                </p>
-                                <h4 class="tx-15" id="jsonvalue20">Síntomas individuales</h4>
-                                <p id="jsonvalue21">
-                                    Por último, se valorarán los aspectos idiosincrásicos o tendencias particulares, se identifico (<?= $cant_sintomas_ind ?>/50) puntuados con la máxima intensidad («4»)
+                            <h4 class="tx-15" id="jsonvalue14"> <?= $message_criterios; ?></h4><br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue15"><?= $message_criterios_out ?></p>
+                            <h4 class="tx-15" id="jsonvalue16">Se identificaron(<?= $cant_magnificacion ?>/8) ítems de magnificación que van de bastante a mucho</h4>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue17">
+                                <?= $message_magnificacion ?>
+                            </p>
+                            <h4 class="tx-15" id="jsonvalue18">Se identificaron(<?= $cant_magnificacion2 ?>/8) ítems de disimulación que van de poco a nada</h4>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue19">
+                                <?= $message_magnificacion2 ?>
+                            </p>
+                            <h4 class="tx-15" id="jsonvalue20">Síntomas individuales</h4>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue21">
+                                Por último, se valorarán los aspectos idiosincrásicos o tendencias particulares, se identifico (<?= $cant_sintomas_ind ?>/50) puntuados con la máxima intensidad («4»)
 
-                                </p>
-                                <br><br>
-                                <p id="jsonvalue21_1"><?= $message_sintomas ?></p>
-
-                            </div>
+                            </p>
+                            <br>
+                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue21_1"><?= $message_sintomas ?></p>
 
                         </div>
 
@@ -2120,27 +1860,27 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         },
                         { // Línea horizontal en y = 6
                             yaxis: {
-                                from: 10.0,
-                                to: 10.0
+                                from: 10.19,
+                                to: 10.19
                             },
                             color: 'white',
-                            lineWidth: 1
+                            lineWidth: 1.5
                         },
                         { // Línea horizontal en y = 6
                             yaxis: {
-                                from: 7.4,
-                                to: 7.4
+                                from: 7.65,
+                                to: 7.65
                             },
                             color: 'white',
-                            lineWidth: 1
+                            lineWidth: 1.5
                         },
                         { // Línea horizontal en y = 6
                             yaxis: {
-                                from: 0.86,
-                                to: 0.86
+                                from: 1.10,
+                                to: 1.10
                             },
                             color: 'white',
-                            lineWidth: 1
+                            lineWidth: 1.5
                         }
                     ]
                 },
@@ -2171,7 +1911,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     }
                 }
             });
-
+                  
             var colores = $.plot($('#colorss2'), [{
                 data: [],
                 label: 'Data',

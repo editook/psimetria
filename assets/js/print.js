@@ -1,4 +1,3 @@
-
 const sizeFont = 11;
 const lineHeight = sizeFont * 0.36;
 const font = 'helvetica';
@@ -8,6 +7,13 @@ const maxWidth = 180;
 
 const { jsPDF } = window.jspdf;
 async function descargarPDF() {
+    const btn = document.getElementById("btnDownload");
+    const text = document.getElementById("btnText");
+    const loader = document.getElementById("btnLoader");
+    btn.disabled = true;
+    text.innerText = "Generando...";
+    loader.style.display = "inline";
+
     const pdf = new jsPDF({
         unit: 'mm',
         format: 'a4',
@@ -17,35 +23,40 @@ async function descargarPDF() {
     for (const item of jsonpdf) {
         switch (item.type) {
             case 1:
-            await addImageURL(pdf,item.imageurl);
-            break;
+                await addImageURL(pdf, item.imageurl);
+                break;
             case 2:
-            await addImage(pdf,item.image);
-            break;
+                await addImage(pdf, item.image);
+                break;
             case 3:
-            await addnewPage(pdf);
-            break;
+                await addnewPage(pdf);
+                break;
             case 4:
-            await addTitle(pdf,item.text);
-            break;
+                await addTitle(pdf, item.text);
+                break;
             case 5:
-            await addText(pdf,item.text);
-            break;
+                await addText(pdf, item.text);
+                break;
             case 6:
-            await addTitleWidthText(pdf,item);
-            break;
+                await addTitleWidthText(pdf, item);
+                break;
             case 7:
-            await addSubTitle(pdf,item.text);
-            break;
+                await addSubTitle(pdf, item.text);
+                break;
             case 8:
-            await addText(pdf,item.text,false);
-            break;
+                await addText(pdf, item.text, false);
+                break;
             default:
                 break;
         }
     }
     pdf.save(filenamepdf + '.pdf');
+
+    btn.disabled = false;
+    text.innerText = "DESCARGAR";
+    loader.style.display = "none";
 }
+
 
 async function addImageURL(pdf, url) {
     const imgWidth = 40;
@@ -77,65 +88,64 @@ async function addImage(pdf, value) {
     //Yvalue += 30;
     await addnewLine(pdf);
 }
-async function addTitleWidthText(pdf,value){
+async function addTitleWidthText(pdf, value) {
     pdf.setFont(font, 'bold');
     pdf.text(value.subtitle, margeinLeft, Yvalue);
     pdf.setFont(font, 'normal');
     let increment = 3;
-    if(value.subtitle.length>25){
+    if (value.subtitle.length > 25) {
         increment = 6;
     }
-    let anchoTitulo = pdf.getTextWidth(value.subtitle)+increment;
-    pdf.text(value.text,(margeinLeft + anchoTitulo),Yvalue,{ maxWidth: maxWidth - anchoTitulo,align: 'justify' });
-    let length = (value.subtitle+value.text).length;
-    if(length>94){
-        const count = length/94;
+    let anchoTitulo = pdf.getTextWidth(value.subtitle) + increment;
+    pdf.text(value.text, (margeinLeft + anchoTitulo), Yvalue, { maxWidth: maxWidth - anchoTitulo, align: 'justify' });
+    let length = (value.subtitle + value.text).length;
+    if (length > 94) {
+        const count = length / 94;
         Yvalue += count * lineHeight;
     }
-    
+
     await addnewLine(pdf);
-    
+
 }
-async function addText(pdf,text,justificated = true){
-    if(!justificated){
-        pdf.text(text, margeinLeft, Yvalue,{maxWidth: maxWidth});
-    }
-    else{
-        pdf.text(text, margeinLeft, Yvalue,{maxWidth: maxWidth,align: 'justify'});
+async function addText(pdf, text, justificated = true) {
+    if (!justificated) {
+        pdf.text(text, margeinLeft, Yvalue, { maxWidth: maxWidth });
+    } else {
+        pdf.text(text, margeinLeft, Yvalue, { maxWidth: maxWidth, align: 'justify' });
     }
     let length = text.length;
-    if(Array.isArray(text)){
+    if (Array.isArray(text)) {
         length = text.reduce((t, s) => t + s.length, 0);
     }
-    if(length>94){
-        const count = length/94;
+    if (length > 94) {
+        const count = length / 94;
         Yvalue += count * lineHeight;
     }
     await addnewLine(pdf);
 }
-async function addTitle(pdf,text){
+async function addTitle(pdf, text) {
     pdf.setFont(font, 'bold');
     pdf.setFontSize(16);
-    pdf.text(text,105,Yvalue,{ maxWidth: maxWidth,align: 'center' });
+    pdf.text(text, 105, Yvalue, { maxWidth: maxWidth, align: 'center' });
     await addnewLine(pdf);
 }
-async function addSubTitle(pdf,text){
+async function addSubTitle(pdf, text) {
     pdf.setFont(font, 'bold');
-    pdf.text(text,margeinLeft,Yvalue,{ maxWidth: maxWidth });
+    pdf.text(text, margeinLeft, Yvalue, { maxWidth: maxWidth });
     await addnewLine(pdf);
 }
-async function addnewLine(pdf){
+async function addnewLine(pdf) {
     Yvalue += lineHeight;
     if (Yvalue > 260) {
         pdf.addPage();
         Yvalue = 10;
-        await addImage(pdf,"contenidoID");
+        await addImage(pdf, "contenidoID");
         await addnewLine(pdf);
     }
     pdf.setFontSize(sizeFont);
     pdf.setFont(font, 'normal');
 }
-async function addnewPage(pdf){
+async function addnewPage(pdf) {
     pdf.addPage();
     Yvalue = 20;
 }
