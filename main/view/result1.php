@@ -745,13 +745,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
                             <div class="container-left">
                                 <div class="perfil-vertical">PERFIL</div>
-                                <div style="
-                                        height: stretch;
-                                        width: 3px;
-                                        background: white;
-                                        position: absolute;
-                                        left: 65px;
-                                    "></div>
+                                <div class="divider"></div>
                                 <img src="../../assets/img/test_image/logolsb5.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
                             </div>
 
@@ -983,12 +977,12 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
                             <div class="col-md-6" style="padding:0px">
                                 <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height:680px !important;width: 100%;" id="colorss"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 115px !important;width: 100%;" id="colorss2"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height:690px !important;width: 100%;" id="colorss"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 119px !important;width: 100%;" id="colorss2"></div>
                                 <div class="ht-100 ht-sm-300" style="margin-top: -10px;margin-bottom:3px;height: 115px !important;" id="flotLine2"></div>
                                 <div class="ht-100 ht-sm-300" style="height: 130px !important;" id="flotLineIndGeneral"></div>
                                 <div class="ht-100 ht-sm-300" style="margin-top:10px;height: 350px !important;" id="flotLineEscalasClinicas"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top:15px;   margin-bottom: 15px;height: 65px !important;" id="flotLineIndRiesgoPat"></div>
+                                <div class="ht-100 ht-sm-300" style="margin-top:15px;   margin-bottom: 15px;height: 75px !important;" id="flotLineIndRiesgoPat"></div>
                                 <p style="text-align: left;font-size: 15px !important;">Nota Pc: (Percentil), escala ordinal.</p>
                                 </div>
                             </div>
@@ -1000,12 +994,6 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
                     <div class="col-md-12">
                         <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
-                            <div class="main-content-label mg-b-5">
-                                <h1 style="text-align: center;" id="jsonvalue1">INFORME CUALITATIVO LSB-50</h1>
-                            </div>
-                            <h4 class="tx-15" id="jsonvalue2">INTRODUCCIÓN</h4>
-                            <p class="tx-dark mb-0 txt-force-black" id="jsonvalue3">El LSB-50 (Listado de Síntomas Breve) es un instrumento de evaluación psicopatológica diseñado para proporcionar información sobre las variables clínicas de la persona evaluada. El presente informe ha sido creado con el objetivo de facilitar la interpretación de los resultados obtenidos a partir de sus respuestas y puntuaciones en el LSB-50.</p>
-                            <br>
                             <h4 class="tx-15" id="jsonvalue4">VALIDEZ DEL PERFIL</h4>
                             <p class="tx-dark mb-0 txt-force-black" id="jsonvalue5">El LSB-50 incluye dos escalas de validez diseñadas para detectar posibles sesgos de respuesta que podrían afectar la interpretación de los resultados:</p>
                             <br>
@@ -1151,29 +1139,9 @@ if ($condicion1 || $condicion2 || $condicion3) {
             image: "contenido2"
         });
         jsonpdf.push({
-            type: 4,
-            text: getvalue('jsonvalue1')
+            type: 3
         });
-        jsonpdf.push({
-            type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 7,
-            text: getvalue('jsonvalue2')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
-            text: getvalue('jsonvalue3')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
-        });
+        
         jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue4')
@@ -1868,8 +1836,8 @@ if ($condicion1 || $condicion2 || $condicion3) {
                         },
                         { // Línea horizontal en y = 6
                             yaxis: {
-                                from: 7.65,
-                                to: 7.65
+                                from: 7.63,
+                                to: 7.63
                             },
                             color: 'white',
                             lineWidth: 1.5

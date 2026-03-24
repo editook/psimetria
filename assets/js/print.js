@@ -1,9 +1,9 @@
 const sizeFont = 11;
 const lineHeight = sizeFont * 0.36;
 const font = 'helvetica';
-const margeinLeft = 15;
+const margeinLeft = 5;
 let Yvalue = 10;
-const maxWidth = 180;
+const maxWidth = 199;
 
 const { jsPDF } = window.jspdf;
 async function descargarPDF() {
@@ -55,6 +55,7 @@ async function descargarPDF() {
     btn.disabled = false;
     text.innerText = "DESCARGAR";
     loader.style.display = "none";
+    location.reload();
 }
 
 

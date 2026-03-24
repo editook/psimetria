@@ -1767,7 +1767,8 @@ if($answer_questions2['response'] == '1'){
                     url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
                 }
         </style>
-        <link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">
+        <!---<link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">-->
+        <link href="../../assets/css/style_result3.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
@@ -1796,23 +1797,55 @@ if($answer_questions2['response'] == '1'){
 
 
 					<!-- row -->
-					<div class="row row-sm">
+					<div class="row row-sm container-short">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div id="contenidoID" class="card-maci" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;">
-                                <div  class="card-body" style="padding:10px 5px 10px 5px">
-                                    <div class="row row-sm">
-                                        <div class="col-md-12 col-lg-12">
-                                            <div class="input-group">
-                                                <div class="input-group-text setting-input">
-                                                    <span class="input-group-text setting-input">Id</span>
-                                                </div><input  style="color: black;    height: 30px !important;" class="form-control" value="<?=$register['id_client']?>" type="text">
-                                            </div>
+                            <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
+                            
+                                <div class="container-header">
+                                    <div class="container-body">
+                                        <div class="container-row-bg">
+                                            <span class="label">Id:</span>
+                                            <input class="field form-control" value="<?= $register['id_client'] ?>" />
                                         </div>
                                     </div>
-                                    
-								</div>
+                                </div>
                             </div>
-							<div id="contenido1" class="card card-maci">
+                            <div id="contenido1" class="container-header">
+
+                                <!-- IZQUIERDA -->
+                                <div class="container-left">
+                                    <div class="perfil-vertical">PERFIL</div>
+
+                                    <div class="divider"></div>
+
+                                    <img src="../../assets/img/test_image/logolsb5.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
+                                </div>
+
+                                <!-- DERECHA -->
+                                <div class="container-body">
+
+                                    <div class="row-line">
+                                        <span><b>Nombre:</b> ficticio</span>
+                                    </div>
+
+                                    <div class="row-line">
+                                        <span><b>Edad:</b> <?= $register['age'] ?> años</span>
+                                        <span><b>Sexo:</b> <?= $register['sex'] ?></span>
+                                    </div>
+
+                                    <div class="row-line">
+                                        <span><b>Baremo:</b> Mujeres de 16 a 19 años</span>
+                                        <span><b>Fecha de aplicación:</b> <?= date('d/m/Y') ?></span>
+                                    </div>
+
+                                    <div class="row-line">
+                                        <span><b>Responsable de la aplicación:</b></span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+							<div id="contenido2" class="card card-maci" hidden>
 								<div class="card-body">
                                     <div class="row row-sm">
                                         <div class="col-12 col-md-3 col-lg-2 img-container">
