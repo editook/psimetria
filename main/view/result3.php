@@ -1801,7 +1801,7 @@ if($answer_questions2['response'] == '1'){
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                             <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
                             
-                                <div class="container-header">
+                                <div class="container-header-bg">
                                     <div class="container-body">
                                         <div class="container-row-bg">
                                             <span class="label">Id:</span>
@@ -1818,82 +1818,26 @@ if($answer_questions2['response'] == '1'){
 
                                     <div class="divider"></div>
 
-                                    <img src="../../assets/img/test_image/logolsb5.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
+                                    <img src="../../assets/img/test_image/logomaci.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
                                 </div>
 
                                 <!-- DERECHA -->
                                 <div class="container-body">
 
                                     <div class="row-line">
-                                        <span><b>Nombre:</b> ficticio</span>
+                                        <span><b>Nombre:</b> <?=$register['id_client']?></span>
                                     </div>
 
                                     <div class="row-line">
                                         <span><b>Edad:</b> <?= $register['age'] ?> años</span>
                                         <span><b>Sexo:</b> <?= $register['sex'] ?></span>
                                     </div>
-
-                                    <div class="row-line">
-                                        <span><b>Baremo:</b> Mujeres de 16 a 19 años</span>
-                                        <span><b>Fecha de aplicación:</b> <?= date('d/m/Y') ?></span>
-                                    </div>
-
-                                    <div class="row-line">
-                                        <span><b>Responsable de la aplicación:</b></span>
-                                    </div>
-
-                                </div>
-
-                            </div>
-							<div id="contenido2" class="card card-maci" hidden>
-								<div class="card-body">
-                                    <div class="row row-sm">
-                                        <div class="col-12 col-md-3 col-lg-2 img-container">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png?v=<?=VERSION_CODE?>">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logomaci.jpeg?v=<?=VERSION_CODE?>">
-                                        </div>
-                                        <div class="col-12 col-md-9 col-lg-10">
-                                        <div class="row">
-                                            <div class="col-md-4 col-lg-4">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text setting-input">
-                                                        <span class="input-group-text setting-input">Id</span>
-                                                    </div><input class="form-control" style="color: black;" value="<?=$register['id_client']?>" type="text">
-                                                </div><!-- input-group -->
-                                            </div>
-                                            <div class="col-md-2 col-lg-2">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text setting-input">
-                                                        <span class="input-group-text setting-input">Edad</span>
-                                                    </div><input class="form-control" style="text-align: center;color: black;" value="<?=$register['age']?>" type="text">
-                                                </div><!-- input-group -->
-                                            </div>
-                                            <div class="col-md-3 col-lg-3">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text setting-input">
-                                                        <span class="input-group-text setting-input">Sexo</span>
-                                                    </div><input class="form-control" style="text-align: center;color: black;" value="<?=$register['sex']?>" type="text">
-                                                </div><!-- input-group -->
-                                            </div>
-                                            <div class="col-md-3 col-lg-3">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text setting-input">
-                                                        <span class="input-group-text setting-input">Fecha</span>
-                                                    </div><input class="form-control" style="text-align: center;color: black;" value="<?= date('Y-m-d H:i'); ?>" type="text">
-                                                </div><!-- input-group -->
-                                            </div>
-                                        </div>
-                                        <div class="row row-sm">
-                                            
-                                            <div class="col-md-6 col-lg-6">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text setting-input">
-                                                        <span class="input-group-text setting-input">Baremo</span>
-                                                    </div>
-                                                    <form action="result2.php" method="post" id="form_baremo" style="margin:0;">
+                                    <div class="container-row">
+                                    <span class="label">Baremo:</span>
+                                                    <form action="result3.php" method="post" id="form_baremo" style="margin:0;">
                                                         <input type="hidden" name="id_user" id="id_user" value="<?=$idClient?>">
                                                         <input type="hidden" name="id_register" id="id_register" value="<?=$register['id']?>">
-                                                        <select style="margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
+                                                        <select style="margin:0px;border-radius: 15px;height: 35px;color: black;border: none;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
                                                             <?php
                                                             foreach($baremos as $baremo){
                                                             ?>
@@ -1903,431 +1847,377 @@ if($answer_questions2['response'] == '1'){
                                                             <?php } ?>
                                                         </select>
                                                     </form>
-                                                </div><!-- input-group -->
-                                            </div>
-                                            <div class="col-md-6 col-lg-6">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-text setting-input">
-                                                        <span class="input-group-text setting-input">Responsable de aplicación</span>
-                                                    </div><input class="form-control" style="color: black;" value="Edgar Espinoza Jimenez" type="text">
-                                                </div><!-- input-group -->
-                                            </div>
-                                        </div>
-                                        </div>
+                                                    <span><b style="color: black;">Fecha de aplicación:</b> <?= date('d/m/Y') ?></span>
                                     </div>
                                     
-									
-								</div>
-							</div>
-						</div>
-                        <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div id="contenido2" class="card">
-                                <div class="card-body" style="justify-items: center;">
-                                    <h2 style="place-self: flex-start;margin-left: 11rem;">Escalas,PD, TB y Grafico Asociado</h2>
-                                    <div class="row row-sm">
-                                        <div class="col-md-6" style="padding-right:0px;">
-                                            <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                <div style="margin-bottom: 75px;">
-                                                    
-                                                    <div class="table-responsive">
-                                                        <table class="table mg-b-0 text-md-nowrap">
-                                                           
-                                                            <tbody style="text-align: right;text-align: center;">
 
-                                                                <tr  class="tr_fill" style="border-bottom: 2px solid #5e69aa !important;font-weight: bold;">
-                                                                    <td class="td_fill"></td>
-                                                                    <th scope="row"  class="text-primary td_name"></th>
-                                                                    
-                                                                    <td class="td_valuepd">PD</td>
-                                                                    <td class="td_valuetb">TB</td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                    <td class="td_fill">Fiabilidad</td>
-                                                                    <th scope="row"  class="text-primary td_name">W</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($response_fiabilidad_pd)?></td>
-                                                                    <td class="td_valuetb"></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                    <td class="td_fill">Transparencia</td>
-                                                                    <th scope="row"  class="text-primary td_name">X</th>
-                                                                    
-                                                                    <td class="td_valuepd"><span><?=($transparenciaPD)?></td>
-                                                                    <td class="td_valuetb"><?=$transparenciaTB?></td>
-                                                                </tr>
-                                                                
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill">Deseabilidad</td>
-                                                                    <th scope="row"  class="text-primary td_name">Y</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($deseabilidadPD)?></td>
-                                                                    <td class="td_valuetb"><?=$deseabilidadTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill">Alteración</td>
-                                                                    <th scope="row"  class="text-primary td_name">Z</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($alteracionPD)?></td>
-                                                                    <td class="td_valuetb"><?=$alteracionTB?></td>
-                                                                </tr>
-                                                                <tr  class="tr_fill" style="border-bottom: 2px solid #5e69aa !important;">
-                                                                    
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Introversión</td>
-                                                                    <th scope="row"  class="text-primary td_name">1</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($introversionPD)?></td>
-                                                                    <td class="td_valuetb"><?=$introversionTB_total?></td>
-                                                                </tr>
-                                                                
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Inhibido</td>
-                                                                    <th scope="row"  class="text-primary td_name">2A</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($inhibidoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$inhibidoTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Pesimista</td>
-                                                                    <th scope="row"  class="text-primary td_name">2B</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($pesimistaPD)?></td>
-                                                                    <td class="td_valuetb"><?=$pesimistaTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Sumiso</td>
-                                                                    <th scope="row"  class="text-primary td_name">3</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($sumisoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$sumisoTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Histriónico</td>
-                                                                    <th scope="row"  class="text-primary td_name">4</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($histrionicoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$histrionicoTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Egocéntrico</td>
-                                                                    <th scope="row"  class="text-primary td_name">5</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($egocentricoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$egocentricoTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Rebelde</td>
-                                                                    <th scope="row"  class="text-primary td_name">6A</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($rebeldePD)?></td>
-                                                                    <td class="td_valuetb"><?=$rebeldeTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Rudo</td>
-                                                                    <th scope="row"  class="text-primary td_name">6B</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($rudoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$rudoTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Conformista</td>
-                                                                    <th scope="row"  class="text-primary td_name">7</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($conformistaPD)?></td>
-                                                                    <td class="td_valuetb"><?=$conformistaTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Oposicionista</td>
-                                                                    <th scope="row"  class="text-primary td_name">8A</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($oposicionistaPD)?></td>
-                                                                    <td class="td_valuetb"><?=$oposicionistaTB_total?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Autopunitivo</td>
-                                                                    <th scope="row"  class="text-primary td_name">8B</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($autopunitivoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$autopunitivoTB_total?></td>
-                                                                </tr>
-                                                                <tr  class="tr_fill" style="border-bottom: 2px solid #5e69aa !important;">
-                                                                    
-                                                                </tr>
-                                                                <tr class="tr_fill" >
-                                                                <td class="td_fill"> Tendencia límite</td>
-                                                                    <th scope="row"  class="text-primary td_name">9</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($tendencia_limitePD)?></td>
-                                                                    <td class="td_valuetb"><?=$tendencialimiteTB_total?></td>
-                                                                </tr>
-                                                                <tr  class="tr_fill" style="border-bottom: 2px solid #5e69aa !important;">
-                                                                    
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Difusión de la identidad</td>
-                                                                    <th scope="row"  class="text-primary td_name">A</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($difusionIdentidadPD)?></td>
-                                                                    <td class="td_valuetb"><?=$difusionIdentidadTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Desvalorización de sí mismo</td>
-                                                                    <th scope="row"  class="text-primary td_name">B</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($desvalorizacionMismoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$desvalorizacionMismoTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Desagrado por el propio cuerpo</td>
-                                                                    <th scope="row"  class="text-primary td_name">C</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($desagradoPropioPD)?></td>
-                                                                    <td class="td_valuetb"><?=$desagradoPropioTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Incomodidad respecto al sexo</td>
-                                                                    <th scope="row"  class="text-primary td_name">D</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($incomodidadRespetoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$incomodidadRespetoTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Inseguridad con los iguales</td>
-                                                                    <th scope="row"  class="text-primary td_name">E</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($inseguridadIgualPD)?></td>
-                                                                    <td class="td_valuetb"><?=$inseguridadIgualTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Insensibilidad social</td>
-                                                                    <th scope="row"  class="text-primary td_name">F</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($insencibilidadSocialPD)?></td>
-                                                                    <td class="td_valuetb"><?=$insencibilidadSocialTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Discordancia familiar</td>
-                                                                    <th scope="row"  class="text-primary td_name">G</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($discordanciaFamiliarPD)?></td>
-                                                                    <td class="td_valuetb"><?=$discordanciaFamiliarTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Abusos en la infancia</td>
-                                                                    <th scope="row"  class="text-primary td_name">H</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($abusosInfanciaPD)?></td>
-                                                                    <td class="td_valuetb"><?=$abusosInfanciaTB?></td>
-                                                                </tr>
-                                                                <tr  class="tr_fill" style="border-bottom: 2px solid #5e69aa !important;">
-                                                                    
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Trastornos de la alimentación</td>
-                                                                    <th scope="row"  class="text-primary td_name">AA</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($transtornoAlimentacionPD)?></td>
-                                                                    <td class="td_valuetb"><?=$transtornoAlimentacionTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Inclinación al abuso de sustancias</td>
-                                                                    <th scope="row"  class="text-primary td_name">BB</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($inclinacionAbusoSusPD)?></td>
-                                                                    <td class="td_valuetb"><?=$inclinacionAbusoSusTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Predisposición a la delincuencia</td>
-                                                                    <th scope="row"  class="text-primary td_name">CC</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($predisposicionDeliPD)?></td>
-                                                                    <td class="td_valuetb"><?=$predisposicionDeliTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Propensión a la impulsividad</td>
-                                                                    <th scope="row"  class="text-primary td_name">DD</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($propensionInPD)?></td>
-                                                                    <td class="td_valuetb"><?=$propensionInTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Sentimiento de ansiedad</td>
-                                                                    <th scope="row"  class="text-primary td_name">EE</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($sentimientoAncPD)?></td>
-                                                                    <td class="td_valuetb"><?=$sentimientoAncTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Afecto depresivo</td>
-                                                                    <th scope="row"  class="text-primary td_name">FF</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($afectoDepresivoPD)?></td>
-                                                                    <td class="td_valuetb"><?=$afectoDepresivoTB?></td>
-                                                                </tr>
-                                                                <tr class="tr_fill">
-                                                                <td class="td_fill"> Tendencia al suicidio</td>
-                                                                    <th scope="row"  class="text-primary td_name">GG</th>
-                                                                    
-                                                                    <td class="td_valuepd"><?=($tendenciaSuicidioPD)?></td>
-                                                                    <td class="td_valuetb"><?=$tendenciaSuicidioTB?></td>
-                                                                </tr>
-                                                                <tr  class="tr_fill" style="border-bottom: 2px solid #5e69aa !important;">
-                                                                    
-                                                                </tr>
-                                                                <tr  class="tr_fill" style="font-weight: bold;">
-                                                                    <td class="td_fill"></td>
-                                                                    <th scope="row"  class="text-primary td_name"></th>
-                                                                    
-                                                                    <td class="td_valuepd">PD</td>
-                                                                    <td class="td_valuetb">TB</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6" style="padding-left:0px;">
-                                            <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 9px;height: 780px !important;width: 400px;" id="colorss"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 15px;width: 400px;height: 110px !important;" id="flotLine2"></div>
-                                                <div class="ht-100 ht-sm-300" style="width: 400px;height: 276px !important;margin-top: -9px;" id="flotLineIndGeneral"></div>
-                                                <div class="ht-100 ht-sm-300" style="width: 400px;height: 40px !important;margin-top: -9px;" id="flotLineIndRiesgoPat"></div>
-                                                <div class="ht-100 ht-sm-300" style="width: 400px;height: 205px !important;margin-top: -10px;" id="flotLineEscalasClinicas"></div>
-                                                <div class="ht-100 ht-sm-300" style="width: 400px;height: 180px !important;margin-top: -10px;" id="flotLineSindromesClinicos"></div>
-                                               
-                                            </div>
-                                        </div>
+                                    <div class="row-line">
+                                        <span><b>Responsable de la aplicación:</b>Edgar Espinoza Jimenez</span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+							
+						</div>
+                        <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
+                            <div  class="row">
+                                <div class="col-md-6" style="padding: 0;">
+                                    <div class="container-panel">
+                                        <div class="title">Escalas, PD, TB y gráfico asociado</div>
+                                        <table class="report-table">
+
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2" class="title"></th>
+                                                    <th class="th-box">PD</th>
+                                                    <th style="text-align-last: center;">TB</th>
+                                                    <th class="th-box-left"></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td class="label-table">Fiabilidad</td>
+                                                    <td class="code">W</td>
+                                                    <td class="num"><?=($response_fiabilidad_pd)?></td>
+                                                    <td class="num line-left"></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-table">Transparencia</td>
+                                                    <td class="code">X</td>
+                                                    <td class="num"><?=($transparenciaPD)?></td>
+                                                    <td class="num line-left"><?=$transparenciaTB?></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-table">Deseabilidad</td>
+                                                    <td class="code">Y</td>
+                                                    <td class="num"><?=($deseabilidadPD)?></td>
+                                                    <td class="num line-left"><?=($deseabilidadTB)?></td>
+                                                </tr>
+
+                                                <tr class="divider-row">
+                                                    <td class="label-table">Alteración</td>
+                                                    <td class="code">Z</td>
+                                                    <td class="num"><?=($alteracionPD)?></td>
+                                                    <td class="num line-left"><?=($alteracionTB)?></td>
+                                                </tr>
+
+                                                <!-- BLOQUE 2 -->
+                                                <tr>
+                                                    <td class="label-table">Introvertido</td>
+                                                    <td class="code">1</td>
+                                                    <td class="num"><?=($introversionPD)?></td>
+                                                    <td class="num line-left"><?=$introversionTB_total?></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-table">Inhibido</td>
+                                                    <td class="code">2A</td>
+                                                    <td class="num"><?=($inhibidoPD)?></td>
+                                                    <td class="num line-left"><?=$inhibidoTB_total?></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-table">Pesimista</td>
+                                                    <td class="code">2B</td>
+                                                    <td class="num"><?=($pesimistaPD)?></td>
+                                                    <td class="num line-left"><?=$pesimistaTB_total?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Sumiso</td>
+                                                    <td class="code">3</td>
+                                                    <td class="num"><?=$sumisoPD?></td>
+                                                    <td class="num line-left"><?=$sumisoTB_total?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Histriónico</td>
+                                                    <td class="code">4</td>
+                                                    <td class="num"><?=$histrionicoPD?></td>
+                                                    <td class="num line-left"><?=$histrionicoTB_total?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Egocéntrico</td>
+                                                    <td class="code">5</td>
+                                                    <td class="num"><?=$egocentricoPD?></td>
+                                                    <td class="num line-left"><?=$egocentricoTB_total?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Rebelde</td>
+                                                    <td class="code">6A</td>
+                                                    <td class="num"><?=$rebeldePD?></td>
+                                                    <td class="num line-left"><?=$rebeldeTB_total?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Rudo</td>
+                                                    <td class="code">6B</td>
+                                                    <td class="num"><?=$rudoPD?></td>
+                                                    <td class="num line-left"><?=$rudoTB_total?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Conformista</td>
+                                                    <td class="code">7</td>
+                                                    <td class="num"><?=$conformistaPD?></td>
+                                                    <td class="num line-left"><?=$conformistaTB_total?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Oposicionista</td>
+                                                    <td class="code">8A</td>
+                                                    <td class="num"><?=$oposicionistaPD?></td>
+                                                    <td class="num line-left"><?=$oposicionistaTB_total?></td>
+                                                </tr>
+                                                <tr class="divider-row">
+                                                    <td class="label-table">Autopunitivo</td>
+                                                    <td class="code">8B</td>
+                                                    <td class="num"><?=$autopunitivoPD?></td>
+                                                    <td class="num line-left"><?=$autopunitivoTB_total?></td>
+                                                </tr>
+                                                <tr class="divider-row">
+                                                    <td class="label-table">Tendencia Límite</td>
+                                                    <td class="code">9</td>
+                                                    <td class="num"><?=$tendencia_limitePD?></td>
+                                                    <td class="num line-left"><?=$tendencialimiteTB_total?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Difusión de la identidad</td>
+                                                    <td class="code">A</td>
+                                                    <td class="num"><?=$difusionIdentidadPD?></td>
+                                                    <td class="num line-left"><?=$difusionIdentidadTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Desvalorización de sí mismo</td>
+                                                    <td class="code">B</td>
+                                                    <td class="num"><?=$desvalorizacionMismoPD?></td>
+                                                    <td class="num line-left"><?=$desvalorizacionMismoTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Desagrado con el propio cuerpo</td>
+                                                    <td class="code">C</td>
+                                                    <td class="num"><?=$desagradoPropioPD?></td>
+                                                    <td class="num line-left"><?=$desagradoPropioTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Incomodidad respecto al sexo</td>
+                                                    <td class="code">D</td>
+                                                    <td class="num"><?=$incomodidadRespetoPD?></td>
+                                                    <td class="num line-left"><?=$incomodidadRespetoTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Inseguridad con los iguales</td>
+                                                    <td class="code">E</td>
+                                                    <td class="num"><?=$inseguridadIgualPD?></td>
+                                                    <td class="num line-left"><?=$inseguridadIgualTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Insensibilidad social</td>
+                                                    <td class="code">F</td>
+                                                    <td class="num"><?=$insencibilidadSocialPD?></td>
+                                                    <td class="num line-left"><?=$insencibilidadSocialTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Discordancia familiar</td>
+                                                    <td class="code">G</td>
+                                                    <td class="num"><?=$discordanciaFamiliarPD?></td>
+                                                    <td class="num line-left"><?=$discordanciaFamiliarTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Abusos en la infancia</td>
+                                                    <td class="code">H</td>
+                                                    <td class="num"><?=$abusosInfanciaPD?></td>
+                                                    <td class="num line-left"><?=$abusosInfanciaTB?></td>
+                                                </tr>
+                                                <tr class="divider-row">
+                                                    <td class="label-table">Trastornos de la alimentación</td>
+                                                    <td class="code">AA</td>
+                                                    <td class="num"><?=$transtornoAlimentacionPD?></td>
+                                                    <td class="num line-left"><?=$transtornoAlimentacionTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Inclinación al abuso de sustancias</td>
+                                                    <td class="code">BB</td>
+                                                    <td class="num"><?=$inclinacionAbusoSusPD?></td>
+                                                    <td class="num line-left"><?=$inclinacionAbusoSusTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Predisposición a la delincuencia</td>
+                                                    <td class="code">CC</td>
+                                                    <td class="num"><?=$predisposicionDeliPD?></td>
+                                                    <td class="num line-left"><?=$predisposicionDeliTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Propensión a la impulsividad</td>
+                                                    <td class="code">DD</td>
+                                                    <td class="num"><?=$propensionInPD?></td>
+                                                    <td class="num line-left"><?=$propensionInTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Sentimientos de ansiedad</td>
+                                                    <td class="code">EE</td>
+                                                    <td class="num"><?=$sentimientoAncPD?></td>
+                                                    <td class="num line-left"><?=$sentimientoAncTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Afecto depresivo</td>
+                                                    <td class="code">FF</td>
+                                                    <td class="num"><?=$afectoDepresivoPD?></td>
+                                                    <td class="num line-left"><?=$afectoDepresivoTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-table">Tendencia al suicidio</td>
+                                                    <td class="code">GG</td>
+                                                    <td class="num"><?=$tendenciaSuicidioPD?></td>
+                                                    <td class="num line-left"><?=$tendenciaSuicidioTB?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2" class="title"></th>
+                                                    <th class="th-box">PD</th>
+                                                    <th style="text-align-last: center;">TB</th>
+                                                    <th class="th-box-left"></th>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding-left:0px;">
+                                    <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="ht-100 ht-sm-300" style="margin-left:-16px;margin-top: 23px;height: 941px !important;width: 103%;" id="colorss"></div>
+                                        <div class="ht-100 ht-sm-300" style="margin-top: 54px;width: 100%;;height: 110px !important;" id="flotLine2"></div>
+                                        <div class="ht-100 ht-sm-300" style="width: 100%;height: 341px !important;margin-top: -12px;" id="flotLineIndGeneral"></div>
+                                        <div class="ht-100 ht-sm-300" style="width: 100%;height: 40px !important;margin-top: -9px;" id="flotLineIndRiesgoPat"></div>
+                                        <div class="ht-100 ht-sm-300" style="width: 100%;height: 286px !important;margin-top: -10px;" id="flotLineEscalasClinicas"></div>
+                                        <div class="ht-100 ht-sm-300" style="margin-left:-16px;width: 105.5%;height: 200px !important;margin-top: -30px;" id="flotLineSindromesClinicos"></div>
+                                        
                                     </div>
                                 </div>
                             </div>
-                            
-
                         </div>
+                        
 						
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
-                                    <h1 style="text-align: center;" id="jsonvalue1">INFORME INTERPRETATIVO MACI</h1>
+                                    <h1 style="text-align: center;color:black" id="jsonvalue1">INFORME INTERPRETATIVO MACI</h1>
                                 </div>
                                 <div class="card-body">
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13"  id="jsonvalue2">ACTITUD ANTE LA PRUEBA</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue2">ACTITUD ANTE LA PRUEBA</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"  id="jsonvalue3">En esta sección se analizan las puntuaciones obtenidas por el adolescente en las escalas de Validez (V), Transparencia (X), Deseabilidad (Y) y Alteración (Z). Estos indicadores afectan a la fiabilidad y validez de este Inventario clínico y pretenden detectar estilos infrecuentes de respuestas.</p>
-                                    <br>
-                                    
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13"  id="jsonvalue4">Validez (V)</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"  id="jsonvalue5"><?=$validesV?></p>
+                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue3">En esta sección se analizan las puntuaciones obtenidas por el adolescente en las escalas de Validez (V), Transparencia (X), Deseabilidad (Y) y Alteración (Z). Estos indicadores afectan a la fiabilidad y validez de este Inventario clínico y pretenden detectar estilos infrecuentes de respuestas.</p>
                                     <br>
                                     
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13"  id="jsonvalue6">Transparencia  (X)</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue4">Validez (V)</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"  id="jsonvalue7"><?=$transpareciaX?></p>
+                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue5"><?=$validesV?></p>
+                                    <br>
+                                    
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue6">Transparencia  (X)</span></p>
+                                    <br>
+                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue7"><?=$transpareciaX?></p>
                                     <br>
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13"  id="jsonvalue8">Deseabilidad (Y)</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue8">Deseabilidad (Y)</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"  id="jsonvalue9"><?=$deseabilidadY?></p>
+                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue9"><?=$deseabilidadY?></p>
                                     <br>
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue10">Alteración (Z)</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue10">Alteración (Z)</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue11"><?=$alteracionZ?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue11"><?=$alteracionZ?></p>
                                     <br><br><br><br>
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue12">EJE II SEVERIDAD DEL PERFIL CLÍNICO</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue12">EJE II SEVERIDAD DEL PERFIL CLÍNICO</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue13">Este apartado refleja la posible existencia de puntuaciones destacadas en las escalas de <span class="title fw-semibold tx-13" id="jsonvalue13_1">Trastornos de la Personalidad Graves (Tendencias Límite):</span> </p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13">Este apartado refleja la posible existencia de puntuaciones destacadas en las escalas de <span class="title-doc fw-semibold tx-13" id="jsonvalue13_1">Trastornos de la Personalidad Graves (Tendencias Límite):</span> </p>
                                     
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue14"><?=$gravestendencia?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue14"><?=$gravestendencia?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue15">TIPOS DE RESPONSABILIDAD</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue15">TIPOS DE RESPONSABILIDAD</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue16">Los prototipos de personalidad en el MACI (Inventario Clínico para Adolescentes de Millon) miden patrones persistentes de pensamientos, sentimientos y comportamientos que caracterizan la forma en que un adolescente se relaciona consigo mismo y con los demás. En este apartado se detalla los patrones de personalidad en las que ha obtenido puntuaciones que indican la presencia de rasgos de personalidad:</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue16">Los prototipos de personalidad en el MACI (Inventario Clínico para Adolescentes de Millon) miden patrones persistentes de pensamientos, sentimientos y comportamientos que caracterizan la forma en que un adolescente se relaciona consigo mismo y con los demás. En este apartado se detalla los patrones de personalidad en las que ha obtenido puntuaciones que indican la presencia de rasgos de personalidad:</p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue17"><?=$tiposresponsalbilidad?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue17"><?=$tiposresponsalbilidad?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue18"><?=$tiposresponsalbilidad2?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue18"><?=$tiposresponsalbilidad2?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue19"><?=$tiposresponsalbilidad3?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue19"><?=$tiposresponsalbilidad3?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue20"><?=$tiposresponsalbilidad4?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue20"><?=$tiposresponsalbilidad4?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue21"><?=$tiposresponsalbilidad5?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue21"><?=$tiposresponsalbilidad5?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue22">EJE I: SÍNDROMES CLÍNICOS</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue22">EJE I: SÍNDROMES CLÍNICOS</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue23"><?=$tiposresponsalbilidad6?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue24"><?=$tiposresponsalbilidad7?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue23"><?=$tiposresponsalbilidad6?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue25"><?=$tiposresponsalbilidad8?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue24"><?=$tiposresponsalbilidad7?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue26"><?=$tiposresponsalbilidad9?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue25"><?=$tiposresponsalbilidad8?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue27"><?=$tiposresponsalbilidad10?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue26"><?=$tiposresponsalbilidad9?></p>
+                                    <br>
+                                    <br>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue27"><?=$tiposresponsalbilidad10?></p>
                                     <br><br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue28">PREOCUPACIONES EXPRESADAS</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue28">PREOCUPACIONES EXPRESADAS</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue29">El MACI (Inventario Clínico para Adolescentes de Millon) las preocupaciones expresadas se centran en los sentimientos y actitudes acerca de cuestiones que tienden a preocupar a la mayoría de los adolescentes con problemas. La intensidad con que se experimenta queda reflejada en la evaluación de las puntuaciones de cada escala, hay que destacar que estas escalas representan percepciones más que criterios o comportamientos objetivamente observables. A continuación, se detallarán las preocupaciones destacadas:							</p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue30"><?=$tiposresponsalbilidad11?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue29">El MACI (Inventario Clínico para Adolescentes de Millon) las preocupaciones expresadas se centran en los sentimientos y actitudes acerca de cuestiones que tienden a preocupar a la mayoría de los adolescentes con problemas. La intensidad con que se experimenta queda reflejada en la evaluación de las puntuaciones de cada escala, hay que destacar que estas escalas representan percepciones más que criterios o comportamientos objetivamente observables. A continuación, se detallarán las preocupaciones destacadas:							</p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue31"><?=$tiposresponsalbilidad12?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue30"><?=$tiposresponsalbilidad11?></p>
+                                    <br>
+                                    <br>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue31"><?=$tiposresponsalbilidad12?></p>
 
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue32"><?=$tiposresponsalbilidad13?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue32"><?=$tiposresponsalbilidad13?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue33"><?=$tiposresponsalbilidad14?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue33"><?=$tiposresponsalbilidad14?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue34"><?=$tiposresponsalbilidad15?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue34"><?=$tiposresponsalbilidad15?></p>
                                     <br><br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue35">PUNTOS FUERTES</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue35">PUNTOS FUERTES</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue36">A continuación, se presentan los puntos fuertes identificados con tasas base (TB) menores o iguales a 35.</p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue37"><?=$tiposresponsalbilidad16?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue36">A continuación, se presentan los puntos fuertes identificados con tasas base (TB) menores o iguales a 35.</p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue38"><?=$tiposresponsalbilidad17?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue37"><?=$tiposresponsalbilidad16?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue39"><?=$tiposresponsalbilidad18?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue38"><?=$tiposresponsalbilidad17?></p>
                                     <br>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue40"><?=$tiposresponsalbilidad19?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue39"><?=$tiposresponsalbilidad18?></p>
+                                    <br>
+                                    <br>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue40"><?=$tiposresponsalbilidad19?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" ><span class="title fw-semibold tx-13" id="jsonvalue41">RESPUESTAS DESTACADAS</span></p>
+                                    <p class="tx-dark mb-0 tx-13" ><span class="title-doc fw-semibold tx-13" id="jsonvalue41">RESPUESTAS DESTACADAS</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue42"><?=$tiposresponsalbilidad20?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue42"><?=$tiposresponsalbilidad20?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue43">D. Incomodidad respecto al sexo</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue43">D. Incomodidad respecto al sexo</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue44"><?=$tiposresponsalbilidad21?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue44"><?=$tiposresponsalbilidad21?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue45">H. Abusos en la infancia</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue45">H. Abusos en la infancia</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue46"><?=$tiposresponsalbilidad22?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue46"><?=$tiposresponsalbilidad22?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13" id="jsonvalue47">Otros respuestas relevantes</span></p>
+                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue47">Otros respuestas relevantes</span></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue48"><?=$tiposresponsalbilidad23?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue48"><?=$tiposresponsalbilidad23?></p>
                                 </div>
                                 
                             </div>
@@ -2415,6 +2305,7 @@ if($answer_questions2['response'] == '1'){
             var jsonpdf = [];
             jsonpdf.push({type:2,image:"contenido1"} );
             jsonpdf.push({type:2,image:"contenido2"} );
+            
             jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:7,text:getvalue('jsonvalue2')} );
@@ -2865,11 +2756,11 @@ if($answer_questions2['response'] == '1'){
                         tickColor: 'black',
                         tickLength: 0,
                         ticks: [
-                            [0, '0'],
-                            [60, '60'],
-                            [75, '75'],
-                            [85, '85'],
-                            [115, '115'],
+                            [0, '<b style="font-size: 15px;font-weight: 300;">0</b>'],
+                            [60, '<b style="font-size: 15px;font-weight: 300;">60</b>'],
+                            [75, '<b style="font-size: 15px;font-weight: 300;">75</b>'],
+                            [85, '<b style="font-size: 15px;font-weight: 300;">85</b>'],
+                            [115, '<b style="font-size: 15px;font-weight: 300;">115</b>'],
                         ],
                         
                         position:'bottom',
@@ -2930,30 +2821,30 @@ if($answer_questions2['response'] == '1'){
                                 xaxis: { from: 85, to: 115 }, 
                                 color: '#5e69aa'
                             },
-                            { // Línea horizontal en y = 6
-                                yaxis: { from: 10.5, to: 10.5 },
+                            { 
+                                yaxis: { from: 10.45, to: 10.45 },
                                 color: 'white', // color rojo
-                                lineWidth: 3
+                                lineWidth: 2
                             },
-                            { // Línea horizontal en y = 6
-                                yaxis: { from: 6.2, to: 6.2 },
+                            { 
+                                yaxis: { from: 6.24, to: 6.24 },
                                 color: 'white', // color rojo
-                                lineWidth: 3
+                                lineWidth: 2
                             }
                             ,
-                            { // Línea horizontal en y = 6
+                            { 
                                 yaxis: { from: 5.8, to: 5.8 },
                                 color: 'white', // color rojo
-                                lineWidth: 3
+                                lineWidth: 2
                             }
                             ,
-                            { // Línea horizontal en y = 6
-                                yaxis: { from: 2.67, to: 2.67 },
+                            { 
+                                yaxis: { from: 2.32, to: 2.32 },
                                 color: 'white', // color rojo
-                                lineWidth: 3
+                                lineWidth: 2
                             }
                              ,
-                            { // Línea horizontal en y = 6
+                            { 
                                 yaxis: { from: 0.02, to: 0.02 },
                                 color: 'white', // color rojo
                                 lineWidth: 5
@@ -2979,11 +2870,11 @@ if($answer_questions2['response'] == '1'){
                         tickColor: 'black',
                         tickLength: 0,
                         ticks: [
-                            [0, '0'],
-                            [60, '60'],
-                            [75, '75'],
-                            [85, '85'],
-                            [115, '115'],
+                            [0, '<b style="font-size: 15px;font-weight: 300;">0</b>'],
+                            [60, '<b style="font-size: 15px;font-weight: 300;">60</b>'],
+                            [75, '<b style="font-size: 15px;font-weight: 300;">75</b>'],
+                            [85, '<b style="font-size: 15px;font-weight: 300;">85</b>'],
+                            [115, '<b style="font-size: 15px;font-weight: 300;">115</b>'],
                         ],
                         
                         position:'top',

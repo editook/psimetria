@@ -294,7 +294,8 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                     url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
                 }
         </style>
-        <link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">
+        <!---<link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">-->
+        <link href="../../assets/css/style_result2.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
@@ -322,175 +323,131 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
 
 
 					<!-- row -->
-					<div class="row row-sm">
+					<div class="row row-sm container-short">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div id="contenidoID" class="card-af5" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;">
-                                <div  class="card-body" style="padding:10px 5px 10px 5px">
-                                    <div class="row row-sm">
-                                        <div class="col-md-12 col-lg-12">
-                                            <div class="input-group">
-                                                <div class="input-group-text setting-input">
-                                                    <span class="input-group-text setting-input">Id</span>
-                                                </div><input  style="color: black;    height: 30px !important;" class="form-control" value="<?=$register['id_client']?>" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-								</div>
-                            </div>
-                            
-							<div id="contenido1" class="card card-af5 ">
-								<div  class="card-body">
-                                    <div class="row row-sm">
-                                        <div class="col-12 col-md-3 col-lg-2 img-container">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png?v=<?=VERSION_CODE?>">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logoaf5.jpeg?v=<?=VERSION_CODE?>">
-                                        </div>
-                                        <div class="col-12 col-md-9 col-lg-10">
-                                            <div class="row">
-                                                <div class="col-md-4 col-lg-4">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Id</span>
-                                                        </div><input  style="color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-2 col-lg-2">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Edad</span>
-                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-3 col-lg-3">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Sexo</span>
-                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-3 col-lg-3">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Fecha</span>
-                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i'); ?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-12 col-lg-12">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input" style="width: 10%;">
-                                                            <span class="input-group-text setting-input" id="basic-addon1">Baremo</span>
-                                                        </div>
-                                                        <form action="result2.php" method="post" id="form_baremo" style="margin:0;width: 90%;">
-                                                            <input type="hidden" name="id_user" id="id_user" value="<?=$idClient?>">
-                                                            <input type="hidden" name="id_register" id="id_register" value="<?=$register['id']?>">
-                                                            <select  style="margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
-                                                                <?php
-                                                                foreach($baremos as $baremo){
-                                                                ?>
-                                                                <option value="<?=$baremo['id']?>" <?=$baremo['active']=='0'?'disabled':''?> <?=$register['baremo_id']==$baremo['id']?'selected':''?>>
-                                                                    <?=htmlspecialchars($baremo['name'])?>
-                                                                </option>
-                                                                <?php } ?>
-                                                            </select>
-                                                        </form>
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-12 col-lg-12">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input" id="basic-addon1">Responsable de aplicación</span>
-                                                        </div><input style="color: black;" aria-describedby="basic-addon1" class="form-control" value="Edgar Espinoza Jimenez" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-								</div>
-							</div>
-						</div>
-                        <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div  id="contenido2" class="card " >
-                                <div class="card-body">
-                                    <div class="row row-sm">
-                                        <div class="col-md-6" style="padding-right:0px;">
-                                            <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                    
-                                                <div class="table-responsive">
-                                                    <table class="table mg-b-0 text-md-nowrap">
-                                                        
-                                                        <tbody style="text-align: right;text-align: center;">
-                                                            <tr  class="tr_fill" style="font-weight: bold;">
-                                                                <td class="td_fill" >Puntuaciones especificas</td>
-                                                                <th scope="row"  class="text-primary td_name"></th>
-                                                                
-                                                                <td class="td_valuepd">PD</td>
-                                                                <td class="td_valuetb">PC</td>
-                                                            </tr>
-                                                            <tr  class="tr_fill" style="border-bottom: 2px solid #beecdb !important;">
-                                                                    
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">Autoconcepto Académico/Laboral</td>
-                                                                <th class="text-primary td_name" scope="row">ACA</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($aca_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$aca_pc["$aca_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill">Autoconcepto Social</td>
-                                                                <th class="text-primary td_name" scope="row">SOC</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($soc_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$soc_pc["$soc_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill">Autoconcepto Emocional</td>
-                                                                <th class="text-primary td_name" scope="row" >EMO</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($emo_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$emo_pc["$emo_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill">Autoconcepto Familiar</td>
-                                                                <th class="text-primary td_name" scope="row">FAM</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($fam_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$fam_pc["$fam_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill">Autoconcepto Fisico</td>
-                                                                <th class="text-primary td_name" scope="row">FIS</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($fis_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$fis_pc["$fis_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr  class="tr_fill" style="border-bottom: 2px solid #beecdb !important;">
-                                                                    
-                                                            </tr>
-                                                            <tr  class="tr_fill" style="font-weight: bold;">
-                                                                    <td class="td_fill"></td>
-                                                                    <th scope="row"  class="text-primary td_name"></th>
-                                                                    
-                                                                    <td class="td_valuepd">PD</td>
-                                                                    <td class="td_valuetb">PC</td>
-                                                                </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6" style="padding-left:0px;">
-                                            <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                <div class="ht-100 ht-sm-300" style="height: 160px !important;" id="flotLine2"></div>
-                                                <p class="mg-t-20" style="text-align: left;"><span style="font-weight: bold;">Nota Pc:</span> (Percentil), escala ordinal.</p>
-                                            </div>
+                            <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
+                                <div class="container-header">
+                                    <div class="container-body">
+                                        <div class="container-row-bg">
+                                            <span class="label">Id:</span>
+                                            <input class="field form-control" value="<?= $register['id_client'] ?>" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div id="contenido1" class="container-header">
+                                <div class="container-left">
+                                    <div class="perfil-vertical">PERFIL</div>
+                                    <div class="divider"></div>
+                                    <img src="../../assets/img/test_image/logoaf5.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
+                                </div>
+                                <div  class="container-body">
+
+                                    <div class="container-row">
+                                        <span class="label">Id:</span>
+                                        <input class="field form-control" value="<?= $register['id_client'] ?>" />
+                                    </div>
+
+                                    <div class="container-row">
+                                        <span class="label">Edad:</span>
+                                        <input class="field form-control max" value="<?= $register['age'] ?>" />
+
+                                        <span class="label">Sexo:</span>
+                                        <input class="field form-control max" value="<?= $register['sex'] ?>" />
+
+                                        <span class="label">Fecha de aplicación:</span>
+                                        <input class="field form-control max" value="<?= date('d/m/Y') ?>" />
+                                    </div>
+
+                                    <div class="container-row">
+                                        <span class="label">Baremo:</span>
+
+                                        <form action="result2.php" method="post" id="form_baremo" style="margin:0;width: 100%;">
+                                            <input type="hidden" name="id_user" id="id_user" value="<?= $idClient ?>">
+                                            <input type="hidden" name="id_register" id="id_register" value="<?= $register['id'] ?>">
+                                            <select class="field form-control max-left" id="baremo_id" name="baremo_id">
+                                                <?php
+                                                foreach ($baremos as $baremo) {
+                                                ?>
+                                                    <option value="<?= $baremo['id'] ?>" <?= $baremo['active'] == '0' ? 'disabled' : '' ?> <?= $register['baremo_id'] == $baremo['id'] ? 'selected' : '' ?>>
+                                                        <?= htmlspecialchars($baremo['name']) ?>
+                                                    </option>
+                                                <?php } ?>
+                                            </select>
+                                        </form>
+                                    </div>
+
+                                    <div class="container-row row-m0">
+                                        <span class="label">Responsable de la aplicación:</span>
+                                        <input class="field form-control max-left" value="<?= $register['evaluador'] ?>">
+                                    </div>
+
+                                </div>
+                            </div>
+							
+						</div>
+                        <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
+                            <div  class="row">
+                                <div class="col-md-6" style="padding: 0;">
+                                    <div class="container-panel">
+                                        <table class="score-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="title" colspan="2">Puntuaciones específicas</th>
+                                                    <th class="th-small">PD</th>
+                                                    <th class="th-small" style="padding-right: 17px;">Pc</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto académico/laboral</td>
+                                                    <td class="code">ACA</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($aca_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$aca_pc["$aca_pd"]?></span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto social</td>
+                                                    <td class="code">SOC</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($soc_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$soc_pc["$soc_pd"]?></span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto emocional</td>
+                                                    <td class="code">EMO</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($emo_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$emo_pc["$emo_pd"]?></span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto familiar</td>
+                                                    <td class="code">FAM</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($fam_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$fam_pc["$fam_pd"]?></span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto físico</td>
+                                                    <td class="code">FIS</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($fis_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$fis_pc["$fis_pd"]?></span></td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding:0px;">
+                                    <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="ht-100 ht-sm-300" style="z-index: -1;left: -10px;margin-top: -10px;height:275px  !important;width: 106%;" id="colorss"></div>
+                                        <div class="ht-100 ht-sm-300" style="height: 160px !important;" id="flotLine2"></div>
+                                        <p class="mg-t-20" style="text-align: left;"><span style="font-weight: bold;">Nota Pc:</span> (Percentil), escala ordinal.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             
 
                         </div>
@@ -665,7 +622,7 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                     [<?=$fis_pc["$fis_pd"]?>,0]
                 ];
                 
-                var plot = $.plot($('#flotLine2'), [{
+                var plot = $.plot($('#flotLine23'), [{
                     data: newCust,
                     label: 'Data',
                     color: colorLine
@@ -690,19 +647,19 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                         show:false
                     },
                     grid: {
-                        borderWidth: 5,
+                        borderWidth: 0,
                         hoverable: true,
                         borderColor: 'white',
-                        borderRadius: 10,
-                        innerMargin: -2,
+                        borderRadius: 40,
+                        innerMargin: -40,
                         show:true,
                          markings: [
                             {
-                                xaxis: { from: 0, to: 2.90 },
+                                xaxis: { from: 0, to: 12.80 },
                                 color: '#fdc780'
                             },
                             {
-                                xaxis: { from: 3, to: 15.80 },
+                                xaxis: { from: 13.10, to: 15.80 },
                                 color: '#eed68a'
                             },
                             {
@@ -772,7 +729,109 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                         position:'top'
                     }
                 });
-              
+
+                var colores = $.plot($('#colorss'), [{
+                    data: [],
+                    label: 'Data',
+                    color: colorLine
+                }], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0
+                    },
+                    points: {
+                        show: true,
+                        radius: 3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth: 2.5
+                    },
+                    legend: {
+                        noColumns: 1,
+                        position: 'ne',
+                        show: false
+                    },
+                    grid: {
+                        borderWidth: 20,
+                        hoverable: true,
+                        borderColor: 'white',
+                        borderRadius: 40,
+                        innerMargin: -10,
+                        show:true,
+                        markings: [
+                           {
+                                xaxis: { from: 0, to: 10.00 },
+                                color: '#fdc780'
+                            },
+                            {
+                                xaxis: { from: 10.20, to: 29.80 },
+                                color: '#eed68a'
+                            },
+                            {
+                                xaxis: { from: 30.00, to: 40.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 40.20, to: 47.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 47.00, to: 58.80 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 59.00, to: 69.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 69.20, to: 88.80 },
+                                color: '#8faa3c'
+                            },
+                            {
+                                xaxis: { from: 89.00, to: 99 },
+                                color: '#627430'
+                            },
+                            { // Línea punteada en X = 50
+                                xaxis: { from: 49.5, to: 49.5 },
+                                color: '#000', // color de la línea
+                                lineWidth: 0.5
+                            },
+                        ]
+                    },
+                    yaxis: {
+                        min: 0,
+                        max: 99,
+                        color: '#eee',
+                        ticks: [
+                            [0, ''],
+                            [99, '']
+                        ],
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: 'transparent'
+                        },
+                        show: false
+                    },
+                    xaxis: {
+                        color: '#eee',
+                        min: 0,
+                        show: false,
+                        max: 99,
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: '#999'
+                        }
+                    }
+                });
+                
+            setTimeout(function() {
+                document.getElementById('colorss').style.position = 'absolute';
+            }, 1000);
             
             function labelFormatter(label, series) {
                 return '<div style="font-size:8pt; text-align:center; padding:2px; color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';

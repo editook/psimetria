@@ -8,7 +8,14 @@
     background: white;
     padding: 10px;
     align-items: center;
-    background-color: antiquewhite;
+}
+
+.container-header-bg {
+    display: flex;
+    background: #dcdcdc;
+    border-radius: 18px;
+    padding: 10px;
+    align-items: center;
 }
 
 .container-left {
@@ -23,37 +30,43 @@
     transform-origin: center;
     font-weight: bold;
     color: black;
-    font-size: 40px;
+    font-size: 30px;
     white-space: nowrap;
-    margin-left: -50px;
+    margin-left: -20px;
     position: absolute;
 }
-.divider{
+
+.divider {
     height: stretch;
-    width: 3px;
-    background: white;
+    width: 1px;
+    background: black;
     position: absolute;
-    left: 65px;
+    left: 50px;
+}
+
+b {
+    margin-right: 7px;
 }
 
 .img-logo {
-    height: 90px;
+    height: 130px;
+    margin-left: 80px;
 }
 
 .container-body {
     flex: 1;
     padding-left: 15px;
 }
+
 .row-line {
     display: flex;
     gap: 90px;
     margin-bottom: 6px;
     align-items: center;
     color: black;
+
 }
-.row-line .right {
-    margin-left: auto;
-}
+
 .container-row-bg {
     display: flex;
     align-items: center;
@@ -67,13 +80,9 @@
     margin-bottom: 15px;
 }
 
-.row-m0 {
-    margin-bottom: 0px;
-}
-
 .label {
-    color: #d10f0f;
-    font-weight: 800;
+    color: black;
+    font-weight: bolder;
     white-space: nowrap;
 }
 
@@ -86,92 +95,12 @@
     color: black;
 }
 
-.max-left {
-    width: 100%;
-    text-align: left;
-}
-
-.max {
-    width: 100%;
-    text-align: center;
-}
 
 .container-panel {
     font-family: "Ronnia Regular", sans-serif;
+    color: black;
 }
 
-.section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.title-pill {
-    background: linear-gradient(#2e7b8f, #1f4e5f);
-    color: white;
-    padding: 2px 6px;
-    border-radius: 10px;
-    flex: 1;
-    text-align: center;
-    margin-right: 10px;
-}
-
-.title-pill-none {
-    color: white;
-    padding: 2px 6px;
-    border-radius: 10px;
-    flex: 1;
-    text-align: center;
-    margin-right: 10px;
-}
-
-.header-pills {
-    display: flex;
-    gap: 10px;
-}
-
-.pill {
-    background: linear-gradient(#2e7b8f, #1f4e5f);
-    color: white;
-    padding: 2px 23px;
-    border-radius: 10px;
-    font-weight: bold;
-    min-width: 40px;
-    text-align: center;
-}
-
-.row-item {
-    display: grid;
-    grid-template-columns: 60px 1fr 70px 70px;
-    align-items: center;
-    margin: 10px 0;
-}
-
-.code {
-    color: #3b67b1;
-    font-weight: bold;
-}
-
-.label-text {
-    color: #333;
-}
-
-.value {
-    border: 2px solid #2b78c5;
-    border-radius: 10px;
-    text-align: center;
-    padding: 1px 6px;
-    background: #fff;
-    font-weight: bold;
-}
-
-.mr4 {
-    margin-right: 4px;
-}
-
-.ml4 {
-    margin-left: 4px;
-}
 
 .main-body {
     background-color: white !important;
@@ -186,12 +115,6 @@ span {
     font-family: "Ronnia Regular", sans-serif !important;
 }
 
-h4 {
-    font-family: "Ronnia Regular", sans-serif !important;
-    font-weight: bold !important;
-    font-size: 20px !important;
-    color: black;
-}
 
 h1 {
     font-family: "Ronnia Regular", sans-serif !important;
@@ -202,13 +125,6 @@ input {
     font-family: "Ronnia Regular", sans-serif !important;
 }
 
-.setting-input {
-    background-color: transparent;
-    border: 1px solid transparent;
-    font-weight: bold !important;
-    padding-right: 3px !important;
-    color: black !important;
-}
 
 .container {
     padding-left: 20px !important;
@@ -229,4 +145,73 @@ input {
     box-shadow: none;
     border: 1px solid #b3b3b3;
     background: white !important;
+}
+
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.title {
+    text-align: left;
+    font-size: 18px;
+    padding-bottom: 10px;
+}
+
+.th-box {
+    border: 2px solid black;
+    text-align: center;
+    height: 23px;
+    font-weight: bold;
+    padding: 0px;
+}
+
+.th-box-left {
+    width: 546px;
+    position: absolute;
+    height: 25px;
+    border: 2px solid black;
+    margin-left: -61px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: -1px;
+    z-index: 1;
+}
+
+.label-table {
+    padding: 4px 6px;
+}
+
+.code {
+    width: 50px;
+    text-align: right;
+    font-weight: bold;
+    color: black;
+}
+
+.num {
+    width: 60px;
+    text-align: center;
+}
+
+.line-left {
+    border-left: 2px solid #5e69aa;
+}
+
+.divider-row td {
+    border-bottom: 1.3px solid #5e69aa;
+    padding-bottom: 6px;
+}
+
+tbody tr td {
+    padding: 3px 6px;
+}
+
+.title-doc {
+    color: black;
+    font-size: 20px !important;
+    font-weight: bold !important;
 }

@@ -5,7 +5,7 @@
 
 .container-header {
     display: flex;
-    background: #dcdcdc;
+    background: #ecefec;
     border-radius: 18px;
     padding: 10px;
     align-items: center;
@@ -29,7 +29,7 @@
     transform: rotate(-90deg);
     transform-origin: center;
     font-weight: bold;
-    color: #d10f0f;
+    color: #231f20;
     font-size: 40px;
     white-space: nowrap;
     height: 100px;
@@ -65,13 +65,13 @@
 }
 
 .label {
-    color: #d10f0f;
-    font-weight: 800;
+    color: #191919;
+    font-weight: 600;
     white-space: nowrap;
 }
 
 .field {
-    border: none;
+    border: 1px solid #cdcfd0;
     border-radius: 10px !important;
     height: 30px !important;
     width: 100%;
@@ -89,7 +89,7 @@
 }
 
 .container-panel {
-    font-family: "Ronnia Regular", sans-serif;
+    font-family: Arial, sans-serif;
 }
 
 .section-header {
@@ -139,12 +139,8 @@
     margin: 10px 0;
 }
 
-.code {
-    color: #3b67b1;
-    font-weight: bold;
-}
-
 .label-text {
+    padding: 6px 4px;
     color: #333;
 }
 
@@ -221,4 +217,61 @@ input {
     box-shadow: none;
     border: 1px solid #b3b3b3;
     background: white !important;
+}
+
+.score-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+
+.score-table thead tr {
+    border-bottom: 1.8px solid #7fb3c8;
+}
+
+.title {
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 6px;
+    color:#191919;
+}
+
+.th-small {
+    text-align: center;
+    font-weight: bold;
+    width: 70px;
+    color:#191919;
+    font-size: 16px;
+}
+
+
+
+.code {
+    font-weight: bold;
+    text-align: left;
+    width: 60px;
+    padding-right: 10px;
+    color:#191919;
+}
+
+.box {
+    display: inline-block;
+    min-width: 50px;
+    text-align: center;
+    
+    border: 1.5px solid #999;
+    border-radius: 9px;
+    font-weight: 500;
+    color: black;
+}
+
+.score-table td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.p-left{
+    padding-left: 10px !important;
 }
