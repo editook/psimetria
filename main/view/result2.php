@@ -1,6 +1,6 @@
 <?php
 include_once('../configs.php');
-
+	//AF-5
 session_start();
 require '../../vendor/autoload.php';
 use Dompdf\Dompdf;
@@ -28,6 +28,12 @@ $answerModel = new Answer_Model();
 $baremoModel = new Baremo_Model();
 $idClient = 0;
 $idpatient = 0;
+
+$device = $registerModel->getDeviceType();
+if ($device === 'mobile') {
+    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    exit;
+}
 
 if(!isset($_SESSION['REST_type_user'])){
     header("Location: ".LOCALHOST."/signin.php");
@@ -200,7 +206,7 @@ if ($value_emo <= 3) {
 } else { // Para valores >= 98
     $text_emo = "Este rango refleja una percepción muy positiva sobre el control emocional y la capacidad de respuesta adaptativa. Se percibe como emocionalmente estable, seguro y capaz de manejar con éxito incluso las situaciones más demandantes. Es probable que tenga un alto nivel de aceptación social, un sólido bienestar emocional y un autocontrol. Este rango también sugiere una mínima probabilidad de experimentar estados emocionales negativos como ansiedad o depresión, y una alta capacidad para fomentar relaciones interpersonales saludables y positivas.";
 }
-$text_emo = "El nivel de autoconcepto de ".$register['id_client']." en el campo EMOCIONAL obtuvo(Pc ".$value_emo.") ".$text_emo;
+$text_emo = "El nivel de autoconcepto de ".$register['id_client']." en el campo EMOCIONAL obtuvo un percentil de ".$value_emo." ".$text_emo;
 
 $value_fam = $fam_pc["$fam_pd"];
 $text_fam = "";
@@ -231,6 +237,11 @@ if ($value_fis <= 3) {
     $text_fis = "Este rango indica una percepción muy positiva de su aspecto físico y la condición física. Se siente atractivo y elegante, se percibe como exitoso en actividades deportivas y valorado socialmente por estas habilidades. Este nivel de autoconcepto físico está asociado con una integración social y un bienestar físico y emocional.";
 }
 $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_client']." obtuvo un percentil de ".$value_fis.", ".$text_fis;
+$title_ = "AUTOCONCEPTO";
+$comment_1 = "El autoconcepto es la percepción que una persona tiene de sí misma, basada en sus experiencias y relaciones con los demás. El AF-5 evalúa cinco dimensiones clave del autoconcepto:";
+
+$pro_tot_pd = number_format(($aca_pd+$soc_pd+$emo_pd+$fam_pd+$fis_pd)/5,2);
+$pro_tot_pc = ($aca_pc["$aca_pd"]+$soc_pc["$soc_pd"]+$emo_pc["$emo_pd"]+$fam_pc["$fam_pd"]+$fis_pc["$fis_pd"])/5;
 ?>
 
 <!DOCTYPE html>
@@ -251,7 +262,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -285,7 +296,8 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                     url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
                 }
         </style>
-        <link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">
+        <!---<link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">-->
+        <link href="../../assets/css/style_result2.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
@@ -297,7 +309,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			<!-- main-header opened -->
 			<?php include("../include/header_top.php");?>
@@ -313,207 +325,203 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 
 
 					<!-- row -->
-					<div class="row row-sm">
+					<div class="row row-sm container-short">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-							<div id="contenido1" class="card card-af5">
-								<div  class="card-body">
-                                    <div class="row row-sm">
-                                        <div class="col-12 col-md-3 col-lg-2 img-container">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png?v=<?=VERSION_CODE?>">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/logoaf5.jpeg?v=<?=VERSION_CODE?>">
-                                        </div>
-                                        <div class="col-12 col-md-9 col-lg-10">
-                                            <div class="row">
-                                                <div class="col-md-12 col-lg-12">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Id</span>
-                                                        </div><input  style="border: 1px solid black !important;color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-6 col-lg-3">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Edad</span>
-                                                        </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-6 col-lg-3">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Sexo</span>
-                                                        </div><input  style="border: 1px solid black !important;text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-12 col-lg-6">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Fecha</span>
-                                                        </div><input  style="border: 0.5px solid black !important;text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i:s'); ?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                            </div>
-                                            <div class="row row-sm">
-                                                <div class="col-md-12 col-lg-12">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input" id="basic-addon1">Baremo</span>
-                                                        </div>
-                                                        <form action="result2.php" method="post" id="form_baremo" style="margin:0;">
-                                                            <input type="hidden" name="id_user" id="id_user" value="<?=$idClient?>">
-                                                            <input type="hidden" name="id_register" id="id_register" value="<?=$register['id']?>">
-                                                            <select  style="border: 0.5px solid black !important;margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
-                                                                <?php
-                                                                foreach($baremos as $baremo){
-                                                                ?>
-                                                                <option value="<?=$baremo['id']?>" <?=$baremo['active']=='0'?'disabled':''?> <?=$register['baremo_id']==$baremo['id']?'selected':''?>>
-                                                                    <?=htmlspecialchars($baremo['name'])?>
-                                                                </option>
-                                                                <?php } ?>
-                                                            </select>
-                                                        </form>
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-12 col-lg-12">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input" id="basic-addon1">Responsable de aplicación</span>
-                                                        </div><input style="border: 0.5px solid black !important;color: black;" aria-describedby="basic-addon1" class="form-control" value="Edgar Espinoza Jimenez" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-								</div>
-							</div>
-						</div>
-                        <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div  id="contenido2" class="card" >
-                                <div class="card-body">
-                                    <div class="row row-sm">
-                                        <div class="col-md-6" style="padding-right:0px;">
-                                            <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                    
-                                                <div class="table-responsive">
-                                                    <table class="table mg-b-0 text-md-nowrap">
-                                                        
-                                                        <tbody style="text-align: right;text-align: center;">
-                                                            <tr  class="tr_fill" style="font-weight: bold;">
-                                                                <td class="td_fill" >Puntuaciones especificas</td>
-                                                                <th scope="row"  class="text-primary td_name"></th>
-                                                                
-                                                                <td class="td_valuepd">PD</td>
-                                                                <td class="td_valuetb">PC</td>
-                                                            </tr>
-                                                            <tr  class="tr_fill" style="border-bottom: 2px solid #beecdb !important;">
-                                                                    
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill">Autoconcepto Académico/Laboral</td>
-                                                                <th class="text-primary td_name" scope="row">ACA</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($aca_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$aca_pc["$aca_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill">Autoconcepto Social</td>
-                                                                <th class="text-primary td_name" scope="row">SOC</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($soc_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$soc_pc["$soc_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill">Autoconcepto Emocional</td>
-                                                                <th class="text-primary td_name" scope="row" >EMO</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($emo_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$emo_pc["$emo_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill">Autoconcepto Familiar</td>
-                                                                <th class="text-primary td_name" scope="row">FAM</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($fam_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$fam_pc["$fam_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill">Autoconcepto Fisico</td>
-                                                                <th class="text-primary td_name" scope="row">FIS</th>
-                                                                
-                                                                <td class="td_valuepd"><div class="borde"><?=number_format($fis_pd,2)?></div></td>
-                                                                <td class="td_valuetb"><div class="borde"><?=$fis_pc["$fis_pd"]?></div></td>
-                                                            </tr>
-                                                            <tr  class="tr_fill" style="border-bottom: 2px solid #beecdb !important;">
-                                                                    
-                                                            </tr>
-                                                            <tr  class="tr_fill" style="font-weight: bold;">
-                                                                    <td class="td_fill"></td>
-                                                                    <th scope="row"  class="text-primary td_name"></th>
-                                                                    
-                                                                    <td class="td_valuepd">PD</td>
-                                                                    <td class="td_valuetb">TB</td>
-                                                                </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6" style="padding-left:0px;">
-                                            <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                <div class="ht-100 ht-sm-300" style="height: 160px !important;" id="flotLine2"></div>
-                                                <p class="mg-t-20" style="text-align: left;"><span style="font-weight: bold;">Nota Pc:</span> (Percentil), escala ordinal.</p>
-                                            </div>
+                            <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
+                                <div class="container-header">
+                                    <div class="container-body">
+                                        <div class="container-row-bg">
+                                            <span class="label">Id:</span>
+                                            <input class="field form-control" value="<?= $register['id_client'] ?>" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div id="contenido1" class="container-header">
+                                <div class="container-left">
+                                    <div class="perfil-vertical">PERFIL</div>
+                                    <div class="divider"></div>
+                                    <img src="../../assets/img/test_image/logoaf5.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
+                                </div>
+                                <div  class="container-body">
+
+                                    <div class="container-row">
+                                        <span class="label">Id:</span>
+                                        <input class="field form-control" value="<?= $register['id_client'] ?>" />
+                                    </div>
+
+                                    <div class="container-row">
+                                        <span class="label">Edad:</span>
+                                        <input class="field form-control max" value="<?= $register['age'] ?>" />
+
+                                        <span class="label">Sexo:</span>
+                                        <input class="field form-control max" value="<?= $register['sex'] ?>" />
+
+                                        <span class="label">Fecha de aplicación:</span>
+                                        <input class="field form-control max" value="<?= date('d/m/Y') ?>" />
+                                    </div>
+
+                                    <div class="container-row">
+                                        <span class="label">Baremo:</span>
+
+                                        <form action="result2.php" method="post" id="form_baremo" style="margin:0;width: 100%;">
+                                            <input type="hidden" name="id_user" id="id_user" value="<?= $idClient ?>">
+                                            <input type="hidden" name="id_register" id="id_register" value="<?= $register['id'] ?>">
+                                            <select class="field form-control max-left" id="baremo_id" name="baremo_id">
+                                                <?php
+                                                foreach ($baremos as $baremo) {
+                                                ?>
+                                                    <option value="<?= $baremo['id'] ?>" <?= $baremo['active'] == '0' ? 'disabled' : '' ?> <?= $register['baremo_id'] == $baremo['id'] ? 'selected' : '' ?>>
+                                                        <?= htmlspecialchars($baremo['name']) ?>
+                                                    </option>
+                                                <?php } ?>
+                                            </select>
+                                        </form>
+                                    </div>
+
+                                    <div class="container-row row-m0">
+                                        <span class="label">Responsable de la aplicación:</span>
+                                        <input class="field form-control max-left" value="<?= $register['evaluador'] ?>">
+                                    </div>
+
+                                </div>
+                            </div>
+							
+						</div>
+                        <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
+                            <div  class="row">
+                                <div class="col-md-6" style="padding: 0;">
+                                    <div class="container-panel">
+                                        <table class="score-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="title" colspan="2">Puntuación general</th>
+                                                    <th class="th-small">PD</th>
+                                                    <th class="th-small" style="padding-right: 17px;">Pc</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto total</td>
+                                                    <td class="code">TOT</td>
+                                                    <td class="p-left"><span class="box"><?=$pro_tot_pd?></span></td>
+                                                    <td><span class="box"><?=$pro_tot_pc?></span></td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding:0px;">
+                                    <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+                                        <div style="position: absolute;z-index: -1;left: -10px;margin-top: -10px;height:90px  !important;width: 106%;" id="colorss2"></div>
+                                        <div style="margin-top: -3px;height: 60px !important;" id="flotLine1"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding: 0;">
+                                    <div class="container-panel">
+                                        <table class="score-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="title" colspan="2">Puntuaciones específicas</th>
+                                                    <th class="th-small">PD</th>
+                                                    <th class="th-small" style="padding-right: 17px;">Pc</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto académico/laboral</td>
+                                                    <td class="code">ACA</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($aca_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$aca_pc["$aca_pd"]?></span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto social</td>
+                                                    <td class="code">SOC</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($soc_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$soc_pc["$soc_pd"]?></span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto emocional</td>
+                                                    <td class="code">EMO</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($emo_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$emo_pc["$emo_pd"]?></span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto familiar</td>
+                                                    <td class="code">FAM</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($fam_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$fam_pc["$fam_pd"]?></span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto físico</td>
+                                                    <td class="code">FIS</td>
+                                                    <td class="p-left"><span class="box"><?=number_format($fis_pd,2)?></span></td>
+                                                    <td><span class="box"><?=$fis_pc["$fis_pd"]?></span></td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding:0px;">
+                                    <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+                                        <div class="ht-100 ht-sm-300" style="z-index: -1;left: -10px;margin-top: -10px;height:275px  !important;width: 106%;" id="colorss"></div>
+                                        <div  style="margin-top: -3px;height: 249px !important;" id="flotLine2"></div>
+                                        <p style="color:#232323;text-align: left;font-size: 15px !important;margin-top: 16px;"><span style="font-weight: bold;">Nota Pc:</span> (Percentil), escala ordinal.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             
 
                         </div>
 						
                         <div class="col-md-12">
-                            <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
-                                <div class="main-content-label mg-b-5">
-                                    <h1 style="text-align: center;">AUTOCONCEPTO</h1>
+                            <div id="contenido3" class="card card-body " style="padding-bottom: 100px;text-align: justify;">
+                                <div class="main-content-label mg-b-5" hidden>
+                                    <h1 style="text-align: center;" id="jsonvalue1"><?=$title_?></h1>
                                 </div>
                                 <div class="card-body">
-                                    <p class="tx-dark mb-0 tx-13">El autoconcepto es la percepción que una persona tiene de sí misma, basada en sus experiencias y relaciones con los demás. El AF-5 evalúa cinco dimensiones clave del autoconcepto:</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue2"><?=$comment_1?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title  fw-semibold tx-13">Académico/Laboral:</span> Cómo se percibe la persona en relación con su desempeño académico o laboral.</p>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Social:</span>  Cómo se percibe la persona en sus relaciones sociales y su capacidad para integrarse en grupos.</p>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Emocional:</span> Cómo se percibe la persona en cuanto a su estado emocional y capacidad para manejar sus emociones.</p>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Familiar:</span> Cómo se percibe la persona en relación con su familia y su sentido de pertenencia e integración en ella.</p>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Físico:</span> Cómo se percibe la persona en cuanto a su aspecto físico y condición física.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue3"><span class="title  fw-semibold tx-13" id="jsonvalue4">Académico/Laboral:</span> Cómo se percibe la persona en relación con su desempeño académico o laboral.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue5"><span class="title fw-semibold tx-13" id="jsonvalue6">Social:</span>  Cómo se percibe la persona en sus relaciones sociales y su capacidad para integrarse en grupos.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue7"><span class="title fw-semibold tx-13" id="jsonvalue8">Emocional:</span> Cómo se percibe la persona en cuanto a su estado emocional y capacidad para manejar sus emociones.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue9"><span class="title fw-semibold tx-13" id="jsonvalue10">Familiar:</span> Cómo se percibe la persona en relación con su familia y su sentido de pertenencia e integración en ella.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue11"><span class="title fw-semibold tx-13" id="jsonvalue12">Físico:</span> Cómo se percibe la persona en cuanto a su aspecto físico y condición física.</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13">La evaluación del autoconcepto es de gran interés porque la opinión que cada persona tiene de sí misma condiciona en gran manera sus expectativas y, consecuentemente, sus logros y resultados y su grado de adaptación social. </p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13">La evaluación del autoconcepto es de gran interés porque la opinión que cada persona tiene de sí misma condiciona en gran manera sus expectativas y, consecuentemente, sus logros y resultados y su grado de adaptación social. </p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_aca?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue14"><?=$text_aca?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Nota:</span> En niños y adolescentes, el autoconcepto académico también correlaciona positivamente con los estilos parentales de inducción, afecto y apoyo; y, negativamente, con los de coerción, indiferencia y negligencia (Musitu y Allatt, 1994; Estarelles, 1987; Musitu, Román y Gutiérrez, 1996; Lamb, Ketterlinus y Fracasso, 1992).</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue15"><span class="title fw-semibold tx-13" id="jsonvalue16">Nota:</span> En niños y adolescentes, el autoconcepto académico también correlaciona positivamente con los estilos parentales de inducción, afecto y apoyo; y, negativamente, con los de coerción, indiferencia y negligencia (Musitu y Allatt, 1994; Estarelles, 1987; Musitu, Román y Gutiérrez, 1996; Lamb, Ketterlinus y Fracasso, 1992).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_soc?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue17"><?=$text_soc?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Nota:</span> En niños y adolescentes, esta dimensión está relacionada muy positivamente con las prácticas de socialización parental de afecto, comprensión y apoyo; y negativamente, con la coerción, la negligencia y la indiferencia (Musitu y Allatt, 1994; Musitu, Román yGutiérrez, 1996).</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue18"><span class="title fw-semibold tx-13" id="jsonvalue19">Nota:</span> En niños y adolescentes, esta dimensión está relacionada muy positivamente con las prácticas de socialización parental de afecto, comprensión y apoyo; y negativamente, con la coerción, la negligencia y la indiferencia (Musitu y Allatt, 1994; Musitu, Román yGutiérrez, 1996).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_emo?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue20"><?=$text_emo?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Nota:</span> En niños y adolescentes, esta dimensión correlaciona positivamente con las prácticas parentales de afecto, comprensión, inducción y apoyo, mientras que lo hace negativamente con la coerción verbal y física, la indiferencia, la negligencia y los malos tratos (Broderick,1993; Pinazo, 1993; Gracia, 1991; Lila, 1995; Herrero, 1992, 1994; Cava, 1995, 1998; Llinares,1998; Musitu, Román y Gutiérrez, 1996; Gracia y Musitu, 1993).</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue21"><span class="title fw-semibold tx-13" id="jsonvalue22">Nota:</span> En niños y adolescentes, esta dimensión correlaciona positivamente con las prácticas parentales de afecto, comprensión, inducción y apoyo, mientras que lo hace negativamente con la coerción verbal y física, la indiferencia, la negligencia y los malos tratos (Broderick,1993; Pinazo, 1993; Gracia, 1991; Lila, 1995; Herrero, 1992, 1994; Cava, 1995, 1998; Llinares,1998; Musitu, Román y Gutiérrez, 1996; Gracia y Musitu, 1993).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_fam?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue23"><?=$text_fam?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title fw-semibold tx-13">Nota:</span>  En niños y adolescentes, el autoconcepto familiar se relaciona positivamente con los estilos parentales de afecto, comprensión y apoyo; y negativamente con la coerción, la violencia, la indiferencia y la negligencia (Gracia, Herrero y Musitu, 1995; Gracia, 1991;Agudelo, 1997; Arango, 1996).</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue24"><span class="title fw-semibold tx-13" id="jsonvalue25">Nota:</span>  En niños y adolescentes, el autoconcepto familiar se relaciona positivamente con los estilos parentales de afecto, comprensión y apoyo; y negativamente con la coerción, la violencia, la indiferencia y la negligencia (Gracia, Herrero y Musitu, 1995; Gracia, 1991;Agudelo, 1997; Arango, 1996).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><?=$text_fis?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue26"><?=$text_fis?></p>
                                     <br><br>
                                 </div>
                                 
                             </div>
-                            <div style="justify-self: center;position: absolute;bottom: 0px;">
-                                    <!--img id="contenido4"  alt="" class="float-sm-right mg-sm-t-0" style="width:auto" src="../../assets/img/lsb50/image.png"-->
-                            </div>
+                            
                         </div>
 
 					</div>
@@ -585,12 +593,57 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
-        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
+        
         <script src="../../assets/js/flot-circle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <script>
-           
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+
+        <script>
+            const name_user = "<?php echo $register['id_client'] ?>";
+            const testname = "<?php echo $register['type_question_name']?>";
+            const filenamepdf = (name_user+"_"+testname).replace(/\s+/g, '');
+            
+            var jsonpdf = [];
+            //jsonpdf.push({type:1,imageurl:pathBase+'/assets/img/brand/image.png'} );
+            jsonpdf.push({type:2,image:"contenido1"} );
+            jsonpdf.push({type:2,image:"contenido2"} );
+            jsonpdf.push({type: 3});
+            //jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
+            //jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue2')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue3'),subtitle:getvalue('jsonvalue4')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue5'),subtitle:getvalue('jsonvalue6')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue7'),subtitle:getvalue('jsonvalue8')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue9'),subtitle:getvalue('jsonvalue10')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue11'),subtitle:getvalue('jsonvalue12')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue14')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue15'),subtitle:getvalue('jsonvalue16')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue17')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue18'),subtitle:getvalue('jsonvalue19')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue20')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue21'),subtitle:getvalue('jsonvalue22')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue23')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:6,text:getvalue('jsonvalue24'),subtitle:getvalue('jsonvalue25')} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:getvalue('jsonvalue26')} );
+            
             $(function() {
             'use strict';
                 var colorLine = "black";
@@ -601,7 +654,9 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                     [<?=$fam_pc["$fam_pd"]?>,10],
                     [<?=$fis_pc["$fis_pd"]?>,0]
                 ];
-                
+                var newCust1 = [
+                    [<?=$pro_tot_pc?>, 10],
+                ];
                 var plot = $.plot($('#flotLine2'), [{
                     data: newCust,
                     label: 'Data',
@@ -610,7 +665,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                     series: {
                         lines: {
                             show: true,
-                            lineWidth: 3
+                            lineWidth: 2
                         },
                         shadowSize: 0
                     },
@@ -619,7 +674,7 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                         radius:3,
                         fill: true,
                         fillColor: colorLine,
-                        lineWidth:2
+                        lineWidth:2.5
                     },
                     legend: {
                         noColumns: 1,
@@ -627,50 +682,14 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                         show:false
                     },
                     grid: {
-                        borderWidth: 5,
+                        borderWidth: 0,
                         hoverable: true,
                         borderColor: 'white',
-                        borderRadius: 10,
-                        innerMargin: -2,
+                        borderRadius: 40,
+                        innerMargin: -40,
                         show:true,
                          markings: [
-                            {
-                                xaxis: { from: 0, to: 2.90 },
-                                color: '#fdc780'
-                            },
-                            {
-                                xaxis: { from: 3, to: 15.80 },
-                                color: '#eed68a'
-                            },
-                            {
-                                xaxis: { from: 16, to: 29.80 },
-                                color: '#e4e98c'
-                            },
-                            {
-                                xaxis: { from: 30, to: 50 },
-                                color: '#e4e98c'
-                            },
-                            {
-                                xaxis: { from: 50, to: 69.90 },
-                                color: '#e4e98c'
-                            },
-                            {
-                                xaxis: { from: 70, to: 85 },
-                                color: '#e4e98c'
-                            },
-                            {
-                                xaxis: { from: 85, to: 97 },
-                                color: '#8faa3c'
-                            },
-                            {
-                                xaxis: { from: 97, to: 99 },
-                                color: '#627430'
-                            },
-                            { // Línea punteada en X = 50
-                                xaxis: { from: 50, to: 50 },
-                                color: '#000', // color de la línea
-                                lineWidth: 0.5
-                            },
+                            
                          ]
                     },
                     yaxis: {
@@ -709,11 +728,284 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
                         position:'top'
                     }
                 });
-              
+
+                var colores = $.plot($('#colorss'), [{
+                    data: [],
+                    label: 'Data',
+                    color: colorLine
+                }], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0
+                    },
+                    points: {
+                        show: true,
+                        radius: 3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth: 2.5
+                    },
+                    legend: {
+                        noColumns: 1,
+                        position: 'ne',
+                        show: false
+                    },
+                    grid: {
+                        borderWidth: 20,
+                        hoverable: true,
+                        borderColor: 'white',
+                        borderRadius: 40,
+                        innerMargin: -10,
+                        show:true,
+                        markings: [
+                           {
+                                xaxis: { from: 0, to: 10.00 },
+                                color: '#fdc780'
+                            },
+                            {
+                                xaxis: { from: 10.20, to: 29.80 },
+                                color: '#eed68a'
+                            },
+                            {
+                                xaxis: { from: 30.00, to: 40.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 40.20, to: 47.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 47.00, to: 58.80 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 59.00, to: 69.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 69.20, to: 88.80 },
+                                color: '#8faa3c'
+                            },
+                            {
+                                xaxis: { from: 89.00, to: 99 },
+                                color: '#627430'
+                            },
+                            { // Línea punteada en X = 50
+                                xaxis: { from: 49.5, to: 49.5 },
+                                color: '#000', // color de la línea
+                                lineWidth: 0.5
+                            },
+                        ]
+                    },
+                    yaxis: {
+                        min: 0,
+                        max: 99,
+                        color: '#eee',
+                        ticks: [
+                            [0, ''],
+                            [99, '']
+                        ],
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: 'transparent'
+                        },
+                        show: false
+                    },
+                    xaxis: {
+                        color: '#eee',
+                        min: 0,
+                        show: false,
+                        max: 99,
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: '#999'
+                        }
+                    }
+                });
+                var colores = $.plot($('#colorss2'), [{
+                    data: [],
+                    label: 'Data',
+                    color: colorLine
+                }], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0
+                    },
+                    points: {
+                        show: true,
+                        radius: 3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth: 2.5
+                    },
+                    legend: {
+                        noColumns: 1,
+                        position: 'ne',
+                        show: false
+                    },
+                    grid: {
+                        borderWidth: 20,
+                        hoverable: true,
+                        borderColor: 'white',
+                        borderRadius: 40,
+                        innerMargin: -10,
+                        show:true,
+                        markings: [
+                           {
+                                xaxis: { from: 0, to: 10.00 },
+                                color: '#fdc780'
+                            },
+                            {
+                                xaxis: { from: 10.20, to: 29.80 },
+                                color: '#eed68a'
+                            },
+                            {
+                                xaxis: { from: 30.00, to: 40.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 40.20, to: 47.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 47.00, to: 58.80 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 59.00, to: 69.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 69.20, to: 88.80 },
+                                color: '#8faa3c'
+                            },
+                            {
+                                xaxis: { from: 89.00, to: 99 },
+                                color: '#627430'
+                            },
+                            { // Línea punteada en X = 50
+                                xaxis: { from: 49.5, to: 49.5 },
+                                color: '#000', // color de la línea
+                                lineWidth: 0.5
+                            },
+                        ]
+                    },
+                    yaxis: {
+                        min: 0,
+                        max: 99,
+                        color: '#eee',
+                        ticks: [
+                            [0, ''],
+                            [99, '']
+                        ],
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: 'transparent'
+                        },
+                        show: false
+                    },
+                    xaxis: {
+                        color: '#eee',
+                        min: 0,
+                        show: false,
+                        max: 99,
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: '#999'
+                        }
+                    }
+                });
+                var plot = $.plot($('#flotLine1'), [{
+                    data: newCust1,
+                    label: 'Data',
+                    color: colorLine
+                }], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0
+                    },
+                    points: {
+                        show: true,
+                        radius:3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth:2.5
+                    },
+                    legend: {
+                        noColumns: 1,
+                        position: 'ne',
+                        show:false
+                    },
+                    grid: {
+                        borderWidth: 0,
+                        hoverable: true,
+                        borderColor: 'white',
+                        borderRadius: 40,
+                        innerMargin: -40,
+                        show:true,
+                         markings: [
+                            
+                         ]
+                    },
+                    yaxis: {
+                        min: -5,
+                        max: 45,
+                        color: 'black',
+                        ticks: [[0, ''], [15, '']], 
+                        tickColor: 'black',
+                        tickLength: 0,
+                        font: {
+                            size: 10,
+                            color: 'black'
+                        }
+                    },
+                    xaxis: {
+                        color: '#eee',
+                        min:0,
+                        max: 99,
+                        tickColor: 'black',
+                        tickLength: 0,
+                        ticks: [
+                            [1, '1'],
+                            [3, '3'],
+                            [16, '16'],
+                            [30, '30'],
+                            [50, '50'],
+                            [70, '70'],
+                            [84, '84'],
+                            [94, '94'],
+                            [99, '99'],
+                        ],
+                        font: {
+                            size: 10,
+                            color: 'black'
+                        },
+                        position:'top'
+                    }
+                });
+                
+            setTimeout(function() {
+                document.getElementById('colorss').style.position = 'absolute';
+            }, 1000);
             
             function labelFormatter(label, series) {
                 return '<div style="font-size:8pt; text-align:center; padding:2px; color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
             }
+
+            
         });
 
         document.getElementById('baremo_id').addEventListener('change', function() {
@@ -721,5 +1013,6 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
         });
 
         </script>
+        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
 	</body>
 </html>

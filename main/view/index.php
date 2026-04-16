@@ -48,6 +48,7 @@
 	}
 	unset($user);
 	$resultado_clients = [];
+	$count_users =0;
 	if(count($users)>0){
 		$fechaReferencia = DateTime::createFromFormat('d/m/Y', $users[0]['date_create']);
 		$resultado_clients = [1]; // El primer valor siempre es 1
@@ -88,7 +89,10 @@
 	$total_pending = $registerModel->getTotalCompleted('','PENDIENTE');
 
 	$totalTest = $total_completed['total'] + $total_pending['total'];
-
+	$total_porcentaje_test = 0;
+	if($totalTest > 0){
+		$total_porcentaje_test = ($total_completed['total'] / $totalTest) * 100;
+	}
 
 
 ?>
@@ -111,7 +115,7 @@
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -135,7 +139,20 @@
 
 		<!---Skinmodes css-->
 		<link href="../../assets/css/skin-modes.css" rel="stylesheet" />
-
+		<style>
+			@media (max-width: 768px) {
+				.containermobile {
+					margin-top:50px;
+				}
+				.icons-list{
+					flex-wrap: nowrap;
+				}
+				.icons-list-item{
+					height: auto;
+    				width: auto;
+				}
+			}
+		</style>
 	</head>
 
 	<body class="main-body">
@@ -147,7 +164,7 @@
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			<!-- main-header opened -->
 			<?php include("../include/header_top.php");?>
@@ -160,7 +177,7 @@
 			<div class="main-content horizontal-content">
 
 				<!-- container opened -->
-				<div class="container">
+				<div class="container containermobile">
 					<!-- /breadcrumb -->
 					<br>
 					<!-- row -->
@@ -241,7 +258,7 @@
 											</div>
 											<span class="float-end my-auto ms-auto">
 												<i class="fas fa-arrow-circle-up text-white"></i>
-												<span class="text-white op-7"> <?=round(($total_completed['total'] / $totalTest) * 100, 2);?>%</span>
+												<span class="text-white op-7"> <?=round($total_porcentaje_test, 2);?>%</span>
 											</span>
 										</div>
 									</div>
@@ -464,20 +481,14 @@
 		<!-- Sticky js -->
 		<script src="../../assets/js/sticky.js"></script>
 
-		<!-- Internal Map -->
-		<script src="../../assets/plugins/jqvmap/jquery.vmap.min.js"></script>
-		<script src="../../assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-
 		<!-- Internal Chart js -->
 		<script src="../../assets/plugins/chart.js/Chart.bundle.min.js"></script>
 
 		<!--Internal  index js -->
 		<script src="../../assets/js/index.js"></script>
-		<script src="../../assets/js/jquery.vmap.sampledata.js"></script>
 
 		<!-- custom js -->
-		<script src="../../assets/js/custom.js"></script>
-		<script src="../../assets/js/jquery.vmap.sampledata.js"></script>
+		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
 		
 		<script>
 			function createCliente(){

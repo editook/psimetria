@@ -44,7 +44,7 @@
 		<link rel="icon" href="../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../assets/css/icons.css" rel="stylesheet">
+		<link href="../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -86,7 +86,7 @@
 					<!-- The image half -->
 					<div class="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent">
 						<div class="row wd-100p mx-auto text-center">
-							<div class="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto wd-100p">
+							<div class="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto wd-100p <?=TESTING=='1'?'istesting':''?>" >
 								<img src="../assets/img/brand/favicon.png" class="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo">
 							</div>
 						</div>

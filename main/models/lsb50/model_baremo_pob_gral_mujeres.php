@@ -22,7 +22,8 @@ class ModelBaremoPobGralMujeres
                     $eventEmitterValue = $newValue;
                 }
             }
-            $mins["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $mins["$value"] = $eventEmitterValue;
         }
         return $mins;
     }
@@ -48,7 +49,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $mags["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $mags["$value"] = $eventEmitterValue;
         }
         return $mags;
     }
@@ -70,7 +72,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $prs["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $prs["$value"] = $eventEmitterValue;
         }
         return $prs;
     }
@@ -92,7 +95,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $hps["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $hps["$value"] = $eventEmitterValue;
         }
         return $hps;
     }
@@ -114,7 +118,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $obs["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $obs["$value"] = $eventEmitterValue;
         }
         return $obs;
     }
@@ -136,7 +141,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $ans["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $ans["$value"] = $eventEmitterValue;
         }
         return $ans;
     }
@@ -158,7 +164,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $hss["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $hss["$value"] = $eventEmitterValue;
         }
         return $hss;
     }
@@ -180,7 +187,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $sms["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $sms["$value"] = $eventEmitterValue;
         }
         return $sms;
     }
@@ -202,7 +210,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $des["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $des["$value"] = $eventEmitterValue;
         }
         return $des;
     }
@@ -224,7 +233,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $sus["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $sus["$value"] = $eventEmitterValue;
         }
         return $sus;
     }
@@ -246,7 +256,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $suas["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $suas["$value"] = $eventEmitterValue;
         }
         return $suas;
     }
@@ -268,7 +279,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $irpsis["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $irpsis["$value"] = $eventEmitterValue;
         }
         return $irpsis;
     }
@@ -290,7 +302,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $globals["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $globals["$value"] = $eventEmitterValue;
         }
         return $globals;
     }
@@ -312,7 +325,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $nums["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $nums["$value"] = $eventEmitterValue;
         }
         return $nums;
     }
@@ -335,7 +349,8 @@ class ModelBaremoPobGralMujeres
                 }
             }
             // Asignar el valor al array de datos
-            $ints["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $ints["$value"] = $eventEmitterValue;
         }
         return $ints;
     }

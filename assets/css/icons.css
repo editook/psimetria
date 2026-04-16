@@ -12,3 +12,28 @@
 @import url("../plugins/simple-line-icons/simple-line-icons.css");
 @import url("../plugins/flag-icon-css/css/flag-icon.min.css");
 @import url("../plugins/boxicons/css/boxicons.css");
+
+.istesting {
+    position: relative;
+}
+
+.istesting::after {
+    content: "AMBIENTE DE PRUEBAS";
+    position: absolute;
+
+    top: 60px;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg);
+
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 3px;
+
+    color: rgba(255,0,0,0.25); /* transparente */
+    white-space: nowrap;
+
+    pointer-events: none; /* no bloquea clicks */
+    user-select: none;
+
+    z-index: 1000;
+}

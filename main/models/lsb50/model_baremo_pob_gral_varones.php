@@ -22,7 +22,9 @@ class ModelBaremoPobGralVarones
                     $eventEmitterValue = $newValue;
                 }
             }
-            $mins["$currentValue"] = $eventEmitterValue;
+            
+            $value = number_format((float)$currentValue, 2);
+            $mins["$value"] = $eventEmitterValue;
         }
         return $mins;
     }
@@ -45,7 +47,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $mags["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $mags["$value"] = $eventEmitterValue;
         }
         return $mags;
     }
@@ -67,7 +70,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $prs["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $prs["$value"] = $eventEmitterValue;
         }
         return $prs;
     }
@@ -89,7 +93,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $hps["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $hps["$value"] = $eventEmitterValue;
         }
         return $hps;
     }
@@ -111,7 +116,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $obs["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $obs["$value"] = $eventEmitterValue;
         }
         return $obs;
     }
@@ -133,7 +139,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $ans["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $ans["$value"] = $eventEmitterValue;
         }
         return $ans;
     }
@@ -155,7 +162,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $hss["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $hss["$value"] = $eventEmitterValue;
         }
         return $hss;
     }
@@ -166,7 +174,7 @@ class ModelBaremoPobGralVarones
         $currentRangeStart =4; 
         $rangeStep = 0.01; // Incremento decimal "" => 0,
         $eventEmitterRanges = [
-            "0.00" => 20,"0.12" => 35,"0.24" => 50,"0.37" => 60,"0.49" => 70,"0.62" => 75,"0.75" => 80,"0.87" => 85,"0.90" => 90,"1.24" => 95,"1.62" => 96,"1.74" => 97,"1.99" => 98,"2.24" => 99
+            "0.00" => 20,"0.12" => 35,"0.24" => 50,"0.37" => 60,"0.49" => 70,"0.62" => 75,"0.74" => 80,"0.87" => 85,"0.90" => 90,"1.24" => 95,"1.62" => 96,"1.74" => 97,"1.99" => 98,"2.24" => 99
         ];
         for ($i = 0; $i <= 400; $i++) {
             $currentValue = round($currentRangeStart - ($i * $rangeStep), 2);
@@ -177,7 +185,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $sms["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $sms["$value"] = $eventEmitterValue;
         }
         return $sms;
     }
@@ -199,7 +208,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $des["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $des["$value"] = $eventEmitterValue;
         }
         return $des;
     }
@@ -221,7 +231,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $sus["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $sus["$value"] = $eventEmitterValue;
         }
         return $sus;
     }
@@ -243,7 +254,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $suas["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $suas["$value"] = $eventEmitterValue;
         }
         return $suas;
     }
@@ -265,7 +277,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $irpsis["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $irpsis["$value"] = $eventEmitterValue;
         }
         return $irpsis;
     }
@@ -287,7 +300,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $globals["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $globals["$value"] = $eventEmitterValue;
         }
         return $globals;
     }
@@ -309,7 +323,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $nums["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $nums["$value"] = $eventEmitterValue;
         }
         return $nums;
     }
@@ -332,7 +347,8 @@ class ModelBaremoPobGralVarones
                 }
             }
             // Asignar el valor al array de datos
-            $ints["$currentValue"] = $eventEmitterValue;
+            $value = number_format((float)$currentValue, 2);
+            $ints["$value"] = $eventEmitterValue;
         }
         return $ints;
     }

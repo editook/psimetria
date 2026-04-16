@@ -1,6 +1,6 @@
 <?php
     include_once('../configs.php');
-	//AF-5
+	//SCL-90-R
 	session_start();
 	include('../connection.php');
 	include("../models/model_register.php");
@@ -9,19 +9,18 @@
     $registerModel = new Register_Model();
     $questionModel = new Question_Model();
 	$answerModel = new Answer_Model();
-    $idClient = 0;
-    $idpatient = 0;
+    $idClient = '0';
+    $idpatient = '0';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $idUser = $_POST['idClient'];
         $idpatient = $_POST['patient'];
+		
 		$codes = $_POST['codes'];
         foreach ($_POST as $key => $value) {
-            if (strpos($key, 'response_') === 0) {
-                $question_id = str_replace('response_', '', $key);
-				if($value == '0'){
-					$value = null;
-				}
+            if (strpos($key, 'question_') === 0) {
+                $question_id = str_replace('question_', '', $key);
+                $value = (int)$value;
                 $response = $answerModel->update($question_id,$idpatient,$value,$codes);
             }
         }
@@ -32,19 +31,21 @@
 			$status = 'PENDIENTE';
 		}
 		$array = $registerModel->updateStatus($idUser,$idpatient,$status);
-        $is_share_link = $_POST['is_share'];
+		$is_share_link = $_POST['is_share'];
 		if($is_share_link == "1"){
 			echo "<script>
-				alert('Formulario actualizado correctamente.');
+				alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
 				window.location.href = 'https://www.google.com';
 			</script>";
 			exit;
 		}
 		else{
 			header("Location: ".LOCALHOST);
+			exit;
 		}
+        
     }
-
+	
 	$idCientCode = "";
 	$idPatientCode = "";
 	$is_share  = false;
@@ -58,7 +59,7 @@
 		}
 	}
 	if($idCientCode == ""){
-		if(!isset($_SESSION['REST_type_user'])){
+		if(!isset($_SESSION['REST_type_user']) ){
 			header("Location: ".LOCALHOST."/signin.php");
 		}
 		if( $_SESSION['REST_type_user'] == 'Administrador' &&  isset($_GET['client']) &&  isset($_GET['patient'])){
@@ -71,7 +72,7 @@
 			$idpatient = $_GET['patient'];
 		}
 	}
-	
+
 	if($idCientCode != "" && $idPatientCode != ""){
 		$claveEncriptado = $registerModel->getKeyEncripter();
 
@@ -85,7 +86,7 @@
 		$text_button_send = "Enviar resultados";
 	}
 
-    $register = $registerModel->getById($idClient,$idpatient);
+	$register = $registerModel->getById($idClient,$idpatient);
 	if($register == null){
 		echo "<script>
 			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
@@ -93,246 +94,265 @@
 		</script>";
 		exit;
 	}
-    if($register['status'] == 'TERMINADO'){
+	if($register['status'] == 'TERMINADO'){
 		$is_view = true;
 	}
     $answers = $answerModel->getAll($register['codes']);
+	
 	$device = $registerModel->getDeviceType();
+	
 ?>
-
 <!DOCTYPE html>
 <?php if (($device === 'tablet' || $device === 'mobile')) { ?>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Cuestionario Numérico</title>
+  <title><?=WEB_TITLE?> </title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen w-full bg-gradient-to-br from-gray-900 via-emerald-900 to-gray-900 flex items-center justify-center p-4 text-white font-sans">
+<body class="min-h-screen w-full bg-gradient-to-br from-[#013A8A] via-[#1b369c] to-[#5E7BFF] flex items-center justify-center p-4 font-sans text-white">
 
-<main class="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden">
-  <div id="app"></div>
-</main>
+  <main class="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden">
+
+    <!-- CONTENEDOR DINÁMICO -->
+    <div id="app"></div>
+
+  </main>
 
 <script>
-/* =============================
+/* ===========================
    DATOS
-============================= */
+=========================== */
+
 var questions = <?php echo json_encode($answers)?>;
-//questions = questions.slice(0, 10);
-let answers = Array(questions.length).fill(null);
-let index = 0;
-let patient = null;
+
+const options = [
+  { value: 0, text: 'Nada', class: 'from-sky-400 to-cyan-400' },
+  { value: 1, text: 'Poco', class: 'from-emerald-400 to-teal-400' },
+  { value: 2, text: 'Moderadamente', class: 'from-violet-400 to-fuchsia-400' },
+  { value: 3, text: 'Bastante', class: 'from-amber-400 to-yellow-400' },
+  { value: 4, text: 'Mucho', class: 'from-rose-400 to-red-400' }
+];
+//from-fuchsia-600 to-purple-700
+//from-slate-700 to-gray-900
+/* ===========================
+   ESTADO
+=========================== */
+let currentIndex = 0;
+let answers = [];
+let patient = {};
 let finished = false;
 let submittedAt = null;
 
-/* =============================
-   RENDER PRINCIPAL
-============================= */
+/* ===========================
+   RENDER
+=========================== */
 function render() {
   const app = document.getElementById('app');
 
-  if (!patient) {
+  if (!patient.name) {
     app.innerHTML = renderPatientForm();
     return;
   }
 
   if (!finished) {
     app.innerHTML = renderQuestion();
-    restoreAnswer();
     return;
   }
 
   app.innerHTML = renderSummary();
 }
 
-/* =============================
+/* ===========================
    FORMULARIO PACIENTE
-============================= */
+=========================== */
 function renderPatientForm() {
   return `
   <div class="p-8 sm:p-12">
         <div class="text-center mb-8">
           <h2 class="text-3xl font-bold text-cyan-300">FORMULARIO <?=$register['type_question_name']?></h2>
         </div>
-
 		<div class="mb-4">
 		<label for="fullName" class="block mb-2 text-sm font-medium text-gray-300">Nombre Completo</label>
-		<input type="text" id="fullName" value="<?=$register['id_client']?>" formControlName="fullName"
+		<input type="text" disabled value="<?=$register['id_client']?>" id="fullName" formControlName="fullName"
 			class="w-full bg-black/20 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
 			placeholder="Ej. Juan Pérez">
 		</div>
-
+        
         <div class="mb-8 p-4 bg-black/20 border border-white/10 rounded-lg text-left text-sm text-gray-300 space-y-3">
           <h3 class="text-base font-bold text-cyan-300 text-center">INSTRUCCIONES</h3>
-          <p>A continuación encontrarás una serie de frases. Lee cada una de ellas cuidadosamente y contesta con un valor entre 1 y 99, según tu grado de acuerdo con lo que se indica.</p>
-          <div class="flex justify-between items-center px-4 py-1 bg-gray-900/50 rounded-md">
-            <span class="font-semibold text-rose-400">1 = En total desacuerdo</span>
-            <span class="font-semibold text-emerald-400">99 = En total acuerdo</span>
-          </div>
-          <p>Por ejemplo, si la frase dice "La música ayuda al bienestar humano" y estás muy de acuerdo, contestarías con un valor alto, como por ejemplo el 94.</p>
-          <div class="p-2 bg-gray-900/50 rounded-md border border-gray-600 font-mono text-xs">
-            <span>La música ayuda al bienestar humano .............................. </span><span class="font-bold text-emerald-400">94</span>
-          </div>
-          <p>Por lo contrario, si estás muy poco de acuerdo, elegirías un valor bajo, por ejemplo el 9.</p>
-          <div class="p-2 bg-gray-900/50 rounded-md border border-gray-600 font-mono text-xs">
-            <span>La música ayuda al bienestar humano .............................. </span><span class="font-bold text-rose-400">9</span>
-          </div>
-          <p>No olvides que dispones de muchas opciones de respuesta, en concreto, puedes elegir entre 99 valores. Escoge el que más se ajuste a tu criterio.</p>
-          <p class="font-bold text-center text-white pt-2">RECUERDA: CONTESTA CON LA MÁXIMA SINCERIDAD.</p>
+          <p>Encontrara una serie de afirmaciones sobre MOLESTIAS o PROBLEMAS que pueden afectar en mayor o menor medida a todas las personas. Conteste a cada una ellas teniendo en cuenta aquello o experimentado durante las ultimas semanas, incluido el dia de hoy.</p>
+          <p>Para ello, marque junto a cada afirmación una de las siguientes opciones:</p>
+          
+          	<div class="bg-gray-900/50 rounded-xl p-4">
+				<p class="text-center font-semibold text-sm sm:text-base mb-4">
+					HASTA QUÉ PUNTO SE HA SENTIDO MOLESTO POR EL SÍNTOMA
+				</p>
+
+				<div class="grid grid-cols-3 sm:grid-cols-5 gap-3 text-center font-mono">
+					
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">0</span>
+					<span class="text-xs">Nada</span>
+					</div>
+
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">1</span>
+					<span class="text-xs">Poco</span>
+					</div>
+
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">2</span>
+					<span class="text-xs break-words">Moderadamente</span>
+					</div>
+
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">3</span>
+					<span class="text-xs">Bastante</span>
+					</div>
+
+					<div class="p-2 rounded-lg bg-gray-800">
+					<span class="font-bold block text-base">4</span>
+					<span class="text-xs">Mucho</span>
+					</div>
+
+				</div>
+			</div>
+
+
         </div>
 
-        <button type="button" onclick="startQuiz()"
-            class="w-full text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-emerald-300/50 bg-gradient-to-r from-cyan-400 to-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-            Comenzar Cuestionario
-        </button>
+        
+		
+		
+		<button type="button" onclick="startQuiz()"
+		class="w-full font-bold py-3 px-8 rounded-full shadow-xl
+         bg-gradient-to-r from-[#5E7BFF] to-[#1b369c]
+         text-white
+         transform transition-all duration-300
+         hover:scale-105 hover:shadow-2xl
+         focus:outline-none focus:ring-4 focus:ring-[#6EA3FF]/50
+         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+		Comenzar Cuestionario
+		</button>
+        
       </div>`;
 }
 
 function startQuiz() {
-  patient = {
-    name: document.getElementById('fullName').value
-  };
+  patient.name = document.getElementById('fullName').value;
   render();
 }
 
-/* =============================
-   PREGUNTA
-============================= */
+/* ===========================
+   PREGUNTAS
+=========================== */
 function renderQuestion() {
-  const progress = Math.round((index / questions.length) * 100);
-  const value = answers[index] ?? '';
+  const progress = Math.round((currentIndex / questions.length) * 100);
 
   return `
   <div class="p-8">
 
-    <!-- Header -->
-    <div class="text-center mb-6 border-b border-white/10 pb-4">
+    <div class="text-center border-b border-white/10 pb-4 mb-4">
       <p class="font-bold">${patient.name}</p>
     </div>
 
-    <!-- Progreso -->
-    <p class="text-cyan-300 mb-2">PREGUNTA ${index + 1} DE ${questions.length}</p>
-    <div class="w-full bg-black/20 rounded-full h-2.5 mb-6">
-      <div class="bg-gradient-to-r from-cyan-400 to-emerald-400 h-2.5 rounded-full"
-           style="width:${progress}%"></div>
+    <p class="text-cyan-300 mb-2">Pregunta ${currentIndex + 1} de ${questions.length}</p>
+    <div class="w-full bg-black/30 rounded-full h-2 mb-6">
+      <div class="h-2 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full"
+        style="width:${progress}%"></div>
     </div>
 
-    <!-- Pregunta -->
-    <h2 class="text-2xl font-bold text-center mb-6 min-h-[80px]">
-      ${questions[index].question}
+    <h2 class="text-2xl font-bold text-center mb-6">
+      ${questions[currentIndex].question}
     </h2>
 
-    <!-- Respuesta -->
-    <form onsubmit="submitAnswer(event)" class="flex flex-col items-center gap-6">
-      <div class="text-center">
-        <label class="text-sm text-gray-400 block mb-2">
-          Ingrese un valor de 1 a 99
-        </label>
-        <input id="answerInput" type="number" min="1" max="99" required
-          value="${value}"
-          class="w-40 text-center text-3xl font-bold bg-black/20 border border-white/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-cyan-400"/>
-      </div>
-
-      <button class="px-12 py-3 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 font-bold">
-        Siguiente
-      </button>
-    </form>
-
-    <!-- Navegación -->
-    <div class="mt-8 text-center">
-      <button onclick="goBack()" ${index === 0 ? 'disabled' : ''}
-        class="text-gray-400 hover:text-white disabled:opacity-50">
-        ← Anterior
-      </button>
+    <div class="grid grid-cols-2 gap-4">
+      ${options.map(o => `
+        <button onclick="answer(${o.value})"
+          class="py-4 rounded-xl bg-gradient-to-br ${o.class} font-bold">
+          ${o.text}
+        </button>
+      `).join('')}
     </div>
 
+    <button onclick="back()" class="mt-6 text-gray-400 hover:text-white">
+      ← Anterior
+    </button>
   </div>`;
 }
 
-/* =============================
-   LOGICA RESPUESTAS
-============================= */
-function submitAnswer(e) {
-  e.preventDefault();
-  const value = Number(answerInput.value);
+function answer(value) {
+  answers[currentIndex] = value;
+  currentIndex++;
 
-  if (value < 1 || value > 99) return;
-
-  answers[index] = value;
-  index++;
-
-  if (index >= questions.length) {
+  if (currentIndex === questions.length) {
     finished = true;
     submittedAt = new Date();
   }
   render();
 }
 
-function goBack() {
-  if (index > 0) index--;
+function back() {
+  if (currentIndex > 0) currentIndex--;
   render();
 }
 
-function restoreAnswer() {
-  const input = document.getElementById('answerInput');
-  if (input) input.select();
-}
-
-/* =============================
-   RESUMEN FINAL
-============================= */
+/* ===========================
+   RESUMEN
+=========================== */
 function renderSummary() {
   return `
-  <div class="p-8 text-center min-h-[500px] flex flex-col justify-center">
+  <div class="p-8 text-center">
 
-    <h2 class="text-3xl font-bold mb-2 text-emerald-400">
-      ¡Completado!
-    </h2>
+    <h2 class="text-3xl font-bold text-emerald-400 mb-2">¡Completado!</h2>
     <p class="text-gray-300 mb-4">Gracias por responder</p>
 
-    <div class="bg-black/20 p-4 rounded-lg text-left mb-4">
+    <div class="bg-black/30 p-4 rounded-lg text-left mb-4">
       <p><b>Nombre:</b> ${patient.name}</p>
+      <p><b>Edad:</b> <?=$register['age']?></p>
       <p><b>Fecha:</b> ${submittedAt.toLocaleString()}</p>
     </div>
 
-    <div class="bg-black/20 p-4 rounded-lg max-h-48 overflow-y-auto text-left">
+    <div class="bg-black/30 p-4 rounded-lg text-left max-h-48 overflow-y-auto">
       ${questions.map((q, i) => `
-        <div class="flex justify-between border-b border-white/10 py-1 text-sm">
-          <span class="truncate pr-2">${q.question}</span>
-          <span class="font-bold text-emerald-400">${answers[i]}</span>
+        <div class="flex justify-between border-b border-white/10 py-1">
+          <span class="truncate">${q.question}</span>
+          <b class="text-emerald-400">${answers[i]}</b>
         </div>
       `).join('')}
     </div>
-
-    <button onclick="restart()"
-      class="mt-6 py-3 px-8 rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 font-bold">
+	<br>
+    <button onclick="reset()" class="w-full font-bold py-3 px-8 rounded-full shadow-xl
+         bg-gradient-to-r from-[#5E7BFF] to-[#1b369c]
+         text-white
+         transform transition-all duration-300
+         hover:scale-105 hover:shadow-2xl
+         focus:outline-none focus:ring-4 focus:ring-[#6EA3FF]/50
+         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
       Enviar resultados
     </button>
-
   </div>`;
 }
 
-/* =============================
-   RESET
-============================= */
-function restart() {
-  
-  const data = new FormData();
+function reset() {
+	
+
+  	const data = new FormData();
 	data.append('idClient', "<?php echo $idClient?>");
 	data.append('patient', "<?php echo $idpatient;?>");
 	data.append('codes', "<?php echo $register['codes']?>");
 	data.append('is_share', <?php echo (int)$is_share?>);
 	questions.forEach((q, index) => {
-		data.append(`response_${q.id}`, answers[index]);
-		console.log(answers[index]);
+		data.append(`question_${q.id}`, answers[index]);
 	});
 	
 	
-	fetch('form2.php', {
+	fetch('form4.php', {
 		method: 'POST',
 		body: data
 	});
@@ -346,13 +366,14 @@ render();
 </body>
 </html>
 
+
 <?php } else { ?>
 
 <html lang="es">
 	<head>
 
 		<meta charset="UTF-8">
-		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=1'>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
 		<meta name="Author" content="Spruko Technologies Private Limited">
@@ -388,42 +409,38 @@ render();
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
 		<style>
-			.labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-        
-        .labels p {
-            font-weight: 600;
-            color: black;
-            padding: 8px;
-            background-color: #f8f9fa;
-            border-radius: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-        
-        .top-label {
-            align-self: flex-start;
-        }
-		.bottom-label {
-            align-self: flex-end;
-        }
-		.sizepeity{
-			height:70px;
-			width: 500px;
+		
+		.radio-grande {
+		appearance: none; /* quitamos el estilo nativo del radio */
+		-webkit-appearance: none;
+		width: 20px;
+					height: 20px;
+		border-radius: 50%;
+		background: white;
+		position: relative;
+		cursor: pointer;
+		font-size: 12px;
+		text-align: center;
+		}
+		.radio-grande::before {
+			content: attr(value); /* usa el value del input */
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: rgba(0,0,0,1);
+			font-size: 12px;
+			pointer-events: none; /* evita bloquear clic */
+		}
+		.radio-grande:checked {
+			background: #25498e;
+			color: rgba(0,0,0,1);
 		}
 		.table-bordered th, .table-bordered td{
-			border:1px solid #F8AB63;
+			border:1px solid #2f4f7034;
 		}
 		.table-striped tbody tr:nth-of-type(odd){
-			background-color:#FEF2E7;
-		}
-		@media (max-width: 480px) {
-			.sizepeity{
-				height:70px;
-				width: 100%;
-			}
+			background-color:#E6F0FF;
 		}
 		p{
 			font-size: 16px !important;
@@ -437,6 +454,7 @@ render();
 		th{
 			font-size: 16px !important;
 		}
+
 		</style>
 	</head>
 
@@ -472,13 +490,12 @@ render();
 					<div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
 					<h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1" style="text-align: center;">Formulario <?=$register['type_question_name']?></h2>
 					<br>
-						<div class="card" style="border: 0px solid transparent !important;box-shadow: none !important;background-color: #d7d9ea  !important;">
+						<div class="card" style="border: 0px solid transparent !important;box-shadow: none !important;background-color: #70bdd6 !important;">
 						
 							<div class="card-body">
-								
 								<div class="row row-sm" style="place-items: center;">
 										<div class="col-lg-2 img-container" style="display: flex;justify-content: space-between;align-items: center;align-content: center;">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logoaf5.jpeg">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logolsb5.jpeg">
                                         </div>
 										<div class="col-lg-10">
 										<div class="row">
@@ -515,74 +532,83 @@ render();
 					<!-- row closed  -->
 					<div class="col-md-12 col-lg-12 col-xl-12">
 							<div class="card card-table-two">
-								<div class="justify-center">
-									<div class="boton-format" style="padding: 6px;
-										border-radius: 20px;
-										background-color: orange;
-										color: white;
-										margin: 1px;
-										text-align: center;JUSTIFY-CONTENT: CENTER;justify-self: center;
-										width: min-content;font-weight: bold;
-										height: auto;">
-										INSTRUCCIONES
+								<div class="justify-center" style="place-items: center;">
+									<div class="boton-format" style="padding: 10px;
+    border-radius: 20px;
+    background-color: #1b369c;
+    color: white;
+    margin: 1px;
+    text-align: center;
+    width: min-content;font-weight: bold;
+    height: auto;">
+										CUESTIONARIO
 									</div>
-									<p>A continuacion encontraras una serie de frases. Lee cada una de ellas cuidadosamente y contesta con un valor entre 1 y 99 , segun tu grado de acuerdo con los que se indica.</p>
-									
-									<div style="margin: 30px 0;display: flex;position: relative;place-items: center;JUSTIFY-CONTENT: CENTER;">
-										<div class="labels">
-											<p class="bottom-label">1 en total desacuerdo</p>
-										</div>
-										<div style="height: 70px;position: relative;overflow: hidden;">
-											<svg class="peity sizepeity" ><polygon fill="rgba(245, 139, 39,.2)" points="0 69.5 0 68.81 500 0.5 500 69.5"></polygon><polyline fill="none" points="0 68.81 500 0.5" stroke="orange" stroke-width="1" stroke-linecap="square"></polyline></svg>
-										
-										</div>
-										<div class="labels">
+									<p>Encontrara una serie de afirmaciones sobre <span style="font-weight: bold;">MOLESTIAS o PROBLEMAS</span> que pueden afectar en mayor o menor medida
+									a todas las personas. Conteste a cada una ellas teniendo en cuenta aquello o experimentado <span style="font-weight: bold;">durante las ultimas semanas, incluido el dia  de hoy.</span>
+									<br>
+									Para ello, marque junto a cada aformacion una de las siguientes opciones:	
+									</p>
+									<p style="font-weight: bold;
+    background: #1b369c;
+    color: white;
+    padding: 5px;
+    border-radius: .25rem;">HASTA QUÉ PUNTO SE HA SENTIDO MOLESTO POR EL SÍNTOMA	</p>
+									<table class="table table-bordered" style="border:1px solid black;table-layout: fixed;font-weight: bold;color:#4BB694;text-align-last: center;">
+										<thead>	
+											<tr>
+												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">0</th>
+												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">1</th>
+												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">2</th>
+												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">3</th>
+												<th style="width:70px;max-width: 70px;background: white;color: #59a6c6;">4</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr style="color:#59a6c6">
+											<td>Nada</td>
+											<td>Poco</td>
+											<td>Moderadamente</td>
+											<td>Bastante</td>
+											<td>Mucho o Extremadamente</td>
+											</tr>
 											
-											<p class="top-label">99 en total acuerdo</p>
-										</div>
-									</div>
-									<p>Por ejemplo si la frase dice "<span style="font-weight: bold;">La musica ayuda al bienestar humano</span>" y estas muy deacuerdo, contestarias con un valor alto, como por ejemplo el 94, anotando tu respuesta de la siguiente manera:</p>
-									
-									<p  style="font-weight: bold;color: orange;">La musica ayuda al bienestar humano .............................. 94</p>
-									
-									<p>Por lo contario si estas muy poco deacuerdo, eligirias un valor bajo, por ejemplo el, y lo anotarias de la siguiente manera:</p>
-									
-									<p  style="font-weight: bold;color: orange;">La musica ayuda al bienestar humano .............................. 9</p>
-									
-									<p>No olvides  que dispones de muchas opciones de respuesta, en concreto, puedes elegir entre 99 valores. Escoge el que mas se ajuste a tu criterio.</p>
-									<p  style="font-weight: bold;">RECUERDA CONTESTA CON LA MAXIMA SINCERIDAD.</p>
+										</tbody>
+									</table>
+									<br>
 								</div>
-								<div class="d-flex justify-content-between">
-									<h4 class="card-title mb-1">Listado de estados</h4>
-									<i class="mdi mdi-dots-horizontal text-gray"></i>
-								</div>
-								<span class="tx-12 tx-muted mb-3 ">1 en total desacuerdo y 99 en total acuerdo</span>
-								
+
 								<div class="table-responsive country-table">
-                                    <form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form2.php':''?>">
-                                    <table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
+                                    <form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form1.php':''?>">
+                                    <table class="table table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap" style="background: #eceeb6 !important;">
 										<input type="hidden" name="is_share" value="<?=(int)$is_share?>">
                                         <input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
                                         <input type="hidden" id="idClient" name="idClient" value="<?=$idClient?>">
 										<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
-                                        <thead>
-											<tr>
-                                                <th class="wd-lg-5p"></th>
-												<th class="wd-lg-100p">Conteste de 1 a 99 en las casillas correspondientes a cada pregunta</th>
-												<th class="wd-lg-25p tx-center">1-99</th>
-											</tr>
-										</thead>
+                                        
 										<tbody>
                                             <?php
                                                 foreach($answers as $answer){
                                             ?>
 											<tr>
-                                                <td><?=$answer['item_order']?></td>
+                                                <td style="color:#25498e;font-weight: bold;text-align: center;"><?=$answer['item_order']?></td>
 												<td><?=htmlspecialchars($answer['question'])?></td>
 												<td class="tx-right tx-medium tx-inverse">
-												<input type="number" name="response_<?=$answer['id']?>" value="<?=$answer['response']!=0?$answer['response']:''?>" <?=$is_view?'disabled':''?> min="1" max="99">
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?> <?=$is_view?'disabled':''?>>
+                                            	
+											</td>
+                                                <td class="tx-right tx-medium tx-inverse">
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
                                                 </td>
-                                                
+                                                <td class="tx-right tx-medium tx-inverse">
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="2" type="radio" <?=$answer['response']=='2'?'checked':'' ?> <?=$is_view?'disabled':''?>>
+                                                </td>
+                                                <td class="tx-right tx-medium tx-inverse">
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="3" type="radio" <?=$answer['response']=='3'?'checked':'' ?> <?=$is_view?'disabled':''?>>
+                                                </td>
+                                                <td class="tx-right tx-medium tx-inverse">
+                                                <input class="radio-grande" name="question_<?=$answer['id']?>" value="4" type="radio" <?=$answer['response']=='4'?'checked':'' ?> <?=$is_view?'disabled':''?>>
+                                                </td>
+                                                <td style="color:#25498e;font-weight: bold;text-align: center;"><?=$answer['item_order']?></td>
 											</tr>
                                             
                                             <?php }?>
@@ -635,7 +661,8 @@ render();
 		<script src="../../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 
 		<!-- eva-icons js -->
-		<script src="../../assets/js/eva-icons.min.js"></script>									
+		<script src="../../assets/js/eva-icons.min.js"></script>
+
 		<!-- Rating js-->
 		<script src="../../assets/plugins/rating/jquery.rating-stars.js"></script>
 		<script src="../../assets/plugins/rating/jquery.barrating.js"></script>
@@ -646,44 +673,17 @@ render();
 		<!-- Horizontalmenu js-->
 		<script src="../../assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
 
+				<!-- Sticky js -->
+		<script src="../../assets/js/sticky.js"></script>
+
 		<!-- Right-sidebar js -->
 		<script src="../../assets/plugins/sidebar/sidebar.js"></script>
 		<script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
 
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
-		<script>
-			// Seleccionar todos los inputs que comienzan con "response_"
-			document.querySelectorAll('input[name^="response_"]').forEach(input => {
-				// Agregar evento cuando el usuario termina de editar (evento 'change')
-				input.addEventListener('change', function() {
-					// Convertir el valor a número
-					let value = parseInt(this.value);
-					
-					// Validar el valor
-					if (isNaN(value)) {
-						this.value = this.min || 1; // Si no es número, poner valor mínimo
-					} else if (value > 99) {
-						this.value = 99;
-					} else if (value < 1) {
-						this.value = 1;
-					}
-				});
 
-				// También validar mientras escribe (evento 'input')
-				input.addEventListener('input', function() {
-					let value = parseInt(this.value);
-					
-					if (!isNaN(value)) {
-						if (value > 99) {
-							this.value = 99;
-						} else if (value < 1) {
-							this.value = 1;
-						}
-					}
-				});
-			});
-		</script>
 	</body>
 </html>
+
 <?php } ?>

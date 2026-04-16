@@ -1,0 +1,225 @@
+.container-short {
+    max-width: 1000px;
+    justify-self: anchor-center;
+}
+
+.container-header {
+    display: flex;
+    background: #dcdcdc;
+    border-radius: 18px;
+    padding: 10px;
+    align-items: center;
+}
+
+.divider{
+    height: stretch;
+    width: 3px;
+    background: white;
+    position: absolute;
+    left: 65px;
+}
+.container-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 55px;
+}
+
+.perfil-vertical {
+    transform: rotate(-90deg);
+    transform-origin: center;
+    font-weight: bold;
+    color: #d10f0f;
+    font-size: 40px;
+    white-space: nowrap;
+    height: 100px;
+    margin-left: -80px;
+    position: absolute;
+}
+
+.img-logo {
+    height: 150px;
+    width: auto;
+}
+
+.container-body {
+    flex: 1;
+    padding-left: 15px;
+}
+
+.container-row-bg {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.container-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.row-m0 {
+    margin-bottom: 0px;
+}
+
+.label {
+    color: #d10f0f;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.field {
+    border: none;
+    border-radius: 10px !important;
+    height: 30px !important;
+    width: 100%;
+    color: black;
+}
+
+.max-left {
+    width: 100%;
+    text-align: left;
+}
+
+.max {
+    width: 100%;
+    text-align: center;
+}
+
+.container-panel {
+    font-family: "Ronnia Regular", sans-serif;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title-pill {
+    background: linear-gradient(#2e7b8f, #1f4e5f);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.title-pill-none {
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.header-pills {
+    display: flex;
+    gap: 10px;
+}
+
+.pill {
+    background: linear-gradient(#2e7b8f, #1f4e5f);
+    color: white;
+    padding: 2px 23px;
+    border-radius: 10px;
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+}
+
+.row-item {
+    display: grid;
+    grid-template-columns: 60px 1fr 70px 70px;
+    align-items: center;
+    margin: 10px 0;
+    color:#232323;
+}
+
+.code {
+    color: #3b67b1;
+    font-weight: bold;
+}
+
+.label-text {
+    color: #333;
+}
+
+.value {
+    border: 2px solid #2b78c5;
+    border-radius: 10px;
+    text-align: center;
+    padding: 1px 6px;
+    background: #fff;
+    font-weight: 500;
+}
+
+.mr4 {
+    margin-right: 4px;
+}
+
+.ml4 {
+    margin-left: 4px;
+}
+
+.main-body {
+    background-color: white !important;
+}
+
+p {
+    font-family: "Ronnia Regular", sans-serif !important;
+    font-size: 20px !important;
+}
+
+span {
+    font-family: "Ronnia Regular", sans-serif !important;
+}
+
+h4 {
+    font-family: "Ronnia Regular", sans-serif !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
+    color: black;
+}
+
+h1 {
+    font-family: "Ronnia Regular", sans-serif !important;
+    font-weight: bold;
+}
+
+input {
+    font-family: "Ronnia Regular", sans-serif !important;
+}
+
+.setting-input {
+    background-color: transparent;
+    border: 1px solid transparent;
+    font-weight: bold !important;
+    padding-right: 3px !important;
+    color: black !important;
+}
+
+.container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+input {
+    border-radius: 15px !important;
+    height: 35px !important;
+}
+
+.txt-force-black {
+    color: black;
+}
+
+.card {
+    border-radius: 0px;
+    box-shadow: none;
+    border: 0px solid #b3b3b3;
+    background: white !important;
+}

@@ -100,7 +100,7 @@
 		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
 
 		<!-- Icons css -->
-		<link href="../../assets/css/icons.css" rel="stylesheet">
+		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
 
 		<!-- Bootstrap css -->
 		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -125,28 +125,32 @@
 
 		<style>
 			.toast-copiado {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #1ab6cf;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    font-weight: bold;
-    z-index: 9999;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    animation: fadeOut 0.5s ease-in-out 4.5s forwards;
-}
+				position: fixed;
+				top: 20px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: #1ab6cf;
+				color: white;
+				padding: 15px 25px;
+				border-radius: 8px;
+				font-weight: bold;
+				z-index: 9999;
+				box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+				animation: fadeOut 0.5s ease-in-out 4.5s forwards;
+			}
 
-/* Animación para desvanecerse */
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-10px);
-    }
-}
-
+			/* Animación para desvanecerse */
+			@keyframes fadeOut {
+				to {
+					opacity: 0;
+					transform: translateX(-50%) translateY(-10px);
+				}
+			}
+			@media (max-width: 768px) {
+				.containermobile {
+					margin-top:50px;
+				}
+			}
 		</style>
 
 	</head>
@@ -160,7 +164,7 @@
 		<!-- /Loader -->
 
 		<!-- Page -->
-		<div class="page">
+		<div class="page <?=TESTING=='1'?'istesting':''?>">
 
 			
 			<!-- main-header opened -->
@@ -174,7 +178,7 @@
 			<div class="main-content horizontal-content">
 
 				<!-- container opened -->
-				<div class="container">
+				<div class="container containermobile">
 				<br>
 
 				<div class="row row-sm">
@@ -322,7 +326,7 @@
 														<span class="label text-<?=$data['status']=='PENDIENTE'?'warning':'success'?> d-flex"><div class="dot-label bg-<?=$data['status']=='PENDIENTE'?'warning':'success'?>-300 me-1"></div><?=$data['status']?></span>
 													</td>
                                                     <td>
-                                                        <?=htmlspecialchars($data['name'])?>
+                                                        <?=htmlspecialchars($baremoModel->spnippingText($data['name']))?>
 													</td>
                                                     <td>
                                                         <?=$data['type_question_name']?>
@@ -334,6 +338,8 @@
 															$redirect = $data['id_type_question'] == 1?'1':$redirect;
 															$redirect = $data['id_type_question'] == 2?'2':$redirect;
 															$redirect = $data['id_type_question'] == 3?'3':$redirect;
+															$redirect = $data['id_type_question'] == 4?'4':$redirect;
+															$redirect = $data['id_type_question'] == 5?'5':$redirect;
 															$text_test = "Ajustar";
 															if($data['status'] == 'TERMINADO'){
 																$text_test = "Ver prueba";
@@ -562,9 +568,11 @@
 				selectElement.innerHTML = '<option value="" disabled selected>Seleccionar</option>';
 
 				const rangos = {
-					1: [1, 4],
-					2: [5, 37],
-					3: [38, 45]
+					1: [1, 4],//form1
+					2: [5, 37],//form2
+					3: [38, 45],//form3
+					4: [46, 50],//form4
+					5: [51, 56],//form5
 				};
 
 				const [min, max] = rangos[id] || [0, 0];

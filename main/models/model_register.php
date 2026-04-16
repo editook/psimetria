@@ -1,6 +1,22 @@
 <?php
 class Register_Model
 {
+    function getDeviceType(){
+        $userAgent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
+
+        // Tablets
+        if (preg_match('/(tablet|ipad|playbook|silk)|(android(?!.*mobile))/i', $userAgent)) {
+            return 'tablet';
+        }
+
+        // Móviles
+        if (preg_match('/(mobile|iphone|ipod|android.*mobile|blackberry|opera mini|windows phone)/i', $userAgent)) {
+            return 'mobile';
+        }
+
+        // Escritorio
+        return 'desktop';
+    }
     function getRandomCipherMethod() {
         $algorithms = ['AES'];
         $keySizes = [128, 192, 256];

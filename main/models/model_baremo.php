@@ -1,7 +1,11 @@
 <?php
 class Baremo_Model
 {
-   
+   function spnippingText($texto, $limite = 50) {
+        return mb_strlen($texto, 'UTF-8') > $limite
+            ? mb_substr($texto, 0, $limite, 'UTF-8') . '...'
+            : $texto;
+    }
 
     public function getById($id)
     {
@@ -26,7 +30,9 @@ class Baremo_Model
             /*const rangos = {
 					1: [1, 4],
 					2: [5, 37],
-					3: [38, 45]
+					3: [38, 45],
+                    4: [46, 50],
+                    5: [51, 56],
 				};
             */
             if($id == '1'){
@@ -37,6 +43,12 @@ class Baremo_Model
             }
             if($id == '3'){
                 $where = " where id>=38 and id<=45";
+            }
+            if($id == '4'){
+                $where = " where id>=46 and id<=50";
+            }
+            if($id == '5'){
+                $where = " where id>=51 and id<=56";
             }
             
         }

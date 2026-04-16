@@ -1,6 +1,6 @@
 <?php
     include_once('../configs.php');
-	//MACI
+	//CMASR-2
 	session_start();
 	include('../connection.php');
 	include("../models/model_register.php");
@@ -109,6 +109,7 @@
 	}
 	$device = $registerModel->getDeviceType();
 ?>
+
 <!DOCTYPE html>
 <?php if (($device === 'tablet' || $device === 'mobile')) { ?>
 
@@ -121,9 +122,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen w-full
-            bg-gradient-to-br from-[#9b2a56] via-[#9B2A56] to-[#cd7f9e]
-            flex items-center justify-center p-4 font-sans text-white">
+<body class="min-h-screen w-full bg-gradient-to-br from-[#1F2B3D] via-[#283B50] to-[#3C506D] flex items-center justify-center p-4 font-sans text-white">
 
   <main class="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden">
 
@@ -137,16 +136,11 @@
    DATOS
 =========================== */
 
-var questions1 = <?php echo json_encode($answer_part1)?>;
 var questions = <?php echo json_encode($answers)?>;
-var oth = { ...questions1[0] };
-oth.question = "Otros (escribe cuáles)";
-oth.id = '0';
-questions = [...questions1,oth, ...questions];
-//questions = questions.slice(0, 20);
-var options = [
-  { value: 1, text: '1', class: 'from-sky-400 to-cyan-400' },
-  { value: 0, text: '2', class: 'from-emerald-400 to-teal-400' }
+
+const options = [
+  { value: 1, text: 'Si', class: 'from-sky-400 to-cyan-400' },
+  { value: 0, text: 'No', class: 'from-emerald-400 to-teal-400' }
 ];
 //from-fuchsia-600 to-purple-700
 //from-slate-700 to-gray-900
@@ -156,7 +150,6 @@ var options = [
 let currentIndex = 0;
 let answers = [];
 let patient = {};
-let others = "";
 let finished = false;
 let submittedAt = null;
 
@@ -188,35 +181,30 @@ function renderPatientForm() {
         <div class="text-center mb-8">
           <h2 class="text-3xl font-bold text-cyan-300">FORMULARIO <?=$register['type_question_name']?></h2>
         </div>
-        <div class="mb-4">
+		
+		<div class="mb-4">
 		<label for="fullName" class="block mb-2 text-sm font-medium text-gray-300">Nombre Completo</label>
 		<input type="text" disabled value="<?=$register['id_client']?>" id="fullName" formControlName="fullName"
 			class="w-full bg-black/20 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
 			placeholder="Ej. Juan Pérez">
 		</div>
+        
         <div class="mb-8 p-4 bg-black/20 border border-white/10 rounded-lg text-left text-sm text-gray-300 space-y-3">
           <h3 class="text-base font-bold text-cyan-300 text-center">INSTRUCCIONES</h3>
-          <p>Esta prueba consiste en una lista de frases que la gente joven usa para describirse a sí misma. Se presentan aquí para ayudarte a describir tus sentimientos y actitudes. Cuando contestes trata de hacerlo honesta y seriamente como puedas, ya que los resultados serán utilizados para ayudar a conocerte y poder ayudarte a planear tu futuro. No te preocupes si algunas de las frases no te parecen muy corrientes; se han incluido para ayudar a adolescentes con muchos tipos de problemas. No hay límite de tiempo para completar el inventario, aunque es mejor trabajara un ritmo rápido pero cómodo.</p>
-			
-			 <p>Reactivo de sintomas MACI</p>
-          <div class="bg-gray-900/50 rounded-md p-3">
-             
-			
-		  	<p>A continuación encontrarás una serie de problemas que suelen preocupar a las personas.
-			Si crees que alguno de ellos es <span style="font-weight: bold;">TU PRINCIPAL PROBLEMA</span> , márcalo con un 1 y si piensas en ello, pero <span style="font-weight: bold;">NO TE PREOCUPA</span>, márcalo con un 2.</p>
-			
-          </div>
+          <p>Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. Marca una "X" en la columna de Sí, si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración.</p>
+			<br>
+		  <p>No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: "¿Es cierto en mi caso?". Si es así, encierra Sí en un círculo; si no lo es, encierra el No.</p>
+          
         </div>
 
         
 		
-		
 		<button type="button" onclick="startQuiz()"
 		class="w-full py-3 px-8 font-bold rounded-full text-white shadow-lg
-         bg-gradient-to-r from-[#9B2A56] to-[#CE81A0]
+         bg-gradient-to-r from-[#3C506D] to-[#627892]
          hover:scale-105 hover:shadow-2xl
          transform transition-all duration-300
-         focus:outline-none focus:ring-4 focus:ring-[#E7BBC6]/50
+         focus:outline-none focus:ring-4 focus:ring-[#627892]/50
          disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
 		Comenzar Cuestionario
 		</button>
@@ -233,57 +221,33 @@ function startQuiz() {
    PREGUNTAS
 =========================== */
 function renderQuestion() {
-	
-	if(questions[currentIndex].id == "0"){
-		options = [
-			{ value: 1, text: 'V', class: 'from-sky-400 to-cyan-400' },
-			{ value: 0, text: 'F', class: 'from-emerald-400 to-teal-400' }
-			];
-	}
-	const inputSecondQuestion = currentIndex != 11?"":`
-	<div class="bg-gray-900/50 rounded-md p-3">
-             
-			
-		  	<p>Procura contestar con orden; comprueba la numeración de la frase en el Cuadernillo y de la respuesta en esta Hoja.
-Anota sólo una respuesta para cada frase e intenta no dejar frases sin contestar, aunque no estés totalmente seguro de tu respuesta.
-Si no eres capaz de decidirte por V o F ,debes marcar el espacio de la letra F (Falso).</p>
-			
-          </div>
-	`;
-	
-	
-	const inputOrButtons = questions[currentIndex].id == "0"
-    ? `<input type="text" id="other_answer" placeholder="Opcional" class="w-full p-4 rounded-xl text-black mb-4" />
-	<div class="grid grid-cols-1 gap-4">
-        <button onclick="answer(1)"
-            class="py-4 rounded-xl bg-gradient-to-br from-sky-400 to-cyan-400 font-bold">
-            Siguiente
-          </button>
-      </div>`
-    : `<div class="grid grid-cols-2 gap-4">
-        ${options.map(o => `
-          <button onclick="answer(${o.value})"
-            class="py-4 rounded-xl bg-gradient-to-br ${o.class} font-bold">
-            ${o.text}
-          </button>
-        `).join('')}
-      </div>`;
+  const progress = Math.round((currentIndex / questions.length) * 100);
 
-	
-	
   return `
   <div class="p-8">
-	
+
     <div class="text-center border-b border-white/10 pb-4 mb-4">
       <p class="font-bold">${patient.name}</p>
     </div>
-	${inputSecondQuestion}
+
+    <p class="text-cyan-300 mb-2">Pregunta ${currentIndex + 1} de ${questions.length}</p>
+    <div class="w-full bg-black/30 rounded-full h-2 mb-6">
+      <div class="h-2 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full"
+        style="width:${progress}%"></div>
+    </div>
 
     <h2 class="text-2xl font-bold text-center mb-6">
       ${questions[currentIndex].question}
     </h2>
 
-    ${inputOrButtons}
+    <div class="grid grid-cols-2 gap-4">
+      ${options.map(o => `
+        <button onclick="answer(${o.value})"
+          class="py-4 rounded-xl bg-gradient-to-br ${o.class} font-bold">
+          ${o.text}
+        </button>
+      `).join('')}
+    </div>
 
     <button onclick="back()" class="mt-6 text-gray-400 hover:text-white">
       ← Anterior
@@ -327,16 +291,16 @@ function renderSummary() {
       ${questions.map((q, i) => `
         <div class="flex justify-between border-b border-white/10 py-1">
           <span class="truncate">${q.question}</span>
-          <b class="text-emerald-400">...</b>
+          <b class="text-emerald-400">${answers[i]}</b>
         </div>
       `).join('')}
     </div>
 	<br>
     <button onclick="reset()" class="w-full py-3 px-8 font-bold rounded-full text-white shadow-lg
-         bg-gradient-to-r from-[#9B2A56] to-[#CE81A0]
+         bg-gradient-to-r from-[#3C506D] to-[#627892]
          hover:scale-105 hover:shadow-2xl
          transform transition-all duration-300
-         focus:outline-none focus:ring-4 focus:ring-[#E7BBC6]/50
+         focus:outline-none focus:ring-4 focus:ring-[#627892]/50
          disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
       Enviar resultados
     </button>
@@ -345,24 +309,18 @@ function renderSummary() {
 
 function reset() {
 	
-	const input = document.getElementById("other_answer");
-	const other_answer = input ? input.value : "";
 
   	const data = new FormData();
 	data.append('idClient', "<?php echo $idClient?>");
 	data.append('patient', "<?php echo $idpatient;?>");
 	data.append('codes', "<?php echo $register['codes']?>");
 	data.append('is_share', <?php echo (int)$is_share?>);
-	data.append('other_answer',other_answer);
 	questions.forEach((q, index) => {
-		if(q.id != "0"){
-			data.append(`question_${q.id}`, answers[index]);
-		}
-		
+		data.append(`question_${q.id}`, answers[index]);
 	});
 	
 	
-	fetch('form3.php', {
+	fetch('form5.php', {
 		method: 'POST',
 		body: data
 	});
@@ -443,7 +401,7 @@ render();
 			text-align: center;
 		}
 		.radio-grande2[value="0"]::before {
-			content: "2"; /* usa el value del input */
+			content: "No"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -453,7 +411,7 @@ render();
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande2[value="1"]::before {
-			content: "1"; /* usa el value del input */
+			content: "Si"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -463,7 +421,7 @@ render();
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande[value="1"]::before {
-			content: "V"; /* usa el value del input */
+			content: "Si"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -473,7 +431,7 @@ render();
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande[value="0"]::before {
-			content: "F"; /* usa el value del input */
+			content: "No"; /* usa el value del input */
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -483,15 +441,15 @@ render();
 			pointer-events: none; /* evita bloquear clic */
 		}
 		.radio-grande:checked {
-			background: #c0605dff;
+			background: #04468c;
 			color: rgba(0,0,0,1);
 		}
 		.radio-grande2:checked {
-			background: #c0605dff;
+			background: #04468c;
 			color: rgba(0,0,0,1);
 		}
 		.table-bordered th, .table-bordered td{
-			border:1px solid #9499C7;
+			border:1px solid rgba(0,0,0,1);
 		}
 		.table-striped tbody tr:nth-of-type(odd){
 			background-color:#EEEFF6;
@@ -507,6 +465,18 @@ render();
 		}
 		th{
 			font-size: 16px !important;
+		}
+		.col-id {
+			background-color: #04468c !important; 
+			color: white !important;            
+			font-weight: bold;
+			text-align: center;
+		}
+		.col-text {
+			background-color: #04468c !important; 
+			color: white !important;            
+			font-weight: bold;
+			text-align: center;
 		}
 		</style>
 	</head>
@@ -548,7 +518,7 @@ render();
 							<div class="card-body">
 								<div class="row row-sm" style="place-items: center;">
 										<div class="col-lg-2 img-container" style="display: flex;justify-content: space-between;align-items: center;align-content: center;">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/logomaci.jpeg">
+                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/cmasr2.png">
                                         </div>
 										<div class="col-lg-10">
 										<div class="row">
@@ -597,106 +567,17 @@ render();
 										height: auto;">
 										INSTRUCCIONES
 								</div>
-								<p>Esta prueba consiste en una lista de frases que la gente joven usa para describirse a sí misma. Se presentan aquí para ayudarte a describir tus sentimientos y actitudes. Cuando contestes trata de hacerlo honesta y seriamente como puedas, ya que los resultados serán utilizados para ayudar a conocerte y poder ayudarte a planear tu futuro. No te preocupes si algunas de las frases no te parecen muy corrientes; se han incluido para ayudar a adolescentes con muchos tipos de problemas. No hay límite de tiempo para completar el inventario, aunque es mejor trabajara un ritmo rápido pero cómodo. </p>
+								<p>Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. Marca con una "Si", si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración. <br>
+							 	<br> No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: "¿Es cierto en mi caso?". Si es así, encierra Sí en un círculo; si no lo es, encierra el No. </p>
 								<br>
 								
 							</div>
-							<div class="d-flex justify-content-between">
-								<h4 class="card-title mb-1">Reactivo de sintomas MACI</h4>
-								<i class="mdi mdi-dots-horizontal text-gray"></i>
-							</div>
-							<p>A continuación encontrarás una serie de problemas que suelen preocupar a las personas. <br>
-								Si crees que alguno de ellos es <span style="font-weight: bold;">TU PRINCIPAL PROBLEMA</span> , márcalo con un 1 y si piensas en ello, pero <span style="font-weight: bold;"> NO TE PREOCUPA</span>, márcalo con un 2.							
 							
-							</p>
-							<div class="table-responsive country-table">
-								
-								<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
-									<input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
-									<input type="hidden" id="idClient" name="idClient" value="<?=$idClient?>">
-									<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
-									<thead>
-										<tr>
-											<th class="wd-lg-100p">PROBLEMAS</th>
-											<th class="wd-lg-25p tx-right">1</th>
-											<th class="wd-lg-25p tx-right">2</th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php
-											foreach($answer_part1 as $answer){
-										?>
-										<tr>
-											<td><?=htmlspecialchars($answer['question'])?></td>
-											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande2" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-											</td>
-											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande2" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?>  <?=$is_view?'disabled':''?>>
-											</td>
-											
-										</tr>
-										
-										<?php }?>
-									</tbody>
-								</table>
-								
-								
-								
-							</div>
 							<br>
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="input-group mb-3">
-										<div class="input-group-text">
-											<span class="input-group-text" id="basic-addon1">Otros (escribe cuáles)</span>
-										</div><input aria-describedby="basic-addon1" name="other_answer" class="form-control" style="font-weight: bold;" value="<?=$input_answer;?>" type="text">
-									</div><!-- input-group -->
-								</div>
-							</div>
+							
 						</div>
 						<div class="card card-table-two">
-							<p>Lee las frases del cuadernillo que te han entregado y decide si, aplicadas a ti son verdaderas V o falsas F. Selecciona sobre la columna V en el caso de que la frase sea verdadera o sobre la columna F si fuese falsa.</p>
-								<p style="text-align: center;"><span style="font-weight: bold;">Lee y contesta a los dos ejemplos siguientes:</span></p>
-								<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap" style="color:red">
-								<thead>
-									<tr>
-										<th class="wd-lg-5p"></th>
-										<th class="wd-lg-100p">Ejemplos</th>
-										<th class="wd-lg-25p tx-right">V</th>
-										<th class="wd-lg-25p tx-right">F</th>
-									</tr>
-								</thead>
-								
-								<tbody>
-									<tr style="color:red">
-										<td class="wd-lg-5p">1</td>
-										<td class="wd-lg-100p">Soy un ser humano <span style="float: right;" id="text_test_show1"></span></td>
-										<td class="tx-right tx-medium tx-inverse wd-lg-25p tx-right">
-											<input class="radio-grande" name="example1t" value="1" type="radio">
-										</td>
-										<td class="tx-right tx-medium tx-inverse wd-lg-25p tx-right">
-											<input class="radio-grande" name="example1t" value="0" type="radio">
-										</td>
-									</tr>
-									<tr style="color:red">
-										<td class="wd-lg-5p">2</td>
-										<td class="wd-lg-100p">Mido mas de tres metros <span style="float: right;" id="text_test_show2"></span></td>
-										<td class="tx-right tx-medium tx-inverse wd-lg-25p tx-right">
-											<input class="radio-grande" name="example2t" value="1" type="radio">
-										</td>
-										<td class="tx-right tx-medium tx-inverse wd-lg-25p tx-right">
-											<input class="radio-grande" name="example2t" value="0" type="radio">
-										</td>
-									</tr>
-								</tbody>
-								</table>
-								<br>
-							<p>Procura contestar con orden; comprueba la numeración de la frase en el Cuadernillo y de la respuesta en esta Hoja. <br>
-								Anota sólo una respuesta para cada frase e intenta no dejar frases sin contestar, aunque no estés totalmente seguro de tu respuesta. <br>
-								Si no  eres capaz de decidirte por     V     o     F      ,debes marcar el espacio de la letra     F   (Falso).
-
-											</p>
+							
 							<div class="table-responsive country-table">
 								
 								<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
@@ -708,9 +589,9 @@ render();
 										<tr>
 											<th class="wd-lg-5p"></th>
 											<th class="wd-lg-100p"></th>
-											<th class="wd-lg-25p tx-right">V</th>
-											<th class="wd-lg-25p tx-right">F</th>
-											<th class="wd-lg-5p"></th>
+											<th class="wd-lg-25p tx-right col-text">SI</th>
+											<th class="wd-lg-25p tx-right col-text">NO</th>
+											<th class="wd-lg-5p" ></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -718,7 +599,7 @@ render();
 											foreach($answers as $answer){
 										?>
 										<tr>
-											<td><?=$answer['item_order']?></td>
+											<td class="col-id"><?=$answer['item_order']?></td>
 											<td><?=htmlspecialchars($answer['question'])?></td>
 											<td class="tx-right tx-medium tx-inverse">
 											<input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
@@ -727,7 +608,7 @@ render();
 											<input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?> <?=$is_view?'disabled':''?>>
 											</td>
 											
-											<td><?=$answer['item_order']?></td>
+											<td class="col-id"><?=$answer['item_order']?></td>
 										</tr>
 										
 										<?php }?>
