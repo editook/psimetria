@@ -983,7 +983,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                 <div class="ht-100 ht-sm-300" style="height: 130px !important;" id="flotLineIndGeneral"></div>
                                 <div class="ht-100 ht-sm-300" style="margin-top:10px;height: 350px !important;" id="flotLineEscalasClinicas"></div>
                                 <div class="ht-100 ht-sm-300" style="margin-top:15px;   margin-bottom: 15px;height: 75px !important;" id="flotLineIndRiesgoPat"></div>
-                                <p style="text-align: left;font-size: 15px !important;">Nota Pc: (Percentil), escala ordinal.</p>
+                                <p style="color:#232323;text-align: left;font-size: 15px !important;">Nota Pc: (Percentil), escala ordinal.</p>
                                 </div>
                             </div>
                         </div>

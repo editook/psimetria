@@ -100,43 +100,64 @@
     $answers = $answerModel->getAll($register['codes']);
 	
 	$device = $registerModel->getDeviceType();
-	
+	//echo json_encode($register);
 ?>
 
 <!DOCTYPE html>
-<?php if (($device === 'tablet' || $device === 'mobile')) { ?>
+<?php if ($is_share) { ?>
 
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><?=WEB_TITLE?> </title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+	<style>
+	* { font-family: 'Inter', sans-serif; }
+	/* scroll suave y personalizado */
+	.custom-scroll::-webkit-scrollbar { width: 4px; }
+	.custom-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); border-radius: 10px; }
+	.custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); border-radius: 10px; }
+	.card-glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.2); }
+	.btn-option { transition: all 0.2s ease; transform: scale(1); }
+	.btn-option:active { transform: scale(0.97); }
+	.progress-bar-animated { transition: width 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+	.hover-scale { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+	.hover-scale:hover { transform: translateY(-2px); box-shadow: 0 20px 25px -12px rgba(0,0,0,0.25); }
+	.option-card { backdrop-filter: blur(4px); background: rgba(0, 0, 0, 0.25); border-radius: 1.5rem; transition: all 0.2s; }
+	.option-card:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+	</style>
+
 </head>
 
-<body class="min-h-screen w-full bg-gradient-to-br from-[#013A8A] via-[#0162E8] to-[#4D8DFF] flex items-center justify-center p-4 font-sans text-white">
+<body class="min-h-screen w-full bg-gradient-to-br from-[#0B2B5E] via-[#0D47A1] to-[#1976D2] flex items-center justify-center p-3 md:p-5 font-sans antialiased">
 
-  <main class="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden">
-
-    <!-- CONTENEDOR DINÁMICO -->
-    <div id="app"></div>
-
+  <main class="w-full max-w-4xl mx-auto">
+    <!-- Tarjeta principal con efecto glassmorphism premium -->
+    <div class="rounded-3xl shadow-2xl overflow-hidden border border-white/20 backdrop-blur-sm bg-white/5 transition-all duration-300">
+      <div id="app"></div>
+    </div>
   </main>
-
 <script>
 /* ===========================
    DATOS
 =========================== */
 
 var questions = <?php echo json_encode($answers)?>;
+questions = questions.slice(0, 10);
+//console.log(questions);
+var fullname  = <?php echo json_encode($register['id_client'])?>;
 
+var testname = <?php echo json_encode($register['type_question_name'])?>;
 const options = [
-  { value: 0, text: 'Nada', class: 'from-sky-400 to-cyan-400' },
-  { value: 1, text: 'Poco', class: 'from-emerald-400 to-teal-400' },
-  { value: 2, text: 'Moderadamente', class: 'from-violet-400 to-fuchsia-400' },
-  { value: 3, text: 'Bastante', class: 'from-amber-400 to-yellow-400' },
-  { value: 4, text: 'Mucho', class: 'from-rose-400 to-red-400' }
+  { value: 0, text: 'Nada'},
+  { value: 1, text: 'Poco'},
+  { value: 2, text: 'Moderadamente'},
+  { value: 3, text: 'Bastante'},
+  { value: 4, text: 'Mucho'}
 ];
 //from-fuchsia-600 to-purple-700
 //from-slate-700 to-gray-900
@@ -168,123 +189,194 @@ function render() {
   app.innerHTML = renderSummary();
 }
 
-/* ===========================
-   FORMULARIO PACIENTE
-=========================== */
+//FORMULARIO PACIENTE
 function renderPatientForm() {
   return `
-  <div class="p-8 sm:p-12">
-        <div class="text-center mb-8">
-          <h2 class="text-3xl font-bold text-cyan-300">FORMULARIO <?=$register['type_question_name']?></h2>
-        </div>
-		<div class="mb-4">
-		<label for="fullName" class="block mb-2 text-sm font-medium text-gray-300">Nombre Completo</label>
-		<input type="text" disabled value="<?=$register['id_client']?>" id="fullName" formControlName="fullName"
-			class="w-full bg-black/20 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
-			placeholder="Ej. Juan Pérez">
-		</div>
-        
-        <div class="mb-8 p-4 bg-black/20 border border-white/10 rounded-lg text-left text-sm text-gray-300 space-y-3">
-          <h3 class="text-base font-bold text-cyan-300 text-center">INSTRUCCIONES</h3>
-          <p>Encontrará una serie de afirmaciones sobre MOLESTIAS o PROBLEMAS que pueden afectar en mayor o menor medida a todas las personas. Conteste a cada una ellas teniendo en cuenta aquello que ha experimentado durante las últimas semanas, incluido el día de hoy.</p>
-          <p>Para ello, marque junto a cada afirmación una de las siguientes opciones:</p>
+    <div class="p-6 md:p-10 lg:p-12" style="background: #fff;">
+      <!-- Header con progreso decorativo -->
+      <div class="flex justify-between items-center mb-6 border-b border-white/20 pb-4">
+        <div class="flex items-center gap-3">
           
-          
-		  	<div class="bg-gray-900/50 rounded-xl p-4">
-				<p class="text-center font-semibold text-sm sm:text-base mb-4">
-					Valore el grado que ha tenido cada uno de los siguientes síntomas en las últimas semanas.
-				</p>
-
-				<div class="grid grid-cols-3 sm:grid-cols-5 gap-3 text-center font-mono">
-					
-					<div class="p-2 rounded-lg bg-gray-800">
-					<span class="font-bold block text-base">0</span>
-					<span class="text-xs">Nada</span>
-					</div>
-
-					<div class="p-2 rounded-lg bg-gray-800">
-					<span class="font-bold block text-base">1</span>
-					<span class="text-xs">Poco</span>
-					</div>
-
-					<div class="p-2 rounded-lg bg-gray-800">
-					<span class="font-bold block text-base">2</span>
-					<span class="text-xs break-words">Moderadamente</span>
-					</div>
-
-					<div class="p-2 rounded-lg bg-gray-800">
-					<span class="font-bold block text-base">3</span>
-					<span class="text-xs">Bastante</span>
-					</div>
-
-					<div class="p-2 rounded-lg bg-gray-800">
-					<span class="font-bold block text-base">4</span>
-					<span class="text-xs">Mucho</span>
-					</div>
-
-				</div>
-			</div>
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-cyan-200 bg-clip-text">${testname}</h1>
+            <p class="text-sm text-black/70">Evaluación de síntomas</p>
+          </div>
         </div>
+      </div>
+      
+      <!-- Info paciente (precargado) -->
+      <div class="card-glass rounded-2xl">
+        <label class="block text-sm font-semibold mb-2 flex items-center gap-2">ID: ${fullname}</label>
+        
+      </div>
 
+      <!-- Instrucciones mejoradas (estilo imagen) -->
+      <div class="mb-6 card-glass rounded-2xl mb-7">
         
-		
-		
-		<button type="button" onclick="startQuiz()"
-		class="w-full font-bold py-3 px-8 rounded-full shadow-xl
-         bg-gradient-to-r from-[#4D8DFF] to-[#0162E8]
-         text-white
-         transform transition-all duration-300
-         hover:scale-105 hover:shadow-2xl
-         focus:outline-none focus:ring-4 focus:ring-[#6EA3FF]/50
-         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-		Comenzar Cuestionario
-		</button>
+        <label class="block text-sm font-semibold mb-2 flex items-center gap-2">Instrucciones</label>
+        <p class="text-black/80 text-sm leading-relaxed mb-5">
+          Encontrará una serie de afirmaciones sobre <strong class="text-amber-300">MOLESTIAS o PROBLEMAS</strong> que pueden afectar en mayor o menor medida a todas las personas. Conteste cada una teniendo en cuenta lo que ha experimentado durante las <strong>últimas semanas</strong>, incluido el día de hoy.
+        <br>
+        Para ello, marque junto a cada afirmación una de las siguientes opciones:
+          </p>
         
-      </div>`;
+        <!-- Cuadro de valores tipo test (igual a la imagen) -->
+        <div class="bg-gradient-to-br from-white-900/60 to-white/40 rounded-2xl p-4 border border-white/20" style="background:white">
+          <p class="text-center font-semibold text-sm sm:text-base text-white/90 mb-4">
+            <i class="fas fa-chart-simple mr-2"></i> Valore el grado de cada síntoma en las últimas semanas:
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+            ${options.map(opt => `
+              
+              <button 
+      class="
+        btn-option
+        rounded-2xl
+        border-[3px]
+        border-blue-700
+        bg-white
+        px-3
+        py-2
+        min-h-[70px]
+        flex
+        items-center
+        justify-center
+        text-center
+        transition-all
+        duration-200
+        hover:bg-blue-50
+        hover:scale-[1.02]
+        active:scale-95
+        shadow-sm
+      ">
+      <div class="flex flex-col items-center gap-1" style="color: rgb(29 78 216 / var(--tw-border-opacity, 1));">
+        <span class="text-base text-black/70 uppercase tracking-wide">${opt.value}</span>
+        <span class="font-bold text-blue/70 text-base mt-1">${opt.text}</span>
+              
+       </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botón comenzar -->
+      <button type="button" onclick="startQuiz()"
+        class="w-full relative group overflow-hidden font-bold py-4 px-6 rounded-2xl shadow-xl bg-gradient-to-r from-[#3B82F6] via-[#1E6DFF] to-[#0A4DDA] text-white text-lg tracking-wide
+        transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-400/50">
+        <span class="relative z-10 flex items-center justify-center gap-3"><i class="fas fa-play-circle"></i> Comenzar Cuestionario</span>
+        <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </button>
+      <p class="text-center text-white/40 text-xs mt-5"><i class="fas fa-lock-open"></i> Sus respuestas son confidenciales</p>
+    </div>
+  `;
 }
 
+
 function startQuiz() {
-  patient.name = document.getElementById('fullName').value;
+  patient.name = fullname;
   render();
 }
 
-/* ===========================
-   PREGUNTAS
-=========================== */
+//PREGUNTAS
 function renderQuestion() {
-  const progress = Math.round((currentIndex / questions.length) * 100);
-
+  const progressPercent = Math.round(((currentIndex) / questions.length) * 100);
+  
+  console.log(progressPercent);
+  const currentQ = questions[currentIndex];
+  
   return `
-  <div class="p-8">
+    <div class="p-6 md:p-9" style="background: #fff;">
+      
+      <div class="flex justify-between items-center mb-6  pb-4">
+        <div class="flex items-center gap-3">
+          
+          <div >
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-cyan-200 bg-clip-text">${testname}</h1>
+            <p class="text-sm text-black/70">Evaluación de síntomas</p>
+            <p class="text-black/80 text-sm leading-relaxed pt-5 border-t border-black/20">
+                Encontrará una serie de afirmaciones sobre <strong class="text-amber-300">MOLESTIAS o PROBLEMAS</strong> que pueden afectar en mayor o menor medida a todas las personas. Conteste cada una teniendo en cuenta lo que ha experimentado durante las <strong>últimas semanas</strong>, incluido el día de hoy.
+                </p>
+          </div>
+           
+        </div>
+      </div>
+      
+      
+      <div class="mb-5">
+        <div class="flex justify-between text-xs font-semibold text-black/80 mb-1">
+          <span><i class="fas fa-tasks mr-1"></i> </span>
+          <span>${currentIndex + 1} / ${questions.length}</span>
+        </div>
+        <div class="w-full bg-white/20 rounded-full h-3 overflow-hidden shadow-inner">
+          <div class="h-3 bg-gradient-to-r from-cyan-300 via-sky-400 to-blue-500 rounded-full progress-bar-animated" style="width:${progressPercent}%"></div>
+        </div>
+      </div>
+      
+      <!-- Tarjeta de pregunta moderna -->
+      <div class="card-glass rounded-2xl p-6 md:p-8 mb-8 text-center">
+        
+        <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold text-black leading-tight tracking-wide">
+          ${escapeHtml(currentQ.question)}
+        </h2>
+      </div>
+      
+      <!-- Botones de opción estilo premium (5 columnas en desktop, 2 en mobile mejorado) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+  ${options.map(opt => `
+    <button onclick="answer(${opt.value})"
+      class="
+        btn-option
+        rounded-2xl
+        border-[3px]
+        border-blue-700
+        bg-white
+        px-3
+        py-2
+        min-h-[70px]
+        flex
+        items-center
+        justify-center
+        text-center
+        transition-all
+        duration-200
+        hover:bg-blue-50
+        hover:scale-[1.02]
+        active:scale-95
+        shadow-sm
+      ">
+      <div class="flex flex-col items-center gap-1" style="color: rgb(29 78 216 / var(--tw-border-opacity, 1));">
+        <span class="text-base text-black/70 uppercase tracking-wide">${opt.value}</span>
+        <span class="font-bold text-blue/70 text-base mt-1">${opt.text}</span>
+              
+       </div>
 
-    <div class="text-center border-b border-white/10 pb-4 mb-4">
-      <p class="font-bold">${patient.name}</p>
-    </div>
-
-    <p class="text-cyan-300 mb-2">Pregunta ${currentIndex + 1} de ${questions.length}</p>
-    <div class="w-full bg-black/30 rounded-full h-2 mb-6">
-      <div class="h-2 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full"
-        style="width:${progress}%"></div>
-    </div>
-
-    <h2 class="text-2xl font-bold text-center mb-6">
-      ${questions[currentIndex].question}
-    </h2>
-
-    <div class="grid grid-cols-2 gap-4">
-      ${options.map(o => `
-        <button onclick="answer(${o.value})"
-          class="py-4 rounded-xl bg-gradient-to-br ${o.class} font-bold">
-          ${o.text}
-        </button>
-      `).join('')}
-    </div>
-
-    <button onclick="back()" class="mt-6 text-gray-400 hover:text-white">
-      ← Anterior
     </button>
-  </div>`;
+  `).join('')}
+</div>
+      
+      <!-- Navegación Anterior con estilo mejorado -->
+      <div class="flex justify-between items-center">
+        <button onclick="back()" 
+          class="flex items-center gap-2 px-5 py-2 rounded-full bg-black/10 backdrop-blur-sm hover:bg-black/20 transition text-black/90 font-medium text-sm">
+          <i class="fas fa-arrow-left text-xs"></i> Anterior
+        </button>
+        <div class="text-xs text-black/40"><i class="fas fa-hand-pointer"></i> Seleccione una opción</div>
+      </div>
+    </div>
+  `;
 }
+function escapeHtml(str) {
+  if(!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if(m === '&') return '&amp;';
+    if(m === '<') return '&lt;';
+    if(m === '>') return '&gt;';
+    return m;
+  }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+    return c;
+  });
+}
+
 
 function answer(value) {
   answers[currentIndex] = value;
@@ -307,22 +399,22 @@ function back() {
 =========================== */
 function renderSummary() {
   return `
-  <div class="p-8 text-center">
+  <div class="p-8 text-center" style="background: #fff;">
 
-    <h2 class="text-3xl font-bold text-emerald-400 mb-2">¡Completado!</h2>
-    <p class="text-gray-300 mb-4">Gracias por responder</p>
+    <h2 class="text-3xl font-bold text-black-400 mb-2">¡Completado!</h2>
+    <p class="text-black/80 mb-4">Gracias por responder</p>
 
-    <div class="bg-black/30 p-4 rounded-lg text-left mb-4">
+    <div class="bg-blue/10 p-4 rounded-lg text-left mb-4">
       <p><b>Nombre:</b> ${patient.name}</p>
       <p><b>Edad:</b> <?=$register['age']?></p>
       <p><b>Fecha:</b> ${submittedAt.toLocaleString()}</p>
     </div>
 
-    <div class="bg-black/30 p-4 rounded-lg text-left max-h-48 overflow-y-auto">
+    <div class="bg-blue/10 p-4 rounded-lg text-left max-h-48 overflow-y-auto border-t border-black/20">
       ${questions.map((q, i) => `
         <div class="flex justify-between border-b border-white/10 py-1">
           <span class="truncate">${q.question}</span>
-          <b class="text-emerald-400">${answers[i]}</b>
+          <b class="text-black-400">${answers[i]}</b>
         </div>
       `).join('')}
     </div>

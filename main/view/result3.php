@@ -1670,7 +1670,7 @@ if($answer_questions2['response'] == '1'){
 
 $tiposresponsalbilidad22 = "";//D
 $answer_questions2 = $answerModel->getAll($register['codes'],55,55)[0];
-if($answer_questions2['response'] == '1'){
+if($answer_questions2['response'] == '2'){
     $tiposresponsalbilidad22 .= "He sido abusado sexualmente. <br>";
 }
 $answer_questions2 = $answerModel->getAll($register['codes'],14,14)[0];

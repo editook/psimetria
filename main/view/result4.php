@@ -342,8 +342,8 @@ if($gsi_pc>=90 || $sclConfiguration->contarMayoresIguales($array,90)>= 2){
     $recomendacion_baremo = "Aplicar Baremos población psiquiátrica";
 }
 elseif($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2){
-    $cond_mujer = ($register['sex'] == "FEMENINO") && ($gsi_pc >= 80 || contarMayoresIguales($array, 80) >= 2);
-    $cond_varon = ($register['sex'] == "MASCULINO") && ($gsi_pc >= 70 || contarMayoresIguales($array, 70) >= 2);
+    $cond_mujer = ($register['sex'] == "FEMENINO") && ($gsi_pc >= 80 || $sclConfiguration->contarMayoresIguales($array, 80) >= 2);
+    $cond_varon = ($register['sex'] == "MASCULINO") && ($gsi_pc >= 70 || $sclConfiguration->contarMayoresIguales($array, 70) >= 2);
     if ($cond_mujer || $cond_varon) {
         $recomendacion_baremo = "Aplicar Baremos población psiquiátrica";
     } else {

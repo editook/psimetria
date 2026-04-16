@@ -240,6 +240,8 @@ $text_fis = "El nivel de autoconcepto en el campo FISICO, ".$register['id_cli
 $title_ = "AUTOCONCEPTO";
 $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí misma, basada en sus experiencias y relaciones con los demás. El AF-5 evalúa cinco dimensiones clave del autoconcepto:";
 
+$pro_tot_pd = number_format(($aca_pd+$soc_pd+$emo_pd+$fam_pd+$fis_pd)/5,2);
+$pro_tot_pc = ($aca_pc["$aca_pd"]+$soc_pc["$soc_pd"]+$emo_pc["$emo_pd"]+$fam_pc["$fam_pd"]+$fis_pc["$fis_pd"])/5;
 ?>
 
 <!DOCTYPE html>
@@ -393,6 +395,36 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                                         <table class="score-table">
                                             <thead>
                                                 <tr>
+                                                    <th class="title" colspan="2">Puntuación general</th>
+                                                    <th class="th-small">PD</th>
+                                                    <th class="th-small" style="padding-right: 17px;">Pc</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td class="label-text">Autoconcepto total</td>
+                                                    <td class="code">TOT</td>
+                                                    <td class="p-left"><span class="box"><?=$pro_tot_pd?></span></td>
+                                                    <td><span class="box"><?=$pro_tot_pc?></span></td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding:0px;">
+                                    <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+                                        <div style="position: absolute;z-index: -1;left: -10px;margin-top: -10px;height:90px  !important;width: 106%;" id="colorss2"></div>
+                                        <div style="margin-top: -3px;height: 60px !important;" id="flotLine1"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding: 0;">
+                                    <div class="container-panel">
+                                        <table class="score-table">
+                                            <thead>
+                                                <tr>
                                                     <th class="title" colspan="2">Puntuaciones específicas</th>
                                                     <th class="th-small">PD</th>
                                                     <th class="th-small" style="padding-right: 17px;">Pc</th>
@@ -442,8 +474,8 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                                 <div class="col-md-6" style="padding:0px;">
                                     <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
                                         <div class="ht-100 ht-sm-300" style="z-index: -1;left: -10px;margin-top: -10px;height:275px  !important;width: 106%;" id="colorss"></div>
-                                        <div class="ht-100 ht-sm-300" style="height: 160px !important;" id="flotLine2"></div>
-                                        <p class="mg-t-20" style="text-align: left;"><span style="font-weight: bold;">Nota Pc:</span> (Percentil), escala ordinal.</p>
+                                        <div  style="margin-top: -3px;height: 249px !important;" id="flotLine2"></div>
+                                        <p style="color:#232323;text-align: left;font-size: 15px !important;margin-top: 16px;"><span style="font-weight: bold;">Nota Pc:</span> (Percentil), escala ordinal.</p>
                                     </div>
                                 </div>
                             </div>
@@ -454,37 +486,37 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
 						
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body " style="padding-bottom: 100px;text-align: justify;">
-                                <div class="main-content-label mg-b-5">
+                                <div class="main-content-label mg-b-5" hidden>
                                     <h1 style="text-align: center;" id="jsonvalue1"><?=$title_?></h1>
                                 </div>
                                 <div class="card-body">
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue2"><?=$comment_1?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue2"><?=$comment_1?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue3"><span class="title  fw-semibold tx-13" id="jsonvalue4">Académico/Laboral:</span> Cómo se percibe la persona en relación con su desempeño académico o laboral.</p>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue5"><span class="title fw-semibold tx-13" id="jsonvalue6">Social:</span>  Cómo se percibe la persona en sus relaciones sociales y su capacidad para integrarse en grupos.</p>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue7"><span class="title fw-semibold tx-13" id="jsonvalue8">Emocional:</span> Cómo se percibe la persona en cuanto a su estado emocional y capacidad para manejar sus emociones.</p>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue9"><span class="title fw-semibold tx-13" id="jsonvalue10">Familiar:</span> Cómo se percibe la persona en relación con su familia y su sentido de pertenencia e integración en ella.</p>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue11"><span class="title fw-semibold tx-13" id="jsonvalue12">Físico:</span> Cómo se percibe la persona en cuanto a su aspecto físico y condición física.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue3"><span class="title  fw-semibold tx-13" id="jsonvalue4">Académico/Laboral:</span> Cómo se percibe la persona en relación con su desempeño académico o laboral.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue5"><span class="title fw-semibold tx-13" id="jsonvalue6">Social:</span>  Cómo se percibe la persona en sus relaciones sociales y su capacidad para integrarse en grupos.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue7"><span class="title fw-semibold tx-13" id="jsonvalue8">Emocional:</span> Cómo se percibe la persona en cuanto a su estado emocional y capacidad para manejar sus emociones.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue9"><span class="title fw-semibold tx-13" id="jsonvalue10">Familiar:</span> Cómo se percibe la persona en relación con su familia y su sentido de pertenencia e integración en ella.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue11"><span class="title fw-semibold tx-13" id="jsonvalue12">Físico:</span> Cómo se percibe la persona en cuanto a su aspecto físico y condición física.</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue13">La evaluación del autoconcepto es de gran interés porque la opinión que cada persona tiene de sí misma condiciona en gran manera sus expectativas y, consecuentemente, sus logros y resultados y su grado de adaptación social. </p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13">La evaluación del autoconcepto es de gran interés porque la opinión que cada persona tiene de sí misma condiciona en gran manera sus expectativas y, consecuentemente, sus logros y resultados y su grado de adaptación social. </p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue14"><?=$text_aca?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue14"><?=$text_aca?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue15"><span class="title fw-semibold tx-13" id="jsonvalue16">Nota:</span> En niños y adolescentes, el autoconcepto académico también correlaciona positivamente con los estilos parentales de inducción, afecto y apoyo; y, negativamente, con los de coerción, indiferencia y negligencia (Musitu y Allatt, 1994; Estarelles, 1987; Musitu, Román y Gutiérrez, 1996; Lamb, Ketterlinus y Fracasso, 1992).</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue15"><span class="title fw-semibold tx-13" id="jsonvalue16">Nota:</span> En niños y adolescentes, el autoconcepto académico también correlaciona positivamente con los estilos parentales de inducción, afecto y apoyo; y, negativamente, con los de coerción, indiferencia y negligencia (Musitu y Allatt, 1994; Estarelles, 1987; Musitu, Román y Gutiérrez, 1996; Lamb, Ketterlinus y Fracasso, 1992).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue17"><?=$text_soc?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue17"><?=$text_soc?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue18"><span class="title fw-semibold tx-13" id="jsonvalue19">Nota:</span> En niños y adolescentes, esta dimensión está relacionada muy positivamente con las prácticas de socialización parental de afecto, comprensión y apoyo; y negativamente, con la coerción, la negligencia y la indiferencia (Musitu y Allatt, 1994; Musitu, Román yGutiérrez, 1996).</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue18"><span class="title fw-semibold tx-13" id="jsonvalue19">Nota:</span> En niños y adolescentes, esta dimensión está relacionada muy positivamente con las prácticas de socialización parental de afecto, comprensión y apoyo; y negativamente, con la coerción, la negligencia y la indiferencia (Musitu y Allatt, 1994; Musitu, Román yGutiérrez, 1996).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue20"><?=$text_emo?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue20"><?=$text_emo?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue21"><span class="title fw-semibold tx-13" id="jsonvalue22">Nota:</span> En niños y adolescentes, esta dimensión correlaciona positivamente con las prácticas parentales de afecto, comprensión, inducción y apoyo, mientras que lo hace negativamente con la coerción verbal y física, la indiferencia, la negligencia y los malos tratos (Broderick,1993; Pinazo, 1993; Gracia, 1991; Lila, 1995; Herrero, 1992, 1994; Cava, 1995, 1998; Llinares,1998; Musitu, Román y Gutiérrez, 1996; Gracia y Musitu, 1993).</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue21"><span class="title fw-semibold tx-13" id="jsonvalue22">Nota:</span> En niños y adolescentes, esta dimensión correlaciona positivamente con las prácticas parentales de afecto, comprensión, inducción y apoyo, mientras que lo hace negativamente con la coerción verbal y física, la indiferencia, la negligencia y los malos tratos (Broderick,1993; Pinazo, 1993; Gracia, 1991; Lila, 1995; Herrero, 1992, 1994; Cava, 1995, 1998; Llinares,1998; Musitu, Román y Gutiérrez, 1996; Gracia y Musitu, 1993).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue23"><?=$text_fam?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue23"><?=$text_fam?></p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue24"><span class="title fw-semibold tx-13" id="jsonvalue25">Nota:</span>  En niños y adolescentes, el autoconcepto familiar se relaciona positivamente con los estilos parentales de afecto, comprensión y apoyo; y negativamente con la coerción, la violencia, la indiferencia y la negligencia (Gracia, Herrero y Musitu, 1995; Gracia, 1991;Agudelo, 1997; Arango, 1996).</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue24"><span class="title fw-semibold tx-13" id="jsonvalue25">Nota:</span>  En niños y adolescentes, el autoconcepto familiar se relaciona positivamente con los estilos parentales de afecto, comprensión y apoyo; y negativamente con la coerción, la violencia, la indiferencia y la negligencia (Gracia, Herrero y Musitu, 1995; Gracia, 1991;Agudelo, 1997; Arango, 1996).</p>
                                     <br><br>
-                                    <p class="tx-dark mb-0 tx-13" id="jsonvalue26"><?=$text_fis?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue26"><?=$text_fis?></p>
                                     <br><br>
                                 </div>
                                 
@@ -577,8 +609,9 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
             //jsonpdf.push({type:1,imageurl:pathBase+'/assets/img/brand/image.png'} );
             jsonpdf.push({type:2,image:"contenido1"} );
             jsonpdf.push({type:2,image:"contenido2"} );
-            jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
-            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type: 3});
+            //jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
+            //jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue2')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:6,text:getvalue('jsonvalue3'),subtitle:getvalue('jsonvalue4')} );
@@ -621,8 +654,10 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                     [<?=$fam_pc["$fam_pd"]?>,10],
                     [<?=$fis_pc["$fis_pd"]?>,0]
                 ];
-                
-                var plot = $.plot($('#flotLine23'), [{
+                var newCust1 = [
+                    [<?=$pro_tot_pc?>, 10],
+                ];
+                var plot = $.plot($('#flotLine2'), [{
                     data: newCust,
                     label: 'Data',
                     color: colorLine
@@ -654,43 +689,7 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                         innerMargin: -40,
                         show:true,
                          markings: [
-                            {
-                                xaxis: { from: 0, to: 12.80 },
-                                color: '#fdc780'
-                            },
-                            {
-                                xaxis: { from: 13.10, to: 15.80 },
-                                color: '#eed68a'
-                            },
-                            {
-                                xaxis: { from: 16, to: 29.80 },
-                                color: '#e4e98c'
-                            },
-                            {
-                                xaxis: { from: 30, to: 50 },
-                                color: '#e4e98c'
-                            },
-                            {
-                                xaxis: { from: 50, to: 69.90 },
-                                color: '#e4e98c'
-                            },
-                            {
-                                xaxis: { from: 70.2, to: 85 },
-                                color: '#e4e98c'
-                            },
-                            {
-                                xaxis: { from: 85.3, to: 97 },
-                                color: '#8faa3c'
-                            },
-                            {
-                                xaxis: { from: 97.2, to: 99 },
-                                color: '#627430'
-                            },
-                            { // Línea punteada en X = 50
-                                xaxis: { from: 50, to: 50 },
-                                color: '#000', // color de la línea
-                                lineWidth: 0.5
-                            },
+                            
                          ]
                     },
                     yaxis: {
@@ -826,6 +825,175 @@ $comment_1 = "El autoconcepto es la percepción que una persona tiene de sí mis
                             size: 10,
                             color: '#999'
                         }
+                    }
+                });
+                var colores = $.plot($('#colorss2'), [{
+                    data: [],
+                    label: 'Data',
+                    color: colorLine
+                }], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0
+                    },
+                    points: {
+                        show: true,
+                        radius: 3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth: 2.5
+                    },
+                    legend: {
+                        noColumns: 1,
+                        position: 'ne',
+                        show: false
+                    },
+                    grid: {
+                        borderWidth: 20,
+                        hoverable: true,
+                        borderColor: 'white',
+                        borderRadius: 40,
+                        innerMargin: -10,
+                        show:true,
+                        markings: [
+                           {
+                                xaxis: { from: 0, to: 10.00 },
+                                color: '#fdc780'
+                            },
+                            {
+                                xaxis: { from: 10.20, to: 29.80 },
+                                color: '#eed68a'
+                            },
+                            {
+                                xaxis: { from: 30.00, to: 40.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 40.20, to: 47.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 47.00, to: 58.80 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 59.00, to: 69.00 },
+                                color: '#e4e98c'
+                            },
+                            {
+                                xaxis: { from: 69.20, to: 88.80 },
+                                color: '#8faa3c'
+                            },
+                            {
+                                xaxis: { from: 89.00, to: 99 },
+                                color: '#627430'
+                            },
+                            { // Línea punteada en X = 50
+                                xaxis: { from: 49.5, to: 49.5 },
+                                color: '#000', // color de la línea
+                                lineWidth: 0.5
+                            },
+                        ]
+                    },
+                    yaxis: {
+                        min: 0,
+                        max: 99,
+                        color: '#eee',
+                        ticks: [
+                            [0, ''],
+                            [99, '']
+                        ],
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: 'transparent'
+                        },
+                        show: false
+                    },
+                    xaxis: {
+                        color: '#eee',
+                        min: 0,
+                        show: false,
+                        max: 99,
+                        tickColor: 'transparent',
+                        font: {
+                            size: 10,
+                            color: '#999'
+                        }
+                    }
+                });
+                var plot = $.plot($('#flotLine1'), [{
+                    data: newCust1,
+                    label: 'Data',
+                    color: colorLine
+                }], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2
+                        },
+                        shadowSize: 0
+                    },
+                    points: {
+                        show: true,
+                        radius:3,
+                        fill: true,
+                        fillColor: colorLine,
+                        lineWidth:2.5
+                    },
+                    legend: {
+                        noColumns: 1,
+                        position: 'ne',
+                        show:false
+                    },
+                    grid: {
+                        borderWidth: 0,
+                        hoverable: true,
+                        borderColor: 'white',
+                        borderRadius: 40,
+                        innerMargin: -40,
+                        show:true,
+                         markings: [
+                            
+                         ]
+                    },
+                    yaxis: {
+                        min: -5,
+                        max: 45,
+                        color: 'black',
+                        ticks: [[0, ''], [15, '']], 
+                        tickColor: 'black',
+                        tickLength: 0,
+                        font: {
+                            size: 10,
+                            color: 'black'
+                        }
+                    },
+                    xaxis: {
+                        color: '#eee',
+                        min:0,
+                        max: 99,
+                        tickColor: 'black',
+                        tickLength: 0,
+                        ticks: [
+                            [1, '1'],
+                            [3, '3'],
+                            [16, '16'],
+                            [30, '30'],
+                            [50, '50'],
+                            [70, '70'],
+                            [84, '84'],
+                            [94, '94'],
+                            [99, '99'],
+                        ],
+                        font: {
+                            size: 10,
+                            color: 'black'
+                        },
+                        position:'top'
                     }
                 });
                 

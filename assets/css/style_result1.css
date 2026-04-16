@@ -137,6 +137,7 @@
     grid-template-columns: 60px 1fr 70px 70px;
     align-items: center;
     margin: 10px 0;
+    color:#232323;
 }
 
 .code {
@@ -154,7 +155,7 @@
     text-align: center;
     padding: 1px 6px;
     background: #fff;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .mr4 {
@@ -219,6 +220,6 @@ input {
 .card {
     border-radius: 0px;
     box-shadow: none;
-    border: 1px solid #b3b3b3;
+    border: 0px solid #b3b3b3;
     background: white !important;
 }
