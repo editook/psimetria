@@ -6,44 +6,16 @@
 	include("../models/model_register.php");
     include("../models/model_question.php");
     include("../models/model_answer.php");
+	include("../services/answer_service.php");
     $registerModel = new Register_Model();
     $questionModel = new Question_Model();
 	$answerModel = new Answer_Model();
+	$answerService = new AnswerService($answerModel,$registerModel);
     $idClient = 0;
     $idpatient = 0;
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
-        $idUser = $_POST['idClient'];
-		
-        $idpatient = $_POST['patient'];
-		$codes = $_POST['codes'];
-		$other_answer = $_POST['other_answer'];
-        foreach ($_POST as $key => $value) {
-            if (strpos($key, 'question_') === 0) {
-                $question_id = str_replace('question_', '', $key);
-                $value = (int)$value;
-                $response = $answerModel->update($question_id,$idpatient,$value,$codes);
-            }
-        }
-        $responseStatus = $answerModel->checkStatus($codes);
-		$count = (int)$responseStatus['count'];
-		$status = 'TERMINADO';
-		if($count > 0){
-			$status = 'PENDIENTE';
-		}
-		$response_input = $answerModel->maciUpdateProblem($other_answer,$idpatient);
-		$array = $registerModel->updateStatus($idUser,$idpatient,$status);
-        $is_share_link = $_POST['is_share'];
-		if($is_share_link == "1"){
-			echo "<script>
-				alert('Formulario actualizado correctamente.');
-				window.location.href = 'https://www.google.com';
-			</script>";
-			exit;
-		}
-		else{
-			header("Location: ".LOCALHOST);
-		}
+        $result = $answerService->processForm($_POST);
+		$answerService->externalRedirect($result);
     }
 	
 	$idCientCode = "";
@@ -98,6 +70,7 @@
 	if($register['status'] == 'TERMINADO'){
 		$is_view = true;
 	}
+	$answerService->externalFinishRedirect($register['status'],$is_share); 
     $answers = $answerModel->getAll($register['codes'],1,160);
 	
 	$answer_part1 = $answerModel->getAll($register['codes'],1001,1100);
@@ -111,42 +84,44 @@
 ?>
 
 <!DOCTYPE html>
-<?php if (($device === 'tablet' || $device === 'mobile')) { ?>
+<?php if ($is_share) { ?>
 
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><?=WEB_TITLE?> </title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<title><?=WEB_TITLE?> </title>
+  	<script src="https://cdn.tailwindcss.com"></script>
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  	<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+	<link href="../../assets/css/share-form.css?v=<?=VERSION_CODE?>" rel="stylesheet">
+
 </head>
 
-<body class="min-h-screen w-full bg-gradient-to-br from-[#1F2B3D] via-[#283B50] to-[#3C506D] flex items-center justify-center p-4 font-sans text-white">
+<body class="min-h-screen w-full bg-gradient-to-br from-[#0B2B5E] via-[#0D47A1] to-[#1976D2] flex items-center justify-center p-3 md:p-5 font-sans antialiased">
 
-  <main class="w-full max-w-lg bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden">
-
-    <!-- CONTENEDOR DINÁMICO -->
-    <div id="app"></div>
-
+  <main class="w-full max-w-4xl mx-auto">
+    <!-- Tarjeta principal con efecto glassmorphism premium -->
+    <div class="rounded-3xl shadow-2xl overflow-hidden border border-white/20 backdrop-blur-sm bg-white/5 transition-all duration-300">
+      <div id="app"></div>
+    </div>
   </main>
-
 <script>
 /* ===========================
    DATOS
 =========================== */
 
 var questions = <?php echo json_encode($answers)?>;
+var fullname  = <?php echo json_encode($register['id_client'])?>;
 
+var testname = <?php echo json_encode($register['type_question_name'])?>;
 const options = [
-  { value: 1, text: 'Si', class: 'from-sky-400 to-cyan-400' },
-  { value: 0, text: 'No', class: 'from-emerald-400 to-teal-400' }
+  { value: 1, text: 'Si' },
+  { value: 0, text: 'No' }
 ];
-//from-fuchsia-600 to-purple-700
-//from-slate-700 to-gray-900
-/* ===========================
-   ESTADO
-=========================== */
+
+
 let currentIndex = 0;
 let answers = [];
 let patient = {};
@@ -172,88 +147,159 @@ function render() {
   app.innerHTML = renderSummary();
 }
 
-/* ===========================
-   FORMULARIO PACIENTE
-=========================== */
+
+//FORMULARIO PACIENTE
 function renderPatientForm() {
   return `
-  <div class="p-8 sm:p-12">
-        <div class="text-center mb-8">
-          <h2 class="text-3xl font-bold text-cyan-300">FORMULARIO <?=$register['type_question_name']?></h2>
-        </div>
-		
-		<div class="mb-4">
-		<label for="fullName" class="block mb-2 text-sm font-medium text-gray-300">Nombre Completo</label>
-		<input type="text" disabled value="<?=$register['id_client']?>" id="fullName" formControlName="fullName"
-			class="w-full bg-black/20 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
-			placeholder="Ej. Juan Pérez">
-		</div>
-        
-        <div class="mb-8 p-4 bg-black/20 border border-white/10 rounded-lg text-left text-sm text-gray-300 space-y-3">
-          <h3 class="text-base font-bold text-cyan-300 text-center">INSTRUCCIONES</h3>
-          <p>Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. Marca una "X" en la columna de Sí, si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración.</p>
-			<br>
-		  <p>No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: "¿Es cierto en mi caso?". Si es así, encierra Sí en un círculo; si no lo es, encierra el No.</p>
+    <div class="p-6 md:p-10 lg:p-12" style="background: #fff;">
+      <!-- Header con progreso decorativo -->
+      <div class="flex justify-between items-center mb-6 border-b border-white/20 pb-4">
+        <div class="flex items-center gap-3">
           
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-cyan-200 bg-clip-text">${testname}</h1>
+            
+          </div>
         </div>
+      </div>
+      
+      <!-- Info paciente (precargado) -->
+      <div class="card-glass rounded-2xl">
+        <label class="block text-sm font-semibold mb-2 flex items-center gap-2">ID: ${fullname}</label>
+        
+      </div>
 
+      <!-- Instrucciones mejoradas (estilo imagen) -->
+      <div class="mb-6 card-glass rounded-2xl mb-7">
         
-		
-		<button type="button" onclick="startQuiz()"
-		class="w-full py-3 px-8 font-bold rounded-full text-white shadow-lg
-         bg-gradient-to-r from-[#3C506D] to-[#627892]
-         hover:scale-105 hover:shadow-2xl
-         transform transition-all duration-300
-         focus:outline-none focus:ring-4 focus:ring-[#627892]/50
-         disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-		Comenzar Cuestionario
-		</button>
+        <label class="block text-sm font-semibold mb-2 flex items-center gap-2">Instrucciones</label>
+        <p class="text-black/80 text-sm leading-relaxed mb-5">
+		Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. 
+		Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. 
+		<br> Marca con un <strong class="text-blue-500">"SI o NO"</strong> en la columna de Sí, si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración.
+          <br>
+        <br>
+        No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: <strong class="text-blue-500">"¿Es cierto en mi caso?"</strong> . Si es así, encierra Sí en un círculo; si no lo es, encierra el No.
+          </p>
         
-      </div>`;
+      </div>
+      
+      <!-- Botón comenzar -->
+      <button type="button" onclick="startQuiz()" style="background: #0B2B5E;"
+        class="w-full relative group overflow-hidden font-bold py-4 px-6 rounded-2xl shadow-xl bg-gradient-to-r from-[#3B82F6] via-[#1E6DFF] to-[#0A4DDA] text-white text-lg tracking-wide
+        transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-400/50">
+        <span class="relative z-10 flex items-center justify-center gap-3"><i class="fas fa-play-circle"></i> Comenzar Cuestionario</span>
+        <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </button>
+      <p class="text-center text-white/40 text-xs mt-5"><i class="fas fa-lock-open"></i> Sus respuestas son confidenciales</p>
+    </div>
+  `;
 }
 
+
 function startQuiz() {
-  patient.name = document.getElementById('fullName').value;
+  patient.name = fullname;
   render();
 }
 
-/* ===========================
-   PREGUNTAS
-=========================== */
-function renderQuestion() {
-  const progress = Math.round((currentIndex / questions.length) * 100);
-
-  return `
-  <div class="p-8">
-
-    <div class="text-center border-b border-white/10 pb-4 mb-4">
-      <p class="font-bold">${patient.name}</p>
-    </div>
-
-    <p class="text-cyan-300 mb-2">Pregunta ${currentIndex + 1} de ${questions.length}</p>
-    <div class="w-full bg-black/30 rounded-full h-2 mb-6">
-      <div class="h-2 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full"
-        style="width:${progress}%"></div>
-    </div>
-
-    <h2 class="text-2xl font-bold text-center mb-6">
-      ${questions[currentIndex].question}
-    </h2>
-
-    <div class="grid grid-cols-2 gap-4">
-      ${options.map(o => `
-        <button onclick="answer(${o.value})"
-          class="py-4 rounded-xl bg-gradient-to-br ${o.class} font-bold">
-          ${o.text}
-        </button>
-      `).join('')}
-    </div>
-
-    <button onclick="back()" class="mt-6 text-gray-400 hover:text-white">
-      ← Anterior
-    </button>
-  </div>`;
+function escapeHtml(str) {
+  if(!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if(m === '&') return '&amp;';
+    if(m === '<') return '&lt;';
+    if(m === '>') return '&gt;';
+    return m;
+  }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+    return c;
+  });
 }
+function renderQuestion() {
+  const progressPercent = Math.round(((currentIndex) / questions.length) * 100);
+  
+  const currentQ = questions[currentIndex];
+  
+  return `
+    <div class="p-6 md:p-9" style="background: #fff;">
+      
+      <div class="flex justify-between items-center mb-6  pb-4">
+        <div class="flex items-center gap-3">
+          
+          <div >
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-cyan-200 bg-clip-text">${testname}</h1>
+            
+            <p class="text-black/80 text-sm leading-relaxed pt-5 border-t border-black/20">
+                No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: <strong class="text-blue-500">"¿Es cierto en mi caso?"</strong> . Si es así, encierra Sí en un círculo; si no lo es, encierra el No.
+                </p>
+          </div>
+           
+        </div>
+      </div>
+      
+      
+      <div class="mb-5">
+        <div class="flex justify-between text-xs font-semibold text-black/80 mb-1">
+          <span><i class="fas fa-tasks mr-1"></i> </span>
+          <span>${currentIndex + 1} / ${questions.length}</span>
+        </div>
+        <div class="w-full bg-white/20 rounded-full h-3 overflow-hidden shadow-inner">
+          <div class="h-3 bg-gradient-to-r from-cyan-300 via-sky-400 to-blue-500 rounded-full progress-bar-animated" style="width:${progressPercent}%"></div>
+        </div>
+      </div>
+      
+      <!-- Tarjeta de pregunta moderna -->
+      <div class="card-glass rounded-2xl p-6 md:p-8 mb-8 text-center">
+        
+        <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold text-black leading-tight tracking-wide">
+          ${escapeHtml(currentQ.question)}
+        </h2>
+      </div>
+      
+      <!-- Botones de opción estilo premium (5 columnas en desktop, 2 en mobile mejorado) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mb-8" style="justify-self:center;min-width:350px">
+		${options.map(opt => `
+			<button onclick="answer(${opt.value})"
+			class="
+				btn-option
+				rounded-2xl
+				border-[3px]
+				border-blue-700
+				bg-white
+				px-3
+				py-2
+				min-h-[70px]
+				flex
+				items-center
+				justify-center
+				text-center
+				transition-all
+				duration-200
+				hover:bg-blue-50
+				hover:scale-[1.02]
+				active:scale-95
+				shadow-sm
+			">
+			<div class="flex flex-col items-center gap-1" style="color: rgb(29 78 216 / var(--tw-border-opacity, 1));">
+				
+				<span class="font-bold text-blue/70 text-base mt-1">${opt.text}</span>
+					
+			</div>
+
+			</button>
+		`).join('')}
+		</div>
+      
+      <!-- Navegación Anterior con estilo mejorado -->
+      <div class="flex justify-between items-center">
+        <button onclick="back()" 
+          class="flex items-center gap-2 px-5 py-2 rounded-full bg-black/10 backdrop-blur-sm hover:bg-black/20 transition text-black/90 font-medium text-sm">
+          <i class="fas fa-arrow-left text-xs"></i> Anterior
+        </button>
+        <div class="text-xs text-black/40"><i class="fas fa-hand-pointer"></i> Seleccione una opción</div>
+      </div>
+    </div>
+  `;
+}
+
 
 function answer(value) {
   answers[currentIndex] = value;
@@ -276,31 +322,32 @@ function back() {
 =========================== */
 function renderSummary() {
   return `
-  <div class="p-8 text-center">
+  <div class="p-8 text-center" style="background: #fff;">
 
-    <h2 class="text-3xl font-bold text-emerald-400 mb-2">¡Completado!</h2>
-    <p class="text-gray-300 mb-4">Gracias por responder</p>
+    <h2 class="text-3xl font-bold text-black-400 mb-2">¡Completado!</h2>
+    <p class="text-black/80 mb-4">Gracias por responder</p>
 
-    <div class="bg-black/30 p-4 rounded-lg text-left mb-4">
+    <div class="bg-blue/10 p-4 rounded-lg text-left mb-4">
       <p><b>Nombre:</b> ${patient.name}</p>
       <p><b>Edad:</b> <?=$register['age']?></p>
       <p><b>Fecha:</b> ${submittedAt.toLocaleString()}</p>
     </div>
 
-    <div class="bg-black/30 p-4 rounded-lg text-left max-h-48 overflow-y-auto">
+    <div class="bg-blue/10 p-4 rounded-lg text-left max-h-48 overflow-y-auto border-t border-black/20">
       ${questions.map((q, i) => `
         <div class="flex justify-between border-b border-white/10 py-1">
           <span class="truncate">${q.question}</span>
-          <b class="text-emerald-400">${answers[i]}</b>
+          <b class="text-black-400">${answers[i]}</b>
         </div>
       `).join('')}
     </div>
 	<br>
-    <button onclick="reset()" class="w-full py-3 px-8 font-bold rounded-full text-white shadow-lg
-         bg-gradient-to-r from-[#3C506D] to-[#627892]
-         hover:scale-105 hover:shadow-2xl
+    <button onclick="reset()" class="w-full font-bold py-3 px-8 rounded-full shadow-xl
+         bg-gradient-to-r from-[#4D8DFF] to-[#0162E8]
+         text-white
          transform transition-all duration-300
-         focus:outline-none focus:ring-4 focus:ring-[#627892]/50
+         hover:scale-105 hover:shadow-2xl
+         focus:outline-none focus:ring-4 focus:ring-[#6EA3FF]/50
          disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
       Enviar resultados
     </button>
@@ -340,8 +387,8 @@ render();
 	<head>
 
 		<meta charset="UTF-8">
-		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
 		<meta name="Author" content="Spruko Technologies Private Limited">
 		<meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4"/>
@@ -375,109 +422,21 @@ render();
 
 		<!--- Animations css-->
 		<link href="../../assets/css/animate.css" rel="stylesheet">
+		<script src="https://cdn.tailwindcss.com"></script>
+  		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 		<style>
-		.radio-grande{
-			appearance: none; /* quitamos el estilo nativo del radio */
-			-webkit-appearance: none;
-			width: 20px;
-						height: 20px;
-			border-radius: 50%;
-			background: white;
-			position: relative;
+		
+		
+		input[type="radio"]:checked {
+			transform: scale(1.3);
 			cursor: pointer;
-			font-size: 12px;
-			text-align: center;
+			accent-color: #0B2B5E; 
 		}
-		.radio-grande2{
-			appearance: none; /* quitamos el estilo nativo del radio */
-			-webkit-appearance: none;
-			width: 20px;
-						height: 20px;
-			border-radius: 50%;
-			background: white;
-			position: relative;
-			cursor: pointer;
-			font-size: 12px;
-			text-align: center;
+		.i-disabled {
+			pointer-events: none;
 		}
-		.radio-grande2[value="0"]::before {
-			content: "No"; /* usa el value del input */
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			color: rgba(0,0,0,0.5);
-			font-size: 12px;
-			pointer-events: none; /* evita bloquear clic */
-		}
-		.radio-grande2[value="1"]::before {
-			content: "Si"; /* usa el value del input */
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			color: rgba(0,0,0,0.5);
-			font-size: 12px;
-			pointer-events: none; /* evita bloquear clic */
-		}
-		.radio-grande[value="1"]::before {
-			content: "Si"; /* usa el value del input */
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			color: rgba(0,0,0,0.5);
-			font-size: 12px;
-			pointer-events: none; /* evita bloquear clic */
-		}
-		.radio-grande[value="0"]::before {
-			content: "No"; /* usa el value del input */
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			color: rgba(0,0,0,0.5);
-			font-size: 12px;
-			pointer-events: none; /* evita bloquear clic */
-		}
-		.radio-grande:checked {
-			background: #04468c;
-			color: rgba(0,0,0,1);
-		}
-		.radio-grande2:checked {
-			background: #04468c;
-			color: rgba(0,0,0,1);
-		}
-		.table-bordered th, .table-bordered td{
-			border:1px solid rgba(0,0,0,1);
-		}
-		.table-striped tbody tr:nth-of-type(odd){
-			background-color:#EEEFF6;
-		}
-		p{
-			font-size: 16px !important;
-		}
-		span{
-			font-size: 16px !important;
-		}
-		td{
-			font-size: 16px !important;
-		}
-		th{
-			font-size: 16px !important;
-		}
-		.col-id {
-			background-color: #04468c !important; 
-			color: white !important;            
-			font-weight: bold;
-			text-align: center;
-		}
-		.col-text {
-			background-color: #04468c !important; 
-			color: white !important;            
-			font-weight: bold;
-			text-align: center;
-		}
+
+		.answered { background-color: #e5fa9f9d; }
 		</style>
 	</head>
 
@@ -505,123 +464,72 @@ render();
 
 				<!-- container opened -->
 				<div class="container">
+					<div class="breadcrumb-header justify-content-between"></div>
+					<div class="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6">
 
-					<!-- breadcrumb -->
-                    <div class="breadcrumb-header justify-content-between"></div>
-					
-					<!--Row-->
-					<div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-					<h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1" style="text-align: center;">Formulario <?=$register['type_question_name']?></h2>
-					<br>
-						<div class="card" style="border: 2px solid #737f9e">
-						
-							<div class="card-body">
-								<div class="row row-sm" style="place-items: center;">
-										<div class="col-lg-2 img-container" style="display: flex;justify-content: space-between;align-items: center;align-content: center;">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo" style="height: 100px;width: auto;"  src="../../assets/img/test_image/cmasr2.png">
-                                        </div>
-										<div class="col-lg-10">
-										<div class="row">
-											<div class="col-lg-5">
-												<div class="input-group mb-3">
-													<div class="input-group-text">
-														<span class="input-group-text" id="basic-addon1">Nombre completo</span>
-													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;" disabled value="<?=$register['id_client']?>" type="text">
-												</div><!-- input-group -->
-											</div>
-											<div class="col-lg-3">
-												<div class="input-group mb-3">
-													<div class="input-group-text">
-														<span class="input-group-text" id="basic-addon1">Edad</span>
-													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;" disabled value="<?=$register['age']?>" type="text">
-												</div><!-- input-group -->
-											</div>
-											<div class="col-lg-4">
-												<div class="input-group mb-3">
-													<div class="input-group-text">
-														<span class="input-group-text" id="basic-addon1">Fecha</span>
-													</div><input aria-describedby="basic-addon1" class="form-control" style="font-weight: bold;" disabled value="<?= date('Y-m-d H:i:s'); ?>" type="text">
-												</div><!-- input-group -->
-											</div>
-										</div>
-									
-									</div>
-								</div>
-								
-								
-							</div>
-						</div>
-					</div>
-					<!-- row closed  -->
-					<div class="col-md-12 col-lg-12 col-xl-12">
-						<form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form3.php':''?>">
-						<div class="card card-table-two">
-							<div class="justify-center" style="place-items: center;">
-								<div class="boton-format" style="padding: 6px;
-										border-radius: 20px;
-										background-color: #64b4fa;
-										color: white;
-										margin: 1px;
-										text-align: center;
-										width: min-content;font-weight: bold;
-										height: auto;">
-										INSTRUCCIONES
-								</div>
-								<p>Las oraciones que aparecen en este formulario dicen cómo piensan y sienten algunas personas acerca mismas. Lee con cuidado cada oración y luego encierra en un círculo la palabra que corresponda a tu respuesta. Marca con una "Si", si piensas que así eres y en la columna No si crees que no eres asi. Responde a cada oración, incluso si te resulta difícil elegir una respuesta que se aplique a ti. No marques Sí y No para la misma oración. <br>
-							 	<br> No hay respuestas correctas ni incorrectas; sólo tú puedes decirnos cómo piensas y sientes con respecto a ti mismo. Recuerda, después de leer cada oración, pregúntate: "¿Es cierto en mi caso?". Si es así, encierra Sí en un círculo; si no lo es, encierra el No. </p>
-								<br>
-								
-							</div>
-							
+						<!-- Header -->
+						<div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+							<h1 class="text-lg md:text-xl font-semibold">
+							<i class="fas fa-clipboard-list text-blue-500"></i>
+								Formulario <?=$register['type_question_name']?>
+							</h1>
 							<br>
 							
+							<span id="progress" class="text-sm text-gray-600"></span>
 						</div>
-						<div class="card card-table-two">
-							
-							<div class="table-responsive country-table">
-								
-								<table class="table table-striped table-bordered mb-0 text-sm-nowrap text-lg-nowrap text-xl-nowrap">
-									<input type="hidden" name="is_share" value="<?=(int)$is_share?>">
-									<input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
-									<input type="hidden" id="idClient" name="idClient" value="<?=$idClient?>">
-									<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
-									<thead>
-										<tr>
-											<th class="wd-lg-5p"></th>
-											<th class="wd-lg-100p"></th>
-											<th class="wd-lg-25p tx-right col-text">SI</th>
-											<th class="wd-lg-25p tx-right col-text">NO</th>
-											<th class="wd-lg-5p" ></th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php
-											foreach($answers as $answer){
-										?>
-										<tr>
-											<td class="col-id"><?=$answer['item_order']?></td>
-											<td><?=htmlspecialchars($answer['question'])?></td>
-											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande" name="question_<?=$answer['id']?>" value="1" type="radio" <?=$answer['response']=='1'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-											</td>
-											<td class="tx-right tx-medium tx-inverse">
-											<input class="radio-grande" name="question_<?=$answer['id']?>" value="0" type="radio" <?=$answer['response']=='0'?'checked':'' ?> <?=$is_view?'disabled':''?>>
-											</td>
-											
-											<td class="col-id"><?=$answer['item_order']?></td>
-										</tr>
-										
-										<?php }?>
-									</tbody>
-								</table>
-								<br>
-								<?php if(!$is_view){?>
-								<button type="submit" class="btn btn-primary"><?=$text_button_send?></button>
-								<?php }?>
+						<div>
+							<p class="text-sm text-black/70 mb-2 mt-2">#<?= $register['id'] ?> ID: <?=$register['id_client']?></p>
+						</div>
+						<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="options">
+
+						</div>
+
+						<form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form1.php':''?>">
+							<div id="hiddenAnswers"></div>
+							<input type="hidden" name="is_share" value="<?=(int)$is_share?>">
+							<input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
+							<input type="hidden" id="idClient" name="idClient" value="<?=$idClient?>">
+							<input type="hidden" id="codes" name="codes" value="<?=$register['codes']?>">
+							<!-- DESKTOP TABLA -->
+							<div class="hidden md:block overflow-x-auto">
+							<table class="w-full border border-gray-200 rounded-lg overflow-hidden text-sm">
+								<thead class="bg-gradient-to-br from-[#0B2B5E] via-[#0D47A1] to-[#0B2B5E] text-white">
+								<tr>
+									<th class="p-3 text-left"></th>
+									<th class="p-3 text-center" width="60">SI</th>
+									<th class="p-3 text-center" width="60">NO</th>
+								</tr>
+								</thead>
+								<tbody id="tableDesktop"></tbody>
+							</table>
 							</div>
-						</div>
+
+							<!-- MOBILE CARDS -->
+							<div class="md:hidden space-y-3" id="mobileContainer"></div>
+
+							<!-- NAV -->
+							<div class="mt-6 flex justify-between">
+							<button type="button" id="prevBtn"
+								class="bg-gray-300 px-4 py-2 rounded">Anterior</button>
+
+							<button type="button" id="nextBtn"
+								class="bg-blue-500 text-white px-4 py-2 rounded" style="background: #0B2B5E;">Siguiente</button>
+							</div>
+
+							<!-- SUBMIT -->
+							<div class="mt-4 flex justify-center">
+							<?php if(!$is_view){?>
+							<button type="submit"
+								class="bg-green-500 text-white px-6 py-2 rounded-lg" >
+								<?=$text_button_send?>
+							</button>
+							<?php }?>
+							
+							</div>
+
 						</form>
 					</div>
+					<div class="breadcrumb-header justify-content-between"></div>
                         
 				</div>
 				<!-- Container closed -->
@@ -680,38 +588,147 @@ render();
 		<!-- custom js -->
 		<script src="../../assets/js/custom.js"></script>
 		<script>
-			document.addEventListener("DOMContentLoaded", function () {
-				const radios = document.querySelectorAll("input[name='example1t']");
-				const textoSpan = document.getElementById("text_test_show1");
+			const answersadmin = <?php echo json_encode($answers)?>;
+			const device = <?php echo json_encode($device)?>;
+			
+			const options2 = [
+				{ value: 1, text: 'Si'},
+				{ value: 0, text: 'No'}
+				];
+			const is_view = <?php echo json_encode($is_view)?>;
+			const perPage = 10;
+			let currentPage = 0;
 
-				radios.forEach(radio => {
-					radio.addEventListener("change", function () {
-						if (this.checked) {
-							if (this.value === "1") {
-								textoSpan.textContent = "Muy bien, continua con la otra frase.";
-							} else if (this.value === "0") {
-								textoSpan.textContent = "Vuelve a leer correctamente el ejemplo.";
-							}
-						}
-					});
+			const desktopTable = document.getElementById("tableDesktop");
+			const mobileContainer = document.getElementById("mobileContainer");
+			const progress = document.getElementById("progress");
+			
+			function render() {
+				desktopTable.innerHTML = "";
+				mobileContainer.innerHTML = "";
+
+				const start = currentPage * perPage;
+				const end = start + perPage;
+
+				answersadmin.slice(start, end).forEach((q, i) => {
+					const index = start + i;
+					const id = answersadmin[index].id;
+					
+					/* ===== DESKTOP ===== */
+					if(device == "desktop"){
+						const tr = document.createElement("tr");
+
+						tr.innerHTML = `
+						<td class="p-3 text-gray-900"><span class="font-semibold">${q.item_order}. </span>${q.question}</td>
+						${options2.map(val => `
+							<td class="text-center">
+							<input type="radio" name="question_${id}" value="${val.value}"
+								${q.response == String(val.value)  ? "checked" : ""} ${is_view ? "class='i-disabled'" : ""}>
+							</td>
+						`).join("")}
+						`;
+
+						tr.querySelectorAll("input").forEach(input => {
+							input.addEventListener("change", () => {
+								
+								answersadmin[index].response = input.value;
+								tr.classList.add("answered");
+								syncHiddenInputs();
+								updateProgress();
+							});
+						});
+
+						if (q.response) tr.classList.add("answered");
+
+						desktopTable.appendChild(tr);
+					}
+					
+
+					/* ===== MOBILE ===== */
+					if(device != "desktop"){
+						const card = document.createElement("div");
+						card.className = "border rounded-lg p-3 shadow-sm";
+
+						card.innerHTML = `
+						<p class="mb-2 font-medium">${index+1}. ${q.question}</p>
+						<div class="grid grid-cols-2 gap-2 text-center">
+							${options2.map(val => `
+							<label class="border rounded p-2 ${q.response==val.value?'bg-yellow-100':''}">
+								<input type="radio" name="question_${id}" value="${val.value}"
+								class="hidden"
+								${q.response == String(val) ? "checked" : ""} ${is_view ? "class='i-disabled'" : ""}>
+								${val.text}
+							</label>
+							`).join("")}
+						</div>
+						`;
+
+						card.querySelectorAll("input").forEach(input => {
+							input.addEventListener("change", () => {
+								answersadmin[index].response = input.value;
+								updateProgress();
+								syncHiddenInputs();
+								render(); 
+							});
+						});
+
+						mobileContainer.appendChild(card);
+					}
+					
 				});
 
-				const radios2 = document.querySelectorAll("input[name='example2t']");
-				const textoSpan2 = document.getElementById("text_test_show2");
+				updateProgress();
+			}
+			function syncHiddenInputs() {
+				const container = document.getElementById("hiddenAnswers");
+				container.innerHTML = "";
 
-				radios2.forEach(radio => {
-					radio.addEventListener("change", function () {
-						if (this.checked) {
-							if (this.value === "0") {
-								textoSpan2.textContent = "Muy bien, procede a responser las frases.";
-							} else if (this.value === "1") {
-								textoSpan2.textContent = "Vuelve a leer correctamente el ejemplo.";
-							}
-						}
-					});
+				answersadmin.forEach(item => {
+					if (item.response !== null && item.response !== undefined) {
+						const input = document.createElement("input");
+						input.type = "hidden";
+						input.name = "question_" + item.id;
+						input.value = item.response;
+
+						container.appendChild(input);
+					}
 				});
+			}
+			function updateProgress() {
+				const total = answersadmin.length;
+				var answered = 0;
+				answersadmin.forEach(item => {
+					if(item.response != null){
+						answered++;		
+					}
+				});
+				progress.textContent = `${answered} / ${total} respondidas`;
+			}
+
+			/* NAV */
+			document.getElementById("nextBtn").onclick = () => {
+			if ((currentPage + 1) * perPage < answersadmin.length) {
+				currentPage++;
+				render();
+			}
+			};
+
+			document.getElementById("prevBtn").onclick = () => {
+			if (currentPage > 0) {
+				currentPage--;
+				render();
+			}
+			};
+
+			document.querySelector("form").addEventListener("submit", () => {
+				desktopTable.innerHTML = "";
+				mobileContainer.innerHTML = "";
+				syncHiddenInputs();
 			});
-		</script>										
+						
+
+			render();
+		</script>									
 	</body>
 </html>
 <?php } ?>

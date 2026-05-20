@@ -1,6 +1,6 @@
 <?php
     include_once('../configs.php');
-	//LSB-50
+	//IPP-R
 	session_start();
 	include('../connection.php');
 	include("../models/model_register.php");
@@ -14,7 +14,7 @@
     $idClient = '0';
     $idpatient = '0';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    	$result = $answerService->processForm($_POST);
+    	$result = $answerService->processForm($_POST,true);
 		$answerService->externalRedirect($result);
     }
 	
@@ -67,7 +67,7 @@
 		exit;
 	}
 	if($register['status'] == 'TERMINADO'){
-		$is_view = true;
+		$is_view = false;
 	}
 	$answerService->externalFinishRedirect($register['status'],$is_share); 
     $answers = $answerModel->getAll($register['codes']);
@@ -109,12 +109,11 @@ var fullname  = <?php echo json_encode($register['id_client'])?>;
 
 var testname = <?php echo json_encode($register['type_question_name'])?>;
 const options = [
-  { value: 0, text: 'Nada'},
-  { value: 1, text: 'Poco'},
-  { value: 2, text: 'Moderadamente'},
-  { value: 3, text: 'Bastante'},
-  { value: 4, text: 'Mucho'}
-];
+				{ value: '2', text: 'A'},
+				{ value: '1', text: 'B'},
+				{ value: '0', text: 'C'},
+				{ value: '-1', text: 'D'}
+				];
 
 let currentIndex = 0;
 let answers = [];
@@ -151,7 +150,7 @@ function renderPatientForm() {
           
           <div>
             <h1 class="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-cyan-200 bg-clip-text">${testname}</h1>
-            
+           
           </div>
         </div>
       </div>
@@ -167,47 +166,62 @@ function renderPatientForm() {
         
         <label class="block text-sm font-semibold mb-2 flex items-center gap-2">Instrucciones</label>
         <p class="text-black/80 text-sm leading-relaxed mb-5">
-          Encontrará una serie de afirmaciones sobre <strong class="text-amber-300">MOLESTIAS o PROBLEMAS</strong> que pueden afectar en mayor o menor medida a todas las personas. Conteste cada una teniendo en cuenta lo que ha experimentado durante las <strong>últimas semanas</strong>, incluido el día de hoy.
-        <br>
-        Para ello, marque junto a cada afirmación una de las siguientes opciones:
+          	En esta prueba se pide que indiques <strong class="text-blue-500">tus gustos y preferencias</strong> respecto a las <strong class="text-blue-500">actividades y profesiones</strong> que se presentan en las páginas siguientes.
+			<br>
+			Lee con atención cada frase y anota tu contestación en la hoja de respuestas siguiendo las indicaciones escritas en la parte superior de cada página. Debes escribir dentro del cuadrado correspondiente, en MAYÚSCULA y con letra clara, la letra correspondiente a la respuesta elegida (A, B, C o D). Siempre debes anotar la contestación en la línea que tenga el mismo número que la cuestión a que estás respondiendo.
+			<br>
+			Cuando en alguna de estas cuestiones aparezcan dos o más proposiciones (por ejemplo, "Encargarse de la organización básica en un laboratorio químico. Realizar análisis químicos o ensayos físicos") deberás anotar la opción "Me gusta" si te agrada solo UNA de las opciones propuestas, o TODAS ellas; anotarás "No me gusta" o "Me es indiferente o tengo dudas" solamente cuando te desagraden o te sean indiferentes TODAS las opciones propuestas.
+			<br>
+			Debes indicar tus preferencias prescindiendo de consideraciones tales como recursos económicos, capacidad para estudiar, posibilidades, prestigio o dinero que se espera obtener, etc.
+			<br>
+			<strong class="text-blue-500">No hay respuestas correctas ni incorrectas</strong> puesto que en ellas se reflejan simplemente la opinión o los intereses de cada persona.
+			<br>
+			Procura contestar a todas las cuestiones anotando la respuesta que se te ocurra espontáneamente, sin detenerte demasiado y sin consultar con tus compañeros. Tus respuestas debes decidirlas tú mismo.
           </p>
         
         <!-- Cuadro de valores tipo test (igual a la imagen) -->
         <div class="bg-gradient-to-br from-white-900/60 to-white/40 rounded-2xl p-4 border border-white/20" style="background:white">
-          <p class="text-center font-semibold text-sm sm:text-base text-black/90 mb-4">
-            <i class="fas fa-chart-simple mr-2"></i> Valore el grado de cada síntoma en las últimas semanas:
-          </p>
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
-            ${options.map(opt => `
-              
-              <button 
-      class="
-        btn-option
-        rounded-2xl
-        border-[3px]
-        border-blue-700
-        bg-white
-        px-3
-        py-2
-        min-h-[70px]
-        flex
-        items-center
-        justify-center
-        text-center
-        transition-all
-        duration-200
-        hover:bg-blue-50
-        hover:scale-[1.02]
-        active:scale-95
-        shadow-sm
-      ">
-      <div class="flex flex-col items-center gap-1" style="color: rgb(29 78 216 / var(--tw-border-opacity, 1));">
-        <span class="text-base text-black/70 uppercase tracking-wide">${opt.value}</span>
-        <span class="font-bold text-blue/70 text-base mt-1">${opt.text}</span>
-              
-       </div>
-            `).join('')}
-          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mb-8" id="options" style="    place-self: center;">
+				<div class="bg-white-200 border-2 border-blue-700 rounded-xl p-4 w-full max-w-xl shadow-sm">
+
+					<div class="space-y-2 text-sm md:text-base">
+					
+					<div class="flex gap-3">
+						<span class="font-bold w-5">A</span>
+						<p>
+						para contestar 
+						<span class="text-blue-700 font-semibold">"ME GUSTA"</span>
+						</p>
+					</div>
+
+					<div class="flex gap-3">
+						<span class="font-bold w-5">B</span>
+						<p>
+						para contestar 
+						<span class="text-blue-700 font-semibold">"ME ES INDIFERENTE o TENGO DUDAS"</span>
+						</p>
+					</div>
+
+					<div class="flex gap-3">
+						<span class="font-bold w-5">C</span>
+						<p>
+						para contestar 
+						<span class="text-blue-700 font-semibold">"NO ME GUSTA"</span>
+						</p>
+					</div>
+
+					<div class="flex gap-3">
+						<span class="font-bold w-5">D</span>
+						<p>
+						para indicar que no conoces esa actividad o profesión
+						</p>
+					</div>
+
+					</div>
+
+				</div>
+			</div>
         </div>
       </div>
       
@@ -242,13 +256,51 @@ function renderQuestion() {
       <div class="flex justify-between items-center mb-6  pb-4">
         <div class="flex items-center gap-3">
           
-          <div >
+          <div style="margin-bottom: auto;">
             <h1 class="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-cyan-200 bg-clip-text">${testname}</h1>
+           
             
-            <p class="text-black/80 text-sm leading-relaxed pt-5 border-t border-black/20">
-                Encontrará una serie de afirmaciones sobre <strong class="text-amber-300">MOLESTIAS o PROBLEMAS</strong> que pueden afectar en mayor o menor medida a todas las personas. Conteste cada una teniendo en cuenta lo que ha experimentado durante las <strong>últimas semanas</strong>, incluido el día de hoy.
-                </p>
           </div>
+		  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-8" id="options" style="    place-self: center;">
+				<div class="bg-white-200 border-2 border-blue-700 rounded-xl p-4 w-full max-w-xl shadow-sm">
+
+					<div class="space-y-2 text-sm md:text-base">
+					
+					<div class="flex gap-3">
+						<span class="font-bold w-5">A</span>
+						<p>
+						para contestar 
+						<span class="text-blue-700 font-semibold">"ME GUSTA"</span>
+						</p>
+					</div>
+
+					<div class="flex gap-3">
+						<span class="font-bold w-5">B</span>
+						<p>
+						para contestar 
+						<span class="text-blue-700 font-semibold">"ME ES INDIFERENTE o TENGO DUDAS"</span>
+						</p>
+					</div>
+
+					<div class="flex gap-3">
+						<span class="font-bold w-5">C</span>
+						<p>
+						para contestar 
+						<span class="text-blue-700 font-semibold">"NO ME GUSTA"</span>
+						</p>
+					</div>
+
+					<div class="flex gap-3">
+						<span class="font-bold w-5">D</span>
+						<p>
+						para indicar que no conoces esa actividad o profesión
+						</p>
+					</div>
+
+					</div>
+
+				</div>
+			</div>
            
         </div>
       </div>
@@ -265,7 +317,7 @@ function renderQuestion() {
       </div>
       
       <!-- Tarjeta de pregunta moderna -->
-      <div class="card-glass rounded-2xl p-6 md:p-8 mb-8 text-center">
+      <div class="card-glass rounded-2xl p-6 md:p-8 mb-8 text-center min-h-[180px]">
         
         <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold text-black leading-tight tracking-wide">
           ${escapeHtml(currentQ.question)}
@@ -273,38 +325,38 @@ function renderQuestion() {
       </div>
       
       <!-- Botones de opción estilo premium (5 columnas en desktop, 2 en mobile mejorado) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-  ${options.map(opt => `
-    <button onclick="answer(${opt.value})"
-      class="
-        btn-option
-        rounded-2xl
-        border-[3px]
-        border-blue-700
-        bg-white
-        px-3
-        py-2
-        min-h-[70px]
-        flex
-        items-center
-        justify-center
-        text-center
-        transition-all
-        duration-200
-        hover:bg-blue-50
-        hover:scale-[1.02]
-        active:scale-95
-        shadow-sm
-      ">
-      <div class="flex flex-col items-center gap-1" style="color: rgb(29 78 216 / var(--tw-border-opacity, 1));">
-        <span class="text-base text-black/70 uppercase tracking-wide">${opt.value}</span>
-        <span class="font-bold text-blue/70 text-base mt-1">${opt.text}</span>
-              
-       </div>
+      	<div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+		${options.map(opt => `
+			<button onclick="answer(${opt.value})"
+			class="
+				btn-option
+				rounded-2xl
+				border-[3px]
+				border-blue-700
+				bg-white
+				px-3
+				py-2
+				min-h-[70px]
+				flex
+				items-center
+				justify-center
+				text-center
+				transition-all
+				duration-200
+				hover:bg-blue-50
+				hover:scale-[1.02]
+				active:scale-95
+				shadow-sm
+			">
+			<div class="flex flex-col items-center gap-1" style="color: rgb(29 78 216 / var(--tw-border-opacity, 1));">
+				
+				<span class="font-bold text-blue/70 text-base mt-1">${opt.text}</span>
+					
+			</div>
 
-    </button>
-  `).join('')}
-</div>
+			</button>
+		`).join('')}
+		</div>
       
       <!-- Navegación Anterior con estilo mejorado -->
       <div class="flex justify-between items-center">
@@ -312,7 +364,10 @@ function renderQuestion() {
           class="flex items-center gap-2 px-5 py-2 rounded-full bg-black/10 backdrop-blur-sm hover:bg-black/20 transition text-black/90 font-medium text-sm">
           <i class="fas fa-arrow-left text-xs"></i> Anterior
         </button>
-        <div class="text-xs text-black/40"><i class="fas fa-hand-pointer"></i> Seleccione una opción</div>
+        <button onclick="next()" 
+          class="flex items-center gap-2 px-5 py-2 rounded-full bg-black/10 backdrop-blur-sm hover:bg-black/20 transition text-black/90 font-medium text-sm">
+          Siguiente<i class="fas fa-arrow-right text-xs"></i> 
+        </button>
       </div>
     </div>
   `;
@@ -343,6 +398,10 @@ function answer(value) {
 
 function back() {
   if (currentIndex > 0) currentIndex--;
+  render();
+}
+function next() {
+  if (currentIndex < questions.length) currentIndex++;
   render();
 }
 
@@ -510,11 +569,48 @@ render();
 						<div>
 							<p class="text-sm text-black/70 mb-2 mt-2">#<?= $register['id'] ?> ID: <?=$register['id_client']?></p>
 						</div>
-						<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="options">
+						<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mb-8" id="options" style="    place-self: center;">
+							<div class="bg-white-200 border-2 border-blue-700 rounded-xl p-4 w-full max-w-xl shadow-sm">
+    
+								<div class="space-y-2 text-sm md:text-base">
+								
+								<div class="flex gap-3">
+									<span class="font-bold w-5">A</span>
+									<p>
+									para contestar 
+									<span class="text-blue-700 font-semibold">"ME GUSTA"</span>
+									</p>
+								</div>
 
+								<div class="flex gap-3">
+									<span class="font-bold w-5">B</span>
+									<p>
+									para contestar 
+									<span class="text-blue-700 font-semibold">"ME ES INDIFERENTE o TENGO DUDAS"</span>
+									</p>
+								</div>
+
+								<div class="flex gap-3">
+									<span class="font-bold w-5">C</span>
+									<p>
+									para contestar 
+									<span class="text-blue-700 font-semibold">"NO ME GUSTA"</span>
+									</p>
+								</div>
+
+								<div class="flex gap-3">
+									<span class="font-bold w-5">D</span>
+									<p>
+									para indicar que no conoces esa actividad o profesión
+									</p>
+								</div>
+
+								</div>
+
+							</div>
 						</div>
 
-						<form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form1.php':''?>">
+						<form method="<?=!$is_view?'POST':''?>" action="<?=!$is_view?'form6.php':''?>">
 							<div id="hiddenAnswers"></div>
 							<input type="hidden" name="is_share" value="<?=(int)$is_share?>">
 							<input type="hidden" id="patient" name="patient" value="<?=$idpatient?>">
@@ -526,11 +622,10 @@ render();
 								<thead class="bg-gradient-to-br from-[#0B2B5E] via-[#0D47A1] to-[#0B2B5E] text-white">
 								<tr>
 									<th class="p-3 text-left">Preguntas</th>
-									<th class="p-3 text-center" width="60">0</th>
-									<th class="p-3 text-center" width="60">1</th>
-									<th class="p-3 text-center" width="60">2</th>
-									<th class="p-3 text-center" width="60">3</th>
-									<th class="p-3 text-center" width="60">4</th>
+									<th class="p-3 text-center" width="60">A</th>
+									<th class="p-3 text-center" width="60">B</th>
+									<th class="p-3 text-center" width="60">C</th>
+									<th class="p-3 text-center" width="60">D</th>
 								</tr>
 								</thead>
 								<tbody id="tableDesktop"></tbody>
@@ -628,11 +723,10 @@ render();
 			const device = <?php echo json_encode($device)?>;
 			
 			const options2 = [
-				{ value: 0, text: 'Nada'},
-				{ value: 1, text: 'Poco'},
-				{ value: 2, text: 'Moderadamente'},
-				{ value: 3, text: 'Bastante'},
-				{ value: 4, text: 'Mucho'}
+				{ value: '2', text: 'A'},
+				{ value: '1', text: 'B'},
+				{ value: '0', text: 'C'},
+				{ value: '-1', text: 'D'}
 				];
 			const is_view = <?php echo json_encode($is_view)?>;
 			const perPage = 10;
@@ -641,29 +735,7 @@ render();
 			const desktopTable = document.getElementById("tableDesktop");
 			const mobileContainer = document.getElementById("mobileContainer");
 			const progress = document.getElementById("progress");
-			const divoptions = document.getElementById("options");
-			options2.forEach(opt => {
-				divoptions.innerHTML +=  `<button 
-				class="btn-option rounded-2xl border-[3px] border-blue-700 bg-white px-3 py-2 min-h-[70px] flex items-center
-					justify-center
-					text-center
-					transition-all
-					duration-200
-					hover:bg-blue-50
-					hover:scale-[1.02]
-					active:scale-95
-					shadow-sm
-				">
-				<div class="flex flex-col items-center gap-1" style="color: rgb(29 78 216 / var(--tw-border-opacity, 1));">
-					<span class="text-base text-black/70 uppercase tracking-wide">${opt.value}</span>
-					<span class="font-bold text-blue/70 text-base mt-1">${opt.text}</span>
-						
-				</div>`;
-							
-						}
-					
-				
-			);
+			
 			function render() {
 				desktopTable.innerHTML = "";
 				mobileContainer.innerHTML = "";
@@ -673,7 +745,6 @@ render();
 
 				answersadmin.slice(start, end).forEach((q, i) => {
 					const index = start + i;
-					const id = answersadmin[index].id;
 					
 					/* ===== DESKTOP ===== */
 					if(device == "desktop"){
@@ -681,11 +752,11 @@ render();
 
 						tr.innerHTML = `
 						<td class="p-3 text-gray-900"><span class="font-semibold">${q.item_order}. </span>${q.question}</td>
-						
-						${[0,1,2,3,4].map(val => `
+						${options2.map(val => `
 							<td class="text-center">
-							<input type="radio" name="question_${id}" value="${val}"
-								${answersadmin[index].response == String(val)  ? "checked" : ""} ${is_view ? "class='i-disabled'" : ""}>
+							<input type="radio" name="question_${q.id}" value="${val.value}"
+								${q.response == String(val.value)  ? "checked" : ""} ${is_view ? "class='i-disabled'" : ""}
+								>
 							</td>
 						`).join("")}
 						`;
@@ -714,12 +785,12 @@ render();
 						card.innerHTML = `
 						<p class="mb-2 font-medium">${index+1}. ${q.question}</p>
 						<div class="grid grid-cols-4 gap-2 text-center">
-							${[0,1,2,3,4].map(val => `
-							<label class="border rounded p-2 ${answersadmin[index].response==val?'bg-yellow-100':''}">
-								<input type="radio" name="question_${id}" value="${val}"
+							${options2.map(val => `
+							<label class="border rounded p-2 ${q.response==val.value?'bg-yellow-100':''}">
+								<input type="radio" name="question_${q.id}" value="${val.value}"
 								class="hidden"
-								${answersadmin[index].response == String(val) ? "checked" : ""} ${is_view ? "class='i-disabled'" : ""}>
-								${val}
+								${q.response == String(val.value) ? "checked" : ""} ${is_view ? "class='i-disabled'" : ""}>
+								${val.text}
 							</label>
 							`).join("")}
 						</div>

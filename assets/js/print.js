@@ -46,6 +46,9 @@ async function descargarPDF() {
             case 8:
                 await addText(pdf, item.text, false);
                 break;
+            case 9:
+                await addImageSize(pdf, item.image,item.size);
+                break;
             default:
                 break;
         }
@@ -81,6 +84,31 @@ async function addImage(pdf, value) {
     const canvas = await html2canvas(elemento, { scale: 2, useCORS: true });
     const imgData = canvas.toDataURL('image/png');
     pdf.addImage(imgData, 'PNG', margeinLeft, Yvalue, maxWidth, 0);
+    const imgHeightPx = canvas.height;
+    const imgWidthPx = canvas.width;
+    const imgWidthMm = maxWidth;
+    const imgHeightMm = (imgHeightPx * imgWidthMm) / imgWidthPx;
+    Yvalue += imgHeightMm;
+    //Yvalue += 30;
+    await addnewLine(pdf);
+}
+async function addImageSize(pdf, value,size) {
+    const scale = 0.85;
+    const scale2 = 0.80;
+
+    const elemento = document.getElementById(value);
+    const canvas = await html2canvas(elemento, { scale: 2, useCORS: true });
+
+    const resizedCanvas = document.createElement("canvas");
+    resizedCanvas.width = Math.floor(canvas.width * scale);
+    resizedCanvas.height = Math.floor(canvas.height * scale2);
+    const ctx = resizedCanvas.getContext("2d");
+    ctx.drawImage(canvas,0,0,resizedCanvas.width,resizedCanvas.height);
+    const imgData = resizedCanvas.toDataURL("image/png");
+    //const imgData = canvas.toDataURL('image/png');
+    const width = maxWidth * scale;
+    const extra = (maxWidth - width)/2;
+    pdf.addImage(imgData, 'PNG', margeinLeft+extra, Yvalue, width, 0);
     const imgHeightPx = canvas.height;
     const imgWidthPx = canvas.width;
     const imgWidthMm = maxWidth;
@@ -148,5 +176,7 @@ async function addnewLine(pdf) {
 }
 async function addnewPage(pdf) {
     pdf.addPage();
-    Yvalue = 20;
+    Yvalue = 10;
+    await addImage(pdf, "contenidoID");
+    Yvalue = 30;
 }

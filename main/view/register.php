@@ -333,13 +333,14 @@
 													</td>
 													<td>
                                                         <div class="d-flex my-xl-auto right-content">
-															<?php //id_type_question => 3 = MACI, 2 = AF-5, 1 = LSB-50, 
+															<?php //id_type_question => 3 = MACI, 2 = AF-5, 1 = LSB-50, 6 = IPPR
 															$redirect = '0';
 															$redirect = $data['id_type_question'] == 1?'1':$redirect;
 															$redirect = $data['id_type_question'] == 2?'2':$redirect;
 															$redirect = $data['id_type_question'] == 3?'3':$redirect;
 															$redirect = $data['id_type_question'] == 4?'4':$redirect;
 															$redirect = $data['id_type_question'] == 5?'5':$redirect;
+															$redirect = $data['id_type_question'] == 6?'6':$redirect;
 															$text_test = "Ajustar";
 															if($data['status'] == 'TERMINADO'){
 																$text_test = "Ver prueba";
@@ -566,13 +567,14 @@
 			function reloadBaremos(id){
 				
 				selectElement.innerHTML = '<option value="" disabled selected>Seleccionar</option>';
-
+				//baremos
 				const rangos = {
 					1: [1, 4],//form1
 					2: [5, 37],//form2
 					3: [38, 45],//form3
 					4: [46, 50],//form4
 					5: [51, 56],//form5
+					6: [57, 58],//form6
 				};
 
 				const [min, max] = rangos[id] || [0, 0];
@@ -585,8 +587,8 @@
 				});
 			}
 			function page(url){
-				//window.location.href = url;
-				window.open(url, '_blank');
+				window.location.href = url;
+				//window.open(url, '_blank');
 			}
 			function openShareLink(client_id,redirect,patient_id){
 				var url = '<?=LOCALHOST?>'+"/view/form"+redirect+".php?client="+client_id+"&patient="+patient_id;
@@ -601,6 +603,7 @@
 				}
 				const valor = document.getElementById("input_share_model").value.trim();
 				let url = "https://wa.me/"+numero +"?text=" + encodeURIComponent(valor);
+				
         		window.open(url, '_blank');
 			}
 			function eliminarRegistro(nombre_completo,id){
