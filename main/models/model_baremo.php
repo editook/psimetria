@@ -33,6 +33,7 @@ class Baremo_Model
 					3: [38, 45],
                     4: [46, 50],
                     5: [51, 56],
+                    6: [57, 58],
 				};
             */
             if($id == '1'){
@@ -49,6 +50,9 @@ class Baremo_Model
             }
             if($id == '5'){
                 $where = " where id>=51 and id<=56";
+            }
+            if($id == '6'){
+                $where = " where id>=57 and id<=58";
             }
             
         }

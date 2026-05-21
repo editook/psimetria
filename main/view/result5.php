@@ -374,7 +374,7 @@ if($answer_questions1['response'] == '1'){
                     url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
                 }
         </style>
-        <link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">
+        <link href="../../assets/css/style_result5.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
 	</head>
 
 	<body class="main-body">
@@ -404,236 +404,209 @@ if($answer_questions1['response'] == '1'){
 					<!-- row -->
 					<div class="row row-sm">
                         <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div id="contenidoID" class="card-af5" style="border-radius: 17px;position: absolute;width: 90%;top: 30px;">
-                                <div  class="card-body" style="padding:10px 5px 10px 5px">
-                                    <div class="row row-sm">
-                                        <div class="col-md-12 col-lg-12">
-                                            <div class="input-group">
-                                                <div class="input-group-text setting-input">
-                                                    <span class="input-group-text setting-input">Id</span>
-                                                </div><input  style="color: black;    height: 30px !important;" class="form-control" value="<?=$register['id_client']?>" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-								</div>
-                            </div>
-							<div id="contenido1" class="card card-af5">
-								<div  class="card-body">
-                                    <div class="row row-sm">
-                                        <div class="col-12 col-md-3 col-lg-2 img-container">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/perfil-sf.png?v=<?=VERSION_CODE?>">
-                                            <img alt="" class="float-sm-right wd-100p mg-sm-t-0 img-logo"  src="../../assets/img/test_image/cmasr2.png?v=<?=VERSION_CODE?>">
-                                        </div>
-                                        <div class="col-12 col-md-9 col-lg-10">
-                                            <div class="row">
-                                                <div class="col-md-12 col-lg-12">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Id</span>
-                                                        </div><input  style="color: black;" class="form-control" value="<?=$register['id_client']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-6 col-lg-3">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Edad</span>
-                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?=$register['age']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-6 col-lg-3">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Sexo</span>
-                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?=$register['sex']?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-12 col-lg-6">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input">Fecha</span>
-                                                        </div><input  style="text-align: center;color: black;" class="form-control" value="<?= date('Y-m-d H:i:s'); ?>" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12 col-lg-4">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input" id="basic-addon1">Baremo</span>
-                                                        </div>
-                                                        <form action="result2.php" method="post" id="form_baremo" style="margin:0;">
-                                                            <input type="hidden" name="id_user" id="id_user" value="<?=$idClient?>">
-                                                            <input type="hidden" name="id_register" id="id_register" value="<?=$register['id']?>">
-                                                            <select  style="margin:0px;border-radius: 15px;height: 35px;color: black;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
-                                                                <?php
-                                                                foreach($baremos as $baremo){
-                                                                ?>
-                                                                <option value="<?=$baremo['id']?>" <?=$baremo['active']=='0'?'disabled':''?> <?=$register['baremo_id']==$baremo['id']?'selected':''?>>
-                                                                    <?=htmlspecialchars($baremo['name'])?>
-                                                                </option>
-                                                                <?php } ?>
-                                                            </select>
-                                                        </form>
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                <div class="col-md-12 col-lg-8">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-text setting-input">
-                                                            <span class="input-group-text setting-input" id="basic-addon1">Responsable de aplicación</span>
-                                                        </div><input style="color: black;" aria-describedby="basic-addon1" class="form-control" value="Edgar Espinoza Jimenez" type="text">
-                                                    </div><!-- input-group -->
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-								</div>
-							</div>
-						</div>
-                        <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div  id="contenido2" class="card" >
-                                <div class="card-body">
-                                    <div class="row row-sm">
-                                        <div class="col-md-6" style="padding-right:0px;">
-                                            <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                    
-                                                <div class="table-responsive">
-                                                    <table class="table mg-b-0 text-md-nowrap" style="font-size: 18px;color: #000000;">
-                                                        
-                                                        <tbody style="text-align: right;text-align: center;">
-                                                            <tr  class="tr_fill" style="font-weight: bold;">
-                                                                <td class="td_fill-masr2" ><div class="borde-text">Escalas</div></td>
-                                                                <th scope="row"  class="text-primary td_name_masr2"></th>
-                                                                
-                                                                <td class="td_valuetb"><div class="borde-text">PD</div></td>
-                                                                <td class="td_valuetb"><div class="borde-text">PC</div></td>
-                                                                <td class="td_valuetb"><div class="borde-text">T</div></td>
-                                                            </tr>
-                                                            
-                                                            <tr class="tr_fill">
-                                                                <td class="td_fill-masr2">Defensividad</td>
-                                                                <th class="text-primary td_name_masr2" scope="row">DEF</th>
-                                                                
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$def?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$def_pc?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$def_t?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill-masr2">Ansiedad Fisiológica</td>
-                                                                <th class="text-primary td_name_masr2" scope="row">FIS</th>
-                                                                
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$fis?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$fis_pc?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$fis_t?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill-masr2">Inquietud</td>
-                                                                <th class="text-primary td_name_masr2" scope="row" >INQ</th>
-                                                                
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$inq?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$inq_pc?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$inq_t?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill-masr2">Ansiedad Social</td>
-                                                                <th class="text-primary td_name_masr2" scope="row">SOC</th>
-                                                                
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$soc?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$soc_pc?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$soc_t?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill-masr2" style="font-weight: bold;">Ansiedad Total</td>
-                                                                <th class="text-primary td_name_masr2" scope="row">TOT</th>
-                                                                
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$tot?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$tot_pc?></div></td>
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$tot_t?></div></td>
-                                                            </tr>
-                                                            <tr class="tr_fill">
-                                                            <td class="td_fill-masr2">Inconsistencia</td>
-                                                                <th class="text-primary td_name_masr2" scope="row">INC</th>
-                                                                
-                                                                <td class="td_valuetb"><div class="borde-masr2"><?=$inc?></div></td>
-                                                                <td class="td_valuetb"></td>
-                                                                <td class="td_valuetb"></td>
-                                                            </tr>
-                                                            
-                                                            <tr  class="tr_fill" style="font-weight: bold;">
-                                                                    <td class="td_fill-masr2"></td>
-                                                                    <th scope="row"  class="text-primary td_name_masr2"></th>
-                                                                    
-                                                                    <td class="td_valuetb"><div class="borde-text">PD</div></td>
-                                                                    <td class="td_valuetb"><div class="borde-text">PC</div></td>
-                                                                    <td class="td_valuetb"><div class="borde-text">T</div></td>
-                                                                </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6" style="padding-left:0px;padding-right:0px">
-                                            <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
-                                                <div class="content-4"><div class="content-green"><h4 class="content-txt" style="width: 268px;">Bajo</h4></div><div class="content-orange"><h4 class="content-txt" style="width: 143px;">Media</h4></div><div class="content-yellow"><h4 class="content-txt" style="width: 76px;">Moderado</h4></div><div class="content-grave"><h4 class="content-txt" style="width: 63px;">Grave</h4></div></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 255px !important;width: 100%;" id="colorss"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 15px;height: 185px !important;width: 100%;" id="flotLine2"></div>
-                                                <div class="ht-100 ht-sm-300" style="margin-top: 0px;height: 45px !important;width: 100%;" id="flotLineIndRiesgoPat"></div>
-                                                <p class="mg-t-20" style="text-align: left;color: #000000;font-size: 15px !important;margin-left: 20px;"><span style="font-weight: bold;">Nota:</span> Nota: Puntuación típica T (Media=50; Dt = 10)</p>
-                                            </div>
+                            <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
+                            
+                                <div class="container-header">
+                                    <div class="container-body">
+                                        <div class="container-row-bg">
+                                            <span class="label">Id:</span>
+                                            <input class="field form-control" value="<?= $register['id_client'] ?>" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+							<div id="contenido1" class="container-header">
+
+                                <div class="container-left">
+                                    <div class="perfil-vertical">PERFIL</div>
+                                    <div class="divider"></div>
+                                    <img src="../../assets/img/test_image/cmasr2.png?v=<?= VERSION_CODE ?>" class="img-logo">
+                                </div>
+
+                                <div  class="container-body">
+
+                                    <div class="container-row">
+                                        <span class="label">Id:</span>
+                                        <input class="field form-control" value="<?= $register['id_client'] ?>" />
+                                    </div>
+
+                                    <div class="container-row">
+                                        <span class="label">Edad:</span>
+                                        <input class="field form-control max" value="<?= $register['age'] ?>" />
+
+                                        <span class="label">Sexo:</span>
+                                        <input class="field form-control max" value="<?= $register['sex'] ?>" />
+
+                                        <span class="label">Fecha de aplicación:</span>
+                                        <input class="field form-control max" value="<?= date('d/m/Y') ?>" />
+                                    </div>
+
+                                    <div class="container-row">
+                                        <span class="label">Baremo:</span>
+
+                                        <form action="result2.php" method="post" id="form_baremo" style="margin:0;width: 100%;">
+                                            <input type="hidden" name="id_user" id="id_user" value="<?= $idClient ?>">
+                                            <input type="hidden" name="id_register" id="id_register" value="<?= $register['id'] ?>">
+                                            <select class="field form-control max-left" id="baremo_id" name="baremo_id">
+                                                <?php
+                                                foreach ($baremos as $baremo) {
+                                                ?>
+                                                    <option value="<?= $baremo['id'] ?>" <?= $baremo['active'] == '0' ? 'disabled' : '' ?> <?= $register['baremo_id'] == $baremo['id'] ? 'selected' : '' ?>>
+                                                        <?= htmlspecialchars($baremo['name']) ?>
+                                                    </option>
+                                                <?php } ?>
+                                            </select>
+                                        </form>
+                                    </div>
+
+                                    <div class="container-row row-m0">
+                                        <span class="label">Responsable de la aplicación:</span>
+                                        <input class="field form-control max-left" value="<?= $register['evaluador'] ?>">
+                                    </div>
+
+                                </div>
+                            </div>
+						</div>
+                        <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
+                            <div  class="row">
+                                <div class="col-md-6 p-0">
+                                    <div class="container-panel">
+
+                                        <!-- HEADER -->
+                                        <div class="section-header">
+                                        <div class="title-pill">Escalas</div>
+
+                                        <div class="header-pills">
+                                            <span class="pill">PD</span>
+                                            <span class="pill">Pc</span>
+                                            <span class="pill">T</span>
+                                        </div>
+                                        </div>
+
+                                        <!-- ROWS -->
+                                        <div class="row-item">
+                                        <span class="label-text">Defensividad</span>
+                                        <span class="code">DEF</span>
+                                        <span class="value"><?=$def?></span>
+                                        <span class="value"><?=$def_pc?></span>
+                                        <span class="value"><?=$def_t?></span>
+                                        </div>
+
+                                        <div class="row-item">
+                                        <span class="label-text">Ansiedad Fisiológica</span>
+                                        <span class="code">FIS</span>
+                                        <span class="value"><?=$fis?></span>
+                                        <span class="value"><?=$fis_pc?></span>
+                                        <span class="value"><?=$fis_t?></span>
+                                        </div>
+
+                                        <div class="row-item">
+                                        <span class="label-text">Inquietud</span>
+                                        <span class="code">INQ</span>
+                                        <span class="value"><?=$inq?></span>
+                                        <span class="value"><?=$inq_pc?></span>
+                                        <span class="value"><?=$inq_t?></span>
+                                        </div>
+
+                                        <div class="row-item">
+                                        <span class="label-text">Ansiedad Social</span>
+                                        <span class="code">SOC</span>
+                                        <span class="value"><?=$soc?></span>
+                                        <span class="value"><?=$soc_pc?></span>
+                                        <span class="value"><?=$soc_t?></span>
+                                        </div>
+
+                                        <!-- DESTACADO -->
+                                        <div class="row-item total">
+                                            <span class="label-text bold">Ansiedad Total</span>
+                                            <span class="code">TOT</span>
+                                            <span class="value"><?=$tot?></span>
+                                            <span class="value"><?=$tot_pc?></span>
+                                            <span class="value"><?=$tot_t?></span>
+                                        </div>
+
+                                        <div class="row-item">
+                                            <span class="label-text">Inconsistencia</span>
+                                            <span class="code">INC</span>
+                                            <span class="value"><?=$inc?></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <div class="section-header">
+                                            <div class="title-pill-none"></div>
+
+                                            <div class="header-pills">
+                                                <span class="pill">PD</span>
+                                                <span class="pill">Pc</span>
+                                                <span class="pill">T</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    </div>
+                                <div class="col-md-6" style="padding: 0;">
+                                    
+                                    <div class="card-body" style="padding-right: 0px;padding-left: 0px;">
+                                        <div class="risk-bar">
+                                            <div class="segment bajo">Bajo</div>
+                                            <div class="segment media">Media</div>
+                                            <div class="segment moderado">Moderado</div>
+                                            <div class="segment grave">Grave</div>
+                                        </div>
+                                        <div class="ht-100 ht-sm-300" style="margin-top: 10px;height: 295px !important;width: 100%;" id="colorss"></div>
+                                        <div class="ht-100 ht-sm-300" style="margin-top: 15px;height: 234px   !important;width: 100%;" id="flotLine2"></div>
+                                        <div class="ht-100 ht-sm-300" style="margin-top: 0px;height: 45px !important;width: 100%;" id="flotLineIndRiesgoPat"></div>
+                                        <p class="mg-t-20" style="text-align: left;color: #000000;font-size: 15px !important;margin-left: 20px;"><span style="font-weight: bold;">Nota:</span> Nota: Puntuación típica T (Media=50; Dt = 10)</p>
+                                    </div>
+                                </div>
+                            </div>
+                           
 
                         </div>
 						
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
-                                    <h3 style="text-align: center;color: black;font-weight: bold;" id="jsonvalue1">Informe escala de ansiedad manifiesta en niños revisada (CMASR-2)</h3>
+                                    <h3 style="text-align: center;color: black;font-weight: bold;" id="jsonvalue1"></h3>
                                 </div>
                                 <div class="card-body">
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"  id="jsonvalue2">La Escala de Ansiedad Manifiesta en Niños Revisada, Segunda Edición (CMASR-2) es un instrumento de autoinforme diseñado para evaluar el nivel y la naturaleza de la ansiedad en niños y adolescentes de 6 a 19 años. Consta de 49 reactivos que el examinado responde con "Sí" o "No". </p>
+                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue2">La Escala de Ansiedad Manifiesta en Niños Revisada, Segunda Edición (CMASR-2) es un instrumento de autoinforme diseñado para evaluar el nivel y la naturaleza de la ansiedad en niños y adolescentes de 6 a 19 años. Consta de 49 reactivos que el examinado responde con "Sí" o "No". </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"  id="jsonvalue3"><span class="title  fw-semibold tx-13"  id="jsonvalue4">Validez de las Respuestas, </span> El CMASR-2 evalúa la validez de las respuestas del examinado. Esto se logra a través de dos índices:</p>
+                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue3"><span class="bold"  id="jsonvalue4">Validez de las Respuestas, </span> El CMASR-2 evalúa la validez de las respuestas del examinado. Esto se logra a través de dos índices:</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue5"><span class="title fw-semibold tx-13" id="jsonvalue6">Índice de Respuestas Inconsistentes (INC),</span>  Evalúa si respondió de manera consistente la prueba. Puntuaciones altas en este indican que las respuestas pueden haber sido dadas al azar o sin suficiente atención.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue5"><span class="bold" id="jsonvalue6">Índice de Respuestas Inconsistentes (INC),</span>  Evalúa si respondió de manera consistente la prueba. Puntuaciones altas en este indican que las respuestas pueden haber sido dadas al azar o sin suficiente atención.</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue7"> <?=$ouput1;?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue7"> <?=$ouput1;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue8"><span class="title fw-semibold tx-13" id="jsonvalue9">Defensividad (DEF), </span>  Indica si intentó presentar una imagen excesivamente positiva de sí mismo.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue8"><span class="bold" id="jsonvalue9">Defensividad (DEF), </span>  Indica si intentó presentar una imagen excesivamente positiva de sí mismo.</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue10"> <?=$ouput2;?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue10"> <?=$ouput2;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue11"><span class="title fw-semibold tx-13" id="jsonvalue12">Ansiedad General (TOT), </span>  La puntuación de Ansiedad total es considerada la más robusta del CMASR-2. Proporciona una visión general del nivel de ansiedad que experimenta el examinado.</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue11"><span class="bold" id="jsonvalue12">Ansiedad General (TOT), </span>  La puntuación de Ansiedad total es considerada la más robusta del CMASR-2. Proporciona una visión general del nivel de ansiedad que experimenta el examinado.</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue13"> <?=$ouput3;?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13"> <?=$ouput3;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue14"><span class="title fw-semibold tx-13" id="jsonvalue15">Escalas relacionadas con la ansiedad, </span>  proporciona resultados en tres escalas principales que ofrecen una comprensión más detallada de la naturaleza de la ansiedad del evaluado:</p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue14"><span class="bold" id="jsonvalue15">Escalas relacionadas con la ansiedad, </span>  proporciona resultados en tres escalas principales que ofrecen una comprensión más detallada de la naturaleza de la ansiedad del evaluado:</p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue16"><span class="title fw-semibold tx-13" id="jsonvalue17">Ansiedad Fisiológica (FIS), </span>  Evalúa las manifestaciones físicas de la ansiedad. Se enfoca en aspectos somáticos como náuseas, dificultades de sueño, dolores de cabeza y fatiga. </p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue16"><span class="bold" id="jsonvalue17">Ansiedad Fisiológica (FIS), </span>  Evalúa las manifestaciones físicas de la ansiedad. Se enfoca en aspectos somáticos como náuseas, dificultades de sueño, dolores de cabeza y fatiga. </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue18"> <?=$ouput4;?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue18"> <?=$ouput4;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue19"><span class="title fw-semibold tx-13" id="jsonvalue20">Inquietud (INQ), </span>   Evalúa sentimientos de nerviosismo, preocupaciones sobre posibles daños, y una hipersensibilidad general a las presiones del entorno.  </p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue19"><span class="bold" id="jsonvalue20">Inquietud (INQ), </span>   Evalúa sentimientos de nerviosismo, preocupaciones sobre posibles daños, y una hipersensibilidad general a las presiones del entorno.  </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue21"> <?=$ouput5;?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue21"> <?=$ouput5;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue22"><span class="title fw-semibold tx-13" id="jsonvalue23">Ansiedad Social (SOC), </span>   Evalúa la ansiedad en situaciones sociales y de desempeño. Mide preocupaciones relacionadas con las interacciones sociales, el miedo a ser juzgado negativamente por otros, y la ansiedad asociada con el rendimiento en situaciones públicas o académicas. </p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue22"><span class="bold" id="jsonvalue23">Ansiedad Social (SOC), </span>   Evalúa la ansiedad en situaciones sociales y de desempeño. Mide preocupaciones relacionadas con las interacciones sociales, el miedo a ser juzgado negativamente por otros, y la ansiedad asociada con el rendimiento en situaciones públicas o académicas. </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue24"> <?=$ouput6;?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue24"> <?=$ouput6;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13" id="jsonvalue25">Ítems Críticos </span> </p>
+                                    <p class="tx-dark mb-0 txt-force-black"><span class="bold" id="jsonvalue25">Ítems Críticos </span> </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue26"> <?=$ouput7;?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue26"> <?=$ouput7;?></p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black"><span class="title fw-semibold tx-13" id="jsonvalue27">Ítems significativos </span> </p>
+                                    <p class="tx-dark mb-0 txt-force-black"><span class="bold" id="jsonvalue27">Ítems significativos </span> </p>
                                     <br>
-                                    <p class="tx-dark mb-0 tx-13 txt-force-black" id="jsonvalue28"> <?=$ouput8;?></p>
+                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue28"> <?=$ouput8;?></p>
                                     <br><br>
                                     
                                     <br><br>
@@ -725,6 +698,9 @@ if($answer_questions1['response'] == '1'){
             var jsonpdf = [];
             jsonpdf.push({type:2,image:"contenido1"} );
             jsonpdf.push({type:2,image:"contenido2"} );
+            jsonpdf.push({
+                type: 3
+            });
             jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
@@ -824,7 +800,7 @@ if($answer_questions1['response'] == '1'){
                                 lineWidth: 0.5
                             },
                             { 
-                                yaxis: { from: 3.2, to: 3.2 },
+                                yaxis: { from: 2.8, to: 2.8 },
                                 color: 'white',
                                 lineWidth: 2.5
                             },
@@ -849,12 +825,12 @@ if($answer_questions1['response'] == '1'){
                         tickColor: 'black',
                         tickLength: 0,
                         ticks: [
-                            [1, '1'],
-                            [39, '39'],
-                            [50, '50'],
-                            [60, '60'],
-                            [70, '70'],
-                            [80, '80'],
+                            [1, '<b style="font-size: 18px;font-weight: 600;">1</b>'],
+                            [39, '<b style="font-size: 18px;font-weight: 600;">39</b>'],
+                            [50, '<b style="font-size: 18px;font-weight: 600;">50</b>'],
+                            [60, '<b style="font-size: 18px;font-weight: 600;">60</b>'],
+                            [70, '<b style="font-size: 18px;font-weight: 600;">70</b>'],
+                            [80, '<b style="font-size: 18px;font-weight: 600;">80</b>'],
                         ],
                         font: {
                             size: 12,

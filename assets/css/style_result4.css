@@ -1,0 +1,384 @@
+.container-short {
+    max-width: 1000px;
+    justify-self: anchor-center;
+}
+.max {
+    width: 100%;
+    text-align: center;
+}
+.min {
+    width: 100px !important;
+    text-align: center;
+}
+.max-left {
+    width: 100%;
+    text-align: left;
+}
+.container-header {
+    display: flex;
+    background: #d9d9d9;
+    border-radius: 18px;
+    padding: 10px;
+    align-items: center;
+}
+
+.container-header-bg {
+    display: flex;
+    background: #dcdcdc;
+    border-radius: 18px;
+    padding: 10px;
+    align-items: center;
+}
+
+.container-left {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 20px;
+}
+
+.perfil-vertical {
+    transform: rotate(-90deg);
+    transform-origin: center;
+    font-weight: bold;
+    color: #aa1f1f;
+    font-size: 30px;
+    white-space: nowrap;
+    margin-left: -20px;
+    position: absolute;
+}
+
+.divider{
+    height: stretch;
+    width: 3px;
+    background: white;
+    position: absolute;
+    left: 65px;
+}
+
+b {
+    margin-right: 7px;
+}
+
+.img-logo {
+    height: 180px;
+    margin-left: 80px;
+}
+
+.container-body {
+    flex: 1;
+    padding-left: 15px;
+}
+
+.row-line {
+    display: flex;
+    gap: 90px;
+    margin-bottom: 6px;
+    align-items: center;
+    color: black;
+
+}
+
+.container-row-bg {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.container-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.label {
+    color: #aa1f1f;
+    font-weight: bolder;
+    white-space: nowrap;
+}
+
+.field {
+    border: none;
+    border-radius: 10px !important;
+    height: 30px !important;
+    /*padding: 0 10px;*/
+    width: 100%;
+    color: black;
+}
+
+
+.container-panel {
+    font-family: "Ronnia Regular", sans-serif;
+    color: black;
+    width:100%;
+    background:white;
+}
+.section-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:6px;
+}
+.section-title{
+    flex:1;
+    border-radius:12px;
+    background:#58b698;
+
+    padding:6px 10px;
+
+    font-size:18px;
+    font-weight:700;
+
+    color:black;
+}
+.section-title-none{
+    flex:1;
+
+    background:white;
+
+    padding:6px 10px;
+
+    font-size:18px;
+    font-weight:700;
+
+    color:black;
+}
+.section-head-values{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-left:8px;
+}
+.head-pill{
+    width:48px;
+    height:34px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#58b698;
+
+    border-radius:12px;
+
+    font-size:16px;
+    font-weight:700;
+
+    color:black;
+}
+.mobility-bar{
+    display:flex;
+    width:100%;
+    max-width:700px;
+
+    font-family:Arial, sans-serif;
+    font-weight:bold;
+    padding-right: 20px;
+    padding-left: 20px;
+    overflow:hidden;
+    position: absolute;
+    top: -27px;
+}
+#contenido2{
+    padding-top: 90px;
+    padding-left: 20px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+.mobility-item{
+    text-align: center;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: black;
+    font-weight: bold;
+}
+h4 {
+    font-family: "Ronnia Regular", sans-serif !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
+    color: black;
+}
+
+/* =========================
+   COLORES
+========================= */
+
+.mobility-green{
+    width: 50%;
+    background:#58b698;
+}
+
+.mobility-beige{
+    background:#fed4a2;
+    width: 13%;
+}
+
+.mobility-light{
+    background:#ffe9d5;
+    width: 37%;
+}
+.table-row{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        55px
+        48px
+        48px
+        48px;
+
+    align-items:center;
+
+    column-gap:10px;
+
+    margin-bottom:7px;
+}
+.label-name{
+    font-size:16px;
+    color:black;
+    line-height:1.1;
+}
+.code-name{
+    text-align:center;
+
+    color:#aa1f1f;
+
+    font-size:16px;
+    font-weight:700;
+}
+.value-pill{
+    height:30px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:white;
+
+    border:1.8px solid #3d3d3d;
+    border-radius:12px;
+
+    font-size:16px;
+    font-weight:500;
+
+    color:black;
+}
+.section-spacing{
+    margin-bottom:14px;
+}
+.main-body {
+    background-color: white !important;
+}
+
+p {
+    font-family: "Ronnia Regular", sans-serif !important;
+    font-size: 20px !important;
+}
+
+span {
+    font-family: "Ronnia Regular", sans-serif !important;
+}
+
+
+h1 {
+    font-family: "Ronnia Regular", sans-serif !important;
+    font-weight: bold;
+}
+
+input {
+    font-family: "Ronnia Regular", sans-serif !important;
+}
+
+
+.container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+input {
+    border-radius: 15px !important;
+    height: 35px !important;
+}
+
+.txt-force-black {
+    color: black;
+}
+
+.card {
+    border-radius: 0px;
+    box-shadow: none;
+    border: 0px solid #b3b3b3;
+    background: white !important;
+}
+
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.title {
+    text-align: left;
+    font-size: 18px;
+    padding-bottom: 10px;
+}
+
+.th-box {
+    border: 2px solid black;
+    text-align: center;
+    height: 23px;
+    font-weight: bold;
+    padding: 0px;
+}
+
+.th-box-left {
+    width: 546px;
+    position: absolute;
+    height: 25px;
+    border: 2px solid black;
+    margin-left: -61px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: -1px;
+    z-index: 1;
+}
+
+.label-table {
+    padding: 4px 6px;
+}
+
+.code {
+    width: 50px;
+    text-align: right;
+    font-weight: bold;
+    color: black;
+}
+
+.num {
+    width: 60px;
+    text-align: center;
+}
+
+.line-left {
+    border-left: 2px solid #5e69aa;
+}
+
+.divider-row td {
+    border-bottom: 1.3px solid #5e69aa;
+    padding-bottom: 6px;
+}
+
+tbody tr td {
+    padding: 3px 6px;
+}
+
+.title-doc {
+    color: black;
+    font-size: 20px !important;
+    font-weight: bold !important;
+}

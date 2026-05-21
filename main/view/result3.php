@@ -2100,7 +2100,7 @@ if($answer_questions2['response'] == '1'){
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
                                 <div class="main-content-label mg-b-5">
-                                    <h1 style="text-align: center;color:black" id="jsonvalue1">INFORME INTERPRETATIVO MACI</h1>
+                                    <h1 style="text-align: center;color:black" id="jsonvalue1"></h1>
                                 </div>
                                 <div class="card-body">
                                     <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue2">ACTITUD ANTE LA PRUEBA</span></p>
