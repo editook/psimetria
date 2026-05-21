@@ -80,66 +80,51 @@ $answers = $answerModel->getAll($register['codes']);
 
 $cientifico_ac = $baremoConfiguration->sumatoria($answers,[45,59,65,71,81,123]);
 $cientifico_pr = $baremoConfiguration->sumatoria($answers,[62,74,76,130,142,148]);
-//echo $cientifico_ac .'<br>';
-//echo $cientifico_pr .'<br><br>';
+
 $tecnico_ac = $baremoConfiguration->sumatoria($answers,[7,35,77,87,105,107,]);
 $tecnico_pr = $baremoConfiguration->sumatoria($answers,[2,56,110,120,128,152]);
 $s = $baremoConfiguration->getByItemOrder($answers,152);
-//echo $tecnico_ac .'<br>';
-//echo $tecnico_pr .'<br><br>';
+
 
 $sanidad_ac = $baremoConfiguration->sumatoria($answers,[5,37,73,135,143,167,]);
 $sanidad_pr = $baremoConfiguration->sumatoria($answers,[18,104,112,132,158,178]);
-//echo $sanidad_ac .'<br>';
-//echo $sanidad_pr .'<br><br>';
+
 $cientificosocial_ac = $baremoConfiguration->sumatoria($answers,[17,91,93,113,115,159,]);
 $cientificosocial_pr = $baremoConfiguration->sumatoria($answers,[48,95,126,146,172,174]);
-//echo $cientificosocial_ac .'<br>';
-//echo $cientificosocial_pr .'<br><br>';
+
 $juridicosocial_ac = $baremoConfiguration->sumatoria($answers,[23,29,89,119,137,145,]);
 $juridicosocial_pr = $baremoConfiguration->sumatoria($answers,[6,32,99,102,108,170]);
-//echo $juridicosocial_ac .'<br>';
-//echo $juridicosocial_pr .'<br><br>';
+
 $comunicacion_ac = $baremoConfiguration->sumatoria($answers,[13,51,75,103,133,157,]);
 $comunicacion_pr = $baremoConfiguration->sumatoria($answers,[4,22,92,144,150,160,]);
-//echo $comunicacion_ac .'<br>';
-//echo $comunicacion_pr .'<br><br>';
+
 $psicopedagogia_ac = $baremoConfiguration->sumatoria($answers,[43,57,67,100,109,177]);
 $psicopedagogia_pr = $baremoConfiguration->sumatoria($answers,[66,88,134,140,162,164,]);
-//echo $psicopedagogia_ac .'<br>';
-//echo $psicopedagogia_pr .'<br><br>';
+
 $empresarial_admin_ac = $baremoConfiguration->sumatoria($answers,[33,53,83,153,169,175]);
 $empresarial_admin_pr = $baremoConfiguration->sumatoria($answers,[8,40,46,72,118,166,]);
-//echo $empresarial_admin_ac .'<br>';
-//echo $empresarial_admin_pr .'<br><br>';
+
 $informatica_ac = $baremoConfiguration->sumatoria($answers,[3,25,55,63,141,149,]);
 $informatica_pr = $baremoConfiguration->sumatoria($answers,[20,44,50,80,138,154,]);
-//echo $informatica_ac .'<br>';
-//echo $informatica_pr .'<br><br>';
+
 $agrario_ac = $baremoConfiguration->sumatoria($answers,[31,47,79,96,101,125,]);
 $agrario_pr = $baremoConfiguration->sumatoria($answers,[12,54,64,94,116,176,]);
-//echo $agrario_ac .'<br>';
-//echo $agrario_pr .'<br><br>';
+
 $artistico_plastico_ac = $baremoConfiguration->sumatoria($answers,[9,85,117,131,165,179]);
 $artistico_plastico_pr = $baremoConfiguration->sumatoria($answers,[14,60,78,90,106,124,]);
-//echo $artistico_plastico_ac .'<br>';
-//echo $artistico_plastico_pr .'<br><br>';
+
 $artistico_musical_ac = $baremoConfiguration->sumatoria($answers,[15,21,61,82,155,163,]);
 $artistico_musical_pr = $baremoConfiguration->sumatoria($answers,[26,42,52,82,122,168]);
-//echo $artistico_musical_ac .'<br>';
-//echo $artistico_musical_pr .'<br><br>';
+
 $fuerzas_ac = $baremoConfiguration->sumatoria($answers,[1,11,19,27,49,173]);
 $fuerzas_pr = $baremoConfiguration->sumatoria($answers,[16,69,70,86,114,180]);
-//echo $fuerzas_ac .'<br>';
-//echo $fuerzas_pr .'<br><br>';
+
 $deportes_ac = $baremoConfiguration->sumatoria($answers,[41,68,121,129,147,151,]);
 $deportes_pr = $baremoConfiguration->sumatoria($answers,[28,36,38,84,97,156,]);
-//echo $deportes_ac .'<br>';
-//echo $deportes_pr .'<br><br>';
+
 $turismo_ac = $baremoConfiguration->sumatoria($answers,[39,111,127,139,161,171]);
 $turismo_pr = $baremoConfiguration->sumatoria($answers,[10,24,30,34,58,136]);
-//echo $turismo_ac .'<br>';
-//echo $turismo_pr .'<br><br>';
+
 $cientifico_ac_pc = $baremo->getCientifico("Ac",$cientifico_ac);
 $cientifico_pr_pc = $baremo->getCientifico("Pr",$cientifico_pr);
 
