@@ -11,13 +11,14 @@
     align-items: center;
 }
 
-.divider{
+.divider {
     height: stretch;
     width: 3px;
     background: white;
     position: absolute;
     left: 65px;
 }
+
 .container-left {
     display: flex;
     align-items: center;
@@ -162,13 +163,16 @@
     padding: 3px 0;
     color: black;
 }
+
 .total .label-text {
-  font-weight: bold;
-  font-size: 20px;
+    font-weight: bold;
+    font-size: 20px;
 }
+
 .bold {
-  font-weight: bold;
+    font-weight: bold;
 }
+
 .mr4 {
     margin-right: 4px;
 }
@@ -236,36 +240,42 @@ input {
 }
 
 .risk-bar {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  overflow: hidden;
-  font-family: sans-serif;
-  font-size: 14px;
-  text-align: center;
-  margin-top: -46px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow: hidden;
+    font-family: sans-serif;
+    font-size: 14px;
+    text-align: center;
+    margin-top: -46px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 /* segmentos */
 .segment {
-  padding: 4px 0;
-  font-weight: 500;
-  justify-content: center;
-  color: black;
+    padding: 4px 0;
+    font-weight: 500;
+    justify-content: center;
+    color: black;
 }
 
 /* colores */
 .bajo {
-  background-color: #c0d7ea; 
+    background-color: #c0d7ea;
+    width: 263px;
 }
 
 .media {
-  background-color: #4fab8a; 
+    background-color: #4fab8a;
+    width: 142px;
 }
 
 .moderado {
-  background-color: #eed7a4; 
+    background-color: #eed7a4;
+    width: 74px;
 }
 
 .grave {
-  background-color: #FAF4E6; 
+    background-color: #FAF4E6;
+    width: 63px;
 }

@@ -199,6 +199,7 @@ $item2A0 = [
     143 => 2,
     149 => 2,
 ];
+
 $item2A = $maciConfigurationModel->sumatoriaMaci($answers,$item2A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item2A0,0);
 
 $item2B1 = [
@@ -1299,59 +1300,61 @@ $alteracionTB = $baremo->getValueZ($alteracionPD);
 
 $ajusteX = $maciConfigurationModel->getRawScoreScaleX($transparenciaPD);
 $ajusteAD = 0;
-if ($sentimientoAncPD < 85 && $afectoDepresivoPD < 85) {
+
+$EETB = $baremo->getValueEE($sentimientoAncPD);
+
+$FFTB = $baremo->getValueFF($afectoDepresivoPD);
+if ($EETB < 85 && $FFTB < 85) {
     $ajusteAD = 0;
-} elseif ($sentimientoAncPD >= 85 && $afectoDepresivoPD < 85) {
-    $ajusteAD = $sentimientoAncPD - 84;
-} elseif ($afectoDepresivoPD >= 85 && $sentimientoAncPD < 85) {
-    $ajusteAD = $afectoDepresivoPD - 84;
+} elseif ($EETB >= 85 && $FFTB < 85) {
+    $ajusteAD = $EETB - 84;
+} elseif ($FFTB >= 85 && $EETB < 85) {
+    $ajusteAD = $FFTB - 84;
 } else {
-    $ajusteAD = ($sentimientoAncPD - 84) + ($afectoDepresivoPD - 84);
+    $ajusteAD = ($EETB - 84) + ($FFTB - 84);
 }
 
 $ajusteD1 = $maciConfigurationModel->getSettingAD($ajusteAD);
 $introversionTB = $baremo->getValue1($introversionPD);
-$introversionTB_total = $introversionTB + $ajusteX;//
+$introversionTB_total = $maciConfigurationModel->getTBTotal($introversionTB , $ajusteX);
 //echo $introversionPD.'<br>';
-//echo $introversionTB.'<br>';
 $inhibidoTB = $baremo->getValue2A($inhibidoPD);
-$inhibidoTB_total = $inhibidoTB+ ($ajusteX) +($ajusteD1);
-//echo $inhibidoPD.'<br>';
-//echo $inhibidoTB.'<br>';
+$inhibidoTB_total = $maciConfigurationModel->getTBTotal($inhibidoTB, ($ajusteX) +($ajusteD1));
+
 $pesimistaTB = $baremo->getValue2B($pesimistaPD);
-$pesimistaTB_total = $pesimistaTB + ($ajusteX) +($ajusteD1);
+$pesimistaTB_total = $maciConfigurationModel->getTBTotal($pesimistaTB , ($ajusteX) +($ajusteD1));
 //echo $pesimistaTB.'<br>';
 $sumisoTB = $baremo->getValue3($sumisoPD);
-$sumisoTB_total = $sumisoTB+ $ajusteX;
+$sumisoTB_total = $maciConfigurationModel->getTBTotal($sumisoTB, $ajusteX);
 //echo $sumisoTB.'<br>';
 $histrionicoTB = $baremo->getValue4($histrionicoPD);
-$histrionicoTB_total = $histrionicoTB + $ajusteX;
-//echo $histrionicoTB.'<br>';
+$histrionicoTB_total = $maciConfigurationModel->getTBTotal($histrionicoTB , $ajusteX);
+
 
 $egocentricoTB = $baremo->getValue5($egocentricoPD);
-$egocentricoTB_total = $egocentricoTB + $ajusteX;
+$egocentricoTB_total = $maciConfigurationModel->getTBTotal($egocentricoTB , $ajusteX);
 
 $rebeldeTB = $baremo->getValue6A($rebeldePD);
-$rebeldeTB_total = $rebeldeTB + $ajusteX;
+$rebeldeTB_total = $maciConfigurationModel->getTBTotal($rebeldeTB , $ajusteX);
 //echo $rebeldeTB.'<br>';
 
 $rudoTB = $baremo->getValue6B($rudoPD);
-$rudoTB_total = $rudoTB + $ajusteX;
+$rudoTB_total = $maciConfigurationModel->getTBTotal($rudoTB , $ajusteX);
 //echo $rudoTB.'<br>';
 
 $conformistaTB = $baremo->getValue7($conformistaPD);
-$conformistaTB_total = $conformistaTB + $ajusteX;
+$conformistaTB_total = $maciConfigurationModel->getTBTotal($conformistaTB , $ajusteX);
 //echo $conformistaTB.'<br>';
 
 $oposicionistaTB = $baremo->getValue8A($oposicionistaPD);
-$oposicionistaTB_total = ($oposicionistaTB + $ajusteX);
+$oposicionistaTB_total = $maciConfigurationModel->getTBTotal($oposicionistaTB , $ajusteX);
 //echo $oposicionistaTB.'<br>';
 
 $autopunitivoTB = $baremo->getValue8B($autopunitivoPD);
-$autopunitivoTB_total = ($autopunitivoTB + ($ajusteX) +($ajusteD1));
+$autopunitivoTB_total = $maciConfigurationModel->getTBTotal($autopunitivoTB , ($ajusteX) +($ajusteD1));
 //echo $autopunitivoTB.'<br>';
 $tendencialimiteTB = $baremo->getValue9($tendencia_limitePD);
-$tendencialimiteTB_total = $tendencialimiteTB + ($ajusteX) +($ajusteD1);
+$tendencialimiteTB_total = $maciConfigurationModel->getTBTotal($tendencialimiteTB , ($ajusteX) +($ajusteD1));
 //echo $tendencialimiteTB.'<br>';
 //----------------------------------
 //echo $deseabilidadTB.'<br>';
@@ -1360,16 +1363,15 @@ $indiceBuscar = abs($deseabilidadTB - $alteracionTB);
 //echo $indiceBuscar.'<br>';
 $ajusteD = 0;
 if($indiceBuscar>4){
-    $ajusteD = $maciConfigurationModel->getDifereceYZ($indiceBuscar);
+    $ajusteD = $maciConfigurationModel->getDifereceYZ($deseabilidadTB - $alteracionTB);
 }
+
 //echo $ajusteD.'*****<br>';
 ////echo $introversionTB.'-'.$inhibidoTB.'-'.$pesimistaTB.'-'.$sumisoTB.'-'.$histrionicoTB.'-'.$egocentricoTB.'-'.$rebeldeTB.'-'.$rudoTB.'-'.$conformistaTB.'-'.$oposicionistaTB.'-'.$autopunitivoTB.'<br>';
 $ajusteT = $maciConfigurationModel->getPrototipoPersonalidad([],$introversionTB,$inhibidoTB,$pesimistaTB,$sumisoTB,$histrionicoTB,$egocentricoTB,$rebeldeTB,$rudoTB,$conformistaTB,$oposicionistaTB,$autopunitivoTB);
 $ajusteDC = $ajusteT['valor'];
-//echo $ajusteDC.'+<br>';
 
 $difusionIdentidadTB = $baremo->getValueA($difusionIdentidadPD) +($ajusteD) +($ajusteDC);
-//echo $conformistaTB.'<br>';
 
 $desvalorizacionMismoTB = $baremo->getValueB($desvalorizacionMismoPD) +($ajusteD)+($ajusteDC);
 //echo $desvalorizacionMismoTB.'<br>';
@@ -1411,6 +1413,7 @@ $afectoDepresivoTB = $baremo->getValueFF($afectoDepresivoPD)+($ajusteD)+($ajuste
 //echo $afectoDepresivoTB.'<br>';
 
 $tendenciaSuicidioTB = $baremo->getValueGG($tendenciaSuicidioPD)+($ajusteD)+($ajusteDC);
+
 //echo $tendenciaSuicidioTB.'<br>';
 $mensaje_fiabilidad = "Valor no reconocido";
 if ($response_fiabilidad_pd == 0) {
@@ -1484,20 +1487,21 @@ if ($tendencialimiteTB_total <= 60) {
 }
 $gravestendencia = "Tendencia límite (Mide la inestabilidad emocional significativa, con fluctuaciones en el estado de ánimo, dificultades en la identidad y comportamientos autodestructivos) ";
 $gravestendencia .= $register['id_client'] . " obtuvo una puntuación de TB ".$tendencialimiteTB_total .", ".$mensaje_tendencia_limite;
-
+//raro
 $introversionTB_totalt = $introversionTB_total + (12-36+2)*0.001;
 $inhibidoTB_totalt = $inhibidoTB_total + (12-37+2)*0.001;
+
 $pesimistaTB_totalt = $pesimistaTB_total + (12-38+2)*0.001;
 $sumisoTB_totalt = $sumisoTB_total + (12-39+2)*0.001;
-$histrionicoTB_totalt = $histrionicoTB_total + (12-39+2)*0.001;
-$egocentricoTB_totalt = $egocentricoTB_total + (12-40+2)*0.001;
-$rebeldeTB_totalt = $rebeldeTB_total + (12-41+2)*0.001;
-$rudoTB_totalt = $rudoTB_total + (12-42+2)*0.001;
-$conformistaTB_totalt = $conformistaTB_total + (12-43+2)*0.001;
-$oposicionistaTB_totalt = $oposicionistaTB_total + (12-44+2)*0.001;
-$autopunitivoTB_totalt = $autopunitivoTB_total + (12-45+2)*0.001;
+$histrionicoTB_totalt = $histrionicoTB_total + (12-40+2)*0.001;
+$egocentricoTB_totalt = $egocentricoTB_total + (12-41+2)*0.001;
+$rebeldeTB_totalt = $rebeldeTB_total + (12-42+2)*0.001;
+$rudoTB_totalt = $rudoTB_total + (12-43+2)*0.001;
+$conformistaTB_totalt = $conformistaTB_total + (12-44+2)*0.001;
+$oposicionistaTB_totalt = $oposicionistaTB_total + (12-45+2)*0.001;
+$autopunitivoTB_totalt = $autopunitivoTB_total + (12-46+2)*0.001;
 
-$tendencialimiteTB_totalt = $tendencialimiteTB_total + (12-45+2)*0.001;
+$tendencialimiteTB_totalt = $tendencialimiteTB_total + (12-47+2)*0.001;
 
 $primero = $maciConfigurationModel->getPrototipoPersonalidad([],$introversionTB_totalt,$inhibidoTB_totalt,$pesimistaTB_totalt,$sumisoTB_totalt,$histrionicoTB_totalt,$egocentricoTB_totalt,$rebeldeTB_totalt,$rudoTB_totalt,$conformistaTB_totalt,$oposicionistaTB_totalt,$autopunitivoTB_totalt);
 $primero_texto = $maciConfigurationModel->getPersonalidadPP($primero['llave']);
@@ -2022,13 +2026,13 @@ if($answer_questions2['response'] == '1'){
                                                     <td class="num"><?=$discordanciaFamiliarPD?></td>
                                                     <td class="num line-left"><?=$discordanciaFamiliarTB?></td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="divider-row">
                                                     <td class="label-table">Abusos en la infancia</td>
                                                     <td class="code">H</td>
                                                     <td class="num"><?=$abusosInfanciaPD?></td>
                                                     <td class="num line-left"><?=$abusosInfanciaTB?></td>
                                                 </tr>
-                                                <tr class="divider-row">
+                                                <tr >
                                                     <td class="label-table">Trastornos de la alimentación</td>
                                                     <td class="code">AA</td>
                                                     <td class="num"><?=$transtornoAlimentacionPD?></td>
@@ -2088,8 +2092,8 @@ if($answer_questions2['response'] == '1'){
                                         <div class="ht-100 ht-sm-300" style="margin-top: 54px;width: 100%;;height: 110px !important;" id="flotLine2"></div>
                                         <div class="ht-100 ht-sm-300" style="width: 100%;height: 341px !important;margin-top: -12px;" id="flotLineIndGeneral"></div>
                                         <div class="ht-100 ht-sm-300" style="width: 100%;height: 40px !important;margin-top: -9px;" id="flotLineIndRiesgoPat"></div>
-                                        <div class="ht-100 ht-sm-300" style="width: 100%;height: 286px !important;margin-top: -10px;" id="flotLineEscalasClinicas"></div>
-                                        <div class="ht-100 ht-sm-300" style="margin-left:-16px;width: 105.5%;height: 200px !important;margin-top: -30px;" id="flotLineSindromesClinicos"></div>
+                                        <div class="ht-100 ht-sm-300" style="width: 100%;height: 240px  !important;margin-top: -5px;" id="flotLineEscalasClinicas"></div>
+                                        <div class="ht-100 ht-sm-300" style="margin-left:-16px;width: 105.5%;height: 210px !important;margin-top: 2px;" id="flotLineSindromesClinicos"></div>
                                         
                                     </div>
                                 </div>
@@ -2302,6 +2306,15 @@ if($answer_questions2['response'] == '1'){
             const name_user = "<?php echo $register['id_client'] ?>";
             const testname = "<?php echo $register['type_question_name']?>";
             const filenamepdf = (name_user+"_"+testname).replace(/\s+/g, '');
+            function getLimitMax(list){
+                list.forEach(element => {
+                    if(element[0]>115){
+                        element[0] = 115;
+                    }
+                    
+                });
+                return list;
+            }
             var jsonpdf = [];
             jsonpdf.push({type:2,image:"contenido1"} );
             jsonpdf.push({type:2,image:"contenido2"} );
@@ -2414,6 +2427,8 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
+            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:7,text:getvalue('jsonvalue41')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue42')} );
@@ -2434,14 +2449,53 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:8,text:getvalue('jsonvalue48')} );
             
+            var flotLine2 = [
+                [<?=$transparenciaTB?>,8],
+                [<?=$deseabilidadTB?>,3],
+                [<?=$alteracionTB?>,-2]
+            ];
+            var flotLineIndGeneral = [
+                [<?=$introversionTB_total?>, 100],
+                [<?=$inhibidoTB_total?>, 90],
+                [<?=$pesimistaTB_total?>, 80],
+                [<?=$sumisoTB_total?>, 70],
+                [<?=$histrionicoTB_total?>, 60],
+                [<?=$egocentricoTB_total?>, 50],
+                [<?=$rebeldeTB_total?>, 40],
+                [<?=$rudoTB_total?>, 30],
+                [<?=$conformistaTB_total?>, 20],
+                [<?=$oposicionistaTB_total?>, 10],
+                [<?=$autopunitivoTB_total?>, 0]
+            ];
+            var flotLineIndRiesgoPat = [
+                [<?=$tendencialimiteTB_total?>, 9]
+            ];
+            var flotLineEscalasClinicas = [
+                [<?=$difusionIdentidadTB?>, 72.8],
+                [<?=$desvalorizacionMismoTB?>, 62.4],
+                [<?=$desagradoPropioTB?>, 52],
+                [<?=$incomodidadRespetoTB?>, 41,6],
+                [<?=$inseguridadIgualTB?>, 31.2],
+                [<?=$insencibilidadSocialTB?>, 20.8],
+                [<?=$discordanciaFamiliarTB?>, 10.4],
+                [<?=$abusosInfanciaTB?>, 0],
+            ];
+            var flotLineSindromesClinicos = [
+                [<?=$transtornoAlimentacionTB?>, 75],    
+                [<?=$inclinacionAbusoSusTB?>, 62.5],
+                [<?=$predisposicionDeliTB?>, 50],
+                [<?=$propensionInTB?>, 37.5],
+                [<?=$sentimientoAncTB?>, 25],
+                [<?=$afectoDepresivoTB?>, 12.5],
+                [<?=$tendenciaSuicidioTB?>, 1]
+            ];
+            
             $(function() {
             'use strict';
                 var colorLine = "black";
-                var flotLine2 = [
-                    [<?=$transparenciaTB?>,8],
-                    [<?=$deseabilidadTB?>,3],
-                    [<?=$alteracionTB?>,-2]
-                ];
+                
+                
+                flotLine2 = getLimitMax(flotLine2);
                 
                 var plot = $.plot($('#flotLine2'), [{
                     data: flotLine2,
@@ -2500,19 +2554,8 @@ if($answer_questions2['response'] == '1'){
                     }
                 });
                 //segunda grafica
-                var flotLineIndGeneral = [
-                    [<?=$introversionTB_total?>, 100],
-                    [<?=$inhibidoTB_total?>, 90],
-                    [<?=$pesimistaTB_total?>, 80],
-                    [<?=$sumisoTB_total?>, 70],
-                    [<?=$histrionicoTB_total?>, 60],
-                    [<?=$egocentricoTB_total?>, 50],
-                    [<?=$rebeldeTB_total?>, 40],
-                    [<?=$rudoTB_total?>, 30],
-                    [<?=$conformistaTB_total?>, 20],
-                    [<?=$oposicionistaTB_total?>, 10],
-                    [<?=$autopunitivoTB_total?>, 0]
-                ];
+                
+                flotLineIndGeneral = getLimitMax(flotLineIndGeneral);
                 
                 var plot = $.plot($('#flotLineIndGeneral'), [{
                     data: flotLineIndGeneral,
@@ -2568,11 +2611,9 @@ if($answer_questions2['response'] == '1'){
                         show:false
                     }
                 });
-            //tercera grafica
-            var flotLineIndRiesgoPat = [
-                    [<?=34?>, 6]
-                ];
+                //tercera grafica
                 
+                flotLineIndRiesgoPat = getLimitMax(flotLineIndRiesgoPat);
                 var plot = $.plot($('#flotLineIndRiesgoPat'), [{
                     data: flotLineIndRiesgoPat,
                     label: 'Data',
@@ -2630,17 +2671,8 @@ if($answer_questions2['response'] == '1'){
                 });
 
                 //cuarta grafica
-                var flotLineEscalasClinicas = [
-                    [<?=$difusionIdentidadTB?>, 70],
-                    [<?=$desvalorizacionMismoTB?>, 60],
-                    [<?=$desagradoPropioTB?>, 50],
-                    [<?=$incomodidadRespetoTB?>, 40],
-                    [<?=$inseguridadIgualTB?>, 30],
-                    [<?=$insencibilidadSocialTB?>, 20],
-                    [<?=$discordanciaFamiliarTB?>, 10],
-                    [<?=$abusosInfanciaTB?>, 0],
-                ];
                 
+                flotLineEscalasClinicas = getLimitMax(flotLineEscalasClinicas);
                 var plot = $.plot($('#flotLineEscalasClinicas'), [{
                     data: flotLineEscalasClinicas,
                     label: 'Data',
@@ -2697,16 +2729,8 @@ if($answer_questions2['response'] == '1'){
                     }
                 });
             //quinta grafica 
-            var flotLineSindromesClinicos = [
-                    [<?=$transtornoAlimentacionTB?>, 60],
-                    [<?=$inclinacionAbusoSusTB?>, 50],
-                    [<?=$predisposicionDeliTB?>, 40],
-                    [<?=$propensionInTB?>, 30],
-                    [<?=$sentimientoAncTB?>, 20],
-                    [<?=$afectoDepresivoTB?>, 10],
-                    [<?=$tendenciaSuicidioTB?>, 0]
-                ];
                 
+                flotLineSindromesClinicos = getLimitMax(flotLineSindromesClinicos);
                 var plot = $.plot($('#flotLineSindromesClinicos'), [{
                     data: flotLineSindromesClinicos,
                     label: 'Data',
@@ -2739,7 +2763,7 @@ if($answer_questions2['response'] == '1'){
                     },
                     yaxis: {
                         min: -5,
-                        max: 65,
+                        max: 75,
                         color: '#737f9e',
                         ticks: [[0, ''], [65, '']], 
                         tickColor: 'rgba(171, 167, 167, 0)',
@@ -2839,7 +2863,7 @@ if($answer_questions2['response'] == '1'){
                             }
                             ,
                             { 
-                                yaxis: { from: 2.32, to: 2.32 },
+                                yaxis: { from: 2.7, to: 2.7 },
                                 color: 'white', // color rojo
                                 lineWidth: 2
                             }
