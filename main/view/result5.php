@@ -3,7 +3,6 @@ include_once('../configs.php');
 //MASR-2
 session_start();
 require '../../vendor/autoload.php';
-use Dompdf\Dompdf;
 
 include('../connection.php');
 include("../models/model_register.php");
@@ -26,7 +25,7 @@ $idpatient = 0;
 
 $device = $registerModel->getDeviceType();
 if ($device === 'mobile') {
-    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    include("../include/no_permit.php");
     exit;
 }
 
@@ -355,7 +354,7 @@ if($answer_questions1['response'] == '1'){
 		<link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
 
 		<!--- Style css-->
-		<link href="../../assets/css/style.css" rel="stylesheet">
+		<link href="../../assets/css/style.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
 		<link href="../../assets/css/style-dark.css" rel="stylesheet">
 		<link href="../../assets/css/boxed.css" rel="stylesheet">
 		<link href="../../assets/css/dark-boxed.css" rel="stylesheet">

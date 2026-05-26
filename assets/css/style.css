@@ -107,7 +107,33 @@ License        :   Licensed under ThemeForest License
 
 
 /*shadow variables*/
+/* Scroll vertical */
+::-webkit-scrollbar {
+    width: 7px !important;
+    height: 7px !important;
+}
 
+/* Scroll horizontal */
+::-webkit-scrollbar:horizontal {
+    height: 20px;
+}
+
+/* Fondo del scroll */
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 10px !important;
+}
+
+/* Barra */
+::-webkit-scrollbar-thumb {
+    background: #6d6d6d;
+    border-radius: 10px !important;
+}
+
+/* Hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #494949;
+}
 .accordion>.card {
     overflow: hidden;
 }

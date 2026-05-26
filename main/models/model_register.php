@@ -74,7 +74,7 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
     public function getById($idUser,$id)
     {
         $query =
-        "SELECT client.*,baremo.name,type_question.name as type_question_name,users.full_name as evaluador
+        "SELECT client.*,baremo.name,type_question.name as type_question_name,users.full_name as evaluador, type_question.type_show_result as is_show_result
             FROM client
             INNER JOIN baremo
             ON client.baremo_id = baremo.id
@@ -156,6 +156,17 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
             "UPDATE client
              SET `status`       = '$status'
             WHERE belong_id = $idUser and id=$idPatient";
+
+        return $con->execute_query($query);
+    }
+
+    public function updateStatusShowResult(int $id_type,int $status){
+        $con = new Connection();
+
+        $query =
+            "UPDATE type_question
+             SET `type_show_result`       = '$status'
+            WHERE id = $id_type ";
 
         return $con->execute_query($query);
     }

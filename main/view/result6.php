@@ -4,8 +4,6 @@ include_once('../configs.php');
 session_start();
 require '../../vendor/autoload.php';
 
-use Dompdf\Dompdf;
-
 include('../connection.php');
 include("../models/model_register.php");
 include("../models/model_question.php");
@@ -28,7 +26,7 @@ $idpatient = 0;
 
 $device = $registerModel->getDeviceType();
 if ($device === 'mobile') {
-    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    include("../include/no_permit.php");
     exit;
 }
 
@@ -479,7 +477,7 @@ if($totalrechazos>0){
     <link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
 
     <!--- Style css-->
-    <link href="../../assets/css/style.css" rel="stylesheet">
+    <link href="../../assets/css/style.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
     <link href="../../assets/css/style-dark.css" rel="stylesheet">
     <link href="../../assets/css/boxed.css" rel="stylesheet">
     <link href="../../assets/css/dark-boxed.css" rel="stylesheet">
@@ -1215,9 +1213,6 @@ if($totalrechazos>0){
         jsonpdf.push({type:5,text:''} );
         jsonpdf.push({type:8,text:getvalue('jsonvalue8')} );
         jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
         jsonpdf.push({type:5,text:getvalue('jsonvalue9')} );
         jsonpdf.push({type:5,text:''} );
         jsonpdf.push({type:7,text:getvalue('jsonvalue9_1')} );
@@ -1253,15 +1248,8 @@ if($totalrechazos>0){
         jsonpdf.push({type:5,text:''} );
         jsonpdf.push({type:8,text:getvalue('jsonvalue29')} );
         jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:8,text:getvalue('jsonvalue30')} );//fallando desde aqui
+        jsonpdf.push({type:8,text:getvalue('jsonvalue30')} );
         jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} ); 
         jsonpdf.push({type:5,text:getvalue('jsonvalue31')} );
         jsonpdf.push({type:5,text:''} );
         jsonpdf.push({type:5,text:getvalue('jsonvalue32')} );
@@ -1279,8 +1267,6 @@ if($totalrechazos>0){
         jsonpdf.push({type:5,text:getvalue('jsonvalue38')} );
         jsonpdf.push({type:5,text:''} );
         jsonpdf.push({type:8,text:getvalue('jsonvalue39')} );
-        jsonpdf.push({type:5,text:''} );
-        jsonpdf.push({type:5,text:''} );
         jsonpdf.push({type:5,text:''} );
         jsonpdf.push({type:5,text:getvalue('jsonvalue40')} );
         jsonpdf.push({type:5,text:''} );

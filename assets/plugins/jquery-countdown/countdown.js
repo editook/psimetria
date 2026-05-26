@@ -9,9 +9,9 @@ $(function () {
 		
 		$('#count-down').countDown({
 		targetDate: {
-			'day': 20,
+			'day': 2,
 			'month': 12,
-			'year': 2028,
+			'year': 2027,
 			'hour': 0,
 			'min': 0,
 			'sec': 0

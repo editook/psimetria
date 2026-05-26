@@ -27,7 +27,7 @@ $idpatient = 0;
 
 $device = $registerModel->getDeviceType();
 if ($device === 'mobile') {
-    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    include("../include/no_permit.php");
     exit;
 }
 
@@ -1647,15 +1647,16 @@ if($answer_questions2['response'] == '1'){
     $tiposresponsalbilidad21 .= "No creo tener tanto interés por el sexo como la gente de mi edad. <br>";
 }
 $answer_questions2 = $answerModel->getAll($register['codes'],59,59)[0];
-if($answer_questions2['response'] == '1'){
+
+if($answer_questions2['response'] == '0'){
     $tiposresponsalbilidad21 .= "Me incomoda coquetear (ligar). <br>";
 }
 $answer_questions2 = $answerModel->getAll($register['codes'],62,62)[0];
-if($answer_questions2['response'] == '1'){
+if($answer_questions2['response'] == '0'){
     $tiposresponsalbilidad21 .= "Me incomoda pensar en el sexo. <br>";
 }
 $answer_questions2 = $answerModel->getAll($register['codes'],94,94)[0];
-if($answer_questions2['response'] == '1'){
+if($answer_questions2['response'] == '0'){
     $tiposresponsalbilidad21 .= "Me incomoda pensar que el sexo es placentero. <br>";
 }
 $answer_questions2 = $answerModel->getAll($register['codes'],116,116)[0];
@@ -1663,18 +1664,18 @@ if($answer_questions2['response'] == '1'){
     $tiposresponsalbilidad21 .= "Muchas veces me desconcierta pensar en el sexo. <br>";
 }
 $answer_questions2 = $answerModel->getAll($register['codes'],131,131)[0];
-if($answer_questions2['response'] == '1'){
+if($answer_questions2['response'] == '0'){
     $tiposresponsalbilidad21 .= "Me incomoda con la forma en que mi cuerpo se ha desarrollado. <br>";
 }
 $answer_questions2 = $answerModel->getAll($register['codes'],143,143)[0];
-if($answer_questions2['response'] == '1'){
+if($answer_questions2['response'] == '0'){
     $tiposresponsalbilidad21 .= "Me incomoda que los sentimientos acerca del sexo se hayan convertido en una parte de mi vida. <br>";
 }
 
 
 $tiposresponsalbilidad22 = "";//D
 $answer_questions2 = $answerModel->getAll($register['codes'],55,55)[0];
-if($answer_questions2['response'] == '2'){
+if($answer_questions2['response'] == '0'){
     $tiposresponsalbilidad22 .= "He sido abusado sexualmente. <br>";
 }
 $answer_questions2 = $answerModel->getAll($register['codes'],14,14)[0];
@@ -1701,6 +1702,7 @@ $answer_questions2 = $answerModel->getAll($register['codes'],153,153)[0];
 if($answer_questions2['response'] == '1'){
     $tiposresponsalbilidad22 .= "La mayor parte del tiempo me siento solo y vacío. <br>";
 }
+
 $tiposresponsalbilidad23 = "";//D
 $answer_questions2 = $answerModel->getAll($register['codes'],62,62)[0];
 if($answer_questions2['response'] == '1'){
@@ -1753,7 +1755,7 @@ if($answer_questions2['response'] == '1'){
 		<link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
 
 		<!--- Style css-->
-		<link href="../../assets/css/style.css" rel="stylesheet">
+		<link href="../../assets/css/style.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
 		<link href="../../assets/css/style-dark.css" rel="stylesheet">
 		<link href="../../assets/css/boxed.css" rel="stylesheet">
 		<link href="../../assets/css/dark-boxed.css" rel="stylesheet">
@@ -2103,9 +2105,7 @@ if($answer_questions2['response'] == '1'){
 						
                         <div class="col-md-12">
                             <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
-                                <div class="main-content-label mg-b-5">
-                                    <h1 style="text-align: center;color:black" id="jsonvalue1"></h1>
-                                </div>
+                                
                                 <div class="card-body">
                                     <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue2">ACTITUD ANTE LA PRUEBA</span></p>
                                     <br>
@@ -2318,9 +2318,7 @@ if($answer_questions2['response'] == '1'){
             var jsonpdf = [];
             jsonpdf.push({type:2,image:"contenido1"} );
             jsonpdf.push({type:2,image:"contenido2"} );
-            
-            jsonpdf.push({type:4,text:getvalue('jsonvalue1')} );
-            jsonpdf.push({type:5,text:''} );
+
             jsonpdf.push({type:7,text:getvalue('jsonvalue2')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue3')} );
@@ -2341,7 +2339,6 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue11')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:7,text:getvalue('jsonvalue12')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
@@ -2354,35 +2351,25 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue16')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue17')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue18')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue19')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue20')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue21')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:7,text:getvalue('jsonvalue22')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue23')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue24')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue25')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue26')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue27')} );
             jsonpdf.push({type:5,text:''} );
@@ -2390,7 +2377,6 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:7,text:getvalue('jsonvalue28')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue29')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue30')} );
             jsonpdf.push({type:5,text:''} );
@@ -2400,9 +2386,7 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue32')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue33')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue34')} );
             jsonpdf.push({type:5,text:''} );
@@ -2411,9 +2395,7 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue36')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue37')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:getvalue('jsonvalue38')} );
             jsonpdf.push({type:5,text:''} );
@@ -2422,12 +2404,6 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:8,text:getvalue('jsonvalue40')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:7,text:getvalue('jsonvalue41')} );
             jsonpdf.push({type:5,text:''} );
@@ -2438,12 +2414,9 @@ if($answer_questions2['response'] == '1'){
             jsonpdf.push({type:8,text:getvalue('jsonvalue44')} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:7,text:getvalue('jsonvalue45')} );
             jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:8,text:getvalue('jsonvalue46')} );
-            jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:5,text:''} );
             jsonpdf.push({type:7,text:getvalue('jsonvalue47')} );
             jsonpdf.push({type:5,text:''} );
