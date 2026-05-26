@@ -43,6 +43,29 @@ class Question_Model
         $con = new Connection();
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
     }
+
+    public function getAllTypeQuestionBaremo(){
+        $query =
+            "SELECT
+
+                type_question.name AS type_question_name,
+                type_question.value_data,
+                type_question.id AS id_type_question_name,
+
+                baremo.name AS baremo_name,
+                baremo.id AS id_baremo,
+                baremo.active AS active_baremo
+
+            FROM baremo
+
+            INNER JOIN type_question
+                ON type_question.id = baremo.id_type_question
+             ";
+
+        $con = new Connection();
+        return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
+    }
+
     public function save($name, $type, $email, $login)
     {
         $con = new Connection();

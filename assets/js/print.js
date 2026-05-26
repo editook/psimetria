@@ -137,19 +137,32 @@ async function addTitleWidthText(pdf, value) {
 
 }
 async function addText(pdf, text, justificated = true) {
+    pdf.setFontSize(sizeFont);
+    pdf.setFont(font, 'normal');
+
+    const lines = pdf.splitTextToSize(text, maxWidth);
+    const textHeight = lines.length * lineHeight;
+
+    if (Yvalue + textHeight > 285) {
+        pdf.addPage();
+        Yvalue = 10;
+    }
+
     if (!justificated) {
         pdf.text(text, margeinLeft, Yvalue, { maxWidth: maxWidth });
     } else {
         pdf.text(text, margeinLeft, Yvalue, { maxWidth: maxWidth, align: 'justify' });
     }
-    let length = text.length;
+    Yvalue += textHeight;
+
+    /*let length = text.length;
     if (Array.isArray(text)) {
         length = text.reduce((t, s) => t + s.length, 0);
     }
     if (length > 94) {
         const count = length / 94;
         Yvalue += count * lineHeight;
-    }
+    }*/
     await addnewLine(pdf);
 }
 async function addTitle(pdf, text) {

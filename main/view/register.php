@@ -307,11 +307,7 @@
 												</tr>
 											</thead>
 											<tbody>
-                                                <?php
-                                                foreach($registers as $data){
-													
-													
-                                                ?>
+                                                <?php foreach($registers as $data){	?>
 												<tr>
 													<td>#<?=$data['id']?></td>
 													<td>

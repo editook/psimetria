@@ -4,8 +4,6 @@ include_once('../configs.php');
 session_start();
 require '../../vendor/autoload.php';
 
-use Dompdf\Dompdf;
-
 include('../connection.php');
 include("../models/model_register.php");
 include("../models/model_question.php");
@@ -28,7 +26,7 @@ $idpatient = 0;
 
 $device = $registerModel->getDeviceType();
 if ($device === 'mobile') {
-    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    include("../include/no_permit.php");
     exit;
 }
 
@@ -68,8 +66,12 @@ if ($register == null) {
 		</script>";
     exit;
 }
+if(!$register['is_show_result']){
+    include("mantenimiento.php");
+    exit;
+}
 $baremos = $baremoModel->getAll($register['id_type_question']);
-//echo json_encode($register);
+
 $baremo = new ModelBaremoPobGralVarones(); //baremo=1
 if ($register['baremo_id'] == 2) {
     $baremo = new ModelBaremoPobGralMujeres();
@@ -678,7 +680,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
     <link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
 
     <!--- Style css-->
-    <link href="../../assets/css/style.css" rel="stylesheet">
+    <link href="../../assets/css/style.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
     <link href="../../assets/css/style-dark.css" rel="stylesheet">
     <link href="../../assets/css/boxed.css" rel="stylesheet">
     <link href="../../assets/css/dark-boxed.css" rel="stylesheet">
@@ -1167,10 +1169,6 @@ if ($condicion1 || $condicion2 || $condicion3) {
             text: ''
         });
         jsonpdf.push({
-            type: 5,
-            text: ''
-        });
-        jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue6')
         });
@@ -1188,15 +1186,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue7_1')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -1212,15 +1202,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue7_3')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -1244,15 +1226,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue9_1')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -1276,15 +1250,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue13_1')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -1300,15 +1266,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue13_3')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -1323,16 +1281,8 @@ if ($condicion1 || $condicion2 || $condicion3) {
             text: ''
         });
         jsonpdf.push({
-            type: 5,
-            text: ''
-        });
-        jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue14')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -1363,14 +1313,6 @@ if ($condicion1 || $condicion2 || $condicion3) {
             text: ''
         });
         jsonpdf.push({
-            type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
-        });
-        jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue18')
         });
@@ -1387,10 +1329,6 @@ if ($condicion1 || $condicion2 || $condicion3) {
             text: ''
         });
         jsonpdf.push({
-            type: 5,
-            text: ''
-        });
-        jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue20')
         });
@@ -1401,10 +1339,6 @@ if ($condicion1 || $condicion2 || $condicion3) {
         jsonpdf.push({
             type: 8,
             text: getvalue('jsonvalue21')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,

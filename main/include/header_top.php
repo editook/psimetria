@@ -83,7 +83,7 @@ include_once('../configs.php');
                             </div>
                         </div>
                         <a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>Profile</a>
-                        <a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i> Configuracion</a>
+                        <a class="dropdown-item" href="<?=LOCALHOST?>/view/configuration.php"><i class="bx bx-slider-alt"></i> Configuracion</a>
                         <a class="dropdown-item" href="../close_session.php"><i class="bx bx-log-out"></i> Salir</a>
                     </div>
                 </li>

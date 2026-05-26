@@ -79,17 +79,11 @@ class ModelSclConfiguration {
         $resultado = "";
         if($valuestring == "Ansiedad"){
             if ($value_t <= 50) {
-                $resultado = "Indica que los niveles de síntomas depresivos reportados están dentro del rango considerado normal. "
-                . "Los sentimientos de tristeza, desánimo y falta de energía no son frecuentes ni intensos. "
-                . "Estos síntomas se consideran comunes y no generan un malestar significativo.";
+                $resultado = "indica que los niveles de síntomas de ansiedad reportados están dentro del rango considerado normal. Los síntomas como nerviosismo, agitación interior y sentirse temeroso no son frecuentes ni intensos. Estos síntomas se consideran comunes y no generan un malestar significativo.";
             } elseif ($value_t <= 63) {
-                $resultado = "Indica que los síntomas depresivos reportados son más frecuentes o intensos que los observados en la población general, "
-                . "aunque no alcanzan una severidad alta. Síntomas como sentirse bajo de energías, preocuparse demasiado por todo y sentirse solo "
-                . "pueden estar presentes en mayor medida. Esta puntuación sugiere una mayor incidencia de síntomas depresivos, aunque de intensidad moderada.";
+                $resultado = "indica que los síntomas de ansiedad reportados son más frecuentes o intensos que los observados en la población general, aunque no alcanzan una severidad alta. Síntomas  como temblores, palpitaciones rápidas del corazón y sentirse tenso pueden estar presentes en mayor medida. Esta puntuación sugiere una mayor incidencia de síntomas de ansiedad, aunque de intensidad moderada.";
             } elseif ($value_t >= 64) {
-                $resultado = "Indica que los síntomas depresivos son significativamente más frecuentes e intensos que en la población general. "
-                . "Síntomas como pensamientos suicidas, sentirse desesperanzado con respecto al futuro y la sensación de ser inútil o no valer nada son prominentes. "
-                . "Esta puntuación refleja una alta severidad de síntomas depresivos.";
+                $resultado = "indica que los síntomas de ansiedad son significativamente más frecuentes e intensos que en la población general. Síntomas como tener miedo de repente y sin  razón, sentirse tan inquieto que no puede estar sentado tranquilo, y presentimientos de que va a pasar algo malo son prominentes. Esta puntuación refleja una alta severidad de síntomas de ansiedad.";
             }
             //echo $value_t.'<br>';//quizas es un problema
             return $resultado;

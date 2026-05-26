@@ -160,10 +160,19 @@ class ModelMaciConfiguration {
 
         return $value;
     }
-
+    public function getTBTotal($TB,$ajusteXAndDB){
+        $total_tb = $TB + ($ajusteXAndDB);
+        if($total_tb<=0){
+            return 1;
+        }
+        return $total_tb;
+    }
     public function getSettingAD($index){
         if($index == 0){
             return 0;
+        }
+        if($index > 20){
+            return 15;
         }
         $pares = [1 => 1,2 => 1,3 => 2,4 => 3,5 => 4,6 => 4,7 => 5,8 => 6,9 => 7,10 => 7,11 => 8,12 => 9,13 => 10,14 => 10,15 => 11,16 => 12,17 => 13,18 => 13,19 => 14,20 => 15];
         $value = $pares[$index];

@@ -4,8 +4,6 @@ include_once('../configs.php');
 session_start();
 require '../../vendor/autoload.php';
 
-use Dompdf\Dompdf;
-
 include('../connection.php');
 include("../models/model_register.php");
 include("../models/model_question.php");
@@ -29,7 +27,7 @@ $idpatient = 0;
 
 $device = $registerModel->getDeviceType();
 if ($device === 'mobile') {
-    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    include("../include/no_permit.php");
     exit;
 }
 
@@ -386,7 +384,7 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
     <link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
 
     <!--- Style css-->
-    <link href="../../assets/css/style.css" rel="stylesheet">
+    <link href="../../assets/css/style.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
     <link href="../../assets/css/style-dark.css" rel="stylesheet">
     <link href="../../assets/css/boxed.css" rel="stylesheet">
     <link href="../../assets/css/dark-boxed.css" rel="stylesheet">
@@ -869,10 +867,6 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue4')
         });
         jsonpdf.push({
@@ -881,15 +875,7 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue5')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -921,15 +907,7 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue9')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -945,15 +923,7 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
         });
         jsonpdf.push({
             type: 5,
-            text: ''
-        });
-        jsonpdf.push({
-            type: 5,
             text: getvalue('jsonvalue11')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,
@@ -984,10 +954,6 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
             text: ''
         });
         jsonpdf.push({
-            type: 5,
-            text: ''
-        });
-        jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue15')
         });
@@ -1006,10 +972,6 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
         jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue17')
-        });
-        jsonpdf.push({
-            type: 5,
-            text: ''
         });
         jsonpdf.push({
             type: 5,

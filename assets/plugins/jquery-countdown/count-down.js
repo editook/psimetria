@@ -1,16 +1,17 @@
 $(function() {
 	"use strict";
+	const fecha = new Date();
 	//Set your date
 	$('#count-down').countDown({
 		targetDate: {
-			'day': 20,
-			'month': 12,
-			'year': 2028,
+			'day': fecha.getDate()+2,
+			'month': fecha.getMonth() + 1,
+			'year': fecha.getFullYear(),
 			'hour': 0,
 			'min': 0,
 			'sec': 0
 		},
-		omitWeeks: true
+		omitWeeks: false
 	});
 
 });

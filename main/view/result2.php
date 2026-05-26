@@ -3,7 +3,6 @@ include_once('../configs.php');
 	//AF-5
 session_start();
 require '../../vendor/autoload.php';
-use Dompdf\Dompdf;
 
 include('../connection.php');
 include("../models/model_register.php");
@@ -31,7 +30,7 @@ $idpatient = 0;
 
 $device = $registerModel->getDeviceType();
 if ($device === 'mobile') {
-    echo "No disponible para telefonos moviles o dispositivos pequeños";
+    include("../include/no_permit.php");
     exit;
 }
 
@@ -277,7 +276,7 @@ $pro_tot_pc = ($aca_pc["$aca_pd"]+$soc_pc["$soc_pd"]+$emo_pc["$emo_pd"]+$fam_pc[
 		<link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
 
 		<!--- Style css-->
-		<link href="../../assets/css/style.css" rel="stylesheet">
+		<link href="../../assets/css/style.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
 		<link href="../../assets/css/style-dark.css" rel="stylesheet">
 		<link href="../../assets/css/boxed.css" rel="stylesheet">
 		<link href="../../assets/css/dark-boxed.css" rel="stylesheet">
