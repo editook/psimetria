@@ -337,6 +337,7 @@
 															$redirect = $data['id_type_question'] == 4?'4':$redirect;
 															$redirect = $data['id_type_question'] == 5?'5':$redirect;
 															$redirect = $data['id_type_question'] == 6?'6':$redirect;
+															$redirect = $data['id_type_question'] == 7?'7':$redirect;
 															$text_test = "Ajustar";
 															if($data['status'] == 'TERMINADO'){
 																$text_test = "Ver prueba";
@@ -597,6 +598,7 @@
 					4: [46, 50],//form4
 					5: [51, 56],//form5
 					6: [57, 58],//form6
+					7: [59, 60],//form7
 				};
 
 				const [min, max] = rangos[id] || [0, 0];
