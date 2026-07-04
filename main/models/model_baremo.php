@@ -80,25 +80,19 @@ class Baremo_Model
             return $con->getLastInsertedID();
         return false;
     }
-    
-    public function update($id, $name, $type, $email, $login)
+    public function update($id, $active,$name = '')
     {
         $con = new Connection();
         $name = $con->getRealEscapeString($name);
-        $type = $con->getRealEscapeString($type);
-        $email = $con->getRealEscapeString($email);
-        $login = $con->getRealEscapeString($login);
 
         $query =
             "UPDATE baremo
-             SET name_user       = '$name',
-                 type_user       = '$type',
-                 email_user      = '$email',
-                 login_user      = '$login'
-            WHERE id_user = $id";
+             SET active       = '$active'
+            WHERE id = $id";
 
         return $con->execute_query($query);
     }
+    
 
     public function delete($id)
     {

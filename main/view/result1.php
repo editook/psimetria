@@ -566,53 +566,78 @@ if ($mag4 >= 3) {
 $message_magnificacion2 = "";
 $cant_magnificacion2 = 0;
 
-$mag4 = $answerModel->sumatoria(($answers), [2]);
-if ($mag4 == 1) {
-    $message_magnificacion2 .= $answerModel->getQuestion($answers, 2) . " (Poco). <br>";
-    $cant_magnificacion2 += 1;
+$raw_resp = $answerModel->getRawResponse($answers, 2);
+if ($raw_resp !== null && $raw_resp <= 1) {
+    $mag4 = $answerModel->sumatoria(($answers), [2]);
+    if ($mag4 <=1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 2) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $cant_magnificacion2 += 1;
+    }
 }
 
-$mag4 = $answerModel->sumatoria(($answers), [4]);
-if ($mag4 == 1) {
-    $message_magnificacion2 .= $answerModel->getQuestion($answers, 4) . " (Poco). <br>";
-    $cant_magnificacion2 += 1;
+$raw_resp = $answerModel->getRawResponse($answers, 4);
+if ($raw_resp !== null && $raw_resp <= 1) {
+    $mag4 = $answerModel->sumatoria(($answers), [4]);
+    if ($mag4 <= 1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 4) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $cant_magnificacion2 += 1;
+    }
 }
 
-$mag4 = $answerModel->sumatoria(($answers), [9]);
-if ($mag4 == 1) {
-    $message_magnificacion2 .= $answerModel->getQuestion($answers, 9) . " (Poco). <br>";
-    $cant_magnificacion2 += 1;
+$raw_resp = $answerModel->getRawResponse($answers, 9);
+if ($raw_resp !== null && $raw_resp <= 1) {
+    $mag4 = $answerModel->sumatoria(($answers), [9]);
+    if ($mag4 <= 1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 9) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $cant_magnificacion2 += 1;
+    }
 }
 
-$mag4 = $answerModel->sumatoria(($answers), [11]);
-if ($mag4 == 1) {
-    $message_magnificacion2 .= $answerModel->getQuestion($answers, 11) . " (Poco). <br>";
-    $cant_magnificacion2 += 1;
+$raw_resp = $answerModel->getRawResponse($answers, 11);
+if ($raw_resp !== null && $raw_resp <= 1) {
+    $mag4 = $answerModel->sumatoria(($answers), [11]);
+    if ($mag4 <= 1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 11) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $cant_magnificacion2 += 1;
+    }
+
+}
+$raw_resp = $answerModel->getRawResponse($answers, 12);
+if ($raw_resp !== null && $raw_resp <= 1) {
+    $mag4 = $answerModel->sumatoria(($answers), [12]);
+    if ($mag4 <= 1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 12) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $cant_magnificacion2 += 1;
+    }
 }
 
-$mag4 = $answerModel->sumatoria(($answers), [12]);
-if ($mag4 == 1) {
-    $message_magnificacion2 .= $answerModel->getQuestion($answers, 12) . " (Poco). <br>";
-    $cant_magnificacion2 += 1;
+$raw_resp = $answerModel->getRawResponse($answers, 13);
+if ($raw_resp !== null && $raw_resp <= 1) {
+    $mag4 = $answerModel->sumatoria(($answers), [13]);
+    if ($mag4 <= 1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 13) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $cant_magnificacion2 += 1;
+    }
 }
 
-$mag4 = $answerModel->sumatoria(($answers), [13]);
-if ($mag4 == 1) {
-    $message_magnificacion2 .= $answerModel->getQuestion($answers, 13) . " (Poco). <br>";
-    $cant_magnificacion2 += 1;
+$raw_resp = $answerModel->getRawResponse($answers, 30);
+if ($raw_resp !== null && $raw_resp <= 1) {
+    $mag4 = $answerModel->sumatoria(($answers), [30]);
+    if ($mag4 <= 1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 30) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $cant_magnificacion2 += 1;
+    }
 }
 
-$mag4 = $answerModel->sumatoria(($answers), [30]);
-if ($mag4 == 1) {
-    $message_magnificacion2 .= $answerModel->getQuestion($answers, 30) . " (Poco). <br>";
-    $cant_magnificacion2 += 1;
+$raw_resp = $answerModel->getRawResponse($answers, 49);
+if ($raw_resp !== null && $raw_resp <= 1) {
+    $mag4 = $answerModel->sumatoria(($answers), [49]);
+    if ($mag4 <= 1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 49) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $cant_magnificacion2 += 1;
+    }
 }
 
-$mag4 = $answerModel->sumatoria(($answers), [49]);
-if ($mag4 == 1) {
-    $message_magnificacion2 .= $answerModel->getQuestion($answers, 49) . " (Poco). <br>";
-    $cant_magnificacion2 += 1;
-}
 
 $message_sintomas = "";
 $cant_sintomas_ind = 0;

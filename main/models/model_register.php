@@ -96,7 +96,7 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
     public function getAll($idUser = '',$search = '')
     {
         $query =
-            "SELECT client.*,baremo.name,type_question.name as type_question_name
+            "SELECT client.*,baremo.name,type_question.name as type_question_name,type_question.type_show_result
                 FROM client
                 INNER JOIN baremo
                 ON client.baremo_id = baremo.id
@@ -204,7 +204,7 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
     public function delete($id)
     {
         $con = new Connection();
-        echo $id;
+       
         $query_answer = "DELETE FROM answer WHERE client_id = $id";
         $data =  $con->execute_query($query_answer);
 

@@ -26,6 +26,13 @@ if (($_SESSION['REST_type_user'] == 'Administrador') && (isset($_POST['id_type']
     header("Location: " . LOCALHOST . "/view/configuration.php");
 }
 
+if (($_SESSION['REST_type_user'] == 'Administrador') && (isset($_POST['id_baremo']) && isset($_POST['active']))) {
+
+    $idBaremo = $baremoModel->update($_POST['id_baremo'], $_POST['active']);
+
+    header("Location: " . LOCALHOST . "/view/configuration.php");
+}
+
 $typeQuestions = $questionModel->getAllTypeQuestion();
 
 foreach ($typeQuestions as &$value) {
@@ -36,7 +43,7 @@ foreach ($typeQuestions as &$value) {
     $value['name_short'] = substr($value['name'], 0, 1);
     $value['mantenimiento'] = $value['type_show_result']
         ? 'Mostrando Graficas'
-        : 'Actualizando/Mantenimiento';
+        : 'Mantenimiento';
 }
 unset($value);
 
@@ -155,12 +162,16 @@ $alto = 78 * count($grouped);
                     <div id="base" class="col-xl-5 col-md-12 col-lg-6">
                         <div class="card" >
                             <div class="card-header pb-1">
-                                <h3 class="card-title mb-2">Instrumentos Psicométricos</h3>
-                                <p class="tx-12 mb-0 text-muted">Configuración de estados</p>
+                                <h3 class="card-title mb-2">Instrumentos Psicom&eacute;tricos</h3>
+                                <p class="tx-12 mb-0 text-muted">Configuraci&oacute;n de estados</p>
                             </div>
                             <form action="configuration.php" method="post" id="form_type_show_result" style="margin:0;width: 100%;">
                                 <input type="hidden" name="id_type" id="id_type" value="">
                                 <input type="hidden" name="type_show_result" id="type_show_result" value="">
+                            </form>
+                            <form action="configuration.php" method="post" id="form_baremo" style="margin:0;width: 100%;">
+                                <input type="hidden" name="id_baremo" id="id_baremo" value="">
+                                <input type="hidden" name="active" id="active" value="">
                             </form>
                             <div class="product-timeline card-body pt-2 mt-1">
                                 <ul class="timeline-1 mb-0">
@@ -168,19 +179,19 @@ $alto = 78 * count($grouped);
                                     
                                     foreach ($typeQuestions as &$value) {
                                     ?>
-                                        <li class="mt-0" id="mrg-8">
+                                        <li class="mt-0">
                                             <i class="si bg-success-gradient text-white product-icon">#<?= $value['id'] ?></i>
                                             <span class="fw-semibold tx-14 "><?= $value['name'] ?></span>
                                             <div class="float-end tx-12">
                                                 <div class="mb-xl-0">
                                                     <div class="btn-group dropdown">
-                                                        <button type="button" class="btn" style="background: #f7f7f7 !important;color: black !important;"><?= $value['mantenimiento'] ?></button>
-                                                        <button type="button" class="btn  dropdown-toggle dropdown-toggle-split" style="background: #f7f7f7 !important;color: black !important;" id="dropdownMenuDate" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <button type="button"  class="btn  dropdown-toggle-split" id="dropdownMenuX<?= $value['id'] ?>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: #f7f7f7 !important;color: black !important;"><?= $value['mantenimiento'] ?></button>
+                                                        <button type="button" class="btn  dropdown-toggle dropdown-toggle-split" style="background: #f7f7f7 !important;color: black !important;"  >
                                                             <span class="sr-only">Toggle Dropdown</span>
                                                         </button>
-                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate" x-placement="bottom-end">
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuX<?= $value['id'] ?>" x-placement="bottom-end">
                                                             <button class="dropdown-item" onclick="changeShowResult(<?= $value['id'] ?>,1)">Mostrando Graficas</button>
-                                                            <button class="dropdown-item" onclick="changeShowResult(<?= $value['id'] ?>,0)">Actualizando/Mantenimiento</button>
+                                                            <button class="dropdown-item" onclick="changeShowResult(<?= $value['id'] ?>,0)">Mantenimiento</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -234,7 +245,7 @@ $alto = 78 * count($grouped);
                                                 </div>
                                                 <label class="checkbox">
                                                     <span class="check-box">
-                                                        <span class="ckbox"><input checked type="checkbox"><span></span></span>
+                                                        <span class="ckbox"><input class="action_check" data-id="<?=$baremo['id_baremo']  ?>" <?= $baremo['active_baremo']?'checked':''?> type="checkbox" ><span></span></span>
                                                     </span>
                                                 </label>
                                             </div>
@@ -303,6 +314,21 @@ $alto = 78 * count($grouped);
     <!-- custom js -->
     <script src="../../assets/js/custom.js?v=<?= VERSION_CODE ?>"></script>
     <script>
+        document.querySelectorAll('.action_check').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                var active = 0;
+                if (this.checked) {
+                    active = 1;
+                }
+                const input = document.getElementById("active");
+                input.value = active;
+                const type = document.getElementById("id_baremo");
+                type.value = this.dataset.id;
+                const form = document.getElementById("form_baremo");
+                form.submit();
+            });
+        });
+        
         function changeShowResult(id, changeShowResult) {
             const input = document.getElementById("type_show_result");
             input.value = changeShowResult;
@@ -311,6 +337,7 @@ $alto = 78 * count($grouped);
             const form = document.getElementById("form_type_show_result");
             form.submit();
         }
+
     </script>
 </body>
 

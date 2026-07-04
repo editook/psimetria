@@ -129,7 +129,7 @@
 				top: 20px;
 				left: 50%;
 				transform: translateX(-50%);
-				background-color: #1ab6cf;
+				background-color: #38a985 ;
 				color: white;
 				padding: 15px 25px;
 				border-radius: 8px;
@@ -341,9 +341,14 @@
 															if($data['status'] == 'TERMINADO'){
 																$text_test = "Ver prueba";
 															}
+															$status = "READY";
+															
+															if(!$data['type_show_result']){
+																$status = "MANTENIMIENTO";
+															}
 															?>
                                                             <div class="pe-1  mb-xl-0" style="cursor:pointer" onclick="page(`<?=LOCALHOST.'/view/form'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end"><?=$text_test?></span></div>
-															<div class="pe-1  mb-xl-0" style="<?=$data['status'] == 'PENDIENTE'?'pointer-events: none;opacity: 0.3;':'cursor:pointer'?>" onclick="page(`<?=LOCALHOST.'/view/result'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end">Resultado</span></div>
+															<div class="pe-1  mb-xl-0" style="<?=$data['status'] == 'PENDIENTE'?'pointer-events: none;opacity: 0.3;':'cursor:pointer'?>" onclick="page(`<?=LOCALHOST.'/view/result'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`,`<?=$status?>`)"><span class="badge <?= $status == 'MANTENIMIENTO'?'bg-success-transparent':'bg-primary-transparent'?> text-primary ms-auto float-end">Resultado</span></div>
 
                                                             <div class="pe-1  mb-xl-0" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
 																href="#modaldemo8" onclick="updateClient(`<?=$data['id']?>`,`<?=$data['id_client']?>`,`<?=$data['age']?>`,`<?=$data['sex']?>`,`<?=$data['id_type_question']?>`,`<?=$data['baremo_id']?>`)"><i class="text-warning las la-pen"></i></div>
@@ -372,7 +377,7 @@
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content modal-content-demo">
 					<div class="modal-header">
-						<h6 class="modal-title">Creacion de Paciente</h6><button aria-label="Close" class="close"
+						<h6 class="modal-title">Creacion de Test Psicologico</h6><button aria-label="Close" class="close"
 							data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<form class="needs-validation was-validated" action="register.php" method="post">
@@ -461,7 +466,7 @@
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content modal-content-demo">
 					<div class="modal-header">
-						<h6 class="modal-title">Eliminar Test</h6><button aria-label="Close" class="close"
+						<h6 class="modal-title">Eliminar Registro</h6><button aria-label="Close" class="close"
 							data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<div class="modal-body">
@@ -483,9 +488,30 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="modalmatenimiento">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Actualizacion en proceso</h6><button aria-label="Close" class="close"
+							data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+							
+						<div class="row row-sm">
+							<div class="col-lg-12">
+								<div class="form-group has-success mg-b-0">
+									<p>Informale que en estos momentos estamos realizando una actualizacion en relacion a la grafica, en breve estara disponible esta opcion</p>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div id="mensajeCopiado" class="toast-copiado" style="display: none;">
-			✅ Mensaje copiado al portapapeles
+			Mensaje copiado al portapapeles
 		</div>
 			
 			<!-- Audio Modal -->
@@ -582,8 +608,16 @@
 					}
 				});
 			}
-			function page(url){
-				window.location.href = url;
+			function page(url,status){
+				if(status == "MANTENIMIENTO"){
+					const modalElement = document.getElementById('modalmatenimiento');
+					const modal = new bootstrap.Modal(modalElement);
+					modal.show();
+				}
+				else{
+					window.location.href = url;
+				}
+				
 				//window.open(url, '_blank');
 			}
 			function openShareLink(client_id,redirect,patient_id){
