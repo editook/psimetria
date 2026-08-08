@@ -461,9 +461,6 @@
 		<script src="../../assets/plugins/rating/jquery.rating-stars.js"></script>
 		<script src="../../assets/plugins/rating/jquery.barrating.js"></script>
 
-		<!-- P-scroll js -->
-		<script src="../../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-		<script src="../../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 
 		<!-- Sidemenu js-->
 		<script src="../../assets/plugins/sidebar/sidebar.js"></script>

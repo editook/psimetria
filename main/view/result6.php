@@ -594,7 +594,7 @@ if($totalrechazos>0){
                     </div>
 
                     <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 90px 40px;">
-                        <div  class="row">
+                        <div class="row">
                             <div class="col-md-6" style="padding: 0;">
 
                                 <div class="container-panel">
@@ -1142,9 +1142,6 @@ if($totalrechazos>0){
     <!-- Internal Select2 js-->
     <script src="../../assets/plugins/select2/js/select2.min.js"></script>
 
-    <!-- P-scroll js -->
-    <script src="../../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="../../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 
     <!-- eva-icons js -->
     <script src="../../assets/js/eva-icons.min.js"></script>

@@ -49,6 +49,12 @@ async function descargarPDF() {
             case 9:
                 await addImageSize(pdf, item.image,item.size);
                 break;
+            case 10:
+                await addText(pdf, item.text,false,true);
+                break;
+            case 11:
+                await addTextCenter(pdf, item.text);
+                break;
             default:
                 break;
         }
@@ -58,7 +64,7 @@ async function descargarPDF() {
     btn.disabled = false;
     text.innerText = "DESCARGAR";
     loader.style.display = "none";
-    location.reload();
+    //location.reload();
 }
 
 
@@ -79,10 +85,14 @@ async function addImageURL(pdf, url) {
     });
 }
 
-async function addImage(pdf, value) {
+async function addImage(pdf, value,mb = "") {
     const elemento = document.getElementById(value);
+    //fix margin
+  
     const canvas = await html2canvas(elemento, { scale: 2, useCORS: true });
+
     const imgData = canvas.toDataURL('image/png');
+
     pdf.addImage(imgData, 'PNG', margeinLeft, Yvalue, maxWidth, 0);
     const imgHeightPx = canvas.height;
     const imgWidthPx = canvas.width;
@@ -117,6 +127,52 @@ async function addImageSize(pdf, value,size) {
     //Yvalue += 30;
     await addnewLine(pdf);
 }
+async function addImageSizeHeight(pdf, value, size) {
+
+    const elemento = document.getElementById(value);
+    const canvas = await html2canvas(elemento, {
+        scale: 2,
+        useCORS: true
+    });
+
+    const resizedCanvas = document.createElement("canvas");
+
+    resizedCanvas.height = Math.floor(canvas.height * size);
+    resizedCanvas.width = Math.floor(canvas.width * size);
+
+    const ctx = resizedCanvas.getContext("2d");
+
+    ctx.drawImage(
+        canvas,
+        0,
+        0,
+        resizedCanvas.width,
+        resizedCanvas.height
+    );
+
+    const imgData = resizedCanvas.toDataURL("image/png");
+
+    const imgHeightPx = resizedCanvas.height;
+    const imgWidthPx = resizedCanvas.width;
+
+    const imgHeightMm = imgHeightPx * size;
+    const imgWidthMm = (imgWidthPx * imgHeightMm) / imgHeightPx;
+
+    const extra = (maxWidth - imgWidthMm) / 2;
+
+    pdf.addImage(
+        imgData,
+        'PNG',
+        margeinLeft + extra,
+        Yvalue,
+        imgWidthMm,
+        imgHeightMm
+    );
+
+    Yvalue += imgHeightMm;
+
+    await addnewLine(pdf);
+}
 async function addTitleWidthText(pdf, value) {
     pdf.setFont(font, 'bold');
     pdf.text(value.subtitle, margeinLeft, Yvalue);
@@ -136,10 +192,12 @@ async function addTitleWidthText(pdf, value) {
     await addnewLine(pdf);
 
 }
-async function addText(pdf, text, justificated = true) {
+async function addText(pdf, text, justificated = true,bold = false) {
     pdf.setFontSize(sizeFont);
     pdf.setFont(font, 'normal');
-
+    if(bold){
+        pdf.setFont(font, 'bold');
+    }
     const lines = pdf.splitTextToSize(text, maxWidth);
     const textHeight = lines.length * lineHeight;
 
@@ -155,14 +213,14 @@ async function addText(pdf, text, justificated = true) {
     }
     Yvalue += textHeight;
 
-    /*let length = text.length;
-    if (Array.isArray(text)) {
-        length = text.reduce((t, s) => t + s.length, 0);
-    }
-    if (length > 94) {
-        const count = length / 94;
-        Yvalue += count * lineHeight;
-    }*/
+    await addnewLine(pdf);
+}
+async function addTextCenter(pdf, text) {
+    pdf.setFontSize(sizeFont);
+    pdf.setFont(font, 'normal');
+   
+    pdf.text(text, maxWidth/2 , Yvalue, { maxWidth: maxWidth, align: 'center' });
+
     await addnewLine(pdf);
 }
 async function addTitle(pdf, text) {

@@ -552,6 +552,7 @@ class ModelMcmiConfiguration {
             'adjustments' => $adjustments_applied,
             'final_tbs' => $final_tbs,
             'percentiles' => $percentiles,
+            'facets_tb' => $facets_tb,
             'invalidez' => $invalidez,
             'inconsistencia' => $inconsistencia,
             'report' => $report

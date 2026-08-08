@@ -1,0 +1,13 @@
+.container-short {
+    max-width: 1000px;
+    justify-self: anchor-center;
+}
+.container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.hh-i{
+    height: 40px !important;
+    vertical-align: middle !important;
+}

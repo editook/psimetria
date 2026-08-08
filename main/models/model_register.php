@@ -1,7 +1,8 @@
 <?php
 class Register_Model
 {
-    function getDeviceType(){
+    function getDeviceType()
+    {
         $userAgent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
 
         // Tablets
@@ -17,7 +18,8 @@ class Register_Model
         // Escritorio
         return 'desktop';
     }
-    function getRandomCipherMethod() {
+    function getRandomCipherMethod()
+    {
         $algorithms = ['AES'];
         $keySizes = [128, 192, 256];
         $modes = ['CBC', 'CFB', 'OFB', 'CTR', 'GCM'];
@@ -28,21 +30,25 @@ class Register_Model
 
         return "{$algorithm}-{$keySize}-{$mode}";
     }
-    function getKeyEncripter(){
+    function getKeyEncripter()
+    {
         return "092V3E23J893EJ92C823";
     }
-    function base64url_encode($data) {
+    function base64url_encode($data)
+    {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
 
-    function base64url_decode($data) {
+    function base64url_decode($data)
+    {
         $padding = 4 - (strlen($data) % 4);
         if ($padding < 4) {
             $data .= str_repeat('=', $padding);
         }
         return base64_decode(strtr($data, '-_', '+/'));
     }
-    function encriptar($dato, $clave) {
+    function encriptar($dato, $clave)
+    {
         $metodo = "AES-256-CBC";
         $ivLongitud = openssl_cipher_iv_length($metodo);
         $iv = openssl_random_pseudo_bytes($ivLongitud);
@@ -53,8 +59,9 @@ class Register_Model
         // Combina IV + encriptado y codifica en base64 url-safe
         return $this->base64url_encode($iv . $datoEncriptado);
     }
-    
-    function desencriptar($datoCodificado, $clave) {
+
+    function desencriptar($datoCodificado, $clave)
+    {
         $metodo = "AES-256-CBC";
         $ivLongitud = openssl_cipher_iv_length($metodo);
         $claveHash = hash('sha256', $clave, true);
@@ -71,10 +78,10 @@ echo "Dato encriptado: " . $datoEncriptado . PHP_EOL;
 // Desencriptar el dato
 $datoDesencriptado = desencriptar($datoEncriptado, $clave);
 echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
-    public function getById($idUser,$id)
+    public function getById($idUser, $id)
     {
         $query =
-        "SELECT client.*,baremo.name,type_question.name as type_question_name,users.full_name as evaluador, type_question.type_show_result as is_show_result
+            "SELECT client.*,baremo.name,type_question.name as type_question_name,users.full_name as evaluador, type_question.type_show_result as is_show_result
             FROM client
             INNER JOIN baremo
             ON client.baremo_id = baremo.id
@@ -87,13 +94,23 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return null;
     }
+    public function getInputMcmmiById(int $idPatient)
+    {
+        $query = "SELECT * FROM `mcmmi_input` where id_patient='$idPatient'";
+        $con = new Connection();
+        $result = $con->execute_query($query);
 
-    public function getAll($idUser = '',$search = '')
+        if (mysqli_num_rows($result) > 0)
+            return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
+        else
+            return null;
+    }
+    public function getAll($idUser = '', $search = '')
     {
         $query =
             "SELECT client.*,baremo.name,type_question.name as type_question_name,type_question.type_show_result
@@ -109,29 +126,30 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
         }
         $query .= " ORDER BY client.date_create";
         //si es null obtiene todos
-        if($idUser == '' && $search == ''){
+        if ($idUser == '' && $search == '') {
             $query = "SELECT * FROM client";
         }
         $con = new Connection();
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
     }
 
-    public function getTotalCompleted($belong_id='',$status='TERMINADO'){
+    public function getTotalCompleted($belong_id = '', $status = 'TERMINADO')
+    {
         $where = "";
-        if($belong_id!=''){
+        if ($belong_id != '') {
             $where = " and belong_id='$belong_id'";
         }
         $query = "select count(*) as total FROM client where status = '$status' $where";
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return "";
     }
 
-    public function save($belong_id, $id_client, $age, $sex,$baremo_id,$id_type_question,$hash)
+    public function save($belong_id, $id_client, $age, $sex, $baremo_id, $id_type_question, $hash)
     {
         $con = new Connection();
         $belong_id = $con->getRealEscapeString($belong_id);
@@ -143,13 +161,14 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
         $query =
             "INSERT INTO `client` (`id`, `belong_id`, `id_client`, `age`, `sex`, `baremo_id`, `status`, `date_create`,`id_type_question`,`codes`)
              VALUES (NULL, '$belong_id', '$id_client', '$age', '$sex', '$baremo_id', 'PENDIENTE', current_timestamp(),$id_type_question,'$hash')";
-       
-        if($con->execute_query($query))
+
+        if ($con->execute_query($query))
             return $con->getLastInsertedID();
         return false;
     }
 
-    public function updateStatus($idUser,$idPatient,$status){
+    public function updateStatus($idUser, $idPatient, $status)
+    {
         $con = new Connection();
 
         $query =
@@ -160,7 +179,76 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
         return $con->execute_query($query);
     }
 
-    public function updateStatusShowResult(int $id_type,int $status){
+    public function updateMcmmi(string $idPatient, array $data)
+    {
+        $con = new Connection();
+        $region = $data['region'];
+        $estudios = $data['estudios'];
+        $estado_civil = $data['estado_civil'];
+        $two_problem = $data['two_problem'];
+        $one_problem = $data['one_problem'];
+        $ambito = $data['ambito'];
+        $duracion = $data['duracion'];
+        $ci = $data['ci'];
+        $query =
+            "UPDATE mcmmi_input
+             SET `region`       = '$region',
+             `estudios`       = '$estudios',
+             `estado_civil`       = '$estado_civil',
+             `two_problem`       = '$two_problem',
+             `one_problem`       = '$one_problem',
+             `ambito`       = '$ambito',
+             `duracion`       = '$duracion',
+             `ci`       = '$ci'
+            WHERE  id_patient=$idPatient";
+
+        return $con->execute_query($query);
+    }
+   
+    public function insertMcmmi(string $idPatient, array $data)
+    {
+        $con = new Connection();
+
+        $region = $data['region'];
+        $estudios = $data['estudios'];
+        $estado_civil = $data['estado_civil'];
+        $two_problem = $data['two_problem'];
+        $one_problem = $data['one_problem'];
+        $ambito = $data['ambito'];
+        $duracion = $data['duracion'];
+        $ci = $data['ci'];
+
+        $query = "
+                INSERT INTO mcmmi_input (
+                id_patient,
+                    region,
+                    estudios,
+                    estado_civil,
+                    two_problem,
+                    one_problem,
+                    ambito,
+                    duracion,
+                    ci
+                )
+                VALUES (
+                '$idPatient',
+                    '$region',
+                    '$estudios',
+                    '$estado_civil',
+                    '$two_problem',
+                    '$one_problem',
+                    '$ambito',
+                    '$duracion',
+                    '$ci'
+                )
+            ";
+
+        return $con->execute_query($query);
+    }
+
+
+    public function updateStatusShowResult(int $id_type, int $status)
+    {
         $con = new Connection();
 
         $query =
@@ -171,14 +259,15 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
         return $con->execute_query($query);
     }
 
-    public function updateClient($id,$id_client,$age,$sex,$id_type_question,$baremo_id){
-        
-         $con = new Connection();
+    public function updateClient($id, $id_client, $age, $sex, $id_type_question, $baremo_id)
+    {
+
+        $con = new Connection();
         $query =
             "UPDATE client
              SET `id_client` = '$id_client',`age`= '$age',`sex`= '$sex',`id_type_question` = '$id_type_question',`baremo_id` = '$baremo_id'
             WHERE id=$id";
-    
+
         return $con->execute_query($query);
     }
 
@@ -204,7 +293,7 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
     public function delete($id)
     {
         $con = new Connection();
-       
+
         $query_answer = "DELETE FROM answer WHERE client_id = $id";
         $data =  $con->execute_query($query_answer);
 
@@ -213,6 +302,5 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
 
         $query = "DELETE FROM client WHERE id = $id ";
         return $con->execute_query($query);
-
     }
 }
