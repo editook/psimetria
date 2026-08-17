@@ -3,10 +3,10 @@ include_once('../configs.php');
 // MCMI IV
 session_start();
 include('../connection.php');
-include("../models/model_register.php");
-include("../models/model_question.php");
-include("../models/model_answer.php");
-include("../services/answer_service.php");
+include('../models/model_register.php');
+include('../models/model_question.php');
+include('../models/model_answer.php');
+include('../services/answer_service.php');
 $registerModel = new Register_Model();
 $questionModel = new Question_Model();
 $answerModel = new Answer_Model();
@@ -19,47 +19,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $answerService->externalRedirect($result);
 }
 
-$idCientCode = "";
-$idPatientCode = "";
-$is_share  = false;
+$idCientCode = '';
+$idPatientCode = '';
+$is_share = false;
 $is_view = false;
-$text_button_send = "Corregir resultados";
+$text_button_send = 'Corregir resultados';
 if (isset($_GET['client']) && isset($_GET['patient'])) {
   if (strlen($_GET['client']) > 10 && strlen($_GET['patient']) > 10) {
     $idCientCode = $_GET['client'];
     $idPatientCode = $_GET['patient'];
-    $is_share  = true;
+    $is_share = true;
   }
 }
-if ($idCientCode == "") {
+if ($idCientCode == '') {
   if (!isset($_SESSION['REST_type_user'])) {
-    header("Location: " . LOCALHOST . "/signin.php");
+    header('Location: ' . LOCALHOST . '/signin.php');
   }
-  if ($_SESSION['REST_type_user'] == 'Administrador' &&  isset($_GET['client']) &&  isset($_GET['patient'])) {
+  if ($_SESSION['REST_type_user'] == 'Administrador' && isset($_GET['client']) && isset($_GET['patient'])) {
     $idClient = $_GET['client'];
     $idpatient = $_GET['patient'];
   }
-  if ($_SESSION['REST_type_user'] == 'CLIENTE' &&  isset($_GET['patient'])) {
+  if ($_SESSION['REST_type_user'] == 'CLIENTE' && isset($_GET['patient'])) {
     $idClient = $_SESSION['REST_id_user'];
     $idpatient = $_GET['patient'];
   }
 }
 
-if ($idCientCode != "" && $idPatientCode != "") {
+if ($idCientCode != '' && $idPatientCode != '') {
   $claveEncriptado = $registerModel->getKeyEncripter();
   $response_data = $registerModel->desencriptar($idCientCode, $claveEncriptado);
-  $response_data_clientIds = explode("_", $response_data);
+  $response_data_clientIds = explode('_', $response_data);
   $idClient = $response_data_clientIds[0];
 
   $response_data = $registerModel->desencriptar($idPatientCode, $claveEncriptado);
-  $response_data_PatientIds = explode("_", $response_data);
+  $response_data_PatientIds = explode('_', $response_data);
   $idpatient = $response_data_PatientIds[0];
-  $text_button_send = "Enviar resultados";
+  $text_button_send = 'Enviar resultados';
 }
 
 $register = $registerModel->getById($idClient, $idpatient);
 $inputs = $registerModel->getInputMcmmiById($idpatient);
-if($inputs == null){
+if ($inputs == null) {
   $inputs = [];
   $inputs['region'] = '';
   $inputs['estudios'] = '';
@@ -71,36 +71,35 @@ if($inputs == null){
   $inputs['two_problem'] = '';
 }
 $estadosCiviles = [
-    'Soltero',
-    'Separado',
-    'Viviendo en pareja (Sin estar casado)',
-    'Casado',
-    'Divorciado',
-    'Casado más de una vez',
-    'Viudo'
+  'Soltero',
+  'Separado',
+  'Viviendo en pareja(Sin estar casado)',
+  'Casado',
+  'Divorsiado',
+  'Casado mas de una vez',
+  'Viudo'
 ];
 
-
 $estado_civil_otro = '';
-$indice_estado_civil = array_search($inputs['estado_civil'], $estadosCiviles);
+$indice_estado_civil = array_search($inputs['estado_civil'], $estadosCiviles, true);
 
 if ($indice_estado_civil !== false) {
-    $estado_civil_otro = '';
+  $estado_civil_otro = '';
 } else {
-    $estado_civil_otro = $inputs['estado_civil'];
+  $estado_civil_otro = $inputs['estado_civil'];
 }
 
 $problems = [
-    'Conyugal o familiar' => 1,
-    'Cambios de humor' => 2,
-    'Alcohol' => 3,
-    'Comportamiento antisocial' => 4,
-    'Laboral o académico' => 5,
-    'Confianza en mí mismo' => 6,
-    'Drogas' => 7,
-    'Soledad' => 8,
-    'Enfermedad o cansancio' => 9,
-    'Sexualidad' => 10,
+  'Conyugal o familiar' => 1,
+  'Cambios de humor' => 2,
+  'Alcohol' => 3,
+  'Comportamiento antisocial' => 4,
+  'Laboral o académico' => 5,
+  'Confianza en mí mismo' => 6,
+  'Drogas' => 7,
+  'Soledad' => 8,
+  'Enfermedad o cansancio' => 9,
+  'Sexualidad' => 10,
 ];
 $indice_problems_one = $problems[$inputs['one_problem']] ?? -1;
 $problems_one = '';
@@ -109,32 +108,33 @@ $problem_text = '';
 $value_problem_text = '';
 
 if ($indice_problems_one != -1) {
-    $problems_one= $problems[$inputs['one_problem']];
-    $value_problem_one= $inputs['one_problem'];
-    
+  $problems_one = $problems[$inputs['one_problem']];
+  $value_problem_one = $inputs['one_problem'];
 } else {
   $problem_text = '1';
   $value_problem_text = $inputs['one_problem'];
- 
 }
 
-$indice_problems_two= $problems[$inputs['two_problem']] ?? -1;
+$indice_problems_two = $problems[$inputs['two_problem']] ?? -1;
 $problems_two = '';
 $value_problem_two = '';
+$problem_text_two = '';
+$value_problem_text_two = '';
 if ($indice_problems_two != -1) {
-    $problems_two= $problems[$inputs['two_problem']];
-    $value_problem_two= $inputs['two_problem'];
-} elseif($problem_text != '') {
-  $problem_text = '2';
-  $value_problem_text = $inputs['two_problem'];
+  $problems_two = $problems[$inputs['two_problem']];
+  $value_problem_two = $inputs['two_problem'];
+} else if ($inputs['two_problem'] != '') {
+  $problem_text_two = '2';
+  $value_problem_text_two = $inputs['two_problem'];
 }
- echo $problems_one;
-  echo $problems_two;
+
+$duracion = $inputs['duracion'];
+
 if ($register == null) {
   echo "<script>
-			alert('FALLO DE ACCESO CODIGO #876 - " . $idpatient . " redirigiendo...');
-			window.location.href = 'https://www.google.com';
-		</script>";
+\t\t\talert('FALLO DE ACCESO CODIGO #876 - " . $idpatient . " redirigiendo...');
+\t\t\twindow.location.href = 'https://www.google.com';
+\t\t</script>";
   exit;
 }
 if ($register['status'] == 'TERMINADO') {
@@ -155,7 +155,7 @@ $device = $registerModel->getDeviceType();
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><?= WEB_TITLE ?> </title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/tailwind.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link href="../../assets/css/share-form.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
@@ -210,25 +210,159 @@ $device = $registerModel->getDeviceType();
       <div class="flex justify-between items-center mb-6 border-b border-white/20 pb-4">
         <div class="flex items-center gap-3">
           <div>
-            <h1 class="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-cyan-200 bg-clip-text" style="color: #0B2B5E;">${testname}</h1>
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight" style="color: #0B2B5E;">${testname}</h1>
           </div>
         </div>
       </div>
-      
+
       <div class="card-glass rounded-2xl p-4 mb-6" style="background: #f3f4f6;">
-        <label class="block text-sm font-semibold mb-2 flex items-center gap-2" style="color: #0B2B5E;">ID del Evaluado: ${fullname}</label>
+        <label class="block text-sm font-semibold mb-2" style="color: #0B2B5E;">ID del Evaluado: ${fullname}</label>
       </div>
 
-      <div class="mb-6 card-glass rounded-2xl mb-7 p-4" style="background: #f3f4f6;">
-        <label class="block text-sm font-semibold mb-2 flex items-center gap-2" style="color: #0B2B5E;">Instrucciones</label>
-        <p class="text-black/80 text-sm leading-relaxed mb-5">
-          Esta prueba consiste en una serie de frases. Lea cada una de ellas y decida si es verdadera (V) o falsa (F) en su caso. Trate de contestar a todas las frases de forma honesta y seria, incluso si no está del todo seguro de su respuesta. No hay límite de tiempo para completar el inventario, pero es recomendable trabajar a un ritmo rápido pero cómodo.
+      
+
+      <!-- DATOS PERSONALES -->
+      <div class="rounded-2xl p-5 mb-5" style="background: #f3f4f6;">
+        <h2 class="text-base font-semibold mb-4" style="color: #0B2B5E;"><i class="fas fa-user mr-2"></i>Datos personales</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <!-- CI -->
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color: #0B2B5E;">CI</label>
+            <input type="text" id="share_ci" placeholder="Ej: 12345678"
+              class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400">
+          </div>
+
+          <!-- Región -->
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color: #0B2B5E;">Región</label>
+            <input type="text" id="share_region" placeholder="Ej: La Paz"
+              class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400">
+          </div>
+
+          <!-- Estudios -->
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color: #0B2B5E;">Estudios</label>
+            <select id="share_estudios"
+              class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400 bg-white">
+              <option value="">Seleccione...</option>
+              <option value="Sin estudios">Sin estudios</option>
+              <option value="Educacion primaria">Educación primaria</option>
+              <option value="Educacion secundaria">Educación secundaria</option>
+              <option value="Bachillerato superior o formacion profesional">Bachillerato superior o formación profesional</option>
+              <option value="Diplomatura, Licenciatura o Titulaciones superiores">Diplomatura, Licenciatura o Titulaciones superiores</option>
+            </select>
+          </div>
+
+          <!-- Estado Civil -->
+          <div>
+            <label class="block text-xs font-semibold mb-1" style="color: #0B2B5E;">Estado Civil</label>
+            <select id="share_estado_civil"
+              class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400 bg-white">
+              <option value="">Seleccione...</option>
+              <option value="Soltero">Soltero</option>
+              <option value="Separado">Separado</option>
+              <option value="Viviendo en pareja(Sin estar casado)">Viviendo en pareja (Sin estar casado)</option>
+              <option value="Casado">Casado</option>
+              <option value="Divorsiado">Divorciado</option>
+              <option value="Casado mas de una vez">Casado más de una vez</option>
+              <option value="Viudo">Viudo</option>
+            </select>
+            <input type="text" id="share_estado_civil_otro" placeholder="Otro (especificar)"
+              class="mt-2 w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROBLEMAS -->
+      <div class="rounded-2xl p-5 mb-5" style="background: #f3f4f6;">
+        <h2 class="text-base font-semibold mb-2" style="color: #0B2B5E;"><i class="fas fa-list-check mr-2"></i>Principales problemas</h2>
+        <p class="text-xs text-black/60 mb-4 leading-relaxed">
+          Seleccione cuáles son los dos problemas que más le preocupan. Escriba <b>1</b> en su mayor problema y <b>2</b> en el segundo.
+        </p>
+
+        <div class="grid grid-cols-1 gap-2">
+          ${[
+            [1,  'Conyugal o familiar'],
+            [2,  'Cambios de humor'],
+            [3,  'Alcohol'],
+            [4,  'Comportamiento antisocial'],
+            [5,  'Laboral o académico'],
+            [6,  'Confianza en mí mismo'],
+            [7,  'Drogas'],
+            [8,  'Soledad'],
+            [9,  'Enfermedad o cansancio'],
+            [10, 'Sexualidad'],
+          ].map(([num, label]) => `
+            <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-2 border border-gray-200">
+              <input type="number" min="1" max="2" id="share_problem${num}"
+                placeholder="—"
+                class="w-14 border border-gray-300 rounded-lg px-2 py-1 text-sm text-center focus:outline-none focus:border-blue-400">
+              <span class="text-sm text-black/80">${label}</span>
+            </div>
+          `).join('')}
+
+          <!-- Otro problema -->
+          <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-2 border border-gray-200">
+            <input type="number" min="1" max="2" id="share_problem11"
+              placeholder="—"
+              class="w-14 border border-gray-300 rounded-lg px-2 py-1 text-sm text-center focus:outline-none focus:border-blue-400">
+            <input type="text" id="share_problem11_texto" placeholder="Otro (especificar)"
+              class="flex-1 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:outline-none focus:border-blue-400">
+          </div>
+        </div>
+      </div>
+
+      <!-- APLICACIÓN -->
+      <div class="rounded-2xl p-5 mb-5" style="background: #f3f4f6;">
+        <h2 class="text-base font-semibold mb-3" style="color: #0B2B5E;"><i class="fas fa-hospital mr-2"></i>Aplicación</h2>
+        <select id="share_ambito"
+          class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400 bg-white mb-2">
+          <option value="">Seleccione...</option>
+          <option value="Paciente ambulatorio sin hospitalización previa">Paciente ambulatorio sin hospitalización previa</option>
+          <option value="Paciente ambulatorio con hospitalización previa">Paciente ambulatorio con hospitalización previa</option>
+          <option value="Paciente ingresado en hospital psiquiátrico">Paciente ingresado en hospital psiquiátrico</option>
+          <option value="Paciente ingresado en hospital general">Paciente ingresado en hospital general</option>
+          <option value="Paciente en centro penitenciario">Paciente en centro penitenciario</option>
+          <option value="Paciente en clínica universitaria">Paciente en clínica universitaria</option>
+        </select>
+        <input type="text" id="share_ambito_otro" placeholder="Otra (especificar)"
+          class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400">
+      </div>
+
+      <!-- DURACIÓN -->
+      <div class="rounded-2xl p-5 mb-7" style="background: #f3f4f6;">
+        <h2 class="text-base font-semibold mb-3" style="color: #0B2B5E;"><i class="fas fa-clock mr-2"></i>Duración del episodio más reciente</h2>
+        <select id="share_duracion"
+          class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-blue-400 bg-white">
+          <option value="">Seleccione...</option>
+          <option value="< 1 semana">&lt; 1 semana</option>
+          <option value="1-4 semanas">1-4 semanas</option>
+          <option value="1-3 meses">1-3 meses</option>
+          <option value="3 meses-1 año">3 meses-1 año</option>
+          <option value="1-3 años (cíclico)">1-3 años (cíclico)</option>
+          <option value="1-3 años (continuo)">1-3 años (continuo)</option>
+          <option value="3-7 años (cíclico)">3-7 años (cíclico)</option>
+          <option value="7 años (continuo)">7 años (continuo)</option>
+          <option value="Más de 7 años">Más de 7 años</option>
+          <option value="No aplicable">No aplicable</option>
+        </select>
+      </div>
+
+      <div class="mb-6 card-glass rounded-2xl p-4" style="background: #f3f4f6;">
+        <label class="block text-sm font-semibold mb-3" style="color: #0B2B5E;">Instrucciones</label>
+        <p class="text-black/80 text-sm leading-relaxed">
+          Esta prueba consiste en una serie de frases. Lea cada una de ellas y decida si es verdadera (V) o falsa (F) en su caso. Trate de contestar a todas las frases de forma honesta y seria, incluso si no está del todo seguro de su respuesta.
         </p>
       </div>
-      
+
       <button type="button" onclick="startQuiz()" style="background: #0B2B5E;"
         class="w-full relative group overflow-hidden font-bold py-4 px-6 rounded-2xl shadow-xl text-white text-lg tracking-wide transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl focus:outline-none">
-        <span class="relative z-10 flex items-center justify-center gap-3"><i class="fas fa-play-circle"></i> Comenzar Cuestionario</span>
+        <span class="relative z-10 flex items-center justify-center gap-3">
+          <i class="fas fa-play-circle"></i> Comenzar Cuestionario
+        </span>
       </button>
       <p class="text-center text-black/40 text-xs mt-5"><i class="fas fa-lock"></i> Sus respuestas son confidenciales</p>
     </div>
@@ -237,6 +371,22 @@ $device = $registerModel->getDeviceType();
 
       function startQuiz() {
         patient.name = fullname;
+        patient.ci      = document.getElementById('share_ci')?.value || '';
+        patient.region  = document.getElementById('share_region')?.value || '';
+        patient.estudios      = document.getElementById('share_estudios')?.value || '';
+        patient.estado_civil  = document.getElementById('share_estado_civil')?.value || '';
+        patient.estado_civil_otro = document.getElementById('share_estado_civil_otro')?.value || '';
+        patient.ambito        = document.getElementById('share_ambito')?.value || '';
+        patient.ambito_otro   = document.getElementById('share_ambito_otro')?.value || '';
+        patient.duracion      = document.getElementById('share_duracion')?.value || '';
+
+        // Problemas
+        for (let i = 1; i <= 11; i++) {
+          patient['problem' + i] = document.getElementById('share_problem' + i)?.value || '';
+        }
+        patient.problem11_texto = document.getElementById('share_problem11_texto')?.value || '';
+
+
         questions.forEach((q, idx) => {
           if (q.response !== null && q.response !== undefined && q.response !== "") {
             answers[idx] = parseInt(q.response);
@@ -356,7 +506,23 @@ $device = $registerModel->getDeviceType();
         data.append('idClient', "<?php echo $idClient ?>");
         data.append('patient', "<?php echo $idpatient; ?>");
         data.append('codes', "<?php echo $register['codes'] ?>");
-        data.append('is_share', <?php echo (int)$is_share ?>);
+        data.append('is_share', <?php echo (int) $is_share ?>);
+
+        // Datos personales del formulario inicial
+        data.append('ci',               patient.ci || '');
+        data.append('region',           patient.region || '');
+        data.append('estudios',         patient.estudios || '');
+        data.append('estado_civil',     patient.estado_civil || '');
+        data.append('estado_civil_otro',patient.estado_civil_otro || '');
+        data.append('ambito',           patient.ambito || '');
+        data.append('ambito_otro',      patient.ambito_otro || '');
+        data.append('duracion',         patient.duracion || '');
+
+        for (let i = 1; i <= 11; i++) {
+          data.append('problem' + i, patient['problem' + i] || '');
+        }
+        data.append('problem11_texto', patient.problem11_texto || '');
+        
         questions.forEach((q, index) => {
           data.append(`question_${q.id}`, answers[index]);
         });
@@ -420,8 +586,8 @@ $device = $registerModel->getDeviceType();
     </div>
 
     <div class="page <?= TESTING == '1' ? 'istesting' : '' ?>">
-      <?php if (!$is_share) include("../include/header_top.php"); ?>
-      <?php if (!$is_share) include("../include/header_bottom.php"); ?>
+      <?php if (!$is_share) include('../include/header_top.php'); ?>
+      <?php if (!$is_share) include('../include/header_bottom.php'); ?>
 
       <div class="main-content horizontal-content">
         <div class="container">
@@ -442,7 +608,7 @@ $device = $registerModel->getDeviceType();
               <table class="w-full border border-gray-300 border-collapse">
 
 
-                <tbody>
+                <tbody id="questions_mcmmi">
                   <tr class="hover:bg-gray-50">
                     <td class="border border-gray-300 px-4 py-3">
                       CI:
@@ -450,7 +616,7 @@ $device = $registerModel->getDeviceType();
 
                     <td class="border border-gray-300 p-2">
                       <div class="flex items-center gap-3">
-                        <input type="text" name="ci" value="<?=$inputs['ci']; ?>" class="w-full border rounded px-2 py-1">
+                        <input type="text" name="ci" value="<?= $inputs['ci']; ?>" class="w-full border rounded px-2 py-1">
                       </div>
                     </td>
                   </tr>
@@ -461,7 +627,7 @@ $device = $registerModel->getDeviceType();
 
                     <td class="border border-gray-300 p-2">
                       <div class="flex items-center gap-3">
-                        <input type="text" name="region" value="<?=$inputs['region']; ?>" class="w-full border rounded px-2 py-1">
+                        <input type="text" name="region" value="<?= $inputs['region']; ?>" class="w-full border rounded px-2 py-1">
                       </div>
                     </td>
                   </tr>
@@ -476,11 +642,11 @@ $device = $registerModel->getDeviceType();
                         name="estudios"
                         class="w-full border border-black-700 rounded px-2 py-1">
                         <option value="">Seleccione...</option>
-                        <option value="Sin estudios" <?=$inputs['estudios']=='Sin estudios'?'selected':'' ?>>Sin estudios</option>
-                        <option value="Educacion primaria" <?=$inputs['estudios']=='Educacion primaria'?'selected':'' ?>>Educacion primaria</option>
-                        <option value="Educacion secundaria" <?=$inputs['estudios']=='Educacion secundaria'?'selected':'' ?>>Educacion secundaria</option>
-                        <option value="Bachillerato superior o formacion profesional" <?=$inputs['estudios']=='Bachillerato superior o formacion profesional'?'selected':'' ?>>Bachillerato superior o formacion profesional</option>
-                        <option value="Diplomatura, Licenciatura o Titulaciones superiores" <?=$inputs['estudios']=='Diplomatura, Licenciatura o Titulaciones superiores'?'selected':'' ?>>Diplomatura, Licenciatura o Titulaciones superiores</option>
+                        <option value="Sin estudios" <?= $inputs['estudios'] == 'Sin estudios' ? 'selected' : '' ?>>Sin estudios</option>
+                        <option value="Educacion primaria" <?= $inputs['estudios'] == 'Educacion primaria' ? 'selected' : '' ?>>Educacion primaria</option>
+                        <option value="Educacion secundaria" <?= $inputs['estudios'] == 'Educacion secundaria' ? 'selected' : '' ?>>Educacion secundaria</option>
+                        <option value="Bachillerato superior o formacion profesional" <?= $inputs['estudios'] == 'Bachillerato superior o formacion profesional' ? 'selected' : '' ?>>Bachillerato superior o formacion profesional</option>
+                        <option value="Diplomatura, Licenciatura o Titulaciones superiores" <?= $inputs['estudios'] == 'Diplomatura, Licenciatura o Titulaciones superiores' ? 'selected' : '' ?>>Diplomatura, Licenciatura o Titulaciones superiores</option>
                       </select>
                     </td>
                   </tr>
@@ -495,17 +661,17 @@ $device = $registerModel->getDeviceType();
                         name="estado_civil"
                         class="w-full border border-black-700 rounded px-2 py-1">
                         <option value="">Seleccione...</option>
-                        <option value="Soltero" <?=$inputs['estado_civil']=='Soltero'?'selected':'' ?>>Soltero</option>
-                        <option value="Separado" <?=$inputs['estado_civil']=='Separado'?'selected':'' ?>>Separado</option>
-                        <option value="Viviendo en pareja(Sin estar casado)" <?=$inputs['estado_civil']=='Viviendo en pareja(Sin estar casado)'?'selected':'' ?>>Viviendo en pareja(Sin estar casado)</option>
-                        <option value="Casado" <?=$inputs['estado_civil']=='Casado'?'selected':'' ?>>Casado</option>
-                        <option value="Divorsiado" <?=$inputs['estado_civil']=='Divorsiado'?'selected':'' ?>>Divorsiado</option>
-                        <option value="Casado mas de una vez" <?=$inputs['estado_civil']=='Casado mas de una vez'?'selected':'' ?>>Casado mas de una vez</option>
-                        <option value="Viudo" <?=$inputs['estado_civil']=='Viudo'?'selected':'' ?>>Viudo</option>
+                        <option value="Soltero" <?= $inputs['estado_civil'] == 'Soltero' ? 'selected' : '' ?>>Soltero</option>
+                        <option value="Separado" <?= $inputs['estado_civil'] == 'Separado' ? 'selected' : '' ?>>Separado</option>
+                        <option value="Viviendo en pareja(Sin estar casado)" <?= $inputs['estado_civil'] == 'Viviendo en pareja(Sin estar casado)' ? 'selected' : '' ?>>Viviendo en pareja(Sin estar casado)</option>
+                        <option value="Casado" <?= $inputs['estado_civil'] == 'Casado' ? 'selected' : '' ?>>Casado</option>
+                        <option value="Divorsiado" <?= $inputs['estado_civil'] == 'Divorsiado' ? 'selected' : '' ?>>Divorsiado</option>
+                        <option value="Casado mas de una vez" <?= $inputs['estado_civil'] == 'Casado mas de una vez' ? 'selected' : '' ?>>Casado mas de una vez</option>
+                        <option value="Viudo" <?= $inputs['estado_civil'] == 'Viudo' ? 'selected' : '' ?>>Viudo</option>
 
                       </select>
                       <div class="flex items-center gap-3">
-                        <span>Otro(Especificar):</span><input type="text" name="estado_civil_otro" value="<?=$estado_civil_otro ?>" class="w-full border rounded px-2 py-1">
+                        <span>Otro(Especificar):</span><input type="text" name="estado_civil_otro" value="<?= $estado_civil_otro ?>" class="w-full border rounded px-2 py-1">
                       </div>
 
                     </td>
@@ -516,41 +682,41 @@ $device = $registerModel->getDeviceType();
                       Seleccione cuáles son los dos problemas que más le preocupan o molestan, escriba el número 1 en la casilla que corresponda a su mayor problema, y el número 2 en la casilla que corresponda a su segundo mayor problema:
 
                     </td>
-                    
+
                     <td class="border border-gray-300 p-2">
-                     
+
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" width="100" name="problem1" value="<?=$problems_one == '1'?'1':($problems_two == '1'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Conyugal o familiar</span>
+                        <input type="number" min="1" max="2" width="100" name="problem1" value="<?= $problems_one == '1' ? '1' : ($problems_two == '1' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Conyugal o familiar</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" width="100" name="problem2" value="<?=$problems_one == '2'?'1':($problems_two == '2'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Cambios de humor</span>
+                        <input type="number" min="1" max="2" width="100" name="problem2" value="<?= $problems_one == '2' ? '1' : ($problems_two == '2' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Cambios de humor</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" width="100" name="problem3" value="<?=$problems_one == '3'?'1':($problems_two == '3'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Alcohol</span>
+                        <input type="number" min="1" max="2" width="100" name="problem3" value="<?= $problems_one == '3' ? '1' : ($problems_two == '3' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Alcohol</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" name="problem4" value="<?=$problems_one == '4'?'1':($problems_two == '4'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Comportamiento antisocial</span>
+                        <input type="number" min="1" max="2" name="problem4" value="<?= $problems_one == '4' ? '1' : ($problems_two == '4' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Comportamiento antisocial</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" name="problem5" value="<?=$problems_one == '5'?'1':($problems_two == '5'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Laboral o académico</span>
+                        <input type="number" min="1" max="2" name="problem5" value="<?= $problems_one == '5' ? '1' : ($problems_two == '5' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Laboral o académico</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" name="problem6" value="<?=$problems_one == '6'?'1':($problems_two == '6'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Confianza en mí mismo</span>
+                        <input type="number" min="1" max="2" name="problem6" value="<?= $problems_one == '6' ? '1' : ($problems_two == '6' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Confianza en mí mismo</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" name="problem7" value="<?=$problems_one == '7'?'1':($problems_two == '7'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Drogas</span>
+                        <input type="number" min="1" max="2" name="problem7" value="<?= $problems_one == '7' ? '1' : ($problems_two == '7' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Drogas</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" name="problem8" value="<?=$problems_one == '8'?'1':($problems_two == '8'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Soledad</span>
+                        <input type="number" min="1" max="2" name="problem8" value="<?= $problems_one == '8' ? '1' : ($problems_two == '8' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Soledad</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" name="problem9" value="<?=$problems_one == '9'?'1':($problems_two == '9'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Enfermedad o cansancio</span>
+                        <input type="number" min="1" max="2" name="problem9" value="<?= $problems_one == '9' ? '1' : ($problems_two == '9' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Enfermedad o cansancio</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" name="problem10" value="<?=$problems_one == '10'?'1':($problems_two == '10'?'2':'')  ?>" class="w-16 border rounded px-2 py-1"><span>Sexualidad</span>
+                        <input type="number" min="1" max="2" name="problem10" value="<?= $problems_one == '10' ? '1' : ($problems_two == '10' ? '2' : '') ?>" class="w-16 border rounded px-2 py-1"><span>Sexualidad</span>
                       </div>
                       <div class="flex items-center gap-3">
-                        <input type="number" min="1" max="2" name="problem11" value="<?=$problem_text?>" class="w-20 border rounded px-22 py-1"><input type="text" placeholder="Otro:" name="problem11_texto" value="<?=$value_problem_text?>" class="w-full border rounded px-2 py-1">
+                        <input type="number" min="1" max="2" name="problem11" value="<?= ($problem_text == '1' ? '1' : ($problem_text_two == '2' ? '2' : '')) ?>" class="w-20 border rounded px-22 py-1"><input type="text" placeholder="Otro:" name="problem11_texto" value="<?= htmlspecialchars($value_problem_text ?: $value_problem_text_two) ?>" class="w-full border rounded px-2 py-1">
                       </div>
 
                     </td>
@@ -562,23 +728,31 @@ $device = $registerModel->getDeviceType();
                     </td>
 
                     <td class="border border-gray-300 p-2">
-
-
+                      <?php
+                      $ambitoOptions = [
+                        'Paciente ambulatorio sin hospitalización previa',
+                        'Paciente ambulatorio con hospitalización previa',
+                        'Paciente ingresado en hospital psiquiátrico',
+                        'Paciente ingresado en hospital general',
+                        'Paciente en centro penitenciario',
+                        'Paciente en clínica universitaria',
+                      ];
+                      $ambito_otro_val = in_array($inputs['ambito'], $ambitoOptions) ? '' : $inputs['ambito'];
+                      $ambito_select_val = in_array($inputs['ambito'], $ambitoOptions) ? $inputs['ambito'] : '';
+                      ?>
                       <select
                         name="ambito"
                         class="w-full border border-black-700 rounded px-2 py-1">
                         <option value="">Seleccione...</option>
-                        <option value="Paciente ambulatorio sin hospitalización previa">Paciente ambulatorio sin hospitalización previa</option>
-                        <option value="Paciente ambulatorio con hospitalización previa">Paciente ambulatorio con hospitalización previa</option>
-                        <option value="Paciente ingresado en hospital psiquiátrico">Paciente ingresado en hospital psiquiátrico</option>
-                        <option value="Paciente ingresado en hospital general">Paciente ingresado en hospital general</option>
-                        <option value="Paciente en centro penitenciario">Paciente en centro penitenciario</option>
-                        <option value="Paciente en clínica universitaria">Paciente en clínica universitaria</option>
-
-
+                        <option value="Paciente ambulatorio sin hospitalización previa" <?= $ambito_select_val == 'Paciente ambulatorio sin hospitalización previa' ? 'selected' : '' ?>>Paciente ambulatorio sin hospitalización previa</option>
+                        <option value="Paciente ambulatorio con hospitalización previa" <?= $ambito_select_val == 'Paciente ambulatorio con hospitalización previa' ? 'selected' : '' ?>>Paciente ambulatorio con hospitalización previa</option>
+                        <option value="Paciente ingresado en hospital psiquiátrico" <?= $ambito_select_val == 'Paciente ingresado en hospital psiquiátrico' ? 'selected' : '' ?>>Paciente ingresado en hospital psiquiátrico</option>
+                        <option value="Paciente ingresado en hospital general" <?= $ambito_select_val == 'Paciente ingresado en hospital general' ? 'selected' : '' ?>>Paciente ingresado en hospital general</option>
+                        <option value="Paciente en centro penitenciario" <?= $ambito_select_val == 'Paciente en centro penitenciario' ? 'selected' : '' ?>>Paciente en centro penitenciario</option>
+                        <option value="Paciente en clínica universitaria" <?= $ambito_select_val == 'Paciente en clínica universitaria' ? 'selected' : '' ?>>Paciente en clínica universitaria</option>
                       </select>
                       <div class="flex items-center gap-3">
-                        <span>Otra:</span><input type="text" name="ambito_otro" value="" class="w-full border rounded px-2 py-1">
+                        <span>Otra:</span><input type="text" name="ambito_otro" value="<?= htmlspecialchars($ambito_otro_val) ?>" class="w-full border rounded px-2 py-1">
                       </div>
 
                     </td>
@@ -592,23 +766,22 @@ $device = $registerModel->getDeviceType();
                     <td class="border border-gray-300 p-2">
 
 
+                      <?php $duracion_val = $inputs['duracion'] ?? ''; ?>
                       <select
                         name="duracion"
                         class="w-full border border-black-700 rounded px-2 py-1">
                         <option value="">Seleccione...</option>
-                        <option value="< 1 semana">
+                        <option value="< 1 semana" <?= $duracion_val == '< 1 semana' ? 'selected' : '' ?>>
                           < 1 semana</option>
-                        <option value="1-4 semanas">1-4 semanas</option>
-                        <option value="1-3 meses">1-3 meses</option>
-                        <option value="3 meses-1 año">3 meses-1 año</option>
-                        <option value="1-3 años (cíclico)">1-3 años (cíclico)</option>
-                        <option value="1-3 años (continuo)">1-3 años (continuo)</option>
-                        <option value="3-7 años (cíclico)">3-7 años (cíclico)</option>
-                        <option value="7 años (continuo)">7 años (continuo)</option>
-                        <option value="Más de 7 años">Más de 7 años</option>
-                        <option value="No aplicable">No aplicable</option>
-
-
+                        <option value="1-4 semanas" <?= $duracion_val == '1-4 semanas' ? 'selected' : '' ?>>1-4 semanas</option>
+                        <option value="1-3 meses" <?= $duracion_val == '1-3 meses' ? 'selected' : '' ?>>1-3 meses</option>
+                        <option value="3 meses-1 año" <?= $duracion_val == '3 meses-1 año' ? 'selected' : '' ?>>3 meses-1 año</option>
+                        <option value="1-3 años (cíclico)" <?= $duracion_val == '1-3 años (cíclico)' ? 'selected' : '' ?>>1-3 años (cíclico)</option>
+                        <option value="1-3 años (continuo)" <?= $duracion_val == '1-3 años (continuo)' ? 'selected' : '' ?>>1-3 años (continuo)</option>
+                        <option value="3-7 años (cíclico)" <?= $duracion_val == '3-7 años (cíclico)' ? 'selected' : '' ?>>3-7 años (cíclico)</option>
+                        <option value="7 años (continuo)" <?= $duracion_val == '7 años (continuo)' ? 'selected' : '' ?>>7 años (continuo)</option>
+                        <option value="Más de 7 años" <?= $duracion_val == 'Más de 7 años' ? 'selected' : '' ?>>Más de 7 años</option>
+                        <option value="No aplicable" <?= $duracion_val == 'No aplicable' ? 'selected' : '' ?>>No aplicable</option>
                       </select>
 
 
@@ -619,7 +792,7 @@ $device = $registerModel->getDeviceType();
 
               </table>
               <div id="hiddenAnswers"></div>
-              <input type="hidden" name="is_share" value="<?= (int)$is_share ?>">
+              <input type="hidden" name="is_share" value="<?= (int) $is_share ?>">
               <input type="hidden" id="patient" name="patient" value="<?= $idpatient ?>">
               <input type="hidden" id="idClient" name="idClient" value="<?= $idClient ?>">
               <input type="hidden" id="codes" name="codes" value="<?= $register['codes'] ?>">
@@ -659,7 +832,7 @@ $device = $registerModel->getDeviceType();
         </div>
       </div>
 
-      <?php include("../include/footer.php"); ?>
+      <?php include('../include/footer.php'); ?>
     </div>
 
     <a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
@@ -677,7 +850,7 @@ $device = $registerModel->getDeviceType();
     <script src="../../assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
     <script src="../../assets/plugins/sidebar/sidebar.js"></script>
     <script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
-    <script src="../../assets/js/custom.js"></script>
+    <script src="../../assets/js/custom.js?v=<?= VERSION_CODE ?>"></script>
 
     <script>
       const answersadmin = <?php echo json_encode($answers) ?>;

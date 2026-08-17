@@ -108,7 +108,7 @@ class AnswerService
         $data['duracion'] = $duracion;
         $data['one_problem'] = $first_problem;
         $data['two_problem'] = $second_problem;
-        $info = $this->registerModel->getInputMcmmi($idpatient);
+        $info = $this->registerModel->getInputMcmmiById($idpatient);
         if($info == null){
             $res = $this->registerModel->insertMcmmi($idpatient,$data);
         }
