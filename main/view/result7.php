@@ -327,27 +327,27 @@ function getBarChartCell($type, $tb)
     if ($type === 'validez') {
         $pct = min(100, max(0, $tb_val));
         return '
-        <div class="relative w-full h-[21px]" style="background: linear-gradient(to right, #dfd0d0 0%, #dfd0d0 35%, #ffff 35%, #ffff 75%, #797979 75%, #797979 100%);">
-            <div class="absolute left-[35%] top-0 bottom-0 border-l border-black border-dashed"></div>
-            <div class="absolute left-[75%] top-0 bottom-0 border-l border-black border-dashed"></div>
+        <div class="relative w-full h-[21px]" style="background: linear-gradient(to right, #eaeaea 0%, #eaeaea 35%, #ffff 35%, #ffff 75%, #797979 75%, #797979 100%);">
+            <div class="absolute left-[35%] top-0 bottom-0 border-l border-black "></div>
+            <div class="absolute left-[75%] top-0 bottom-0 border-l border-black "></div>
             
             <div class="absolute z-1 left-0 top-[6px] bottom-[6px] bg-black" style="width: ' . $pct . '%;"></div>
         </div>';
     } elseif ($type === 'personalidad') {
         $pct = min(100, max(0, ($tb_val / 115) * 100));
         return '
-        <div class="relative w-full h-[21px]" style="background: linear-gradient(to right, #fff 0%, #fff 52.17%, #dfd0d0 52.17%, #dfd0d0 65.22%, #cccccc 65.22%, #cccccc 73.91%, #797979 73.91%, #797979 100%);">
-            <div class="absolute left-[52.17%] top-0 bottom-0 border-l border-black border-dashed"></div>
-            <div class="absolute left-[65.22%] top-0 bottom-0 border-l border-black border-dashed"></div>
-            <div class="absolute left-[73.91%] top-0 bottom-0 border-l border-black border-dashed"></div>
+        <div class="relative w-full h-[21px]" style="background: linear-gradient(to right, #fff 0%, #fff 52.17%, #eaeaea 52.17%, #eaeaea 65.22%, #c0c0c0 65.22%, #c0c0c0 73.91%, #797979 73.91%, #797979 100%);">
+            <div class="absolute left-[52.17%] top-0 bottom-0 border-l border-black"></div>
+            <div class="absolute left-[65.22%] top-0 bottom-0 border-l border-black "></div>
+            <div class="absolute left-[73.91%] top-0 bottom-0 border-l border-black "></div>
             <div class="absolute left-0 top-[6px] bottom-[6px] bg-black" style="width: ' . $pct . '%;"></div>
         </div>';
     } elseif ($type === 'psicopatologia') {
         $pct = min(100, max(0, ($tb_val / 115) * 100));
         return '
-        <div class="relative w-full h-[21px]" style="background: linear-gradient(to right, #fff 0%, #fff 60%, #cccccc 60%, #cccccc 70%, #797979 70%, #797979 100%);">
-            <div class="absolute left-[60%] top-0 bottom-0 border-l border-black border-dashed"></div>
-            <div class="absolute left-[70%] top-0 bottom-0 border-l border-black border-dashed"></div>
+        <div class="relative w-full h-[21px]" style="background: linear-gradient(to right, #fff 0%, #fff 60%, #c0c0c0 60%, #c0c0c0 70%, #797979 70%, #797979 100%);">
+            <div class="absolute left-[60%] top-0 bottom-0 border-l border-black"></div>
+            <div class="absolute left-[70%] top-0 bottom-0 border-l border-black"></div>
             <div class="absolute left-0 top-[6px] bottom-[6px] bg-black" style="width: ' . ($pct - 5.5) . '%;"></div>
         </div>';
     } elseif ($type === 'facetas') {
@@ -384,25 +384,21 @@ function renderScaleRow($type, $code, $scale_names, $raw_scores, $percentiles, $
     if ($type === 'validez') {
         return "
         <tr class='border-b border-black text-xs h-[22px]'>
-            <td class='border-r-0 border-l border-t border-b border-black px-[2.3rem] text-left text-black'>
-            <p class='h-full m-0 p-0 fix-margin'>$name</p></td>
-            <td class='border-r border-black text-center text-black pt-1 pb-1 pr-2'><p class='h-full m-0 p-0 fix-margin'>$code</p></td>
+            <td class='border-r-0 border-l border-t border-b border-black px-[2.3rem] text-left text-black'><p class='h-full m-0 p-0 fix-margin'>$name</p></td>
+            <td class='border-r border-black text-center text-black pr-2'><p class='h-full m-0 p-0 fix-margin'>$code</p></td>
             <td class='border-r border-black text-center text-black'><p class='h-full m-0 p-0 fix-margin'>$pd_str</p></td>
             <td class='border-r border-black text-center text-black'><p class='h-full m-0 p-0 fix-margin'>$tb_str</p></td>
-            <td class='p-0 border-r border-black'><p class='h-full m-0 p-0 fix-margin'>$bar_cell</p></td>
+            <td class='p-0 border-r border-black'>$bar_cell</td>
         </tr>";
     } else {
         return "
         <tr class='border-b border-black text-xs h-[22px]'>
             <td class='border-r-0 border-l border-t border-b border-black px-[2.3rem] text-left text-black'><p class='h-full m-0 p-0 fix-margin'>$name</p></td>
-            <td class='border-r border-black text-center text-black pt-1 pb-1 pr-2'><p class='h-full m-0 p-0 fix-margin'>$code</p></td>
+            <td class='border-r border-black text-center text-black  pr-2'><p class='h-full m-0 p-0 fix-margin'>$code</p></td>
             <td class='border-r border-black text-center text-black'><p class='h-full m-0 p-0 fix-margin'>$pd_str</p></td>
             <td class='border-r border-black text-center text-black'><p class='h-full m-0 p-0 fix-margin'>$pc_str</p></td>
             <td class='border-r border-black text-center text-black'><p class='h-full m-0 p-0 fix-margin'>$tb_str</p></td>
-            <td class='p-0 border-r border-black'>
-            
-            $bar_cell
-            </td>
+            <td class='p-0 border-r border-black'>$bar_cell</td>
         </tr>";
     }
 }
@@ -1480,7 +1476,7 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                                                     <p class="h-full m-0 p-0 fix-margin"><?= htmlspecialchars($parent_name) ?></p>
                                                     
                                                 </td>
-                                                <td class="border-l-0 border-b-2 border-t border-r-0 border-black px-[.8rem] text-left text-xs font-bold" colspan="4">
+                                                <td class="border-l-0 border-b-2 border-t border-r-0 border-black px-[.3rem] text-left text-xs font-bold" colspan="4">
                                                     <p class="h-full m-0 p-0 fix-margin"><?= $parent_code ?></p></td>
                                                 <td class="border-l border-b-2 border-t border-r border-black text-center text-black text-xs  font-bold" colspan="2">
                                                     <div class="relative w-full font-sans text-center text-xs text-black fix-margin">
@@ -1830,6 +1826,9 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
         jsonpdf.push({
             type: 2,
             image: "contenido5"
+        });
+        jsonpdf.push({
+            type: 3
         });
         jsonpdf.push({
             type: 2,

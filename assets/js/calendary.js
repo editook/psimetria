@@ -36,19 +36,19 @@
   };
 
   var diasIniciales = [
-    { day: 1, citas: [{ id: mkId(), paciente: 'María López', prueba: 'MCMI-IV', hora: '8:00 am', color: 'lavender', duracion: '90 min', estado: 'Confirmada' }] },
-    { day: 2, citas: [] },
+    { day: 1, citas: [{ id: mkId(), paciente: 'María López', prueba: 'Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances', hora: '8:00 am', color: 'lavender', duracion: '90 min', estado: 'Confirmada' }] },
+    
     {
       day: 3,
       citas: [
-        { id: mkId(), paciente: 'Carlos Ruiz', prueba: 'MACI', hora: '8:00 am', color: 'coral', duracion: '60 min', estado: 'Confirmada' },
-        { id: mkId(), paciente: 'Ana Torres', prueba: 'MCMI-IV', hora: '9:00 am', color: 'lavender', duracion: '90 min', estado: 'Pendiente' },
-        { id: mkId(), paciente: 'Luis Gómez', prueba: 'AF 2.2', hora: '10:00 am', color: 'mint', duracion: '45 min', estado: 'Confirmada' }
+        { id: mkId(), paciente: 'Carlos Ruiz', prueba: 'Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances', hora: '8:00 am', color: 'coral', duracion: '60 min', estado: 'Confirmada' },
+        { id: mkId(), paciente: 'Ana Torres', prueba: 'Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances', hora: '9:00 am', color: 'lavender', duracion: '90 min', estado: 'Pendiente' },
+        { id: mkId(), paciente: 'Luis Gómez', prueba: 'Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances', hora: '10:00 am', color: 'mint', duracion: '45 min', estado: 'Confirmada' }
       ]
     },
-    { day: 4, citas: [] },
-    { day: 5, citas: [{ id: mkId(), paciente: 'Sofía Díaz', prueba: 'CMASR-2 2.0', hora: '11:00 am', color: 'cream', duracion: '30 min', estado: 'Confirmada' }] },
-    { day: 6, citas: [{ id: mkId(), paciente: 'Pedro Martín', prueba: 'AF 2.2', hora: '8:00 am', color: 'mint', duracion: '45 min', estado: 'Pendiente' }] }
+   
+    { day: 5, citas: [{ id: mkId(), paciente: 'Sofía Díaz', prueba: 'Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances', hora: '11:00 am', color: 'cream', duracion: '30 min', estado: 'Confirmada' }] },
+    { day: 6, citas: [{ id: mkId(), paciente: 'Pedro Martín', prueba: 'Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances', hora: '8:00 am', color: 'mint', duracion: '45 min', estado: 'Pendiente' }] }
   ];
 
   var colores = ['lavender', 'coral', 'mint', 'cream'];
@@ -208,7 +208,7 @@
           '<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-50 text-slate-800">' +
             '<i data-lucide="clipboard-list" class="h-3.5 w-3.5"></i>' +
           '</span>' +
-          '<p class="truncate text-xs font-semibold text-slate-900">' + escapeHtml(cita.prueba) + '</p>' +
+          '<p class="truncate text-xs font-semibold text-slate-900 w-max-10">' + escapeHtml(cita.prueba) + '</p>' +
         '</div>' +
         '<div class="relative flex items-center justify-between gap-1 pt-2 text-xs font-medium">' +
           '<button type="button" data-action="toggle-status" data-day="' + day + '" data-id="' + cita.id + '"' +

@@ -27,34 +27,7 @@ class Baremo_Model
     {
         $where = "";
         if($id != ''){
-            /*const rangos = {
-					1: [1, 4],
-					2: [5, 37],
-					3: [38, 45],
-                    4: [46, 50],
-                    5: [51, 56],
-                    6: [57, 58],
-				};
-            */
-            if($id == '1'){
-                $where = " where id>=1 and id<=4";
-            }
-            if($id == '2'){
-                $where = " where id>=5 and id<=37";
-            }
-            if($id == '3'){
-                $where = " where id>=38 and id<=45";
-            }
-            if($id == '4'){
-                $where = " where id>=46 and id<=50";
-            }
-            if($id == '5'){
-                $where = " where id>=51 and id<=56";
-            }
-            if($id == '6'){
-                $where = " where id>=57 and id<=58";
-            }
-            
+            $where = " where id_type_question = $id";
         }
         $query =
             "SELECT *

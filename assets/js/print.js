@@ -64,7 +64,7 @@ async function descargarPDF() {
     btn.disabled = false;
     text.innerText = "DESCARGAR";
     loader.style.display = "none";
-    //location.reload();
+    location.reload();
 }
 
 

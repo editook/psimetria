@@ -89,10 +89,6 @@
 		<meta charset="UTF-8">
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
-		<meta name="Author" content="Spruko Technologies Private Limited">
-		<meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4"/>
-
 		<!-- Title -->
 		<title> <?=WEB_TITLE?> </title>
 
@@ -578,30 +574,20 @@
 				const option = document.createElement("option");
 				option.value = baremo.id;
 				option.text = baremo.name;
+				option.style.color = "#005bea";
 				if (baremo.active == '0') {
 					option.disabled = true;
+					option.style.color = "#666969";
 				}
 				return option;
 			}
 			function reloadBaremos(id){
 				
 				selectElement.innerHTML = '<option value="" disabled selected>Seleccionar</option>';
-				//baremos
-				const rangos = {
-					1: [1, 4],//form1
-					2: [5, 37],//form2
-					3: [38, 45],//form3
-					4: [46, 50],//form4
-					5: [51, 56],//form5
-					6: [57, 58],//form6
-					7: [59, 60],//form7
-				};
-
-				const [min, max] = rangos[id] || [0, 0];
-
+				
 				baremos.forEach(baremo => {
-					const baremoId = Number(baremo.id);
-					if (baremoId >= min && baremoId <= max) {
+					const id_type_question = Number(baremo.id_type_question);
+					if (id_type_question == id ) {
 						selectElement.appendChild(createOption(baremo));
 					}
 				});
