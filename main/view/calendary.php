@@ -219,7 +219,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								</p>
 							</div>
 
-							<button id="closeModal" class="text-2xl leading-none text-slate-400" aria-label="Cerrar">
+							<button id="closeModal" class="text-2xl leading-none text-slate-600" aria-label="Cerrar">
 								&times;
 							</button>
 						</div>
@@ -235,15 +235,15 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
 
 							<select
-								id="testInput"
+								id="generoInput"
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500">
 								
 							</select>
 
 							<input
-								id="SexoOtroInput"
+								id="gneroOtroInput"
 								placeholder="Otro:"
-								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+								class="hidden w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
 							
 							<input
 								id="telefonoInput"
@@ -267,11 +267,21 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								type="number"
 								placeholder="Tiempo Max en Min."
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+							
+							<select
+								id="estadoInput"
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500">
+								<option value="" selected disabled>Seleccionar estado</option>
+								<option value="Confirmada">Confirmar</option>
+								<option value="Pendiente">Por Confirmar</option>
+							</select>
 
 							<div class="flex flex-wrap items-center gap-2">
 								<span class="text-xs text-slate-500">Colores:</span>
 								<div id="coloresButtons" class="flex flex-wrap gap-1.5"></div>
 							</div>
+
+							
 
 							<p id="formError" class="hidden text-xs text-red-500"></p>
 

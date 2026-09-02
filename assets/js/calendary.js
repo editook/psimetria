@@ -19,7 +19,7 @@
     "Diciembre",
   ];
 
-  var sexoLista = ["Seleccionar", "Masculino", "Femenino", "Otro"];
+  var sexoLista = ["Seleccionar Genero", "Masculino", "Femenino", "Otro"];
 
   var citaId = 0;
   var mkId = function () {
@@ -39,9 +39,9 @@
           sexo: "Femenino",
           telefono: "7774577",
           nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "8:00 am",
+          hora: "08:00",
           color: "bg-lavender",
-          duracion: "90 min",
+          duracion: "90",
           estado: "Confirmada",
         },
       ],
@@ -59,9 +59,9 @@
           sexo: "Masculino",
           telefono: "7774577",
           nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "8:00 am",
+          hora: "08:00",
           color: "bg-coral",
-          duracion: "60 min",
+          duracion: "60",
           estado: "Confirmada",
         },
         {
@@ -71,9 +71,9 @@
           sexo: "Femenino",
           telefono: "7774577",
           nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "9:00 am",
+          hora: "09:00",
           color: "bg-lavender",
-          duracion: "90 min",
+          duracion: "90",
           estado: "Pendiente",
         },
         {
@@ -83,9 +83,9 @@
           sexo: "Masculino",
           telefono: "7774577",
           nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "10:00 am",
+          hora: "15:00",
           color: "bg-mint",
-          duracion: "45 min",
+          duracion: "45",
           estado: "Confirmada",
         },
       ],
@@ -103,9 +103,9 @@
           sexo: "Masculino",
           telefono: "7774577",
           nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "11:00 am",
+          hora: "19:00",
           color: "bg-cream",
-          duracion: "30 min",
+          duracion: "30",
           estado: "Confirmada",
         },
       ],
@@ -122,9 +122,9 @@
           sexo: "Masculino",
           telefono: "7774577",
           nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "8:00 am",
+          hora: "18:00",
           color: "bg-mint",
-          duracion: "45 min",
+          duracion: "45",
           estado: "Pendiente",
         },
       ],
@@ -195,11 +195,15 @@
     cancelSearch: $("#cancelSearch"),
     modalBackdrop: $("#modalBackdrop"),
     patientInput: $("#patientInput"),
-    testInput: $("#testInput"),
+    patientLasnameInput: $("#patientLasnameInput"),
+    generoInput: $("#generoInput"),
+    generoOtroInput: $("#gneroOtroInput"),
     timeInput: $("#timeInput"),
+    dateInput: $("#dateInput"),
     coloresButtons: $("#coloresButtons"),
     formError: $("#formError"),
   };
+
 
   /* ------------------------- Utilidades ------------------------- */
   function inicialesDe(nombre) {
@@ -209,7 +213,6 @@
     });
     return letras.join("").slice(0, 2).toUpperCase();
   }
-
   function escapeHtml(value) {
     return String(value)
       .replace(/&/g, "&amp;")
@@ -218,6 +221,12 @@
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
+  function formatHour(hourStr) {
+    if (!hourStr) return "";
+    var [hours] = hourStr.split(':').map(Number);
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    return hourStr+ ' ' + ampm;
+  }
 
   function hydrateIcons() {
     if (window.lucide) {
@@ -225,7 +234,7 @@
     }
   }
 
-  function totalCitas(month) {
+  function totalCitasConfirmadas(month) {
 
     return state.citas
       .filter(function (item) {
@@ -234,6 +243,18 @@
       .reduce(function (total, item) {
         return total + item.citas.filter(function (cita) {
           return cita.estado === "Confirmada";
+        }).length;
+      }, 0);
+  }
+  function totalCitasPendientes(month) {
+
+    return state.citas
+      .filter(function (item) {
+        return new Date(item.date).getMonth() === month;
+      })
+      .reduce(function (total, item) {
+        return total + item.citas.filter(function (cita) {
+          return cita.estado === "Pendiente";
         }).length;
       }, 0);
   }
@@ -326,10 +347,11 @@
       escapeHtml(cita.nombre_paciente) + " " + escapeHtml(cita.apellido_paciente) +
       "</p>" +
       '<p class="text-xs text-slate-600">' +
-      escapeHtml(cita.hora) +
+      escapeHtml(formatHour(cita.hora)) +
       " · " +
       escapeHtml(cita.duracion) +
       "</p>" +
+
       "</div>" +
       "</div>" +
       '<div class="flex items-center gap-2 rounded-lg bg-white/90 px-2 py-2 shadow-sm">' +
@@ -445,7 +467,8 @@
     var year = currentDate.getFullYear();
     var month = currentDate.getMonth();
 
-    var total = totalCitas(month);
+    var total = totalCitasConfirmadas(month);
+    var totalPendientes = totalCitasPendientes(month);
 
 
     var firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -494,7 +517,7 @@
         ' class="relative mx-auto flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium transition ' +
         (outside
           ? "cursor-default text-slate-300"
-          : "cursor-pointer text-slate-700 hover:bg-slate-100") +
+          : "cursor-pointer text-slate-700 hover:bg-slate-300") +
         '">' +
         day +
         (hasAppointment
@@ -507,7 +530,9 @@
     html +=
       '<div class="mt-4 flex items-center gap-2 text-xs text-slate-600">';
     html +=
-      '<span class="h-1.5 w-1.5 rounded-full bg-red-500 animate-bounce"></span>' + total + ' Citas programadas';
+      '<span class="h-1.5 w-1.5 rounded-full bg-red-500 animate-bounce"></span>' + total + ' Confirmadas ';
+    html +=
+      '<span class="h-1.5 w-1.5 rounded-full bg-orange-500 animate-bounce"></span>' + totalPendientes + ' Pendientes';
     html += "</div>";
     html += "</div>";
 
@@ -535,7 +560,7 @@
       " " +
       meses[state.mesActivo] +
       " · " +
-      escapeHtml(cita.hora) +
+      escapeHtml(formatHour(cita.hora)) +
       "</p>" +
       "</div>" +
       '<div class="flex flex-col items-end gap-2">' +
@@ -639,39 +664,66 @@
   /* ------------------------- Acciones de cita ------------------------- */
   function agregarCita() {
     var nombre_paciente = els.patientInput.val().trim();
-    var nota = els.testInput.val();
+    var apellido_paciente = els.patientLasnameInput.val().trim();
+    var genero = els.generoInput.val();
     var hora = els.timeInput.val().trim();
+    var fecha = els.dateInput.val();
+    var estado = $("#estadoInput").val();
+    var duracion = $("#timeMaxInput").val().trim();
 
-    if (!nombre_paciente || !hora) {
+    if (genero === "Otro") {
+      genero = els.generoOtroInput.val().trim();
+    }
+
+    if (!nombre_paciente || !apellido_paciente || !hora || !fecha || !genero || !estado || !duracion) {
       mostrarError("Por favor completa todos los campos.");
       return;
     }
 
-    var color = "bg-lavender";//cambiar obtener desde el formulario
+    var color = state.colorSeleccionado;
 
     var nuevaCita = {
       id: mkId(),
       nombre_paciente: nombre_paciente,
-      nota: nota,
+      apellido_paciente: apellido_paciente,
+      sexo: genero,
+      telefono: $("#telefonoInput").val().trim(),
+      nota: "Cita agendada desde calendario",
       hora: hora,
       color: color,
-      duracion: 0,
-      estado: "Pendiente",
+      duracion: duracion,
+      estado: estado,
     };
 
-    state.citas = state.citas.map(function (day) {
-      return day.day === state.colorSeleccionado
-        ? { day: day.day, citas: day.citas.concat([nuevaCita]) }
-        : day;
+    var dateObj = new Date(fecha + "T00:00:00");
+    var day = dateObj.getDate();
+
+    var existingDay = state.citas.find(function (item) {
+      return new Date(item.date).toDateString() === dateObj.toDateString();
     });
 
+    if (existingDay) {
+      existingDay.citas.push(nuevaCita);
+    } else {
+      state.citas.push({
+        day: day,
+        date: dateObj,
+        citas: [nuevaCita]
+      });
+    }
+
     els.patientInput.val("");
-    els.testInput.val("Sexo");
+    els.patientLasnameInput.val("");
+    els.generoInput.val("");
+    els.generoOtroInput.val("");
     els.timeInput.val("");
+    els.dateInput.val("");
+    $("#timeMaxInput").val("");
 
     cerrarModal();
     render();
   }
+
 
   function eliminarCita(day, id) {
     state.citas = state.citas.map(function (item) {
@@ -789,14 +841,29 @@
 
     // Mini calendario (delegación)
     els.miniCalendar.on("click", "[data-mini-day]", function () {
-      state.colorSeleccionado = Number($(this).data("miniDay"));
-      render();
+      var day = Number($(this).data("miniDay"));
+      var year = currentDate.getFullYear();
+      var month = currentDate.getMonth();
+
+      var selectedDate = new Date(year, month, day);
+      var dateString = selectedDate.toISOString().split('T')[0];
+
+      $("#dateInput").val(dateString);
+      abrirModal();
+    });
+
+    // Mostrar/Ocultar campo "Otro" género
+    els.generoInput.on("change", function () {
+      if ($(this).val() === "Otro") {
+        els.generoOtroInput.removeClass("hidden");
+      } else {
+        els.generoOtroInput.addClass("hidden");
+      }
     });
 
     // Días del formulario (delegación)
     els.coloresButtons.on("click", "[data-form-day]", function () {
       state.colorSeleccionado = $(this).data("formDay");
-      console.log(state.colorSeleccionado);
       renderFormDays();
     });
 
@@ -815,7 +882,7 @@
   }
 
   /* ------------------------- Inicialización ------------------------- */
-  els.testInput.html(
+  els.generoInput.html(
     sexoLista
       .map(function (p) {
         return (
