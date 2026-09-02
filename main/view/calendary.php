@@ -132,19 +132,19 @@ $registers = $registerModel->getAll($idClient, $search_key);
 
 
 							<div class="flex-1">
-								<section class="min-w-0 border-b border-slate-100">
+								<section id="mini-calendario" class="min-w-0 border-b border-slate-100">
 									<div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-8">
 										<h2 class="text-base font-semibold">Calendario</h2>
 									</div>
 
 									<div class="flex items-center justify-center gap-2 overflow-x-auto border-b border-slate-300 px-5 py-3 sm:px-8">
-										<button id="prevMonth" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-100">
+										<button id="prevMonthSide" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-300">
 											<i data-lucide="chevron-left" class="h-4 w-4"></i>
 										</button>
 
 										<div id="monthList" class="flex min-w-max gap-2"></div>
 
-										<button id="nextMonth" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-100">
+										<button id="nextMonthSide" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-300">
 											<i data-lucide="chevron-right" class="h-4 w-4"></i>
 										</button>
 									</div>
@@ -180,13 +180,13 @@ $registers = $registerModel->getAll($idClient, $search_key);
 									<div class="border-b border-slate-100 px-5 py-4 sm:px-8">
 										<div class="flex items-center justify-between">
 											<div class="flex flex-1 items-center justify-between gap-4">
-												<button id="prevMonthSide" class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-100">
+												<button id="prevMonth" class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-300">
 													<i data-lucide="chevron-left" class="h-[15px] w-[15px]"></i>
 												</button>
 
 												<h2 id="miniMonthTitle" class="text-sm font-semibold"></h2>
 
-												<button id="nextMonthSide" class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-100">
+												<button id="nextMonth" class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-300">
 													<i data-lucide="chevron-right" class="h-[15px] w-[15px]"></i>
 												</button>
 											</div>

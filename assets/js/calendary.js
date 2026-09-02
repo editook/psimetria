@@ -2,7 +2,7 @@
   "use strict";
 
   /* ------------------------- Constantes ------------------------- */
-  var meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul"]; //,'Ago','Sep','Oct','Nov','Dic'
+  var meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
   var mesesLargos = [
     "Enero",
@@ -12,6 +12,11 @@
     "Mayo",
     "Junio",
     "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
   ];
 
   var sexoLista = ["Seleccionar", "Masculino", "Femenino", "Otro"];
@@ -24,6 +29,8 @@
   var diasIniciales = [
     {
       day: 1,
+      date: new Date(2026, 8, 1),
+      time: "14:30",
       citas: [
         {
           id: mkId(),
@@ -42,6 +49,8 @@
 
     {
       day: 3,
+      date: new Date(2026, 8, 3),
+      time: "14:30",
       citas: [
         {
           id: mkId(),
@@ -84,6 +93,8 @@
 
     {
       day: 5,
+      date: new Date(2026, 8, 5),
+      time: "14:30",
       citas: [
         {
           id: mkId(),
@@ -101,6 +112,8 @@
     },
     {
       day: 6,
+      date: new Date(2026, 8, 6),
+      time: "14:30",
       citas: [
         {
           id: mkId(),
@@ -130,7 +143,7 @@
     "bg-emerald-200",
     "bg-green-200",
     "bg-yellow-200",
-];
+  ];
   var siguienteEstado = {
     Confirmada: "Pendiente",
     Pendiente: "Cancelada",
@@ -154,7 +167,8 @@
 
   /* ------------------------- Estado ------------------------- */
   var state = {
-    mesActivo: 1,
+    currentDate: new Date(2026, 0, 1),
+    mesActivo: 0,
     nombre_paciente: "",
     nota: "",
     hora: "",
@@ -163,7 +177,11 @@
     busqueda: "",
     busquedaActiva: false,
   };
+  var currentDate = new Date();
+  var mesActivo = currentDate.getMonth();
 
+  var currentDateSide = new Date();
+  var mesActivoSide = currentDate.getMonth();
   /* ------------------------- Nodos ------------------------- */
   var els = {
     monthList: $("#monthList"),
@@ -207,19 +225,34 @@
     }
   }
 
-  function totalCitas() {
-    return state.citas.reduce(function (acc, day) {
-      return acc + day.citas.length;
-    }, 0);
+  function totalCitas(month) {
+
+    return state.citas
+      .filter(function (item) {
+        return new Date(item.date).getMonth() === month;
+      })
+      .reduce(function (total, item) {
+        return total + item.citas.filter(function (cita) {
+          return cita.estado === "Confirmada";
+        }).length;
+      }, 0);
   }
 
-  function diasConCita() {
+  function diasConCita(month) {
+
     return state.citas
-      .filter(function (day) {
-        return day.citas.length > 0;
+      .filter(function (item) {
+        if (!item.citas || item.citas.length === 0) {
+          return false;
+        }
+
+        const fecha = new Date(item.date);
+        return fecha.getMonth() === month;
       })
-      .map(function (day) {
-        return day.day;
+      .map(function (item) {
+        const fecha = new Date(item.date);
+
+        return fecha.getDate();
       });
   }
 
@@ -230,13 +263,13 @@
       return state.citas;
     }
 
-    return state.citas.map(function (day) {
+    return state.citas.map(function (cita) {
       return {
-        day: day.day,
-        citas: day.citas.filter(function (cita) {
+        day: cita.day,
+        citas: cita.citas.filter(function (citaFiltro) {
           return (
-            cita.nombre_paciente.toLowerCase().indexOf(q) !== -1 ||
-            cita.nota.toLowerCase().indexOf(q) !== -1
+            citaFiltro.nombre_paciente.toLowerCase().indexOf(q) !== -1 ||
+            citaFiltro.nota.toLowerCase().indexOf(q) !== -1
           );
         }),
       };
@@ -262,10 +295,10 @@
         .map(function (mes, i) {
           return (
             '<button type="button"' +
-            ' class="h-8 min-w-[85px] shrink-0 rounded-full text-xs font-medium transition ' +
-            (state.mesActivo === i
+            ' class="h-8 min-w-[85px] shrink-0 rounded-full text-sm font-semibold transition ' +
+            (mesActivoSide === i
               ? "bg-black text-white shadow-sm"
-              : "bg-slate-50 text-slate-700 hover:bg-slate-100") +
+              : "bg-slate-50 text-slate-700 hover:bg-slate-300") +
             '" data-month="' +
             i +
             '">' +
@@ -332,36 +365,36 @@
       "</button>" +
       '<div id="menu-' +
       cita.id +
-      '" class="absolute top-full bottom-9 right-0 z-20 hidden w-36 h-50 rounded-lg border border-slate-500 bg-black py-1 shadow-lg">' +
+      '" class="absolute justify-items-center bottom-9 right-0 z-20 hidden w-36 h-50 rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
       '<button type="button" data-action="delete" data-day="' +
       day +
       '" data-id="' +
       cita.id +
       '"' +
-      ' class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-50">' +
-      '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar cita' +
+      ' class="flex rounded-full items-center m-2 gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">' +
+      '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar Cita' +
       "</button>" +
-      `<div class="flex flex-col gap-2 border-t border-slate-300 px-5 py-3 sm:px-8">
+      `<div class="flex flex-col gap-2 border-t border-slate-300 px-2 py-3">
 
           <button
               type="button"
-              class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-green-600 transition hover:bg-green-50">
-              <i data-lucide="edit" class="h-[13px] w-[13px]"></i>
-              Confirmada
+              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-green-600 transition hover:bg-green-200">
+              <i data-lucide="check-circle" class="h-[13px] w-[13px]"></i>
+              Confirmar
           </button>
 
           <button
               type="button"
-              class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-orange-800 transition hover:bg-orange-50">
-              <i data-lucide="edit" class="h-[13px] w-[13px]"></i>
+              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-orange-800 transition hover:bg-orange-200">
+              <i data-lucide="clock-3" class="h-[13px] w-[13px]"></i>
               Pendiente
           </button>
 
           <button
               type="button"
-              class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-50">
-              <i data-lucide="edit" class="h-[13px] w-[13px]"></i>
-              Cancelada
+              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">
+              <i data-lucide="x-circle" class="h-[13px] w-[13px]"></i>
+              Cancelar
           </button>
 
       </div>`+
@@ -409,17 +442,38 @@
     );
   }
   function renderMiniCalendar() {
-    var calendario = [
-      27, 28, 29, 30, 31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-      15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 1, 2,
-    ];
+    var year = currentDate.getFullYear();
+    var month = currentDate.getMonth();
+
+    var total = totalCitas(month);
+
+
+    var firstDayOfMonth = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    var firstDayAdjusted = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+    var calendario = [];
+    var prevMonthLastDay = new Date(year, month, 0).getDate();
+
+    for (var i = firstDayAdjusted - 1; i >= 0; i--) {
+      calendario.push(prevMonthLastDay - i);
+    }
+    for (var i = 1; i <= daysInMonth; i++) {
+      calendario.push(i);
+    }
+    var remaining = 42 - calendario.length;
+    for (var i = 1; i <= remaining; i++) {
+      calendario.push(i);
+    }
+
     var weekDays = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
-    var appointmentDays = diasConCita();
+    var appointmentDays = diasConCita(month);
     var html = "";
 
     html += '<div class="mt-5">';
     html +=
-      '<div class="grid grid-cols-7 gap-y-2 text-center text-xs font-semibold text-slate-500">';
+      '<div class="grid grid-cols-7 gap-y-2 text-center text-xs font-bold text-slate-800">';
     html += weekDays
       .map(function (d) {
         return "<span>" + d + "</span>";
@@ -427,10 +481,9 @@
       .join("");
 
     calendario.forEach(function (day, index) {
-      var outside = index < 5 || index > 32;
+      var outside = index < firstDayAdjusted || index >= firstDayAdjusted + daysInMonth;
       var hasAppointment =
         appointmentDays.indexOf(day) !== -1 && !outside;
-      var selected = day === state.colorSeleccionado && !outside;
 
       html +=
         '<button type="button"' +
@@ -439,17 +492,13 @@
         day +
         '"' +
         ' class="relative mx-auto flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium transition ' +
-        (selected ? "bg-black text-white" : "") +
-        " " +
         (outside
           ? "cursor-default text-slate-300"
           : "cursor-pointer text-slate-700 hover:bg-slate-100") +
         '">' +
         day +
         (hasAppointment
-          ? '<i class="absolute bottom-0.5 h-1 w-1 rounded-full ' +
-          (selected ? "bg-white" : "bg-violet-500") +
-          '"></i>'
+          ? '<i class="absolute bottom-0 h-1.5 w-1.5 rounded-full bg-red-500 animate-bounce"></i>'
           : "") +
         "</button>";
     });
@@ -458,7 +507,7 @@
     html +=
       '<div class="mt-4 flex items-center gap-2 text-xs text-slate-600">';
     html +=
-      '<span class="h-1.5 w-1.5 rounded-full bg-violet-500"></span>Citas programadas';
+      '<span class="h-1.5 w-1.5 rounded-full bg-red-500 animate-bounce"></span>' + total + ' Citas programadas';
     html += "</div>";
     html += "</div>";
 
@@ -528,14 +577,14 @@
     els.coloresButtons.html(
       colorClass
         .map(function (color) {
-          
+
           return (
             '<button type="button" data-form-day="' +
             color +
             '"' +
             ' class="h-7 w-7 rounded-full text-xs font-medium transition  ' +
             (state.colorSeleccionado == color
-              ? color+" border border-black/80"
+              ? color + " border border-black/80"
               : color) +
             '">' +
             "</button>"
@@ -547,8 +596,7 @@
   function render() {
     renderMonths();
 
-    var total = totalCitas();
-    els.miniMonthTitle.text(mesesLargos[state.mesActivo]);
+    els.miniMonthTitle.text(mesesLargos[currentDate.getMonth()] + " " + currentDate.getFullYear());
 
     renderDays();
     renderMiniCalendar();
@@ -558,10 +606,15 @@
     hydrateIcons();
   }
   function navegarMes(delta) {
-    state.mesActivo = Math.max(
+    mesActivo = Math.max(
       0,
-      Math.min(meses.length - 1, state.mesActivo + delta),
+      Math.min(meses.length - 1, mesActivo + delta),
     );
+
+    var newDate = new Date(currentDate);
+    newDate.setMonth(newDate.getMonth() + delta);
+    currentDate = newDate;
+
     render();
   }
 
@@ -675,12 +728,20 @@
       }
     });
 
-    // Navegación de meses
-    $("#prevMonth, #prevMonthSide").on("click", function () {
+    // Mini calendario navigation
+    $("#prevMonth").on("click", function () {
       navegarMes(-1);
     });
-    $("#nextMonth, #nextMonthSide").on("click", function () {
+    $("#nextMonth").on("click", function () {
       navegarMes(1);
+    });
+
+    // Navegación de meses side
+    $("#prevMonthSide").on("click", function () {
+      //navegarMes(-1);
+    });
+    $("#nextMonthSide").on("click", function () {
+      //navegarMes(1);
     });
 
     // Botones de mes (delegación, contenido dinámico)
