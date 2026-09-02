@@ -95,34 +95,38 @@ $registers = $registerModel->getAll($idClient, $search_key);
 			<div class="container-global w-full flex items-center justify-center mt-10">
 				<div class="grid w-full grid-cols-1 md:grid-cols-3 gap-4">
 					<div class="md:col-span-2">
-						<div class="flex min-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-[24px] border border-white/80 bg-white shadow-xl">
-							<div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-8">
+						<div class="flex min-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-2xl border border-white/80 bg-white shadow-xl">
+							<div class="flex items-center justify-between px-5 py-2 sm:px-8">
 								<div class="flex items-center gap-2 text-xs text-slate-400">
 
 								</div>
 
 								<div class="flex items-center gap-5 text-slate-700">
-									<button id="searchToggle" class="transition hover:text-black" aria-label="Buscar">
-										<i data-lucide="search" class="h-[19px] w-[19px]"></i>
-									</button>
+
 
 								</div>
 							</div>
 
-							<div id="searchBar" class="hidden items-center gap-2 border-b border-slate-100 px-5 py-3 sm:px-8">
-								<div class="flex flex-1 items-center gap-2 rounded-lg bg-slate-50 px-3 py-2 ring-1 ring-slate-200/70 transition focus-within:ring-2 focus-within:ring-slate-400">
-									<i data-lucide="search" class="h-4 w-4 shrink-0 text-slate-400"></i>
+							<div id="searchBar" class="flex items-center gap-2 px-5 py-3 sm:px-8">
+
+								<div class="flex flex-1 items-center gap-2 border border-slate-400 rounded-full bg-slate-100 px-3 py-2 ring-1 ring-slate-200/70 transition focus-within:ring-1">
+
+									<i data-lucide="search" class="h-4 w-4 shrink-0 text-slate-500"></i>
+
 									<input
 										id="searchInput"
 										placeholder="Buscar..."
-										class="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400" />
-									<button id="clearSearch" class="hidden shrink-0 text-slate-400 transition hover:text-slate-600" aria-label="Limpiar">
-										<i data-lucide="x" class="h-4 w-4"></i>
-									</button>
+										class="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-500" />
+
 								</div>
-								<button id="cancelSearch" class="shrink-0 text-xs font-medium text-slate-500 transition hover:text-slate-700">
+
+								<button
+									id="cancelSearch"
+									type="button"
+									class="shrink-0 text-xs font-medium text-slate-600 transition hover:text-slate-800">
 									Cancelar
 								</button>
+
 							</div>
 
 
@@ -133,7 +137,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 										<h2 class="text-base font-semibold">Calendario</h2>
 									</div>
 
-									<div class="flex items-center justify-center gap-2 overflow-x-auto border-b border-slate-100 px-5 py-3 sm:px-8">
+									<div class="flex items-center justify-center gap-2 overflow-x-auto border-b border-slate-300 px-5 py-3 sm:px-8">
 										<button id="prevMonth" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-100">
 											<i data-lucide="chevron-left" class="h-4 w-4"></i>
 										</button>
@@ -154,7 +158,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 					</div>
 					<div class="md:col-span-1">
 
-						<div class="flex min-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-[24px] border border-white/80 bg-white shadow-xl">
+						<div class="flex min-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-2xl border border-white/80 bg-white shadow-xl">
 							<section class="border-b border-slate-100 px-5 py-5 sm:px-8 sm:py-6">
 								<div class="flex flex-wrap items-end justify-between gap-4">
 									<div>
@@ -224,20 +228,49 @@ $registers = $registerModel->getAll($idClient, $search_key);
 							<input
 								id="patientInput"
 								placeholder="Nombre del paciente"
-								class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-400" />
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+							<input
+								id="patientLasnameInput"
+								placeholder="Apellido del paciente"
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
 
 							<select
 								id="testInput"
-								class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-400"></select>
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500">
+								
+							</select>
+
+							<input
+								id="SexoOtroInput"
+								placeholder="Otro:"
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+							
+							<input
+								id="telefonoInput"
+								placeholder="Telefono del paciente"
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+							
+							<input
+								id="dateInput"
+								type="date"
+								placeholder="Fecha"
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
 
 							<input
 								id="timeInput"
-								placeholder="Hora (ej. 9:00 am)"
-								class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-400" />
+								type="time"
+								placeholder="Hora"
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+
+							<input
+								id="timeMaxInput"
+								type="number"
+								placeholder="Tiempo Max en Min."
+								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
 
 							<div class="flex flex-wrap items-center gap-2">
-								<span class="text-xs text-slate-500">Día:</span>
-								<div id="dayButtons" class="flex flex-wrap gap-1.5"></div>
+								<span class="text-xs text-slate-500">Colores:</span>
+								<div id="coloresButtons" class="flex flex-wrap gap-1.5"></div>
 							</div>
 
 							<p id="formError" class="hidden text-xs text-red-500"></p>

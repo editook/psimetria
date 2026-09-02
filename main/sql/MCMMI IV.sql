@@ -1,4 +1,16 @@
-CREATE TABLE `p022tea`.`mcmmi_input` (`id` INT NOT NULL AUTO_INCREMENT , `estudios` TEXT NULL DEFAULT NULL , `estado_civil` VARCHAR(200) NOT NULL , `two_problem` VARCHAR(10) NOT NULL , `ambito` VARCHAR(500) NOT NULL , `duracion` VARCHAR(200) NOT NULL , `ci` VARCHAR(20) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `mcmmi_input` (
+  `id_mcmmi` int NOT NULL,
+  `id_patient` int NOT NULL,
+  `region` varchar(50) DEFAULT NULL,
+  `estudios` text,
+  `estado_civil` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `two_problem` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `one_problem` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ambito` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `duracion` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ci` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 YA FUERON INSERTADOS
 tabla type_question = id = 7 name = MCMI IV
@@ -48,6 +60,8 @@ INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALU
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '43', 'Parece que pocas cosas me entristecen o me alegran.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '44', 'A menudo tengo pensamientos extraños de los que desearía librarme.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '45', 'Tengo muchos problemas para controlar el impulso de beber alcohol en exceso.', 7);
+
+
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '46', 'Hago amistades con mucha más facilidad que la mayoría de la gente que conozco.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '47', 'Me da vergüenza el maltrato que sufrí cuando era joven.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '48', 'Me parece muy bien que haya normas, porque son una buena guía para seguir.', 7);
@@ -96,6 +110,8 @@ INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALU
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '91', 'Me siento agitado y me cuesta conciliar el sueño porque tengo recuerdos dolorosos dando vueltas en mi cabeza.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '92', 'A menudo me pierdo en mis pensamientos y me olvido de lo que está pasando a mi alrededor.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '93', 'Nunca he podido dejar de sentir que no valgo nada para los demás.', 7);
+
+
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '94', 'Tengo un problema con la bebida que he tratado de solucionar sin éxito.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '95', 'Alguien ha estado intentando controlar mi mente.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '96', 'La mayoría de las personas que han triunfado han tenido suerte o han sido deshonestas.', 7);
@@ -144,6 +160,9 @@ INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALU
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '139', 'Aparte de mi familia, tengo muy pocos amigos íntimos.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '140', 'La desorganización me hace sentir muy incómodo.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '141', 'A menudo critico mucho a la gente que me irrita.', 7);
+
+
+
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '142', 'Tengo muchas cualidades que los demás querrían tener.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '143', 'Terribles acontecimientos de mi pasado reaparecen obsesivamente en mis pensamientos y sueños.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '144', 'Sé que he gastado más dinero en droga del que debería.', 7);
@@ -198,3 +217,11 @@ INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALU
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '193', 'He estado abatido y triste gran parte de mi vida.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '194', 'Tiendo a estar de acuerdo con las opiniones de los demás.', 7);
 INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '195', 'Evito la mayoría de las situaciones sociales porque creo que la gente me rechazará.', 7);
+
+
+
+
+CREATE TABLE `p022tea`.`paciente` (`id` INT NOT NULL AUTO_INCREMENT , `nombre` VARCHAR(40) NOT NULL , `apellidos` VARCHAR(80) NOT NULL , `sexo` VARCHAR(20) NOT NULL , `telefono` VARCHAR(10) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `p022tea`.`calendary` (`id` INT NOT NULL AUTO_INCREMENT , `date` DATETIME NOT NULL , `note` TEXT NOT NULL , `time_max_min` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `calendary` ADD `id_patient` INT NOT NULL AFTER `id`;
