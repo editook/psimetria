@@ -19,8 +19,6 @@
     "Diciembre",
   ];
 
-  var sexoLista = ["Seleccionar Genero", "Masculino", "Femenino", "Otro"];
-
   var citaId = 0;
   var mkId = function () {
     return "cita-" + ++citaId;
@@ -29,8 +27,7 @@
   var diasIniciales = [
     {
       day: 1,
-      date: new Date(2026, 8, 1),
-      time: "14:30",
+      date: new Date(2026, 9, 1),
       citas: [
         {
           id: mkId(),
@@ -49,8 +46,7 @@
 
     {
       day: 3,
-      date: new Date(2026, 8, 3),
-      time: "14:30",
+      date: new Date(2026, 9, 3),
       citas: [
         {
           id: mkId(),
@@ -93,8 +89,7 @@
 
     {
       day: 5,
-      date: new Date(2026, 8, 5),
-      time: "14:30",
+      date: new Date(2026, 8, 1),
       citas: [
         {
           id: mkId(),
@@ -113,7 +108,6 @@
     {
       day: 6,
       date: new Date(2026, 8, 6),
-      time: "14:30",
       citas: [
         {
           id: mkId(),
@@ -134,21 +128,16 @@
 
   var colorClass = [
     "bg-blue-200",
-    "bg-purple-200",
-    "bg-pink-200",
-    "bg-rose-200",
+    "bg-zinc-200",
+    "bg-slate-200",
+    "bg-red-200",
     "bg-sky-200",
-    "bg-cyan-200",
+    "bg-stone-200",
     "bg-teal-200",
-    "bg-emerald-200",
+    "bg-neutral-200",
     "bg-green-200",
-    "bg-yellow-200",
+    "bg-slate-300",
   ];
-  var siguienteEstado = {
-    Confirmada: "Pendiente",
-    Pendiente: "Cancelada",
-    Cancelada: "Confirmada",
-  };
 
   var estadoClass = {
     Confirmada: {
@@ -166,22 +155,17 @@
   };
 
   /* ------------------------- Estado ------------------------- */
+  var currentDate = new Date();
+
   var state = {
-    currentDate: new Date(2026, 0, 1),
-    mesActivo: 0,
-    nombre_paciente: "",
-    nota: "",
-    hora: "",
-    citas: JSON.parse(JSON.stringify(diasIniciales)),
+    mesActivo: currentDate.getMonth(),
+    mesActivoSide: currentDate.getMonth(),
+    calendario: getSortOrderDays(JSON.parse(JSON.stringify(diasIniciales))),
     colorSeleccionado: "bg-blue-200",
     busqueda: "",
-    busquedaActiva: false,
   };
-  var currentDate = new Date();
-  var mesActivo = currentDate.getMonth();
 
-  var currentDateSide = new Date();
-  var mesActivoSide = currentDate.getMonth();
+
   /* ------------------------- Nodos ------------------------- */
   var els = {
     monthList: $("#monthList"),
@@ -225,7 +209,7 @@
     if (!hourStr) return "";
     var [hours] = hourStr.split(':').map(Number);
     var ampm = hours >= 12 ? 'PM' : 'AM';
-    return hourStr+ ' ' + ampm;
+    return hourStr + ' ' + ampm;
   }
 
   function hydrateIcons() {
@@ -235,20 +219,31 @@
   }
 
   function totalCitasConfirmadas(month) {
+    const currentDateNow = new Date();
+    const currentMonthNow = currentDateNow.getMonth();
+    const currentDayNow = currentDateNow.getDate();
+    let isMonthNow = false;
+    if (currentMonthNow == month) {
+      isMonthNow = true;
+    }
 
-    return state.citas
+    return state.calendario
       .filter(function (item) {
         return new Date(item.date).getMonth() === month;
       })
       .reduce(function (total, item) {
         return total + item.citas.filter(function (cita) {
+          const dia = new Date(cita.date).getDate();
+          if(isMonthNow){
+            return (dia >= currentDayNow) && cita.estado === "Confirmada";
+          }
           return cita.estado === "Confirmada";
         }).length;
       }, 0);
   }
   function totalCitasPendientes(month) {
 
-    return state.citas
+    return state.calendario
       .filter(function (item) {
         return new Date(item.date).getMonth() === month;
       })
@@ -261,7 +256,7 @@
 
   function diasConCita(month) {
 
-    return state.citas
+    return state.calendario
       .filter(function (item) {
         if (!item.citas || item.citas.length === 0) {
           return false;
@@ -271,9 +266,7 @@
         return fecha.getMonth() === month;
       })
       .map(function (item) {
-        const fecha = new Date(item.date);
-
-        return fecha.getDate();
+        return item;
       });
   }
 
@@ -281,10 +274,10 @@
     var q = state.busqueda.trim().toLowerCase();
 
     if (!q) {
-      return state.citas;
+      return state.calendario;
     }
 
-    return state.citas.map(function (cita) {
+    return state.calendario.map(function (cita) {
       return {
         day: cita.day,
         citas: cita.citas.filter(function (citaFiltro) {
@@ -297,17 +290,32 @@
     });
   }
 
-  function proximasCitas() {
+  function proximasCitas(monthSelected) {
     var items = [];
+    const currentDateNow = new Date();
+    const currentMonthNow = currentDateNow.getMonth();
+    const currentDayNow = currentDateNow.getDate();
 
-    state.citas.forEach(function (day) {
-      day.citas.forEach(function (cita) {
-        items.push({ cita: cita, day: day.day });
-      });
+    state.calendario.forEach(function (element) {
+      const date = new Date(element.date);
+      if (date.getMonth() === monthSelected) {
+        element.citas.forEach(function (cita) {
+          if (currentMonthNow == date.getMonth()) {
+            if (date.getDate() > currentDayNow) {
+              items.push({ cita: cita, dia: date.getDate() });
+            }
+          }
+          else {
+            items.push({ cita: cita, dia: date.getDate() });
+          }
+
+        });
+      }
     });
 
     return items.slice(0, 5);
   }
+
 
   /* ------------------------- Render: meses ------------------------- */
   function renderMonths() {
@@ -317,7 +325,7 @@
           return (
             '<button type="button"' +
             ' class="h-8 min-w-[85px] shrink-0 rounded-full text-sm font-semibold transition ' +
-            (mesActivoSide === i
+            (state.mesActivoSide === i
               ? "bg-black text-white shadow-sm"
               : "bg-slate-50 text-slate-700 hover:bg-slate-300") +
             '" data-month="' +
@@ -363,12 +371,7 @@
       "</p>" +
       "</div>" +
       '<div class="relative flex items-center justify-between gap-1 pt-2 text-xs font-medium">' +
-      '<button type="button" data-action="toggle-status" data-day="' +
-      day +
-      '" data-id="' +
-      cita.id +
-      '"' +
-      ' class="flex items-center gap-1 rounded-full bg-white/90 px-2 py-1 text-slate-700 transition hover:bg-white">' +
+      '<button type="button" class="flex items-center gap-1 rounded-full bg-white/90 px-2 py-1 text-slate-700 transition hover:bg-white">' +
       '<span class="h-1.5 w-1.5 rounded-full ' +
       status.dot +
       '"></span>' +
@@ -397,32 +400,45 @@
       '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar Cita' +
       "</button>" +
       `<div class="flex flex-col gap-2 border-t border-slate-300 px-2 py-3">
-
+      
           <button
               type="button"
+              data-action="update-status"
+              data-id="${cita.id}"
+              data-day="${day}"
+              data-status="Confirmada"
               class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-green-600 transition hover:bg-green-200">
               <i data-lucide="check-circle" class="h-[13px] w-[13px]"></i>
               Confirmar
           </button>
-
+      
           <button
               type="button"
+              data-action="update-status"
+              data-id="${cita.id}"
+              data-day="${day}"
+              data-status="Pendiente"
               class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-orange-800 transition hover:bg-orange-200">
               <i data-lucide="clock-3" class="h-[13px] w-[13px]"></i>
               Pendiente
           </button>
-
+      
           <button
               type="button"
+              data-action="update-status"
+              data-id="${cita.id}"
+              data-day="${day}"
+              data-status="Cancelada"
               class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">
               <i data-lucide="x-circle" class="h-[13px] w-[13px]"></i>
               Cancelar
           </button>
-
+      
       </div>`+
       "</div>" +
       "</div>" +
       "</article>"
+
     );
   }
   function renderDays() {
@@ -463,6 +479,15 @@
         .join(""),
     );
   }
+  function sonTodasEstadoDelDia(estado,citas){
+    let result = true;
+    citas.forEach(element => {
+      if(element.estado != estado){
+        result = false;
+      }
+    });
+    return result;
+  }
   function renderMiniCalendar() {
     var year = currentDate.getFullYear();
     var month = currentDate.getMonth();
@@ -492,6 +517,7 @@
 
     var weekDays = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
     var appointmentDays = diasConCita(month);
+   
     var html = "";
 
     html += '<div class="mt-5">';
@@ -505,9 +531,33 @@
 
     calendario.forEach(function (day, index) {
       var outside = index < firstDayAdjusted || index >= firstDayAdjusted + daysInMonth;
-      var hasAppointment =
-        appointmentDays.indexOf(day) !== -1 && !outside;
+      
+      var appointmentDay = appointmentDays.find(function(item) {
+        const fecha = new Date(item.date);
+        return fecha.getDate() === day;
+      });
 
+      var hasAppointment = appointmentDay !== undefined && !outside;
+
+      var colorMark = "bg-red-500";
+      console.log(appointmentDay);
+      if(hasAppointment && sonTodasEstadoDelDia("Pendiente",appointmentDay.citas)){
+        console.log(day,hasAppointment,appointmentDay.citas);
+        colorMark = "bg-orange-500";
+      }
+      else if(hasAppointment && sonTodasEstadoDelDia("Cancelada",appointmentDay.citas)){
+        colorMark = "bg-white";
+      }
+
+      const currentDateNow = new Date();
+      const currentMonthNow = currentDateNow.getMonth();
+      const currentDayNow = currentDateNow.getDate();
+      if (currentMonthNow == month) {
+
+        if (day < currentDayNow) {
+          colorMark = "bg-slate-500";
+        }
+      }
       html +=
         '<button type="button"' +
         (outside ? " disabled" : "") +
@@ -521,7 +571,7 @@
         '">' +
         day +
         (hasAppointment
-          ? '<i class="absolute bottom-0 h-1.5 w-1.5 rounded-full bg-red-500 animate-bounce"></i>'
+          ? '<i class="absolute bottom-0 h-1.5 w-1.5 rounded-full ' + colorMark + ' animate-bounce"></i>'
           : "") +
         "</button>";
     });
@@ -538,9 +588,8 @@
 
     els.miniCalendar.html(html);
   }
-  function upcomingCard(cita, day) {
+  function upcomingCard(cita, dia) {
     var status = estadoClass[cita.estado];
-
     return (
       '<div class="' +
       cita.color +
@@ -552,11 +601,11 @@
       '<p class="text-xs font-semibold">' +
       escapeHtml(cita.nombre_paciente) + " " + escapeHtml(cita.apellido_paciente) +
       "</p>" +
-      '<p class="mt-0.5 max-w-180 truncate  text-xs text-slate-600">' +
+      '<p class="mt-0.5 max-w-180 truncate  text-xs text-slate-600 cursor-pointer">' +
       escapeHtml(cita.nota) +
       "</p>" +
       '<p class="mt-0.5 text-xs text-slate-500">' +
-      day +
+      dia +
       " " +
       meses[state.mesActivo] +
       " · " +
@@ -578,20 +627,69 @@
       ' class="rounded p-1 text-slate-800 transition hover:bg-black/10" aria-label="Más opciones">' +
       '<i data-lucide="ellipsis" class="h-[15px] w-[15px]"></i>' +
       "</button>" +
+      '<div id="menu-mini-' +
+      cita.id +
+      '" class="absolute justify-items-center z-20 hidden w-36 h-50 rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
+      '<button type="button" data-action="delete" data-day="' +
+      dia +
+      '" data-id="' +
+      cita.id +
+      '"' +
+      ' class="flex rounded-full items-center m-2 gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">' +
+      '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar Cita' +
+      "</button>" +
+      `<div class="flex flex-col gap-2 border-t border-slate-300 px-2 py-3">
+      
+          <button
+              type="button"
+              data-action="update-status"
+              data-id="${cita.id}"
+              data-day="${dia}"
+              data-status="Confirmada"
+              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-green-600 transition hover:bg-green-200">
+              <i data-lucide="check-circle" class="h-[13px] w-[13px]"></i>
+              Confirmar
+          </button>
+      
+          <button
+              type="button"
+              data-action="update-status"
+              data-id="${cita.id}"
+              data-day="${dia}"
+              data-status="Pendiente"
+              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-orange-800 transition hover:bg-orange-200">
+              <i data-lucide="clock-3" class="h-[13px] w-[13px]"></i>
+              Pendiente
+          </button>
+      
+          <button
+              type="button"
+              data-action="update-status"
+              data-id="${cita.id}"
+              data-day="${dia}"
+              data-status="Cancelada"
+              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">
+              <i data-lucide="x-circle" class="h-[13px] w-[13px]"></i>
+              Cancelar
+          </button>
+      
+      </div>`+
+      "</div>" +
+
       "</div>" +
       "</div>"
     );
   }
 
   function renderUpcoming() {
-    var items = proximasCitas();
+    var items = proximasCitas(state.mesActivo);
 
     els.upcomingList.html(
       items.length
         ? '<div class="space-y-3">' +
         items
-          .map(function (x) {
-            return upcomingCard(x.cita, x.day);
+          .map(function (element) {
+            return upcomingCard(element.cita, element.dia);
           })
           .join("") +
         "</div>"
@@ -618,7 +716,24 @@
         .join(""),
     );
   }
+  function getSortOrderDays(citas) {
+    return citas
+      .map(function (item) {
+        return {
+          ...item,
+          citas: item.citas.sort(function (a, b) {
+            return a.hora.localeCompare(b.hora);
+          }),
+        };
+      })
+      .sort(function (a, b) {
+        var dateA = new Date(a.date);
+        var dateB = new Date(b.date);
+        return dateA - dateB;
+      });
+  }
   function render() {
+    state.calendario = getSortOrderDays(state.calendario);
     renderMonths();
 
     els.miniMonthTitle.text(mesesLargos[currentDate.getMonth()] + " " + currentDate.getFullYear());
@@ -631,9 +746,9 @@
     hydrateIcons();
   }
   function navegarMes(delta) {
-    mesActivo = Math.max(
+    state.mesActivo = Math.max(
       0,
-      Math.min(meses.length - 1, mesActivo + delta),
+      Math.min(meses.length - 1, state.mesActivo + delta),
     );
 
     var newDate = new Date(currentDate);
@@ -698,14 +813,14 @@
     var dateObj = new Date(fecha + "T00:00:00");
     var day = dateObj.getDate();
 
-    var existingDay = state.citas.find(function (item) {
+    var existingDay = state.calendario.find(function (item) {
       return new Date(item.date).toDateString() === dateObj.toDateString();
     });
 
     if (existingDay) {
       existingDay.citas.push(nuevaCita);
     } else {
-      state.citas.push({
+      state.calendario.push({
         day: day,
         date: dateObj,
         citas: [nuevaCita]
@@ -725,46 +840,21 @@
   }
 
 
-  function eliminarCita(day, id) {
-    state.citas = state.citas.map(function (item) {
-      return item.day === day
-        ? {
-          day: item.day,
-          citas: item.citas.filter(function (cita) {
-            return cita.id !== id;
-          }),
-        }
-        : item;
-    });
-
-    render();
-  }
-
-  function toggleEstado(day, id) {
-    state.citas = state.citas.map(function (item) {
-      if (item.day !== day) {
-        return item;
-      }
-
+  function eliminarCita(id) {
+    state.calendario = state.calendario.map(function (item) {
       return {
-        day: item.day,
-        citas: item.citas.map(function (cita) {
-          if (cita.id !== id) {
-            return cita;
-          }
-
-          return $.extend({}, cita, {
-            estado: siguienteEstado[cita.estado],
-          });
-        }),
+        ...item,
+        citas: item.citas.filter(function (cita) {
+          return cita.id !== id;
+        })
       };
     });
-
     render();
   }
 
   function closeMenus() {
     $('[id^="menu-"]').addClass("hidden");
+    $('[id^="menu-mini-"]').addClass("hidden");
   }
 
   /* ------------------------- Eventos ------------------------- */
@@ -805,7 +895,6 @@
 
     els.searchInput.on("input", function () {
       state.busqueda = $(this).val();
-      //els.clearSearch.toggleClass("hidden", !state.busqueda);
       renderDays();
       hydrateIcons();
     });
@@ -824,19 +913,22 @@
       render();
     });
 
-    // Días con citas: toggle de estado, menú, eliminar (delegación)
-    els.daysList.on("click", '[data-action="toggle-status"]', function () {
-      toggleEstado(Number($(this).data("day")), $(this).data("id"));
-    });
-
     els.daysList.on("click", '[data-action="menu"]', function (e) {
       e.stopPropagation();
       closeMenus();
       $("#menu-" + $(this).data("id")).toggleClass("hidden");
     });
+    els.upcomingList.on("click", '[data-action="menu"]', function (e) {
+      e.stopPropagation();
+      closeMenus();
+      $("#menu-mini-" + $(this).data("id")).toggleClass("hidden");
+    });
 
     els.daysList.on("click", '[data-action="delete"]', function () {
-      eliminarCita(Number($(this).data("day")), $(this).data("id"));
+      eliminarCita($(this).data("id"));
+    });
+    els.upcomingList.on("click", '[data-action="delete"]', function () {
+      eliminarCita($(this).data("id"));
     });
 
     // Mini calendario (delegación)
@@ -880,21 +972,6 @@
       }
     });
   }
-
-  /* ------------------------- Inicialización ------------------------- */
-  els.generoInput.html(
-    sexoLista
-      .map(function (p) {
-        return (
-          '<option value="' +
-          escapeHtml(p) +
-          '">' +
-          escapeHtml(p) +
-          "</option>"
-        );
-      })
-      .join(""),
-  );
 
   bindEvents();
   render();

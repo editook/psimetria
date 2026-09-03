@@ -201,7 +201,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 											<i data-lucide="calendar-clock" class="h-4 w-4 text-slate-500"></i>
 										</div>
 
-										<div id="upcomingList"></div>
+										<div id="upcomingList" class="max-h-[450px] overflow-y-auto"></div>
 									</div>
 								</aside>
 							</div>
@@ -237,7 +237,9 @@ $registers = $registerModel->getAll($idClient, $search_key);
 							<select
 								id="generoInput"
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500">
-								
+								<option value="" selected disabled>Seleccionar genero</option>
+								<option value="Masculino">Masculino</option>
+								<option value="Femenino">Femenino</option>
 							</select>
 
 							<input
