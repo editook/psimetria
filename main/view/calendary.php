@@ -6,10 +6,12 @@ include('../connection.php');
 include("../models/model_user.php");
 include("../models/model_register.php");
 include("../models/model_question.php");
+include("../models/model_calendary.php");
 include("../models/model_baremo.php");
 include("../models/model_answer.php");
 $registerModel = new Register_Model();
 $questionModel = new Question_Model();
+$calendaryModel = new Calendary_Model();
 $baremoModel = new Baremo_Model();
 $answerModel = new Answer_Model();
 $userModel = new User_Model();
@@ -134,7 +136,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 							<div class="flex-1">
 								<section id="mini-calendario" class="min-w-0 border-b border-slate-100">
 									<div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-8">
-										<h2 class="text-base font-semibold">Calendario</h2>
+										<h2 class="text-base font-semibold">Calendario <span class="text-sm font-normal text-slate-500">(rango 7 meses)</span></h2>
 									</div>
 
 									<div class="flex items-center justify-center gap-2 overflow-x-auto border-b border-slate-300 px-5 py-3 sm:px-8">
@@ -213,7 +215,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 					<div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
 						<div class="flex items-start justify-between">
 							<div>
-								<h2 class="text-lg font-semibold">Agendar cita</h2>
+								<h2 class="text-lg font-semibold text-center">Agendar Cita</h2>
 								<p class="mt-1 text-sm text-slate-500">
 									Programa una nueva cita para una prueba psicológica.
 								</p>

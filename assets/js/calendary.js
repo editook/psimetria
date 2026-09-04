@@ -19,6 +19,12 @@
     "Diciembre",
   ];
 
+  const ESTADO_TEXT = {
+    CONFIRMADA: "Confirmada",
+    PENDIENTE: "Pendiente",
+    CANCELADA: "Cancelada"
+  };
+
   var citaId = 0;
   var mkId = function () {
     return "cita-" + ++citaId;
@@ -36,9 +42,9 @@
           telefono: "7774577",
           nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
           hora: "08:00",
-          color: "bg-lavender",
+          color: "bg-plomo-200",
           duracion: "90",
-          estado: "Confirmada",
+          estado: ESTADO_TEXT.CONFIRMADA,
         },
       ],
     },
@@ -56,19 +62,7 @@
           hora: "08:00",
           color: "bg-coral",
           duracion: "60",
-          estado: "Confirmada",
-        },
-        {
-          id: mkId(),
-          nombre_paciente: "Ana",
-          apellido_paciente: "López",
-          sexo: "Femenino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "09:00",
-          color: "bg-lavender",
-          duracion: "90",
-          estado: "Pendiente",
+          estado: ESTADO_TEXT.CONFIRMADA,
         },
         {
           id: mkId(),
@@ -80,8 +74,21 @@
           hora: "15:00",
           color: "bg-mint",
           duracion: "45",
-          estado: "Confirmada",
+          estado: ESTADO_TEXT.CONFIRMADA,
         },
+        {
+          id: mkId(),
+          nombre_paciente: "Ana",
+          apellido_paciente: "López",
+          sexo: "Femenino",
+          telefono: "7774577",
+          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
+          hora: "09:00",
+          color: "bg-lavender",
+          duracion: "90",
+          estado: ESTADO_TEXT.PENDIENTE,
+        },
+
       ],
     },
 
@@ -98,7 +105,7 @@
           hora: "19:00",
           color: "bg-cream",
           duracion: "30",
-          estado: "Confirmada",
+          estado: ESTADO_TEXT.CONFIRMADA,
         },
       ],
     },
@@ -115,7 +122,7 @@
           hora: "19:00",
           color: "bg-cream",
           duracion: "30",
-          estado: "Confirmada",
+          estado: ESTADO_TEXT.CONFIRMADA,
         },
       ],
     },
@@ -132,7 +139,7 @@
           hora: "18:00",
           color: "bg-cream",
           duracion: "30",
-          estado: "Pendiente",
+          estado: ESTADO_TEXT.PENDIENTE,
         },
       ],
     },
@@ -149,7 +156,7 @@
           hora: "18:00",
           color: "bg-mint",
           duracion: "45",
-          estado: "Pendiente",
+          estado: ESTADO_TEXT.PENDIENTE,
         },
       ],
     },
@@ -166,18 +173,67 @@
           hora: "18:00",
           color: "bg-mint",
           duracion: "45",
-          estado: "Confirmada",
+          estado: ESTADO_TEXT.CONFIRMADA,
+        },
+        {
+          id: mkId(),
+          nombre_paciente: "Pedro",
+          apellido_paciente: "López",
+          sexo: "Masculino",
+          telefono: "7774577",
+          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
+          hora: "15:00",
+          color: "bg-mint",
+          duracion: "45",
+          estado: ESTADO_TEXT.PENDIENTE,
+        },
+        {
+          id: mkId(),
+          nombre_paciente: "Pedro",
+          apellido_paciente: "López",
+          sexo: "Masculino",
+          telefono: "7774577",
+          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
+          hora: "19:00",
+          color: "bg-white-200",
+          duracion: "45",
+          estado: ESTADO_TEXT.CONFIRMADA,
+        },
+        {
+          id: mkId(),
+          nombre_paciente: "Pedro",
+          apellido_paciente: "López",
+          sexo: "Masculino",
+          telefono: "7774577",
+          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
+          hora: "22:00",
+          color: "bg-white-200",
+          duracion: "45",
+          estado: ESTADO_TEXT.CONFIRMADA,
+        },
+        {
+          id: mkId(),
+          nombre_paciente: "Pedro",
+          apellido_paciente: "López",
+          sexo: "Masculino",
+          telefono: "7774577",
+          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
+          hora: "19:00",
+          color: "bg-white-200",
+          duracion: "45",
+          estado: ESTADO_TEXT.CONFIRMADA,
         },
       ],
     },
+
   ];
 
 
   var colorClass = [
     "bg-blue-200",
-    "bg-zinc-200",
+    "bg-plomo-200",
     "bg-slate-200",
-    "bg-red-200",
+    "bg-white-200",
     "bg-sky-200",
     "bg-stone-200",
     "bg-teal-200",
@@ -186,18 +242,28 @@
     "bg-slate-300",
   ];
 
+
   var estadoClass = {
     Confirmada: {
       dot: "bg-emerald-500",
       text: "text-emerald-700",
+      hover: "hover:bg-emerald-200",
+      value:"Confirmar",
+      icon:"check-circle"
     },
     Pendiente: {
       dot: "bg-amber-500",
       text: "text-amber-700",
+      hover: "hover:bg-amber-200",
+      value:"Pendiente",
+      icon:"clock-3"
     },
     Cancelada: {
       dot: "bg-red-400",
       text: "text-red-600",
+      hover: "hover:bg-red-200",
+      value:"Cancelar",
+      icon:"x-circle"
     },
   };
 
@@ -269,7 +335,7 @@
     }
   }
 
-  function totalCitas(estado,monthSelected) {
+  function totalCitas(estado, monthSelected) {
     var now = new Date();
     var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
     var currentMonthNow = now.getMonth();
@@ -291,7 +357,7 @@
         }).length;
       }, 0);
   }
-  
+
   function diasConCita(monthSelected) {
     var now = new Date();
     var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
@@ -312,8 +378,8 @@
 
   function citasFiltradas(month) {
     var q = state.busqueda.trim().toLowerCase();
-    
-    var filteredByMonth = state.calendario.filter(function(item) {
+
+    var filteredByMonth = state.calendario.filter(function (item) {
       return new Date(item.date).getMonth() === month;
     });
 
@@ -357,9 +423,10 @@
         });
       }
     });
-    
-    return items.slice(0, 5);
+
+    return items;
   }
+
 
 
 
@@ -368,7 +435,7 @@
     var now = new Date();
     var currentMonth = now.getMonth();
     var currentYear = now.getFullYear();
-    
+
     var monthsToRender = [];
     for (var i = -3; i <= 3; i++) {
       var date = new Date(currentYear, currentMonth + i, 1);
@@ -395,16 +462,33 @@
       }).join("")
     );
   }
-
+  function getHtmlBottonOption(id, estadoRegistro, estado) {
+    if (estadoRegistro == estado) {
+      return '';
+    }
+    var status = estadoClass[estado];
+    const html = `<button
+              type="button"
+              data-action="update-status"
+              data-id="${id}"
+              data-status="${estado}"
+              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium ${status.text} transition ${status.hover}">
+              <i data-lucide="check-circle" class="h-[13px] w-[13px]"></i>
+              ${status.value}
+          </button>`
+    return html;
+  }
   function appointmentCard(cita, day) {
     var status = estadoClass[cita.estado];
-
+    const btn1 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.CONFIRMADA);
+    const btn2 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.PENDIENTE);
+    const btn3 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.CANCELADA);
     return (
-      '<article class="' +
+      '<article class="border border-slate-300 ' +
       cita.color +
       ' overflow-visible min-w-[180px] max-w-[180px] rounded-xl p-2.5 shadow-sm sm:min-w-[188px]">' +
       '<div class="flex items-start gap-2 px-0.5 pb-2">' +
-      '<span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-xs font-semibold text-slate-800 shadow-sm">' +
+      '<span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-800 shadow-sm">' +
       inicialesDe(cita.nombre_paciente) +
       "</span>" +
       '<div class="min-w-0 flex-1 pt-0.5">' +
@@ -419,7 +503,7 @@
 
       "</div>" +
       "</div>" +
-      '<div class="flex items-center gap-2 rounded-lg bg-white/90 px-2 py-2 shadow-sm cursor-pointer" onclick="abrirModalNota(`' + escapeHtml(cita.nota) + '`)">' +
+      '<div class="flex items-center gap-2 rounded-lg bg-white/90 px-2 py-2 shadow-xs cursor-pointer border border-slate-200" onclick="abrirModalNota(`' + escapeHtml(cita.nota) + '`)">' +
       '<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-50 text-slate-800">' +
       '<i data-lucide="clipboard-list" class="h-3.5 w-3.5"></i>' +
       "</span>" +
@@ -428,7 +512,7 @@
       "</p>" +
       "</div>" +
       '<div class="relative flex items-center justify-between gap-1 pt-2 text-xs font-medium">' +
-      '<button type="button" class="flex items-center gap-1 rounded-full bg-white/90 px-2 py-1 text-slate-700 transition hover:bg-white">' +
+      '<button type="button" class=" border border-slate-200 flex items-center gap-1 rounded-full bg-white/90 px-2 py-1 text-slate-700">' +
       '<span class="h-1.5 w-1.5 rounded-full ' +
       status.dot +
       '"></span>' +
@@ -447,7 +531,7 @@
       "</button>" +
       '<div id="menu-' +
       cita.id +
-      '" class="absolute justify-items-center bottom-9 right-0 z-20 hidden w-36 h-50 rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
+      '" class="absolute justify-items-center bottom-9 right-0 z-20 hidden w-36 h-auto rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
       '<button type="button" data-action="delete" data-day="' +
       day +
       '" data-id="' +
@@ -457,40 +541,9 @@
       '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar Cita' +
       "</button>" +
       `<div class="flex flex-col gap-2 border-t border-slate-300 px-2 py-3">
-      
-          <button
-              type="button"
-              data-action="update-status"
-              data-id="${cita.id}"
-              data-day="${day}"
-              data-status="Confirmada"
-              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-green-600 transition hover:bg-green-200">
-              <i data-lucide="check-circle" class="h-[13px] w-[13px]"></i>
-              Confirmar
-          </button>
-      
-          <button
-              type="button"
-              data-action="update-status"
-              data-id="${cita.id}"
-              data-day="${day}"
-              data-status="Pendiente"
-              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-orange-800 transition hover:bg-orange-200">
-              <i data-lucide="clock-3" class="h-[13px] w-[13px]"></i>
-              Pendiente
-          </button>
-      
-          <button
-              type="button"
-              data-action="update-status"
-              data-id="${cita.id}"
-              data-day="${day}"
-              data-status="Cancelada"
-              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">
-              <i data-lucide="x-circle" class="h-[13px] w-[13px]"></i>
-              Cancelar
-          </button>
-      
+          ${btn1}
+          ${btn2}
+          ${btn3}
       </div>`+
       "</div>" +
       "</div>" +
@@ -500,12 +553,12 @@
   }
   function renderDays() {
     var days = citasFiltradas(state.mesActivoSide);
-    
-    if(days.length == 0){
+
+    if (days.length == 0) {
       els.daysList.html(
         [1].map(function (item) {
           var inner =
-              '<div class="text-sm text-slate-600 content-center text-center">Sin resultados.</div>';
+            '<div class="text-sm text-slate-600 content-center text-center">Sin resultados.</div>';
           return (
             '<div class="grid min-h-[82px] border-b border-slate-300 grid-cols-[30px_minmax(0,1fr)] gap-3 px-5 py-4 sm:grid-cols-[38px_minmax(0,1fr)] sm:px-8">' +
             '<div class="pt-1 text-xs font-semibold text-slate-800">1</div>' +
@@ -522,10 +575,10 @@
           var inner;
           const fecha = new Date(item.date);
           const dia = fecha.getDate();
-        
+
           if (item.citas.length) {
             inner =
-              '<div class="flex gap-2 pb-1">' +
+              '<div class="flex gap-2 pb-1 overflow-x-auto">' +
               item.citas
                 .map(function (cita) {
                   return appointmentCard(cita, dia);
@@ -553,10 +606,10 @@
         .join(""),
     );
   }
-  function sonTodasEstadoDelDia(estado,citas){
+  function sonTodasEstadoDelDia(estado, citas) {
     let result = true;
     citas.forEach(element => {
-      if(element.estado != estado){
+      if (element.estado != estado) {
         result = false;
       }
     });
@@ -566,8 +619,8 @@
     var year = currentDate.getFullYear();
     var month = currentDate.getMonth();
 
-    var total = totalCitas("Confirmada",month);
-    var totalPendientes = totalCitas("Pendiente",month);
+    var total = totalCitas(ESTADO_TEXT.CONFIRMADA, month);
+    var totalPendientes = totalCitas(ESTADO_TEXT.PENDIENTE, month);
 
 
     var firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -591,7 +644,7 @@
 
     var weekDays = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
     var appointmentDays = diasConCita(month);
-   
+
     var html = "";
 
     html += '<div class="mt-5">';
@@ -604,10 +657,10 @@
       .join("");
 
     calendario.forEach(function (day, index) {
-      
+
       var outside = index < firstDayAdjusted || index >= firstDayAdjusted + daysInMonth;
-      
-      var appointmentDay = appointmentDays.find(function(item) {
+
+      var appointmentDay = appointmentDays.find(function (item) {
         const fecha = new Date(item.date);
         return fecha.getDate() === day;
       });
@@ -615,12 +668,12 @@
       var hasAppointment = appointmentDay !== undefined && !outside;
 
       var colorMark = "bg-red-500";
-    
-      if(hasAppointment && sonTodasEstadoDelDia("Pendiente",appointmentDay.citas)){
-      
+
+      if (hasAppointment && sonTodasEstadoDelDia(ESTADO_TEXT.PENDIENTE, appointmentDay.citas)) {
+
         colorMark = "bg-orange-500";
       }
-      else if(hasAppointment && sonTodasEstadoDelDia("Cancelada",appointmentDay.citas)){
+      else if (hasAppointment && sonTodasEstadoDelDia(ESTADO_TEXT.CANCELADA, appointmentDay.citas)) {
         colorMark = "bg-white";
       }
 
@@ -632,7 +685,7 @@
         if (day < currentDayNow) {
           colorMark = "bg-slate-500";
         }
-        else if(month < currentMonthNow){
+        else if (month < currentMonthNow) {
           colorMark = "bg-slate-500";
         }
       }
@@ -669,21 +722,26 @@
   }
   function upcomingCard(cita, dia) {
     var status = estadoClass[cita.estado];
+
+    const btn1 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.CONFIRMADA);
+    const btn2 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.PENDIENTE);
+    const btn3 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.CANCELADA);
+
     return (
-      '<div class="' +
+      '<div class="border border-slate-300  ' +
       cita.color +
-      ' flex items-start gap-3 rounded-xl p-3.5">' +
-      '<span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-xs font-semibold">' +
+      ' flex items-center gap-3 rounded-xl p-3.5">' +
+      '<span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white border border-slate-200 text-xs font-semibold">' +
       inicialesDe(cita.nombre_paciente) +
       "</span>" +
       '<div class="min-w-0 flex-1">' +
       '<p class="text-xs font-semibold">' +
       escapeHtml(cita.nombre_paciente) + " " + escapeHtml(cita.apellido_paciente) +
       "</p>" +
-      '<p class="mt-0.5 max-w-180 truncate text-xs text-slate-600 cursor-pointer" onclick="abrirModalNota(`' + escapeHtml(cita.nota) + '`)">' +
+      '<p class="mt-0.5 max-w-180 truncate text-xs text-slate-600 cursor-pointer " onclick="abrirModalNota(`' + escapeHtml(cita.nota) + '`)">' +
       escapeHtml(cita.nota) +
       "</p>" +
-      '<p class="mt-0.5 text-xs text-slate-500">' +
+      '<p class="mt-0.5 text-xs text-slate-700 font-semibold">' +
       dia +
       " " +
       meses[state.mesActivo] +
@@ -692,7 +750,7 @@
       "</p>" +
       "</div>" +
       '<div class="flex flex-col items-end gap-2">' +
-      '<span class="flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-xs font-semibold ' +
+      '<span class="flex items-center gap-1 rounded-full bg-white border border-slate-200 px-2 py-0.5 text-xs font-semibold ' +
       status.text +
       '">' +
       '<span class="h-1.5 w-1.5 rounded-full ' +
@@ -708,7 +766,7 @@
       "</button>" +
       '<div id="menu-mini-' +
       cita.id +
-      '" class="absolute justify-items-center z-20 hidden w-36 h-50 rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
+      '" class="absolute justify-items-center z-20 hidden w-36 h-auto rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
       '<button type="button" data-action="delete" data-day="' +
       dia +
       '" data-id="' +
@@ -718,40 +776,9 @@
       '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar Cita' +
       "</button>" +
       `<div class="flex flex-col gap-2 border-t border-slate-300 px-2 py-3">
-      
-          <button
-              type="button"
-              data-action="update-status"
-              data-id="${cita.id}"
-              data-day="${dia}"
-              data-status="Confirmada"
-              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-green-600 transition hover:bg-green-200">
-              <i data-lucide="check-circle" class="h-[13px] w-[13px]"></i>
-              Confirmar
-          </button>
-      
-          <button
-              type="button"
-              data-action="update-status"
-              data-id="${cita.id}"
-              data-day="${dia}"
-              data-status="Pendiente"
-              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-orange-800 transition hover:bg-orange-200">
-              <i data-lucide="clock-3" class="h-[13px] w-[13px]"></i>
-              Pendiente
-          </button>
-      
-          <button
-              type="button"
-              data-action="update-status"
-              data-id="${cita.id}"
-              data-day="${dia}"
-              data-status="Cancelada"
-              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">
-              <i data-lucide="x-circle" class="h-[13px] w-[13px]"></i>
-              Cancelar
-          </button>
-      
+      ${btn1}
+      ${btn2}
+      ${btn3}
       </div>`+
       "</div>" +
 
@@ -784,10 +811,10 @@
             '<button type="button" data-form-day="' +
             color +
             '"' +
-            ' class="h-7 w-7 rounded-full text-xs font-medium transition  ' +
+            ' class="h-7 w-7 rounded-full text-xs font-medium transition ' +
             (state.colorSeleccionado == color
-              ? color + " border border-black/80"
-              : color) +
+              ? color + " border border-slate-600 animate-bounce "
+              : color + " border border-slate-300") +
             '">' +
             "</button>"
           );
@@ -852,10 +879,10 @@
     els.formError.addClass("hidden");
   }
 
-  window.abrirModalNota = function(texto) {
+  window.abrirModalNota = function (texto) {
     els.notaCompleta.text(texto);
     els.modalNota.removeClass("hidden").addClass("flex");
-}
+  }
 
   function cerrarModalNota() {
     els.modalNota.addClass("hidden").removeClass("flex");
@@ -953,7 +980,7 @@
     $("#openModal").on("click", abrirModal);
     $("#closeModal").on("click", cerrarModal);
     $("#saveAppointment").on("click", agregarCita);
-    
+
     els.closeModalNota.on("click", cerrarModalNota);
     els.modalNota.on("click", function (e) {
       if (e.target === this) {
