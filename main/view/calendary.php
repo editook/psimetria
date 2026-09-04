@@ -138,13 +138,13 @@ $registers = $registerModel->getAll($idClient, $search_key);
 									</div>
 
 									<div class="flex items-center justify-center gap-2 overflow-x-auto border-b border-slate-300 px-5 py-3 sm:px-8">
-										<button id="prevMonthSide" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-300">
+										<button class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50  !cursor-default">
 											<i data-lucide="chevron-left" class="h-4 w-4"></i>
 										</button>
 
 										<div id="monthList" class="flex min-w-max gap-2"></div>
 
-										<button id="nextMonthSide" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition hover:bg-slate-300">
+										<button class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 !cursor-default">
 											<i data-lucide="chevron-right" class="h-4 w-4"></i>
 										</button>
 									</div>
@@ -240,6 +240,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								<option value="" selected disabled>Seleccionar genero</option>
 								<option value="Masculino">Masculino</option>
 								<option value="Femenino">Femenino</option>
+								<option value="Otro">Otro</option>
 							</select>
 
 							<input
@@ -274,7 +275,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								id="estadoInput"
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500">
 								<option value="" selected disabled>Seleccionar estado</option>
-								<option value="Confirmada">Confirmar</option>
+								<option value="Confirmada">Confirmado</option>
 								<option value="Pendiente">Por Confirmar</option>
 							</select>
 

@@ -24,9 +24,8 @@
     return "cita-" + ++citaId;
   };
 
-  var diasIniciales = [
+  var data_response = [
     {
-      day: 1,
       date: new Date(2026, 9, 1),
       citas: [
         {
@@ -45,7 +44,6 @@
     },
 
     {
-      day: 3,
       date: new Date(2026, 9, 3),
       citas: [
         {
@@ -88,7 +86,6 @@
     },
 
     {
-      day: 5,
       date: new Date(2026, 8, 1),
       citas: [
         {
@@ -106,7 +103,6 @@
       ],
     },
     {
-      day: 6,
       date: new Date(2026, 8, 6),
       citas: [
         {
@@ -120,6 +116,23 @@
           color: "bg-mint",
           duracion: "45",
           estado: "Pendiente",
+        },
+      ],
+    },
+    {
+      date: new Date(2026, 8, 4),
+      citas: [
+        {
+          id: mkId(),
+          nombre_paciente: "Pedro",
+          apellido_paciente: "López",
+          sexo: "Masculino",
+          telefono: "7774577",
+          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
+          hora: "18:00",
+          color: "bg-mint",
+          duracion: "45",
+          estado: "Confirmada",
         },
       ],
     },
@@ -160,7 +173,7 @@
   var state = {
     mesActivo: currentDate.getMonth(),
     mesActivoSide: currentDate.getMonth(),
-    calendario: getSortOrderDays(JSON.parse(JSON.stringify(diasIniciales))),
+    calendario: getSortOrderDays(JSON.parse(JSON.stringify(data_response))),
     colorSeleccionado: "bg-blue-200",
     busqueda: "",
   };
@@ -179,7 +192,7 @@
     cancelSearch: $("#cancelSearch"),
     modalBackdrop: $("#modalBackdrop"),
     patientInput: $("#patientInput"),
-    patientLlasnameInput: $("#patientLasnameInput"),
+    patientLasnameInput: $("#patientLasnameInput"),
     generoInput: $("#generoInput"),
     generoOtroInput: $("#gneroOtroInput"),
     timeInput: $("#timeInput"),
@@ -222,34 +235,29 @@
     }
   }
 
-  function totalCitasConfirmadas(month) {
-    const currentDateNow = new Date();
-    const currentMonthNow = currentDateNow.getMonth();
-    const currentDayNow = currentDateNow.getDate();
-    let isMonthNow = false;
-    if (currentMonthNow == month) {
-      isMonthNow = true;
-    }
+  function totalCitasConfirmadas(monthSelected) {
+    var now = new Date();
+    var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
 
     return state.calendario
       .filter(function (item) {
-        return new Date(item.date).getMonth() === month;
+        var d = new Date(item.date);
+        return (d.getFullYear() * 12 + d.getMonth()) === targetAbsoluteMonth;
       })
       .reduce(function (total, item) {
         return total + item.citas.filter(function (cita) {
-          const dia = new Date(cita.date).getDate();
-          if(isMonthNow){
-            return (dia >= currentDayNow) && cita.estado === "Confirmada";
-          }
           return cita.estado === "Confirmada";
         }).length;
       }, 0);
   }
-  function totalCitasPendientes(month) {
+  function totalCitasPendientes(monthSelected) {
+    var now = new Date();
+    var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
 
     return state.calendario
       .filter(function (item) {
-        return new Date(item.date).getMonth() === month;
+        var d = new Date(item.date);
+        return (d.getFullYear() * 12 + d.getMonth()) === targetAbsoluteMonth;
       })
       .reduce(function (total, item) {
         return total + item.citas.filter(function (cita) {
@@ -258,21 +266,24 @@
       }, 0);
   }
 
-  function diasConCita(month) {
+
+  function diasConCita(monthSelected) {
+    var now = new Date();
+    var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
 
     return state.calendario
       .filter(function (item) {
         if (!item.citas || item.citas.length === 0) {
           return false;
         }
-
-        const fecha = new Date(item.date);
-        return fecha.getMonth() === month;
+        var d = new Date(item.date);
+        return (d.getFullYear() * 12 + d.getMonth()) === targetAbsoluteMonth;
       })
       .map(function (item) {
         return item;
       });
   }
+
 
   function citasFiltradas(month) {
     var q = state.busqueda.trim().toLowerCase();
@@ -288,7 +299,6 @@
     return filteredByMonth.map(function (cita) {
       return {
         date: cita.date,
-        day: cita.day,
         citas: cita.citas.filter(function (citaFiltro) {
           return (
             citaFiltro.nombre_paciente.toLowerCase().indexOf(q) !== -1 ||
@@ -302,15 +312,16 @@
 
   function proximasCitas(monthSelected) {
     var items = [];
-    const currentDateNow = new Date();
-    const currentMonthNow = currentDateNow.getMonth();
-    const currentDayNow = currentDateNow.getDate();
+    var now = new Date();
+    var currentMonthNow = now.getMonth();
+    var currentDayNow = now.getDate();
+    var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
 
     state.calendario.forEach(function (element) {
-      const date = new Date(element.date);
-      if (date.getMonth() === monthSelected) {
+      var date = new Date(element.date);
+      if ((date.getFullYear() * 12 + date.getMonth()) === targetAbsoluteMonth) {
         element.citas.forEach(function (cita) {
-          if (currentMonthNow == date.getMonth()) {
+          if (currentMonthNow == date.getMonth() && now.getFullYear() == date.getFullYear()) {
             if (date.getDate() > currentDayNow) {
               items.push({ cita: cita, dia: date.getDate() });
             }
@@ -318,34 +329,45 @@
           else {
             items.push({ cita: cita, dia: date.getDate() });
           }
-
         });
       }
     });
-
+    
     return items.slice(0, 5);
   }
 
 
+
   /* ------------------------- Render: meses ------------------------- */
   function renderMonths() {
+    var now = new Date();
+    var currentMonth = now.getMonth();
+    var currentYear = now.getFullYear();
+    
+    var monthsToRender = [];
+    for (var i = -3; i <= 3; i++) {
+      var date = new Date(currentYear, currentMonth + i, 1);
+      monthsToRender.push({
+        name: meses[date.getMonth()],
+        absoluteIndex: currentMonth + i
+      });
+    }
+
     els.monthList.html(
-      meses
-        .map(function (mes, i) {
-          return (
-            '<button type="button"' +
-            ' class="h-8 min-w-[85px] shrink-0 rounded-full text-sm font-semibold transition ' +
-            (state.mesActivoSide === i
-              ? "bg-black text-white shadow-sm"
-              : "bg-slate-50 text-slate-700 hover:bg-slate-300") +
-            '" data-month="' +
-            i +
-            '">' +
-            mes +
-            "</button>"
-          );
-        })
-        .join(""),
+      monthsToRender.map(function (m) {
+        return (
+          '<button type="button"' +
+          ' class="h-8 min-w-[85px] shrink-0 rounded-full text-sm font-semibold transition ' +
+          (state.mesActivoSide === m.absoluteIndex
+            ? "bg-black text-white shadow-sm"
+            : "bg-slate-50 text-slate-700 hover:bg-slate-300") +
+          '" data-month="' +
+          m.absoluteIndex +
+          '">' +
+          m.name +
+          "</button>"
+        );
+      }).join("")
     );
   }
 
@@ -453,14 +475,29 @@
   }
   function renderDays() {
     var days = citasFiltradas(state.mesActivoSide);
-    console.log(days);
+    
+    if(days.length == 0){
+      els.daysList.html(
+        [1].map(function (item) {
+          var inner =
+              '<div class="text-sm text-slate-600 content-center text-center">Sin resultados.</div>';
+          return (
+            '<div class="grid min-h-[82px] border-b border-slate-300 grid-cols-[30px_minmax(0,1fr)] gap-3 px-5 py-4 sm:grid-cols-[38px_minmax(0,1fr)] sm:px-8">' +
+            '<div class="pt-1 text-xs font-semibold text-slate-800">1</div>' +
+            inner +
+            "</div>"
+          );
+        }).join(""),
+      );
+      return;
+    }
     els.daysList.html(
       days
         .map(function (item) {
           var inner;
           const fecha = new Date(item.date);
           const dia = fecha.getDate();
-          console.log(item);
+        
           if (item.citas.length) {
             inner =
               '<div class="flex gap-2 pb-1">' +
@@ -542,6 +579,7 @@
       .join("");
 
     calendario.forEach(function (day, index) {
+      
       var outside = index < firstDayAdjusted || index >= firstDayAdjusted + daysInMonth;
       
       var appointmentDay = appointmentDays.find(function(item) {
@@ -570,6 +608,7 @@
           colorMark = "bg-slate-500";
         }
       }
+      console.log(appointmentDay);
       html +=
         '<button type="button"' +
         (outside ? " disabled" : "") +
@@ -746,7 +785,7 @@
   }
   function render() {
     state.calendario = getSortOrderDays(state.calendario);
-    console.log(state.calendario);
+
     renderMonths();
 
     els.miniMonthTitle.text(mesesLargos[currentDate.getMonth()] + " " + currentDate.getFullYear());
@@ -908,13 +947,6 @@
       navegarMes(1);
     });
 
-    // Navegación de meses side
-    $("#prevMonthSide").on("click", function () {
-      //navegarMes(-1);
-    });
-    $("#nextMonthSide").on("click", function () {
-      //navegarMes(1);
-    });
 
     // Botones de mes (delegación, contenido dinámico)
     els.monthList.on("click", "[data-month]", function () {
