@@ -103,6 +103,40 @@
       ],
     },
     {
+      date: new Date(2026, 7, 12),
+      citas: [
+        {
+          id: mkId(),
+          nombre_paciente: "Sofía",
+          apellido_paciente: "López",
+          sexo: "Masculino",
+          telefono: "7774577",
+          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
+          hora: "19:00",
+          color: "bg-cream",
+          duracion: "30",
+          estado: "Confirmada",
+        },
+      ],
+    },
+    {
+      date: new Date(2026, 7, 13),
+      citas: [
+        {
+          id: mkId(),
+          nombre_paciente: "Sofía",
+          apellido_paciente: "López",
+          sexo: "Masculino",
+          telefono: "7774577",
+          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
+          hora: "18:00",
+          color: "bg-cream",
+          duracion: "30",
+          estado: "Pendiente",
+        },
+      ],
+    },
+    {
       date: new Date(2026, 8, 6),
       citas: [
         {
@@ -235,9 +269,12 @@
     }
   }
 
-  function totalCitasConfirmadas(monthSelected) {
+  function totalCitas(estado,monthSelected) {
     var now = new Date();
     var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
+    var currentMonthNow = now.getMonth();
+    var currentYearNow = now.getFullYear();
+    var currentDayNow = now.getDate();
 
     return state.calendario
       .filter(function (item) {
@@ -245,28 +282,16 @@
         return (d.getFullYear() * 12 + d.getMonth()) === targetAbsoluteMonth;
       })
       .reduce(function (total, item) {
+        var itemDate = new Date(item.date);
         return total + item.citas.filter(function (cita) {
-          return cita.estado === "Confirmada";
+          if (itemDate.getFullYear() === currentYearNow && itemDate.getMonth() === currentMonthNow) {
+            return itemDate.getDate() >= currentDayNow && cita.estado === estado;
+          }
+          return cita.estado === estado;
         }).length;
       }, 0);
   }
-  function totalCitasPendientes(monthSelected) {
-    var now = new Date();
-    var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
-
-    return state.calendario
-      .filter(function (item) {
-        var d = new Date(item.date);
-        return (d.getFullYear() * 12 + d.getMonth()) === targetAbsoluteMonth;
-      })
-      .reduce(function (total, item) {
-        return total + item.citas.filter(function (cita) {
-          return cita.estado === "Pendiente";
-        }).length;
-      }, 0);
-  }
-
-
+  
   function diasConCita(monthSelected) {
     var now = new Date();
     var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
@@ -322,7 +347,7 @@
       if ((date.getFullYear() * 12 + date.getMonth()) === targetAbsoluteMonth) {
         element.citas.forEach(function (cita) {
           if (currentMonthNow == date.getMonth() && now.getFullYear() == date.getFullYear()) {
-            if (date.getDate() > currentDayNow) {
+            if (date.getDate() >= currentDayNow) {
               items.push({ cita: cita, dia: date.getDate() });
             }
           }
@@ -541,8 +566,8 @@
     var year = currentDate.getFullYear();
     var month = currentDate.getMonth();
 
-    var total = totalCitasConfirmadas(month);
-    var totalPendientes = totalCitasPendientes(month);
+    var total = totalCitas("Confirmada",month);
+    var totalPendientes = totalCitas("Pendiente",month);
 
 
     var firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -602,9 +627,12 @@
       const currentDateNow = new Date();
       const currentMonthNow = currentDateNow.getMonth();
       const currentDayNow = currentDateNow.getDate();
-      if (currentMonthNow == month) {
+      if (month <= currentMonthNow) {
 
         if (day < currentDayNow) {
+          colorMark = "bg-slate-500";
+        }
+        else if(month < currentMonthNow){
           colorMark = "bg-slate-500";
         }
       }
@@ -732,7 +760,7 @@
     );
   }
 
-  function renderUpcoming() {
+  function renderUpcoming() {//proximas citas
     var items = proximasCitas(state.mesActivo);
 
     els.upcomingList.html(
