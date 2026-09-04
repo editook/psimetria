@@ -91,11 +91,11 @@ $registers = $registerModel->getAll($idClient, $search_key);
 	<div class="min-h-screen flex flex-col text-slate-800 page <?= TESTING == '1' ? 'istesting' : '' ?>">
 		<?php include("../include/header-v2.php"); ?>
 
-		<main class="flex-1 pb-12 place-items-center items-center justify-center">
+		<main class="flex-1 place-items-center items-center justify-center">
 			<div class="container-global w-full flex items-center justify-center mt-10">
 				<div class="grid w-full grid-cols-1 md:grid-cols-3 gap-4">
 					<div class="md:col-span-2">
-						<div class="flex min-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-2xl border border-white/80 bg-white shadow-xl">
+						<div class="flex min-h-[50rem] flex-col overflow-hidden rounded-2xl border border-white/80 bg-white shadow-xl">
 							<div class="flex items-center justify-between px-5 py-2 sm:px-8">
 								<div class="flex items-center gap-2 text-xs text-slate-400">
 
@@ -158,7 +158,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 					</div>
 					<div class="md:col-span-1">
 
-						<div class="flex min-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-2xl border border-white/80 bg-white shadow-xl">
+						<div class="flex min-h-[50rem] flex-col overflow-hidden rounded-2xl border border-white/80 bg-white shadow-xl">
 							<section class="border-b border-slate-100 px-5 py-5 sm:px-8 sm:py-6">
 								<div class="flex flex-wrap items-end justify-between gap-4">
 									<div>
@@ -293,9 +293,26 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								Guardar cita
 							</button>
 						</div>
+						</div>
+					</div>
+				</div>
+				<!-- Modal para ver nota completa -->
+				<div id="modalNota" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/25 p-5 backdrop-blur-sm">
+					<div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+						<div class="flex items-start justify-between">
+							<h2 class="text-lg font-semibold">Nota</h2>
+							<button id="closeModalNota" class="text-2xl leading-none text-slate-600" aria-label="Cerrar">
+								&times;
+							</button>
+						</div>
+						<div class="mt-5">
+							<p id="notaCompleta" class="text-sm text-slate-600 leading-relaxed"></p>
+						</div>
 					</div>
 				</div>
 			</div>
+		</main>
+
 
 		</main>
 

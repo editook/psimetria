@@ -179,14 +179,18 @@
     cancelSearch: $("#cancelSearch"),
     modalBackdrop: $("#modalBackdrop"),
     patientInput: $("#patientInput"),
-    patientLasnameInput: $("#patientLasnameInput"),
+    patientLlasnameInput: $("#patientLasnameInput"),
     generoInput: $("#generoInput"),
     generoOtroInput: $("#gneroOtroInput"),
     timeInput: $("#timeInput"),
     dateInput: $("#dateInput"),
     coloresButtons: $("#coloresButtons"),
     formError: $("#formError"),
+    modalNota: $("#modalNota"),
+    closeModalNota: $("#closeModalNota"),
+    notaCompleta: $("#notaCompleta"),
   };
+
 
 
   /* ------------------------- Utilidades ------------------------- */
@@ -270,15 +274,20 @@
       });
   }
 
-  function citasFiltradas() {
+  function citasFiltradas(month) {
     var q = state.busqueda.trim().toLowerCase();
+    
+    var filteredByMonth = state.calendario.filter(function(item) {
+      return new Date(item.date).getMonth() === month;
+    });
 
     if (!q) {
-      return state.calendario;
+      return filteredByMonth;
     }
 
-    return state.calendario.map(function (cita) {
+    return filteredByMonth.map(function (cita) {
       return {
+        date: cita.date,
         day: cita.day,
         citas: cita.citas.filter(function (citaFiltro) {
           return (
@@ -289,6 +298,7 @@
       };
     });
   }
+
 
   function proximasCitas(monthSelected) {
     var items = [];
@@ -362,7 +372,7 @@
 
       "</div>" +
       "</div>" +
-      '<div class="flex items-center gap-2 rounded-lg bg-white/90 px-2 py-2 shadow-sm">' +
+      '<div class="flex items-center gap-2 rounded-lg bg-white/90 px-2 py-2 shadow-sm cursor-pointer" onclick="abrirModalNota(`' + escapeHtml(cita.nota) + '`)">' +
       '<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-50 text-slate-800">' +
       '<i data-lucide="clipboard-list" class="h-3.5 w-3.5"></i>' +
       "</span>" +
@@ -442,19 +452,21 @@
     );
   }
   function renderDays() {
-    var days = citasFiltradas();
-
+    var days = citasFiltradas(state.mesActivoSide);
+    console.log(days);
     els.daysList.html(
       days
-        .map(function (day) {
+        .map(function (item) {
           var inner;
-
-          if (day.citas.length) {
+          const fecha = new Date(item.date);
+          const dia = fecha.getDate();
+          console.log(item);
+          if (item.citas.length) {
             inner =
               '<div class="flex gap-2 pb-1">' +
-              day.citas
+              item.citas
                 .map(function (cita) {
-                  return appointmentCard(cita, day.day);
+                  return appointmentCard(cita, dia);
                 })
                 .join("") +
               "</div>";
@@ -470,7 +482,7 @@
           return (
             '<div class="grid min-h-[82px] border-b border-slate-300 grid-cols-[30px_minmax(0,1fr)] gap-3 px-5 py-4 sm:grid-cols-[38px_minmax(0,1fr)] sm:px-8">' +
             '<div class="pt-1 text-xs font-semibold text-slate-800">' +
-            day.day +
+            dia +
             "</div>" +
             inner +
             "</div>"
@@ -540,9 +552,9 @@
       var hasAppointment = appointmentDay !== undefined && !outside;
 
       var colorMark = "bg-red-500";
-      console.log(appointmentDay);
+    
       if(hasAppointment && sonTodasEstadoDelDia("Pendiente",appointmentDay.citas)){
-        console.log(day,hasAppointment,appointmentDay.citas);
+      
         colorMark = "bg-orange-500";
       }
       else if(hasAppointment && sonTodasEstadoDelDia("Cancelada",appointmentDay.citas)){
@@ -601,7 +613,7 @@
       '<p class="text-xs font-semibold">' +
       escapeHtml(cita.nombre_paciente) + " " + escapeHtml(cita.apellido_paciente) +
       "</p>" +
-      '<p class="mt-0.5 max-w-180 truncate  text-xs text-slate-600 cursor-pointer">' +
+      '<p class="mt-0.5 max-w-180 truncate text-xs text-slate-600 cursor-pointer" onclick="abrirModalNota(`' + escapeHtml(cita.nota) + '`)">' +
       escapeHtml(cita.nota) +
       "</p>" +
       '<p class="mt-0.5 text-xs text-slate-500">' +
@@ -734,6 +746,7 @@
   }
   function render() {
     state.calendario = getSortOrderDays(state.calendario);
+    console.log(state.calendario);
     renderMonths();
 
     els.miniMonthTitle.text(mesesLargos[currentDate.getMonth()] + " " + currentDate.getFullYear());
@@ -772,7 +785,17 @@
     els.formError.addClass("hidden");
   }
 
+  window.abrirModalNota = function(texto) {
+    els.notaCompleta.text(texto);
+    els.modalNota.removeClass("hidden").addClass("flex");
+}
+
+  function cerrarModalNota() {
+    els.modalNota.addClass("hidden").removeClass("flex");
+  }
+
   function mostrarError(message) {
+
     els.formError.text(message).removeClass("hidden");
   }
 
@@ -863,6 +886,13 @@
     $("#openModal").on("click", abrirModal);
     $("#closeModal").on("click", cerrarModal);
     $("#saveAppointment").on("click", agregarCita);
+    
+    els.closeModalNota.on("click", cerrarModalNota);
+    els.modalNota.on("click", function (e) {
+      if (e.target === this) {
+        cerrarModalNota();
+      }
+    });
 
     els.modalBackdrop.on("click", function (e) {
       if (e.target === this) {
@@ -888,7 +918,7 @@
 
     // Botones de mes (delegación, contenido dinámico)
     els.monthList.on("click", "[data-month]", function () {
-      state.mesActivo = Number($(this).data("month"));
+      state.mesActivoSide = Number($(this).data("month"));
       render();
     });
 
