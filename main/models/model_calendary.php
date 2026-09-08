@@ -50,7 +50,7 @@ class Calendary_Model
                               sexo = '{$paciente['sexo']}', 
                               telefono = '{$paciente['telefono']}' 
                           WHERE id = {$calendary['id_patient']}";
-
+       
         $res1 = $con->execute_query($queryCita);
         $res2 = $con->execute_query($queryPaciente);
 

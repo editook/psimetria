@@ -30,204 +30,7 @@
     return "cita-" + ++citaId;
   };
 
-  let data_response = [
-    {
-      date: new Date(2026, 9, 1),
-      citas: [
-        {
-          id: mkId(),
-          nombre_paciente: "María",
-          apellido_paciente: "López",
-          sexo: "Femenino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "08:00",
-          color: "bg-plomo-200",
-          duracion: "90",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-      ],
-    },
-
-    {
-      date: new Date(2026, 9, 3),
-      citas: [
-        {
-          id: mkId(),
-          nombre_paciente: "Carlos",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "08:00",
-          color: "bg-coral",
-          duracion: "60",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-        {
-          id: mkId(),
-          nombre_paciente: "Luis",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "15:00",
-          color: "bg-mint",
-          duracion: "45",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-        {
-          id: mkId(),
-          nombre_paciente: "Ana",
-          apellido_paciente: "López",
-          sexo: "Femenino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "09:00",
-          color: "bg-lavender",
-          duracion: "90",
-          estado: ESTADO_TEXT.PENDIENTE,
-        },
-
-      ],
-    },
-
-    {
-      date: new Date(2026, 8, 1),
-      citas: [
-        {
-          id: mkId(),
-          nombre_paciente: "Sofía",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "19:00",
-          color: "bg-cream",
-          duracion: "30",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-      ],
-    },
-    {
-      date: new Date(2026, 7, 12),
-      citas: [
-        {
-          id: mkId(),
-          nombre_paciente: "Sofía",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "19:00",
-          color: "bg-cream",
-          duracion: "30",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-      ],
-    },
-    {
-      date: new Date(2026, 7, 13),
-      citas: [
-        {
-          id: mkId(),
-          nombre_paciente: "Sofía",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "18:00",
-          color: "bg-cream",
-          duracion: "30",
-          estado: ESTADO_TEXT.PENDIENTE,
-        },
-      ],
-    },
-    {
-      date: new Date(2026, 8, 6),
-      citas: [
-        {
-          id: mkId(),
-          nombre_paciente: "Pedro",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "18:00",
-          color: "bg-mint",
-          duracion: "45",
-          estado: ESTADO_TEXT.PENDIENTE,
-        },
-      ],
-    },
-    {
-      date: new Date(2026, 8, 4),
-      citas: [
-        {
-          id: mkId(),
-          nombre_paciente: "Pedro",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "18:00",
-          color: "bg-mint",
-          duracion: "45",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-        {
-          id: mkId(),
-          nombre_paciente: "Pedro",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "15:00",
-          color: "bg-mint",
-          duracion: "45",
-          estado: ESTADO_TEXT.PENDIENTE,
-        },
-        {
-          id: mkId(),
-          nombre_paciente: "Pedro",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "19:00",
-          color: "bg-white-200",
-          duracion: "45",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-        {
-          id: mkId(),
-          nombre_paciente: "Pedro",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "22:00",
-          color: "bg-white-200",
-          duracion: "45",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-        {
-          id: mkId(),
-          nombre_paciente: "Pedro",
-          apellido_paciente: "López",
-          sexo: "Masculino",
-          telefono: "7774577",
-          nota: "Evaluación inicial y entrevista clínica, Seguimiento y revisión de avances",
-          hora: "19:00",
-          color: "bg-white-200",
-          duracion: "45",
-          estado: ESTADO_TEXT.CONFIRMADA,
-        },
-      ],
-    },
-
-  ];
-  data_response = [];
+  let data_response = [];
 
   let colorClass = [
     "bg-blue-200",
@@ -241,7 +44,6 @@
     "bg-green-200",
     "bg-slate-300",
   ];
-
 
   let estadoClass = {
     Confirmada: {
@@ -273,11 +75,10 @@
   let state = {
     mesActivo: currentDate.getMonth(),
     mesActivoSide: currentDate.getMonth(),
-    calendario: getSortOrderDays(JSON.parse(JSON.stringify(data_response))),
+    calendario: [],
     colorSeleccionado: "bg-blue-200",
     busqueda: "",
   };
-
 
   /* ------------------------- Nodos ------------------------- */
   let els = {
@@ -299,7 +100,7 @@
 
   let formulario = {
     patientInput: $("#patientInput"),
-    patientLasnameInput: $("#patientLasnameInput"),
+    patientLansnameInput: $("#patientLasnameInput"),
     generoInput: $("#generoInput"),
     generoOtroInput: $("#gneroOtroInput"),
     timeInput: $("#timeInput"),
@@ -310,7 +111,6 @@
     estadoInput: $("#estadoInput"),
     coloresButtons: $("#coloresButtons"),
   };
-
 
   /* ------------------------- Utilidades ------------------------- */
   function inicialesDe(nombre) {
@@ -325,7 +125,7 @@
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
+      .replace(/\"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
   function formatHour(hourStr) {
@@ -381,7 +181,6 @@
       });
   }
 
-
   function citasFiltradas(month) {
     let q = state.busqueda.trim().toLowerCase();
 
@@ -405,7 +204,6 @@
       };
     });
   }
-
 
   function proximasCitas(monthSelected) {
     let items = [];
@@ -433,10 +231,6 @@
     return items;
   }
 
-
-
-
-  /* ------------------------- Render: meses ------------------------- */
   function renderMonths() {
     let now = new Date();
     let currentMonth = now.getMonth();
@@ -468,22 +262,24 @@
       }).join("")
     );
   }
+
   function getHtmlBottonOption(id, estadoRegistro, estado) {
     if (estadoRegistro == estado) {
       return '';
     }
     let status = estadoClass[estado];
     const html = `<button
-              type="button"
-              data-action="update-status"
-              data-id="${id}"
-              data-status="${estado}"
-              class="flex w-full rounded-full items-center gap-1 px-2 py-1 text-left text-xs font-medium ${status.text} transition ${status.hover}">
-              <i data-lucide="${status.icon}" class="h-[13px] w-[13px]"></i>
-              ${status.value}
-          </button>`
+               type="button"
+               data-action="update-status"
+               data-id="${id}"
+               data-status="${estado}"
+               class="flex w-full rounded-full items-center gap-1 px-2 py-1 text-left text-xs font-medium ${status.text} transition ${status.hover}">
+               <i data-lucide="${status.icon}" class="h-[13px] w-[13px]"></i>
+               ${status.value}
+           </button>`
     return html;
   }
+
   function getHtmlModalOption(cita, dia, idRefence) {
     const btn1 = getHtmlBottonOption(cita.id, cita.estado, ESTADO_TEXT.CONFIRMADA);
     const btn2 = getHtmlBottonOption(cita.id, cita.estado, ESTADO_TEXT.PENDIENTE);
@@ -495,9 +291,13 @@
     const html = `<div id="${idRefence}` +
       cita.id +
       '" class="absolute bottom-' + bottom + ' justify-items-center z-20 hidden w-36 h-auto rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
-      '<button type="button" data-action="delete" data-day="' +
-      dia +
-      '" data-id="' +
+      '<button type="button" data-action="edit" data-id="' +
+      cita.id +
+      '"' +
+      ' class="flex rounded-full items-center m-2 gap-2 px-3 py-2 text-left text-xs font-medium text-amber-600 transition hover:bg-amber-200">' +
+      '<i data-lucide="edit-2" class="h-[13px] w-[13px]"></i>Editar Cita' +
+      "</button>" +
+      '<button type="button" data-action="delete" data-id="' +
       cita.id +
       '"' +
       ' class="flex rounded-full items-center m-2 gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">' +
@@ -511,12 +311,13 @@
       "</div>";
     return html;
   }
+
   function appointmentCard(cita, day) {
     let status = estadoClass[cita.estado];
 
     const optionModal = getHtmlModalOption(cita, day, "menu-");
 
-    if(!cita.nota){
+    if (!cita.nota) {
       cita.nota = "- - - - - - - - - - - - - -";
     }
     return (
@@ -568,9 +369,9 @@
       optionModal +
       "</div>" +
       "</article>"
-
     );
   }
+
   function renderDays() {
     let days = citasFiltradas(state.mesActivoSide);
 
@@ -626,6 +427,7 @@
         .join(""),
     );
   }
+
   function sonTodasEstadoDelDia(estado, citas) {
     let result = true;
     citas.forEach(element => {
@@ -635,13 +437,13 @@
     });
     return result;
   }
+
   function renderMiniCalendar() {
     let year = currentDate.getFullYear();
     let month = currentDate.getMonth();
 
     let total = totalCitas(ESTADO_TEXT.CONFIRMADA, month);
     let totalPendientes = totalCitas(ESTADO_TEXT.PENDIENTE, month);
-
 
     let firstDayOfMonth = new Date(year, month, 1).getDay();
     let daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -709,7 +511,6 @@
           colorMark = "bg-slate-500";
         }
       }
-
       html +=
         '<button type="button"' +
         (outside ? " disabled" : "") +
@@ -740,6 +541,7 @@
 
     els.miniCalendar.html(html);
   }
+
   function upcomingCard(cita, dia) {
     let status = estadoClass[cita.estado];
     const optionModal = getHtmlModalOption(cita, dia, "menu-mini-");
@@ -802,6 +604,7 @@
         : '<p class="text-xs text-slate-400">No hay citas programadas.</p>',
     );
   }
+
   function renderFormDays() {
     formulario.coloresButtons.html(
       colorClass
@@ -822,6 +625,7 @@
         .join(""),
     );
   }
+
   function getSortOrderDays(citas) {
     return citas
       .map(function (item) {
@@ -838,13 +642,14 @@
         return dateA - dateB;
       });
   }
+
   /* ------------------------- Data Fetching ------------------------- */
   function fetchGetHistory() {
     let idUser = $("#idUser").val().trim();
     $.ajax({
       url: window.APP_CONFIG.localhost + '/api/enpoint_calendary.php',
       type: 'GET',
-      data: { search: state.busqueda, idUser: idUser},
+      data: { search: state.busqueda, idUser: idUser },
       dataType: 'json',
       success: function (data) {
 
@@ -858,6 +663,7 @@
                 nombre_paciente: item.nombre,
                 apellido_paciente: item.apellidos,
                 sexo: item.sexo,
+                id_patient: item.id_patient,
                 telefono: item.telefono,
                 nota: item.nota,
                 hora: item.hora.slice(0, 5),
@@ -901,6 +707,7 @@
 
     hydrateIcons();
   }
+
   function navegarMes(delta) {
     state.mesActivo = Math.max(
       0,
@@ -943,9 +750,11 @@
   }
 
   /* ------------------------- Acciones de cita ------------------------- */
-  function agregarCita() {
+  function guardarCita() {
+    let idCita = $("#appointmentId").val();
+    let id_patient = $("#id_patient").val();
     let nombre_paciente = formulario.patientInput.val().trim();
-    let apellido_paciente = formulario.patientLasnameInput.val().trim();
+    let apellido_paciente = formulario.patientLansnameInput.val().trim();
     let genero = formulario.generoInput.val();
     let hora = formulario.timeInput.val().trim();
     let fecha = formulario.dateInput.val();
@@ -966,66 +775,130 @@
 
     let color = state.colorSeleccionado;
 
-    let nuevaCita = {
-      id: mkId(),
-      idUser: idUser,
-      nombre_paciente: nombre_paciente,
-      apellido_paciente: apellido_paciente,
-      sexo: genero,
-      telefono: telefono,
-      hora: hora,
-      color: color,
-      duracion: duracion,
-      estado: estado,
-      nota: nota,
-    };
+    if (!idCita) {
+      // Lógica de nueva cita (Agregar)
+      let nuevaCita = {
+        id: mkId(),
+        idUser: idUser,
+        nombre_paciente: nombre_paciente,
+        apellido_paciente: apellido_paciente,
+        sexo: genero,
+        telefono: telefono,
+        hora: hora,
+        color: color,
+        duracion: duracion,
+        estado: estado,
+        nota: nota,
+      };
 
-    let dateObj = new Date(fecha + "T00:00:00");
-    let day = dateObj.getDate();
-
-    let existingDay = state.calendario.find(function (item) {
-      return new Date(item.date).toDateString() === dateObj.toDateString();
-    });
-
-    if (existingDay) {
-      existingDay.citas.push(nuevaCita);
-    } else {
-      state.calendario.push({
-        date: dateObj,
-        citas: [nuevaCita]
+      let dateObj = new Date(fecha + "T00:00:00");
+      let existingDay = state.calendario.find(function (item) {
+        return new Date(item.date).toDateString() === dateObj.toDateString();
       });
+
+      if (existingDay) {
+        existingDay.citas.push(nuevaCita);
+      } else {
+        state.calendario.push({
+          date: dateObj,
+          citas: [nuevaCita]
+        });
+      }
+
+      $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', {
+        action: 'add-calendary',
+        idUser: idUser,
+        nombre_paciente: nombre_paciente,
+        apellido_paciente: apellido_paciente,
+        sexo: genero,
+        telefono: telefono,
+        date: fecha,
+        hora: hora,
+        duracion: duracion,
+        color: color,
+        estado: estado,
+        nota: nota
+      });
+      formulario.patientInput.val("");
+      formulario.patientLansnameInput.val("");
+      formulario.generoInput.val("");
+      formulario.generoOtroInput.val("");
+      formulario.timeInput.val("");
+      formulario.dateInput.val("");
+      formulario.timeMaxInput.val("");
+      formulario.telefonoInput.val("");
+      formulario.notaInput.val("");
+      $("#appointmentId").val("");
+      state.colorSeleccionado = "bg-blue-200";
+
+      cerrarModal();
+      render();
+    } else {
+      
+      $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', {
+        action: 'update-calendary',
+        id: idCita,
+        id_patient:id_patient,
+        nombre_paciente: nombre_paciente,
+        apellido_paciente: apellido_paciente,
+        sexo: genero,
+        telefono: telefono,
+        date: fecha,
+        hora: hora,
+        duracion: duracion,
+        color: color,
+        estado: estado,
+        nota: nota
+      });
+      location.reload();
     }
 
-    formulario.patientInput.val("");
-    formulario.patientLasnameInput.val("");
-    formulario.generoInput.val("");
-    formulario.generoOtroInput.val("");
-    formulario.timeInput.val("");
-    formulario.dateInput.val("");
-    formulario.timeMaxInput.val("");
-    formulario.telefonoInput.val("");
-    formulario.notaInput.val("");
-    state.colorSeleccionado = "bg-blue-200";
 
-    cerrarModal();
-    render();
-
-    $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', { 
-      action: 'add-calendary', 
-      idUser: idUser,
-      nombre_paciente: nombre_paciente,
-      apellido_paciente: apellido_paciente,
-      sexo: genero,
-      telefono: telefono,
-      date: fecha,
-      hora: hora,
-      duracion: duracion,
-      color: color,
-      estado: estado,
-      nota: nota
-    });
   }
 
+  function editarCita(id) {
+    // Buscar la cita en el estado actual
+    let citaEncontrada = null;
+    state.calendario.forEach(function (item) {
+      let cita = item.citas.find(c => c.id == id);
+      if (cita) citaEncontrada = cita;
+    });
+
+    if (!citaEncontrada) return;
+
+    // 1. Asignar ID de la cita al campo oculto
+    $("#appointmentId").val(citaEncontrada.id);
+
+    $("#id_patient").val(citaEncontrada.id_patient);
+
+    // 2. Rellenar el formulario con los datos de la cita
+    formulario.patientInput.val(citaEncontrada.nombre_paciente);
+    formulario.patientLansnameInput.val(citaEncontrada.apellido_paciente);
+    formulario.generoInput.val(citaEncontrada.sexo);
+    if (citaEncontrada.sexo === "Otro") {
+      formulario.generoOtroInput.removeClass("hidden");
+    } else {
+      formulario.generoOtroInput.addClass("hidden");
+    }
+    formulario.telefonoInput.val(citaEncontrada.telefono);
+
+    // Formatear fecha para el input type="date" (YYYY-MM-DD)
+    let dateObj = new Date(state.calendario.find(i => i.citas.some(c => c.id == id)).date);
+    let fechaStr = dateObj.toISOString().split('T')[0];
+    formulario.dateInput.val(fechaStr);
+
+    formulario.timeInput.val(citaEncontrada.hora);
+    formulario.timeMaxInput.val(citaEncontrada.duracion);
+    formulario.estadoInput.val(citaEncontrada.estado);
+    formulario.notaInput.val(citaEncontrada.nota);
+    state.colorSeleccionado = citaEncontrada.color;
+    renderFormDays();
+    //Abrir modal
+    $("#openModal").on("click", abrirModal);
+    abrirModal();
+    // Cambiar título del modal
+    $("#modalBackdrop h2").text("Editar Cita");
+  }
 
   function eliminarCita(id) {
     state.calendario = state.calendario.map(function (item) {
@@ -1038,12 +911,11 @@
     });
     render();
 
-    $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', { 
-      action: 'remove', 
-      id: id 
+    $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', {
+      action: 'remove',
+      id: id
     });
   }
-
 
   function closeMenus() {
     $('[id^="menu-"]').addClass("hidden");
@@ -1063,11 +935,11 @@
       };
     });
     render();
-    
-    $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', { 
-      action: 'update_status', 
-      id: id, 
-      status: nuevoEstado 
+
+    $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', {
+      action: 'update_status',
+      id: id,
+      status: nuevoEstado
     });
   }
 
@@ -1076,7 +948,7 @@
     // Modal
     $("#openModal").on("click", abrirModal);
     $("#closeModal").on("click", cerrarModal);
-    $("#saveAppointment").on("click", agregarCita);
+    $("#saveAppointment").on("click", guardarCita);
 
     els.closeModalNota.on("click", cerrarModalNota);
     els.modalNota.on("click", function (e) {
@@ -1085,11 +957,6 @@
       }
     });
 
-    els.modalBackdrop.on("click", function (e) {
-      if (e.target === this) {
-        cerrarModal();
-      }
-    });
 
     // Mini calendario navigation
     $("#prevMonth").on("click", function () {
@@ -1099,17 +966,14 @@
       navegarMes(1);
     });
 
-
     // Botones de mes (delegación, contenido dinámico)
     els.monthList.on("click", "[data-month]", function () {
       state.mesActivoSide = Number($(this).data("month"));
       render();
     });
 
-
     els.searchInput.on("input", function () {
       state.busqueda = $(this).val();
-
     });
     els.searchButton.on("click", function () {
       fetchGetHistory();
@@ -1118,8 +982,7 @@
     els.cancelSearch.on("click", function () {
       state.busqueda = "";
       els.searchInput.val("");
-      fetchGetHistory();
-
+      fetchGetHistry();
     });
 
     els.daysList.on("click", '[data-action="menu"]', function (e) {
@@ -1131,7 +994,6 @@
       e.stopPropagation();
       closeMenus();
       $("#menu-mini-" + $(this).data("id")).toggleClass("hidden");
-
     });
 
     els.daysList.on("click", '[data-action="delete"]', function () {
@@ -1141,10 +1003,17 @@
       eliminarCita($(this).data("id"));
     });
 
+    els.daysList.on("click", '[data-action="edit"]', function () {
+      editarCita($(this).data("id"));
+    });
+    els.upcomingList.on("click", '[data-action="edit"]', function () {
+      editarCita($(this).data("id"));
+    });
+
     $(document).on("click", '[data-action="update-status"]', function () {
       var id = $(this).data("id");
       var nuevoEstado = $(this).data("status");
-      actualizarEstadoCita(id,nuevoEstado);
+      actualizarEstadoCita(id, nuevoEstado);
     });
     // Mini calendario (delegación)
     els.miniCalendar.on("click", "[data-mini-day]", function () {

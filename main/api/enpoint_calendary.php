@@ -51,6 +51,21 @@ if ($action === 'list') {
         http_response_code(500);
         echo json_encode(['error' => 'No se pudo agendar la cita']);
     }
+} elseif ($action === 'update-calendary') {
+    $id = $_POST['id'] ?? null;
+    $data = $_POST;
+
+    if ($id && $data) {
+        if ($service->updateAppointment($id, $data)) {
+            echo json_encode(['success' => true]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'No se pudo actualizar la cita']);
+        }
+    } else {
+        http_response_code(400);
+        echo json_encode(['error' => 'Parámetros faltantes']);
+    }
 } else {
     http_response_code(404);
     echo json_encode(['error' => 'Acción no encontrada']);

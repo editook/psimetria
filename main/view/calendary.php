@@ -190,10 +190,11 @@ if ($idUser == 0) {
 
 						<div class="mt-5 space-y-3">
 							<input id="idUser" value="<?= $idUser ?>" type="hidden" />
-							<input
-								id="patientInput"
-								placeholder="Nombre del paciente"
+							<input id="appointmentId" value="" type="hidden" />
+							<input id="id_patient" value="" type="hidden" />
+							<input id="patientInput" placeholder="Nombre del paciente"
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+
 							<input
 								id="patientLasnameInput"
 								placeholder="Apellido del paciente"
@@ -241,7 +242,7 @@ if ($idUser == 0) {
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500">
 								<option value="" selected disabled>Seleccionar estado</option>
 								<option value="Confirmada">Confirmado</option>
-								<option value="Pendiente">Por Confirmar</option>
+								<option value="Pendiente">Pendiente</option>
 							</select>
 
 							<textarea
@@ -287,10 +288,7 @@ if ($idUser == 0) {
 			</div>
 		</main>
 	</div>
-	
 
-
-	
 
 	<!-- Audio Modal -->
 	<?php include("../include/footer-v2.php"); ?>
