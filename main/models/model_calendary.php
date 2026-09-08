@@ -57,13 +57,21 @@ class Calendary_Model
         return ($res1 && $res2);
     }
 
-    public function getAll($search = '')
+    public function updateStatus($id, $status)
     {
         $con = new Connection();
-        $where = "";
+        $statusEscaped = $con->getRealEscapeString($status);
+        $query = "UPDATE calendary SET estado = '$statusEscaped' WHERE id = $id";
+        return $con->execute_query($query);
+    }
+
+    public function getAll(int $idUser,$search = '')
+    {
+        $con = new Connection();
+        $where = "WHERE c.id_user = $idUser";
         if ($search != '') {
             $searchEscaped = $con->getRealEscapeString($search);
-            $where = " WHERE p.nombre LIKE '%$searchEscaped%' OR p.apellidos LIKE '%$searchEscaped%' ";
+            $where = " WHERE p.nombre LIKE '%$searchEscaped%' OR p.apellidos LIKE '%$searchEscaped%' AND c.id_user = $idUser";
         }
 
         $query = "SELECT c.*, p.nombre, p.apellidos, p.sexo, p.telefono 
@@ -91,6 +99,7 @@ class Calendary_Model
         $idPatient = $con->getLastInsertedID();
 
         // 2. Guardar Cita
+        $id_user = $con->getRealEscapeString($calendary['id_user']);
         $date = $con->getRealEscapeString($calendary['date']);
         $hora = $con->getRealEscapeString($calendary['hora']);
         $nota = $con->getRealEscapeString($calendary['nota']);
@@ -98,8 +107,8 @@ class Calendary_Model
         $color = $con->getRealEscapeString($calendary['color']);
         $estado = $con->getRealEscapeString($calendary['estado']);
 
-        $queryCita = "INSERT INTO calendary (id_patient, date, hora, nota, duracion, color, estado) 
-                      VALUES ($idPatient, '$date', '$hora', '$nota', $duracion, '$color', '$estado')";
+        $queryCita = "INSERT INTO calendary (id_user,id_patient, date, hora, nota, duracion, color, estado) 
+                      VALUES ($id_user,$idPatient, '$date', '$hora', '$nota', $duracion, '$color', '$estado')";
 
         return $con->execute_query($queryCita);
     }

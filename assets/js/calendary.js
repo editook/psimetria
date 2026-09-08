@@ -2,9 +2,9 @@
   "use strict";
 
   /* ------------------------- Constantes ------------------------- */
-  var meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+  let meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
-  var mesesLargos = [
+  let mesesLargos = [
     "Enero",
     "Febrero",
     "Marzo",
@@ -25,12 +25,12 @@
     CANCELADA: "Cancelada"
   };
 
-  var citaId = 0;
-  var mkId = function () {
+  let citaId = 0;
+  let mkId = function () {
     return "cita-" + ++citaId;
   };
 
-  var data_response = [
+  let data_response = [
     {
       date: new Date(2026, 9, 1),
       citas: [
@@ -227,9 +227,9 @@
     },
 
   ];
+  data_response = [];
 
-
-  var colorClass = [
+  let colorClass = [
     "bg-blue-200",
     "bg-plomo-200",
     "bg-slate-200",
@@ -243,34 +243,34 @@
   ];
 
 
-  var estadoClass = {
+  let estadoClass = {
     Confirmada: {
       dot: "bg-emerald-500",
       text: "text-emerald-700",
       hover: "hover:bg-emerald-200",
-      value:"Confirmar",
-      icon:"check-circle"
+      value: "Confirmar",
+      icon: "check-circle"
     },
     Pendiente: {
       dot: "bg-amber-500",
       text: "text-amber-700",
       hover: "hover:bg-amber-200",
-      value:"Pendiente",
-      icon:"clock-3"
+      value: "Pendiente",
+      icon: "clock-3"
     },
     Cancelada: {
       dot: "bg-red-400",
       text: "text-red-600",
       hover: "hover:bg-red-200",
-      value:"Cancelar",
-      icon:"x-circle"
+      value: "Cancelar",
+      icon: "x-circle"
     },
   };
 
   /* ------------------------- Estado ------------------------- */
-  var currentDate = new Date();
+  let currentDate = new Date();
 
-  var state = {
+  let state = {
     mesActivo: currentDate.getMonth(),
     mesActivoSide: currentDate.getMonth(),
     calendario: getSortOrderDays(JSON.parse(JSON.stringify(data_response))),
@@ -280,36 +280,42 @@
 
 
   /* ------------------------- Nodos ------------------------- */
-  var els = {
+  let els = {
     monthList: $("#monthList"),
     daysList: $("#daysList"),
     miniMonthTitle: $("#miniMonthTitle"),
     miniCalendar: $("#miniCalendar"),
     upcomingList: $("#upcomingList"),
-    searchBar: $("#searchBar"),
     searchInput: $("#searchInput"),
-    clearSearch: $("#clearSearch"),
+    searchButton: $("#searchButton"),
     cancelSearch: $("#cancelSearch"),
+
     modalBackdrop: $("#modalBackdrop"),
-    patientInput: $("#patientInput"),
-    patientLasnameInput: $("#patientLasnameInput"),
-    generoInput: $("#generoInput"),
-    generoOtroInput: $("#gneroOtroInput"),
-    timeInput: $("#timeInput"),
-    dateInput: $("#dateInput"),
-    coloresButtons: $("#coloresButtons"),
     formError: $("#formError"),
     modalNota: $("#modalNota"),
     closeModalNota: $("#closeModalNota"),
     notaCompleta: $("#notaCompleta"),
   };
 
+  let formulario = {
+    patientInput: $("#patientInput"),
+    patientLasnameInput: $("#patientLasnameInput"),
+    generoInput: $("#generoInput"),
+    generoOtroInput: $("#gneroOtroInput"),
+    timeInput: $("#timeInput"),
+    dateInput: $("#dateInput"),
+    timeMaxInput: $("#timeMaxInput"),
+    notaInput: $("#notaInput"),
+    telefonoInput: $("#telefonoInput"),
+    estadoInput: $("#estadoInput"),
+    coloresButtons: $("#coloresButtons"),
+  };
 
 
   /* ------------------------- Utilidades ------------------------- */
   function inicialesDe(nombre) {
-    var partes = String(nombre).split(" ");
-    var letras = partes.map(function (n) {
+    let partes = String(nombre).split(" ");
+    let letras = partes.map(function (n) {
       return n[0] || "";
     });
     return letras.join("").slice(0, 2).toUpperCase();
@@ -324,8 +330,8 @@
   }
   function formatHour(hourStr) {
     if (!hourStr) return "";
-    var [hours] = hourStr.split(':').map(Number);
-    var ampm = hours >= 12 ? 'PM' : 'AM';
+    let [hours] = hourStr.split(':').map(Number);
+    let ampm = hours >= 12 ? 'PM' : 'AM';
     return hourStr + ' ' + ampm;
   }
 
@@ -336,19 +342,19 @@
   }
 
   function totalCitas(estado, monthSelected) {
-    var now = new Date();
-    var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
-    var currentMonthNow = now.getMonth();
-    var currentYearNow = now.getFullYear();
-    var currentDayNow = now.getDate();
+    let now = new Date();
+    let targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
+    let currentMonthNow = now.getMonth();
+    let currentYearNow = now.getFullYear();
+    let currentDayNow = now.getDate();
 
     return state.calendario
       .filter(function (item) {
-        var d = new Date(item.date);
+        let d = new Date(item.date);
         return (d.getFullYear() * 12 + d.getMonth()) === targetAbsoluteMonth;
       })
       .reduce(function (total, item) {
-        var itemDate = new Date(item.date);
+        let itemDate = new Date(item.date);
         return total + item.citas.filter(function (cita) {
           if (itemDate.getFullYear() === currentYearNow && itemDate.getMonth() === currentMonthNow) {
             return itemDate.getDate() >= currentDayNow && cita.estado === estado;
@@ -359,15 +365,15 @@
   }
 
   function diasConCita(monthSelected) {
-    var now = new Date();
-    var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
+    let now = new Date();
+    let targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
 
     return state.calendario
       .filter(function (item) {
         if (!item.citas || item.citas.length === 0) {
           return false;
         }
-        var d = new Date(item.date);
+        let d = new Date(item.date);
         return (d.getFullYear() * 12 + d.getMonth()) === targetAbsoluteMonth;
       })
       .map(function (item) {
@@ -377,9 +383,9 @@
 
 
   function citasFiltradas(month) {
-    var q = state.busqueda.trim().toLowerCase();
+    let q = state.busqueda.trim().toLowerCase();
 
-    var filteredByMonth = state.calendario.filter(function (item) {
+    let filteredByMonth = state.calendario.filter(function (item) {
       return new Date(item.date).getMonth() === month;
     });
 
@@ -402,14 +408,14 @@
 
 
   function proximasCitas(monthSelected) {
-    var items = [];
-    var now = new Date();
-    var currentMonthNow = now.getMonth();
-    var currentDayNow = now.getDate();
-    var targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
+    let items = [];
+    let now = new Date();
+    let currentMonthNow = now.getMonth();
+    let currentDayNow = now.getDate();
+    let targetAbsoluteMonth = now.getFullYear() * 12 + monthSelected;
 
     state.calendario.forEach(function (element) {
-      var date = new Date(element.date);
+      let date = new Date(element.date);
       if ((date.getFullYear() * 12 + date.getMonth()) === targetAbsoluteMonth) {
         element.citas.forEach(function (cita) {
           if (currentMonthNow == date.getMonth() && now.getFullYear() == date.getFullYear()) {
@@ -432,13 +438,13 @@
 
   /* ------------------------- Render: meses ------------------------- */
   function renderMonths() {
-    var now = new Date();
-    var currentMonth = now.getMonth();
-    var currentYear = now.getFullYear();
+    let now = new Date();
+    let currentMonth = now.getMonth();
+    let currentYear = now.getFullYear();
 
-    var monthsToRender = [];
-    for (var i = -3; i <= 3; i++) {
-      var date = new Date(currentYear, currentMonth + i, 1);
+    let monthsToRender = [];
+    for (let i = -3; i <= 3; i++) {
+      let date = new Date(currentYear, currentMonth + i, 1);
       monthsToRender.push({
         name: meses[date.getMonth()],
         absoluteIndex: currentMonth + i
@@ -466,23 +472,53 @@
     if (estadoRegistro == estado) {
       return '';
     }
-    var status = estadoClass[estado];
+    let status = estadoClass[estado];
     const html = `<button
               type="button"
               data-action="update-status"
               data-id="${id}"
               data-status="${estado}"
-              class="flex w-full rounded-full items-center gap-2 px-3 py-2 text-left text-xs font-medium ${status.text} transition ${status.hover}">
-              <i data-lucide="check-circle" class="h-[13px] w-[13px]"></i>
+              class="flex w-full rounded-full items-center gap-1 px-2 py-1 text-left text-xs font-medium ${status.text} transition ${status.hover}">
+              <i data-lucide="${status.icon}" class="h-[13px] w-[13px]"></i>
               ${status.value}
           </button>`
     return html;
   }
+  function getHtmlModalOption(cita, dia, idRefence) {
+    const btn1 = getHtmlBottonOption(cita.id, cita.estado, ESTADO_TEXT.CONFIRMADA);
+    const btn2 = getHtmlBottonOption(cita.id, cita.estado, ESTADO_TEXT.PENDIENTE);
+    const btn3 = getHtmlBottonOption(cita.id, cita.estado, ESTADO_TEXT.CANCELADA);
+    let bottom = "5";
+    if (idRefence == "menu-mini-") {
+      bottom = "1";
+    }
+    const html = `<div id="${idRefence}` +
+      cita.id +
+      '" class="absolute bottom-' + bottom + ' justify-items-center z-20 hidden w-36 h-auto rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
+      '<button type="button" data-action="delete" data-day="' +
+      dia +
+      '" data-id="' +
+      cita.id +
+      '"' +
+      ' class="flex rounded-full items-center m-2 gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">' +
+      '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar Cita' +
+      "</button>" +
+      `<div class="flex flex-col gap-2 border-t border-slate-300 px-2 py-3">
+      ${btn1}
+      ${btn2}
+      ${btn3}
+      </div>`+
+      "</div>";
+    return html;
+  }
   function appointmentCard(cita, day) {
-    var status = estadoClass[cita.estado];
-    const btn1 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.CONFIRMADA);
-    const btn2 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.PENDIENTE);
-    const btn3 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.CANCELADA);
+    let status = estadoClass[cita.estado];
+
+    const optionModal = getHtmlModalOption(cita, day, "menu-");
+
+    if(!cita.nota){
+      cita.nota = "- - - - - - - - - - - - - -";
+    }
     return (
       '<article class="border border-slate-300 ' +
       cita.color +
@@ -529,35 +565,19 @@
       ' class="rounded p-1 text-slate-800 transition hover:bg-black/10" aria-label="Más opciones">' +
       '<i data-lucide="ellipsis" class="h-[15px] w-[15px]"></i>' +
       "</button>" +
-      '<div id="menu-' +
-      cita.id +
-      '" class="absolute justify-items-center bottom-9 right-0 z-20 hidden w-36 h-auto rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
-      '<button type="button" data-action="delete" data-day="' +
-      day +
-      '" data-id="' +
-      cita.id +
-      '"' +
-      ' class="flex rounded-full items-center m-2 gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">' +
-      '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar Cita' +
-      "</button>" +
-      `<div class="flex flex-col gap-2 border-t border-slate-300 px-2 py-3">
-          ${btn1}
-          ${btn2}
-          ${btn3}
-      </div>`+
-      "</div>" +
+      optionModal +
       "</div>" +
       "</article>"
 
     );
   }
   function renderDays() {
-    var days = citasFiltradas(state.mesActivoSide);
+    let days = citasFiltradas(state.mesActivoSide);
 
     if (days.length == 0) {
       els.daysList.html(
         [1].map(function (item) {
-          var inner =
+          let inner =
             '<div class="text-sm text-slate-600 content-center text-center">Sin resultados.</div>';
           return (
             '<div class="grid min-h-[82px] border-b border-slate-300 grid-cols-[30px_minmax(0,1fr)] gap-3 px-5 py-4 sm:grid-cols-[38px_minmax(0,1fr)] sm:px-8">' +
@@ -572,13 +592,13 @@
     els.daysList.html(
       days
         .map(function (item) {
-          var inner;
+          let inner;
           const fecha = new Date(item.date);
           const dia = fecha.getDate();
 
           if (item.citas.length) {
             inner =
-              '<div class="flex gap-2 pb-1 overflow-x-auto">' +
+              '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 pb-1">' +
               item.citas
                 .map(function (cita) {
                   return appointmentCard(cita, dia);
@@ -616,36 +636,36 @@
     return result;
   }
   function renderMiniCalendar() {
-    var year = currentDate.getFullYear();
-    var month = currentDate.getMonth();
+    let year = currentDate.getFullYear();
+    let month = currentDate.getMonth();
 
-    var total = totalCitas(ESTADO_TEXT.CONFIRMADA, month);
-    var totalPendientes = totalCitas(ESTADO_TEXT.PENDIENTE, month);
+    let total = totalCitas(ESTADO_TEXT.CONFIRMADA, month);
+    let totalPendientes = totalCitas(ESTADO_TEXT.PENDIENTE, month);
 
 
-    var firstDayOfMonth = new Date(year, month, 1).getDay();
-    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    let firstDayOfMonth = new Date(year, month, 1).getDay();
+    let daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    var firstDayAdjusted = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+    let firstDayAdjusted = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
 
-    var calendario = [];
-    var prevMonthLastDay = new Date(year, month, 0).getDate();
+    let calendario = [];
+    let prevMonthLastDay = new Date(year, month, 0).getDate();
 
-    for (var i = firstDayAdjusted - 1; i >= 0; i--) {
+    for (let i = firstDayAdjusted - 1; i >= 0; i--) {
       calendario.push(prevMonthLastDay - i);
     }
-    for (var i = 1; i <= daysInMonth; i++) {
+    for (let i = 1; i <= daysInMonth; i++) {
       calendario.push(i);
     }
-    var remaining = 42 - calendario.length;
-    for (var i = 1; i <= remaining; i++) {
+    let remaining = 42 - calendario.length;
+    for (let i = 1; i <= remaining; i++) {
       calendario.push(i);
     }
 
-    var weekDays = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
-    var appointmentDays = diasConCita(month);
+    let weekDays = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
+    let appointmentDays = diasConCita(month);
 
-    var html = "";
+    let html = "";
 
     html += '<div class="mt-5">';
     html +=
@@ -658,16 +678,16 @@
 
     calendario.forEach(function (day, index) {
 
-      var outside = index < firstDayAdjusted || index >= firstDayAdjusted + daysInMonth;
+      let outside = index < firstDayAdjusted || index >= firstDayAdjusted + daysInMonth;
 
-      var appointmentDay = appointmentDays.find(function (item) {
+      let appointmentDay = appointmentDays.find(function (item) {
         const fecha = new Date(item.date);
         return fecha.getDate() === day;
       });
 
-      var hasAppointment = appointmentDay !== undefined && !outside;
+      let hasAppointment = appointmentDay !== undefined && !outside;
 
-      var colorMark = "bg-red-500";
+      let colorMark = "bg-red-500";
 
       if (hasAppointment && sonTodasEstadoDelDia(ESTADO_TEXT.PENDIENTE, appointmentDay.citas)) {
 
@@ -689,7 +709,7 @@
           colorMark = "bg-slate-500";
         }
       }
-      console.log(appointmentDay);
+
       html +=
         '<button type="button"' +
         (outside ? " disabled" : "") +
@@ -721,12 +741,8 @@
     els.miniCalendar.html(html);
   }
   function upcomingCard(cita, dia) {
-    var status = estadoClass[cita.estado];
-
-    const btn1 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.CONFIRMADA);
-    const btn2 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.PENDIENTE);
-    const btn3 = getHtmlBottonOption(cita.id,cita.estado,ESTADO_TEXT.CANCELADA);
-
+    let status = estadoClass[cita.estado];
+    const optionModal = getHtmlModalOption(cita, dia, "menu-mini-");
     return (
       '<div class="border border-slate-300  ' +
       cita.color +
@@ -764,23 +780,7 @@
       ' class="rounded p-1 text-slate-800 transition hover:bg-black/10" aria-label="Más opciones">' +
       '<i data-lucide="ellipsis" class="h-[15px] w-[15px]"></i>' +
       "</button>" +
-      '<div id="menu-mini-' +
-      cita.id +
-      '" class="absolute justify-items-center z-20 hidden w-36 h-auto rounded-lg border border-slate-300 bg-slate-100 py-1 shadow-lg">' +
-      '<button type="button" data-action="delete" data-day="' +
-      dia +
-      '" data-id="' +
-      cita.id +
-      '"' +
-      ' class="flex rounded-full items-center m-2 gap-2 px-3 py-2 text-left text-xs font-medium text-red-600 transition hover:bg-red-200">' +
-      '<i data-lucide="trash-2" class="h-[13px] w-[13px]"></i>Eliminar Cita' +
-      "</button>" +
-      `<div class="flex flex-col gap-2 border-t border-slate-300 px-2 py-3">
-      ${btn1}
-      ${btn2}
-      ${btn3}
-      </div>`+
-      "</div>" +
+      optionModal +
 
       "</div>" +
       "</div>"
@@ -788,7 +788,7 @@
   }
 
   function renderUpcoming() {//proximas citas
-    var items = proximasCitas(state.mesActivo);
+    let items = proximasCitas(state.mesActivo);
 
     els.upcomingList.html(
       items.length
@@ -803,7 +803,7 @@
     );
   }
   function renderFormDays() {
-    els.coloresButtons.html(
+    formulario.coloresButtons.html(
       colorClass
         .map(function (color) {
 
@@ -833,11 +833,60 @@
         };
       })
       .sort(function (a, b) {
-        var dateA = new Date(a.date);
-        var dateB = new Date(b.date);
+        let dateA = new Date(a.date);
+        let dateB = new Date(b.date);
         return dateA - dateB;
       });
   }
+  /* ------------------------- Data Fetching ------------------------- */
+  function fetchGetHistory() {
+    let idUser = $("#idUser").val().trim();
+    $.ajax({
+      url: window.APP_CONFIG.localhost + '/api/enpoint_calendary.php',
+      type: 'GET',
+      data: { search: state.busqueda, idUser: idUser},
+      dataType: 'json',
+      success: function (data) {
+
+        state.calendario = data.map(function (item) {
+          return {
+            date: new Date(item.date + "T00:00:00"),
+            citas: [
+              {
+                id: item.id,
+                idUser: item.id_user,
+                nombre_paciente: item.nombre,
+                apellido_paciente: item.apellidos,
+                sexo: item.sexo,
+                telefono: item.telefono,
+                nota: item.nota,
+                hora: item.hora.slice(0, 5),
+                color: item.color,
+                duracion: item.duracion,
+                estado: item.estado,
+              }
+            ]
+          };
+        });
+
+        let grouped = {};
+        state.calendario.forEach(function (item) {
+          let dateStr = item.date.toDateString();
+          if (!grouped[dateStr]) {
+            grouped[dateStr] = { date: item.date, citas: [] };
+          }
+          grouped[dateStr].citas.push(item.citas[0]);
+        });
+        state.calendario = Object.values(grouped);
+
+        render();
+      },
+      error: function (err) {
+        console.error(err);
+      }
+    });
+  }
+
   function render() {
     state.calendario = getSortOrderDays(state.calendario);
 
@@ -858,7 +907,7 @@
       Math.min(meses.length - 1, state.mesActivo + delta),
     );
 
-    var newDate = new Date(currentDate);
+    let newDate = new Date(currentDate);
     newDate.setMonth(newDate.getMonth() + delta);
     currentDate = newDate;
 
@@ -870,7 +919,7 @@
     els.formError.addClass("hidden");
     els.modalBackdrop.removeClass("hidden").addClass("flex");
     setTimeout(function () {
-      els.patientInput.trigger("focus");
+      formulario.patientInput.trigger("focus");
     }, 0);
   }
 
@@ -895,16 +944,19 @@
 
   /* ------------------------- Acciones de cita ------------------------- */
   function agregarCita() {
-    var nombre_paciente = els.patientInput.val().trim();
-    var apellido_paciente = els.patientLasnameInput.val().trim();
-    var genero = els.generoInput.val();
-    var hora = els.timeInput.val().trim();
-    var fecha = els.dateInput.val();
-    var estado = $("#estadoInput").val();
-    var duracion = $("#timeMaxInput").val().trim();
+    let nombre_paciente = formulario.patientInput.val().trim();
+    let apellido_paciente = formulario.patientLasnameInput.val().trim();
+    let genero = formulario.generoInput.val();
+    let hora = formulario.timeInput.val().trim();
+    let fecha = formulario.dateInput.val();
+    let estado = formulario.estadoInput.val();
+    let duracion = formulario.timeMaxInput.val().trim();
+    let nota = formulario.notaInput.val();
+    let telefono = formulario.telefonoInput.val().trim();
+    let idUser = $("#idUser").val().trim();
 
     if (genero === "Otro") {
-      genero = els.generoOtroInput.val().trim();
+      genero = formulario.generoOtroInput.val().trim();
     }
 
     if (!nombre_paciente || !apellido_paciente || !hora || !fecha || !genero || !estado || !duracion) {
@@ -912,25 +964,26 @@
       return;
     }
 
-    var color = state.colorSeleccionado;
+    let color = state.colorSeleccionado;
 
-    var nuevaCita = {
+    let nuevaCita = {
       id: mkId(),
+      idUser: idUser,
       nombre_paciente: nombre_paciente,
       apellido_paciente: apellido_paciente,
       sexo: genero,
-      telefono: $("#telefonoInput").val().trim(),
-      nota: "Cita agendada desde calendario",
+      telefono: telefono,
       hora: hora,
       color: color,
       duracion: duracion,
       estado: estado,
+      nota: nota,
     };
 
-    var dateObj = new Date(fecha + "T00:00:00");
-    var day = dateObj.getDate();
+    let dateObj = new Date(fecha + "T00:00:00");
+    let day = dateObj.getDate();
 
-    var existingDay = state.calendario.find(function (item) {
+    let existingDay = state.calendario.find(function (item) {
       return new Date(item.date).toDateString() === dateObj.toDateString();
     });
 
@@ -938,22 +991,39 @@
       existingDay.citas.push(nuevaCita);
     } else {
       state.calendario.push({
-        day: day,
         date: dateObj,
         citas: [nuevaCita]
       });
     }
 
-    els.patientInput.val("");
-    els.patientLasnameInput.val("");
-    els.generoInput.val("");
-    els.generoOtroInput.val("");
-    els.timeInput.val("");
-    els.dateInput.val("");
-    $("#timeMaxInput").val("");
+    formulario.patientInput.val("");
+    formulario.patientLasnameInput.val("");
+    formulario.generoInput.val("");
+    formulario.generoOtroInput.val("");
+    formulario.timeInput.val("");
+    formulario.dateInput.val("");
+    formulario.timeMaxInput.val("");
+    formulario.telefonoInput.val("");
+    formulario.notaInput.val("");
+    state.colorSeleccionado = "bg-blue-200";
 
     cerrarModal();
     render();
+
+    $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', { 
+      action: 'add-calendary', 
+      idUser: idUser,
+      nombre_paciente: nombre_paciente,
+      apellido_paciente: apellido_paciente,
+      sexo: genero,
+      telefono: telefono,
+      date: fecha,
+      hora: hora,
+      duracion: duracion,
+      color: color,
+      estado: estado,
+      nota: nota
+    });
   }
 
 
@@ -962,16 +1032,43 @@
       return {
         ...item,
         citas: item.citas.filter(function (cita) {
-          return cita.id !== id;
+          return cita.id != id;
         })
       };
     });
     render();
+
+    $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', { 
+      action: 'remove', 
+      id: id 
+    });
   }
+
 
   function closeMenus() {
     $('[id^="menu-"]').addClass("hidden");
     $('[id^="menu-mini-"]').addClass("hidden");
+  }
+
+  function actualizarEstadoCita(id, nuevoEstado) {
+    state.calendario = state.calendario.map(function (item) {
+      return {
+        ...item,
+        citas: item.citas.map(function (cita) {
+          if (cita.id == id) {
+            return { ...cita, estado: nuevoEstado };
+          }
+          return cita;
+        })
+      };
+    });
+    render();
+    
+    $.post(window.APP_CONFIG.localhost + '/api/enpoint_calendary.php', { 
+      action: 'update_status', 
+      id: id, 
+      status: nuevoEstado 
+    });
   }
 
   /* ------------------------- Eventos ------------------------- */
@@ -1012,22 +1109,17 @@
 
     els.searchInput.on("input", function () {
       state.busqueda = $(this).val();
-      renderDays();
-      hydrateIcons();
-    });
 
-    els.clearSearch.on("click", function () {
-      state.busqueda = "";
-      els.searchInput.val("");
-      els.clearSearch.addClass("hidden");
-      renderDays();
-      hydrateIcons();
+    });
+    els.searchButton.on("click", function () {
+      fetchGetHistory();
     });
 
     els.cancelSearch.on("click", function () {
       state.busqueda = "";
       els.searchInput.val("");
-      render();
+      fetchGetHistory();
+
     });
 
     els.daysList.on("click", '[data-action="menu"]', function (e) {
@@ -1039,6 +1131,7 @@
       e.stopPropagation();
       closeMenus();
       $("#menu-mini-" + $(this).data("id")).toggleClass("hidden");
+
     });
 
     els.daysList.on("click", '[data-action="delete"]', function () {
@@ -1048,30 +1141,35 @@
       eliminarCita($(this).data("id"));
     });
 
+    $(document).on("click", '[data-action="update-status"]', function () {
+      var id = $(this).data("id");
+      var nuevoEstado = $(this).data("status");
+      actualizarEstadoCita(id,nuevoEstado);
+    });
     // Mini calendario (delegación)
     els.miniCalendar.on("click", "[data-mini-day]", function () {
-      var day = Number($(this).data("miniDay"));
-      var year = currentDate.getFullYear();
-      var month = currentDate.getMonth();
+      let day = Number($(this).data("miniDay"));
+      let year = currentDate.getFullYear();
+      let month = currentDate.getMonth();
 
-      var selectedDate = new Date(year, month, day);
-      var dateString = selectedDate.toISOString().split('T')[0];
+      let selectedDate = new Date(year, month, day);
+      let dateString = selectedDate.toISOString().split('T')[0];
 
       $("#dateInput").val(dateString);
       abrirModal();
     });
 
     // Mostrar/Ocultar campo "Otro" género
-    els.generoInput.on("change", function () {
+    formulario.generoInput.on("change", function () {
       if ($(this).val() === "Otro") {
-        els.generoOtroInput.removeClass("hidden");
+        formulario.generoOtroInput.removeClass("hidden");
       } else {
-        els.generoOtroInput.addClass("hidden");
+        formulario.generoOtroInput.addClass("hidden");
       }
     });
 
     // Días del formulario (delegación)
-    els.coloresButtons.on("click", "[data-form-day]", function () {
+    formulario.coloresButtons.on("click", "[data-form-day]", function () {
       state.colorSeleccionado = $(this).data("formDay");
       renderFormDays();
     });
@@ -1091,5 +1189,6 @@
   }
 
   bindEvents();
+  fetchGetHistory();
   render();
 })(jQuery);

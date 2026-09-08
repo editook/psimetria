@@ -3,65 +3,20 @@ include_once('../configs.php');
 
 session_start();
 include('../connection.php');
-include("../models/model_user.php");
-include("../models/model_register.php");
-include("../models/model_question.php");
-include("../models/model_calendary.php");
-include("../models/model_baremo.php");
-include("../models/model_answer.php");
-$registerModel = new Register_Model();
-$questionModel = new Question_Model();
-$calendaryModel = new Calendary_Model();
-$baremoModel = new Baremo_Model();
-$answerModel = new Answer_Model();
-$userModel = new User_Model();
-$idClient = 0;
+
+$idUser = 0;
 if (!isset($_SESSION['REST_type_user'])) {
 	header("Location: " . LOCALHOST . "/signin.php");
 }
-if (($_SESSION['REST_type_user'] == 'Administrador' || $_SESSION['REST_type_user'] == 'CLIENTE') && (isset($_POST['id_type_question']) && isset($_POST['belong_id']) && isset($_POST['baremo_id']) && isset($_POST['age'])  && isset($_POST['sex']) && isset($_POST['id_client']))) {
-	$hash = $answerModel->generateRandomKey();
-	if (isset($_POST['id']) && $_POST['id'] != '') {
-		$data = $registerModel->updateClient($_POST['id'], $_POST['id_client'], $_POST['age'], $_POST['sex'], $_POST['id_type_question'], $_POST['baremo_id']);
-	} else {
-		$idRegister = $registerModel->save($_POST['belong_id'], $_POST['id_client'], $_POST['age'], $_POST['sex'], $_POST['baremo_id'], $_POST['id_type_question'], $hash);
-		$questions = $questionModel->getAll($_POST['id_type_question']);
 
-		foreach ($questions as $value) {
-			$id = $answerModel->save($value['id'], $idRegister, $hash);
-		}
-	}
-
-	header("Location: " . LOCALHOST . "/view/register.php?client=" . $_POST['belong_id']);
+if (isset($_SESSION['REST_id_user'])) {
+	$idUser = $_SESSION['REST_id_user'];
 }
 
-if (($_SESSION['REST_type_user'] == 'Administrador' || $_SESSION['REST_type_user'] == 'CLIENTE') &&  isset($_GET['remove_id'])) {
-
-	$value = $registerModel->delete($_GET['remove_id']);
-
-	header('Location: ' . $_SERVER['HTTP_REFERER']);
-}
-
-if ($_SESSION['REST_type_user'] == 'Administrador' &&  isset($_GET['client'])) {
-
-	$idClient = $_GET['client'];
-}
-if ($_SESSION['REST_type_user'] == 'CLIENTE') {
-	$idClient = $_SESSION['REST_id_user'];
-}
-$search_key = "";
-if (isset($_GET['search'])) {
-	$search_key = $_GET['search'];
-}
-
-if ($idClient == 0) {
+if ($idUser == 0) {
 	header("Location: " . LOCALHOST . "/view/index.php");
 	exit;
 }
-
-
-
-$registers = $registerModel->getAll($idClient, $search_key);
 
 ?>
 
@@ -94,7 +49,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 		<?php include("../include/header-v2.php"); ?>
 
 		<main class="flex-1 place-items-center items-center justify-center">
-			<div class="container-global w-full flex items-center justify-center mt-10">
+			<div class="container-global w-full flex items-center justify-center mt-10 mb-10">
 				<div class="grid w-full grid-cols-1 md:grid-cols-3 gap-4">
 					<div class="md:col-span-2">
 						<div class="flex min-h-[50rem] flex-col overflow-hidden rounded-2xl border border-white/80 bg-white shadow-xl">
@@ -109,16 +64,23 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								</div>
 							</div>
 
-							<div id="searchBar" class="flex items-center gap-2 px-5 py-3 sm:px-8">
+							<div class="flex items-center gap-2 px-5 py-3 sm:px-8">
 
-								<div class="flex flex-1 items-center gap-2 border border-slate-400 rounded-full bg-slate-100 px-3 py-2 ring-1 ring-slate-200/70 transition focus-within:ring-1">
-
-									<i data-lucide="search" class="h-4 w-4 shrink-0 text-slate-500"></i>
+								<div class="flex flex-1 items-center gap-2 rounded-2xl border border-slate-400 bg-slate-100 px-3 py-1 ring-1 ring-slate-200/70 transition focus-within:ring-1">
 
 									<input
 										id="searchInput"
+										type="text"
 										placeholder="Buscar..."
 										class="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-500" />
+
+									<button
+										id="searchButton"
+										type="button"
+										class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-slate-500 transition hover:bg-white hover:text-slate-700"
+										title="Buscar">
+										<i data-lucide="search" class="h-4 w-4"></i>
+									</button>
 
 								</div>
 
@@ -227,6 +189,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 						</div>
 
 						<div class="mt-5 space-y-3">
+							<input id="idUser" value="<?= $idUser ?>" type="hidden" />
 							<input
 								id="patientInput"
 								placeholder="Nombre del paciente"
@@ -249,12 +212,12 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								id="gneroOtroInput"
 								placeholder="Otro:"
 								class="hidden w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
-							
+
 							<input
 								id="telefonoInput"
 								placeholder="Telefono del paciente"
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
-							
+
 							<input
 								id="dateInput"
 								type="date"
@@ -272,7 +235,7 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								type="number"
 								placeholder="Tiempo Max en Min."
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500" />
-							
+
 							<select
 								id="estadoInput"
 								class="w-full rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500">
@@ -281,12 +244,21 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								<option value="Pendiente">Por Confirmar</option>
 							</select>
 
+							<textarea
+								id="notaInput"
+								rows="2"
+								type="text"
+								value=""
+								placeholder="Nota o recordatorio"
+								class="w-full resize-none text-left rounded-xl border border-slate-400 px-4 py-3 text-sm outline-none focus:border-slate-500">
+							</textarea>
+
 							<div class="flex flex-wrap items-center gap-2">
 								<span class="text-xs text-slate-500">Colores:</span>
 								<div id="coloresButtons" class="flex flex-wrap gap-1.5"></div>
 							</div>
 
-							
+
 
 							<p id="formError" class="hidden text-xs text-red-500"></p>
 
@@ -296,31 +268,32 @@ $registers = $registerModel->getAll($idClient, $search_key);
 								Guardar cita
 							</button>
 						</div>
-						</div>
 					</div>
 				</div>
-				<!-- Modal para ver nota completa -->
-				<div id="modalNota" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/25 p-5 backdrop-blur-sm">
-					<div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
-						<div class="flex items-start justify-between">
-							<h2 class="text-lg font-semibold">Nota</h2>
-							<button id="closeModalNota" class="text-2xl leading-none text-slate-600" aria-label="Cerrar">
-								&times;
-							</button>
-						</div>
-						<div class="mt-5">
-							<p id="notaCompleta" class="text-sm text-slate-600 leading-relaxed"></p>
-						</div>
+			</div>
+			<!-- Modal para ver nota completa -->
+			<div id="modalNota" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/25 p-5 backdrop-blur-sm">
+				<div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+					<div class="flex items-start justify-between">
+						<h2 class="text-lg font-semibold">Nota</h2>
+						<button id="closeModalNota" class="text-2xl leading-none text-slate-600" aria-label="Cerrar">
+							&times;
+						</button>
+					</div>
+					<div class="mt-5">
+						<p id="notaCompleta" class="text-sm text-slate-600 leading-relaxed"></p>
 					</div>
 				</div>
 			</div>
 		</main>
+	</div>
+	
 
 
-		</main>
+	
 
-		<!-- Audio Modal -->
-		<?php include("../include/footer.php"); ?>
+	<!-- Audio Modal -->
+	<?php include("../include/footer-v2.php"); ?>
 
 	</div>
 	<!-- End Page -->
@@ -329,7 +302,13 @@ $registers = $registerModel->getAll($idClient, $search_key);
 	<a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
 	<script src="../../assets/plugins/jquery/jquery.min.js"></script>
 	<script src="../../assets/js/header.js"></script>
+	<script>
+		window.APP_CONFIG = {
+			localhost: '<?= LOCALHOST ?>'
+		};
+	</script>
 	<script src="../../assets/js/calendary.js"></script>
+
 </body>
 
 </html>
