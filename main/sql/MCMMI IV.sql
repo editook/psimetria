@@ -1,0 +1,227 @@
+
+CREATE TABLE `mcmmi_input` (
+  `id_mcmmi` int NOT NULL,
+  `id_patient` int NOT NULL,
+  `region` varchar(50) DEFAULT NULL,
+  `estudios` text,
+  `estado_civil` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `two_problem` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `one_problem` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ambito` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `duracion` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ci` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+YA FUERON INSERTADOS
+tabla type_question = id = 7 name = MCMI IV
+tabla question:
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '1', 'Últimamente parece que me quedo sin fuerzas incluso por las mañanas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '2', 'Siempre me aseguro de que mi trabajo esté bien planeado y organizado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '3', 'Disfruto haciendo tantas cosas diferentes que no puedo decidir por cuál empezar.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '4', 'Me preocupa que las personas de las que dependo me abandonen.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '5', 'Aunque me da miedo hacer amistades, me gustaría tener más de las que tengo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '6', 'Raramente exteriorizo los pocos sentimientos que tengo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '7', 'Me cuesta mantener el equilibrio cuando camino.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '8', 'Siempre busco oportunidades nuevas que me resulten emocionantes.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '9', 'Algunas veces puedo ser bastante duro y desagradable con mi familia', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '10', 'Me gusta ser el centro de atención.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '11', 'De adolescente tuve muchos problemas por mi mal comportamiento en la escuela o instituto.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '12', 'Me da miedo hacerme muy amigo de alguien, por que podría acabar sintiéndome ridiculizado o avergonzado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '13', 'Noto que la gente está hablando de mí cuando paso a su lado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '14', 'Hace uno años comencé a sentirme un fracasado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '15', 'Si puedo elegir, prefiero hacer las cosas solo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '16', 'Últimamente he comenzado a sentir deseos de destrozar cosas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '17', 'Las cosas que hoy van bien no durarán mucho tiempo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '18', 'A veces, cuando las cosas empiezan a irme mal, me siento como si estuviera loco o fuera de la realidad.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '19', 'Hago lo que quiero sin preocuparme de las consecuencias que tenga en los demás.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '20', 'Afronto mis actividades diarias con mucha energía y persistencia.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '21', 'Nunca perdono una ofensa ni olvido una situación embarazosa que alguien me haya causado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '22', 'Me siento extremadamente deprimido y triste gran parte del tiempo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '23', 'Siempre tiendo a culparme cuando las cosas van mal.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '24', 'Hace mucho decidí que es mejor tener poca relación con la gente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '25', 'Tengo un problema con el alcohol que nos ha creado dificultades a mí y a mi familia.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '26', 'Soy una persona socialmente muy reservada y tímida.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '27', 'Muchas veces me siento muy alegre y animado sin ninguna razón.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '28', 'En las últimas semanas me he sentido agotado sin ningún motivo en particular.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '29', 'Mi tiempo es más valioso que el de los demás.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '30', 'Siempre estoy buscando hacer nuevas amistades y conocer gente nueva.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '31', 'Desde hace unas semanas estoy muy nervioso.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '32', 'Simplemente, no he tenido la suerte que otras personas han tenido en la vida.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '33', 'Las ideas me dan vueltas en la cabeza una y otra vez y no desaparecen.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '34', 'Desde hace uno o dos años, al pensar sobre la vida, me siento muy triste y desanimado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '35', 'Intento hacerlo todo tan perfecto como sea posible.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '36', 'Mi adicción a las drogas hizo que faltara al trabajo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '37', 'Mi estado de ánimo varía mucho de un día para otro.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '38', 'Utilizo mi encanto para conseguir lo que quiero.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '39', 'A menudo pienso que no merezco las cosas buenas que me pasan.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '40', 'En el pasado me corté o autolesioné a propósito', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '41', 'Tengo la sensación de que no duermo, y me levanto tan cansado como al acostarme.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '42', 'A menudo dejo que los demás tomen por mis decisiones importantes.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '43', 'Parece que pocas cosas me entristecen o me alegran.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '44', 'A menudo tengo pensamientos extraños de los que desearía librarme.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '45', 'Tengo muchos problemas para controlar el impulso de beber alcohol en exceso.', 7);
+
+
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '46', 'Hago amistades con mucha más facilidad que la mayoría de la gente que conozco.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '47', 'Me da vergüenza el maltrato que sufrí cuando era joven.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '48', 'Me parece muy bien que haya normas, porque son una buena guía para seguir.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '49', 'El año pasado aparecí en la portada de varias revistas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '50', 'A menudo me enfado con la gente que hace las cosas lentamente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '51', 'Me paso la vida preocupándome por una cosa u otra.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '52', 'Siempre me pregunto cuál es la razón real de que alguien sea específicamente agradable conmigo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '53', 'Mis actividades cotidianas me animan y motivan.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '54', 'Tengo muchas ideas que son avanzadas para los tiempos actuales.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '55', 'Desde que sufrí una conmoción cerebral grave, ya no puedo concentrarme en nada.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '56', 'Antes la gente decía que me interesaba y me entusiasmaba demasiado por muchas cosas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '57', 'He perdido el apetito por completo, y la mayoría de las noches tengo problemas para dormir.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '58', 'Desde que era niño he ido perdiendo contacto con la realidad.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '59', 'No puedo sentir mucho placer, porque no creo que lo merezca.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '60', 'Prefiero que me digan lo que tengo que hacer en lugar de decidir por mí mismo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '61', 'Consumir drogas me ha causado discusiones con mi familia.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '62', 'El recuerdo de una experiencia muy perturbadora sigue presente en mis pensamientos y me obsesiona.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '63', 'La mayoría de la gente me considera una persona prudente y cuidadosa.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '64', 'Parece que he perdido el interés en la mayoría de las cosas que solía encontrar placenteras, como el sexo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '65', 'He tenido problemas con la ley un par de veces.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '66', 'He tenido que ser muy duro con algunas personas para mantenerlas a raya.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '67', 'Estoy muy seguro de mí mismo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '68', 'La gente intenta hacerme creer que estoy loco.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '69', 'Me doy atracones de comida un par de veces en la semana.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '70', 'Frecuentemente siento que no hay nada dentro de mí, como si estuviera vacío y hueco.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '71', 'Siempre me ha resultado difícil dejar de sentirme deprimido y triste.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '72', 'Cuando estoy solo y lejos de casa a menudo comienzo a sentirme tenso y entro en pánico.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '73', 'La gente dice que soy una persona formal y con valores morales.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '74', 'Me cuesta controlar mi ira.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '75', 'Soy una persona muy optimista.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '76', 'Años después, aún tengo pesadillas sobre un hecho que fue una amenaza real para mi vida.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '77', 'Me parece que necesito que alguien me oriente para hacer las cosas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '78', 'Recientemente he pensado muy en serio en quitarme la vida.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '79', 'Hay gente mala que intenta llevarse el mérito de lo que he hecho o pensado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '80', 'Últimamente estoy destrozado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '81', 'Consumir drogas puede ser irresponsable, pero en el pasado las he necesitado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '82', 'Soy una persona muy variable, cambio de opinión y sentimientos continuamente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '83', 'Se me da muy bien inventar excusas cuando me meto en problemas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '84', 'Cuando estoy en una fiesta, nunca me aíslo de los demás.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '85', 'Parece que echo a perder las buenas oportunidades que se cruzan en mi camino.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '86', 'Algunas veces me provoco el vómito después de comer.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '87', 'Soy una persona especial, así que no me importa lo que piensen los demás.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '88', 'Observo atentamente a mi familia para saber en quien se puede confiar y en quién no.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '89', 'Ciertos pensamientos vuelven a mi mente una y otra vez.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '90', 'Pocas cosas en la vida me resultan placenteras.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '91', 'Me siento agitado y me cuesta conciliar el sueño porque tengo recuerdos dolorosos dando vueltas en mi cabeza.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '92', 'A menudo me pierdo en mis pensamientos y me olvido de lo que está pasando a mi alrededor.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '93', 'Nunca he podido dejar de sentir que no valgo nada para los demás.', 7);
+
+
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '94', 'Tengo un problema con la bebida que he tratado de solucionar sin éxito.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '95', 'Alguien ha estado intentando controlar mi mente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '96', 'La mayoría de las personas que han triunfado han tenido suerte o han sido deshonestas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '97', 'A menudo irrito a la gente dándoles órdenes.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '98', 'No he visto un coche en los últimos diez años.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '99', 'Siempre me siento cohibido y tenso en las reuniones sociales.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '100', 'Creo que provoco situaciones en las que resulto herido o me siento rechazado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '101', 'Me siento profundamente deprimido sin saber por qué.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '102', 'La gente dice que soy una persona delgada, pero creo que mis muslos y mi trasero son demasiado grandes.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '103', 'A menudo disfruto provocando una discusión o una pelea.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '104', 'Tengo mucho cuidado en mantener mi vida como algo privado, para que nadie pueda aprovecharse de mí.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '105', 'El consumo de drogas me ha causado muchos problemas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '106', 'A menudo me echan la culpa por las cosas de las que no soy responsable.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '107', 'Pensar en el futuro al inicio de cada día me hace sentir extremadamente deprimido.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '108', 'A veces las personas se molestan conmigo porque dicen que hablo mucho o demasiado rápido.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '109', 'Yo nunca podría arreglármelas solo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '110', 'Mi cabeza no funciona bien desde que hace unos años tuve una lesión cerebral.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '111', 'Me siento solo y vacío la mayor parte del tiempo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '112', 'La gente se burla de mí a mis espaldas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '113', 'Últimamente sudo mucho y me siento muy tenso.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '114', 'Estas últimas semanas me sentido cada vez más triste.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '115', 'Me enfurezco rápidamente con la gente que me molesta.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '116', 'A veces no he podido pasar el día sin tomar drogas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '117', 'Me gusta mucho coquetear.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '118', 'Ya no tengo energía para concentrarme en mis responsabilidades.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '119', 'Mis emociones no parecen ser tan intensas como las del resto de la gente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '120', 'Me siento débil y cansado la mayor parte del tiempo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '121', 'Ideas extrañas entran en mi mente, dan vueltas y vueltas en mi cabeza, y no desaparecen.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '122', 'Los demás tienen oportunidades que yo no tengo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '123', 'Repito ciertos comportamientos una y otra vez, algunas veces para reducir mi ansiedad y otras para evitar que pase algo malo', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '124', 'He tomado medicación que me habían recetado.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '125', 'Mi vida actual todavía se ve afectada por recuerdos e imágenes de algo terrible que me pasó.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '126', 'A menudo echo a perder las cosas buenas que me ocurren.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '127', 'Voces malvadas intentan apoderarse de mi mente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '128', 'Me siento muy culpable cuando pierdo el control.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '129', 'Mi entusiasmo por el trabajo que hago nunca disminuye.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '130', 'Supongo que no soy diferente de mis padres ya que, en cierto modo, me he convertido en un alcohólico.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '131', 'Últimamente tengo que pensar las cosas una y otra vez sin ningún motivo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '132', 'Animo a los demás a que admiren lo que digo o hago.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '133', 'Dejo de hacer cosas si tengo que hacerlas solo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '134', 'He intentado suicidarme.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '135', 'Soy una persona miedosa y reservada.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '136', 'A las personas que supuestamente son mis amigos les gustaría hacerme daño.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '137', 'A menudo me dejo llevar por la rabia y luego me siento culpable.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '138', 'A menudo oigo cosas con tanta claridad que me molesta.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '139', 'Aparte de mi familia, tengo muy pocos amigos íntimos.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '140', 'La desorganización me hace sentir muy incómodo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '141', 'A menudo critico mucho a la gente que me irrita.', 7);
+
+
+
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '142', 'Tengo muchas cualidades que los demás querrían tener.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '143', 'Terribles acontecimientos de mi pasado reaparecen obsesivamente en mis pensamientos y sueños.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '144', 'Sé que he gastado más dinero en droga del que debería.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '145', 'A menudo, y antes de darme cuenta, me pongo a gritar enfadado a mis amigos y familiares.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '146', 'Me preocupa que mi cuerpo se desgaste rápidamente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '147', 'Está bien burlar la ley si es poco probable que te atrapen.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '148', 'Creo que hay una conspiración contra mí.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '149', 'Soy una persona solitaria y no me molesta.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '150', 'Todavía me aterrorizo cuando pienso en una experiencia traumática que tuve hace años.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '151', 'Últimamente me he sentido muy culpable porque ya no soy capaz de hacer nada bien.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '152', 'Los castigos nunca me impidieron hacer lo que quería.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '153', 'Pocas veces creo lo que la gente me dice.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '154', 'Soy una persona muy sociable y extrovertida.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '155', 'Me entusiasmo con casi todo lo que hago.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '156', 'Estoy confundido sobre quién soy.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '157', 'Odio pensar en el maltrato que sufrí en la infancia.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '158', 'Nunca infringiría la ley, aunque pudiera salir impune.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '159', 'Algunos miembros de mi familia dicen que soy egoísta y que sólo pienso en mí.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '160', 'En el último año he cruzado el Atlántico en avión 30 veces.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '161', 'Beber alcohol me ayuda cuando me siento deprimido.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '162', 'Preferiría seguir a alguien antes que ser yo el líder.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '163', 'A menudo me vienen ideas a la mente mucho más rápido de lo puedo expresarlas.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '164', 'A menudo me siento tan mal que quiero hacerme daño de verdad.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '165', 'Algunas personas dicen que soy extraño o raro.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '166', 'A veces encuentro consuelo en mi sufrimiento.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '167', 'A menudo creo que me han tratado injustamente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '168', 'Muestro mi enfado rápidamente a las personas que no están de acuerdo conmigo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '169', 'Casi siempre me siento culpable sin ninguna razón aparente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '170', 'Desde hace algún tiempo me siento triste y deprimido y parece que no consigo animarme.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '171', 'Sé cómo seducir a la gente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '172', 'Siempre he tenido que estar atento a la gente que intenta engañarme.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '173', 'Siempre estoy dispuesto a aceptar lo que los demás les gustaría hacer.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '174', 'Afronto todos los retos de la vida con una actitud valiente y enérgica.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '175', 'Nunca siento que tenga algo interesante que aportar a una conversación.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '176', 'Si un medicamento no me hace efecto, es probable que lo tome con más frecuencia o aumente la dosis.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '177', 'En muchos periodos de mi vida he estado tan animado y he consumido tanta energía que luego me he sentido muy bajo de ánimo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '178', 'A menudo me siento muy infeliz conmigo mismo.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '179', 'No me gusta cambiar mi rutina.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '180', 'No necesito tener amigos íntimos como tienen los demás.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '181', 'A veces me ha reconfortado herirme físicamente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '182', 'Mucha gente ha estado espiando mi vida privada durante años.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '183', 'Cuando quiero, se me da bastante bien engañar a la gente.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '184', 'Incluso cuando las cosas van bien, creo que pronto irán mal.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '185', 'Se me da muy bien animar y motivar a los demás.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '186', 'Estoy dispuesto a pasar hambre para estar aún más delgado de lo que estoy.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '187', 'A menudo estoy irritable y de mal humor.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '188', 'Siempre intento acabar mi trabajo antes de dedicar tiempo a actividades de ocio.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '189', 'Solo las personas excepcionales pueden comprender mis capacidades.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '190', 'Realmente no entiendo los sentimientos humanos como los entienden los demás.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '191', 'Demasiadas normas impiden que haga lo que quiero.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '192', 'A veces siento que merezco ser infeliz.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '193', 'He estado abatido y triste gran parte de mi vida.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '194', 'Tiendo a estar de acuerdo con las opiniones de los demás.', 7);
+INSERT INTO `question` (`id`, `item_order`, `question`, `type_question_id`) VALUES (NULL, '195', 'Evito la mayoría de las situaciones sociales porque creo que la gente me rechazará.', 7);
+
+
+
+
+CREATE TABLE `p022tea`.`paciente` (`id` INT NOT NULL AUTO_INCREMENT , `nombre` VARCHAR(40) NOT NULL , `apellidos` VARCHAR(80) NOT NULL , `sexo` VARCHAR(20) NOT NULL , `telefono` VARCHAR(10) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `p022tea`.`calendary` (`id` INT NOT NULL AUTO_INCREMENT , `date` DATETIME NOT NULL , `note` TEXT NOT NULL , `time_max_min` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `calendary` ADD `id_patient` INT NOT NULL AFTER `id`;

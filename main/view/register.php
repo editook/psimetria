@@ -89,10 +89,6 @@
 		<meta charset="UTF-8">
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
-		<meta name="Author" content="Spruko Technologies Private Limited">
-		<meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4"/>
-
 		<!-- Title -->
 		<title> <?=WEB_TITLE?> </title>
 
@@ -129,7 +125,7 @@
 				top: 20px;
 				left: 50%;
 				transform: translateX(-50%);
-				background-color: #1ab6cf;
+				background-color: #38a985 ;
 				color: white;
 				padding: 15px 25px;
 				border-radius: 8px;
@@ -337,13 +333,19 @@
 															$redirect = $data['id_type_question'] == 4?'4':$redirect;
 															$redirect = $data['id_type_question'] == 5?'5':$redirect;
 															$redirect = $data['id_type_question'] == 6?'6':$redirect;
+															$redirect = $data['id_type_question'] == 7?'7':$redirect;
 															$text_test = "Ajustar";
 															if($data['status'] == 'TERMINADO'){
 																$text_test = "Ver prueba";
 															}
+															$status = "READY";
+															
+															if(!$data['type_show_result']){
+																$status = "MANTENIMIENTO";
+															}
 															?>
                                                             <div class="pe-1  mb-xl-0" style="cursor:pointer" onclick="page(`<?=LOCALHOST.'/view/form'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end"><?=$text_test?></span></div>
-															<div class="pe-1  mb-xl-0" style="<?=$data['status'] == 'PENDIENTE'?'pointer-events: none;opacity: 0.3;':'cursor:pointer'?>" onclick="page(`<?=LOCALHOST.'/view/result'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end">Resultado</span></div>
+															<div class="pe-1  mb-xl-0" style="<?=$data['status'] == 'PENDIENTE'?'pointer-events: none;opacity: 0.3;':'cursor:pointer'?>" onclick="page(`<?=LOCALHOST.'/view/result'.$redirect.'.php?client='.$idClient.'&patient='.$data['id']?>`,`<?=$status?>`)"><span class="badge <?= $status == 'MANTENIMIENTO'?'bg-success-transparent':'bg-primary-transparent'?> text-primary ms-auto float-end">Resultado</span></div>
 
                                                             <div class="pe-1  mb-xl-0" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
 																href="#modaldemo8" onclick="updateClient(`<?=$data['id']?>`,`<?=$data['id_client']?>`,`<?=$data['age']?>`,`<?=$data['sex']?>`,`<?=$data['id_type_question']?>`,`<?=$data['baremo_id']?>`)"><i class="text-warning las la-pen"></i></div>
@@ -372,7 +374,7 @@
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content modal-content-demo">
 					<div class="modal-header">
-						<h6 class="modal-title">Creacion de Paciente</h6><button aria-label="Close" class="close"
+						<h6 class="modal-title">Creacion de Test Psicologico</h6><button aria-label="Close" class="close"
 							data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<form class="needs-validation was-validated" action="register.php" method="post">
@@ -461,7 +463,7 @@
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content modal-content-demo">
 					<div class="modal-header">
-						<h6 class="modal-title">Eliminar Test</h6><button aria-label="Close" class="close"
+						<h6 class="modal-title">Eliminar Registro</h6><button aria-label="Close" class="close"
 							data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<div class="modal-body">
@@ -483,9 +485,30 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="modalmatenimiento">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">Actualizacion en proceso</h6><button aria-label="Close" class="close"
+							data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+							
+						<div class="row row-sm">
+							<div class="col-lg-12">
+								<div class="form-group has-success mg-b-0">
+									<p>Informale que en estos momentos estamos realizando una actualizacion en relacion a la grafica, en breve estara disponible esta opcion</p>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div id="mensajeCopiado" class="toast-copiado" style="display: none;">
-			✅ Mensaje copiado al portapapeles
+			Mensaje copiado al portapapeles
 		</div>
 			
 			<!-- Audio Modal -->
@@ -515,10 +538,6 @@
 
 		<!-- Internal Select2 js-->
 		<script src="../../assets/plugins/select2/js/select2.min.js"></script>
-
-		<!-- P-scroll js -->
-		<script src="../../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-		<script src="../../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 
 		<!-- eva-icons js -->
 		<script src="../../assets/js/eva-icons.min.js"></script>
@@ -555,35 +574,34 @@
 				const option = document.createElement("option");
 				option.value = baremo.id;
 				option.text = baremo.name;
+				option.style.color = "#005bea";
 				if (baremo.active == '0') {
 					option.disabled = true;
+					option.style.color = "#666969";
 				}
 				return option;
 			}
 			function reloadBaremos(id){
 				
 				selectElement.innerHTML = '<option value="" disabled selected>Seleccionar</option>';
-				//baremos
-				const rangos = {
-					1: [1, 4],//form1
-					2: [5, 37],//form2
-					3: [38, 45],//form3
-					4: [46, 50],//form4
-					5: [51, 56],//form5
-					6: [57, 58],//form6
-				};
-
-				const [min, max] = rangos[id] || [0, 0];
-
+				
 				baremos.forEach(baremo => {
-					const baremoId = Number(baremo.id);
-					if (baremoId >= min && baremoId <= max) {
+					const id_type_question = Number(baremo.id_type_question);
+					if (id_type_question == id ) {
 						selectElement.appendChild(createOption(baremo));
 					}
 				});
 			}
-			function page(url){
-				window.location.href = url;
+			function page(url,status){
+				if(status == "MANTENIMIENTO"){
+					const modalElement = document.getElementById('modalmatenimiento');
+					const modal = new bootstrap.Modal(modalElement);
+					modal.show();
+				}
+				else{
+					window.location.href = url;
+				}
+				
 				//window.open(url, '_blank');
 			}
 			function openShareLink(client_id,redirect,patient_id){

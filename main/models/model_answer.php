@@ -15,7 +15,14 @@ class Answer_Model
         );
         return $key;
     }
-
+    public function getRawResponse($answers, $item_order) {
+        foreach ($answers as $answer) {
+            if ($answer['item_order'] == $item_order) {
+                return $answer['response']; // Devuelve string/int (0, 1, 2...) o null si no se respondió
+            }
+        }
+        return null;
+    }
     public function sumatoria($answers,$options){
         $total = 0;
         foreach($answers as $answer){

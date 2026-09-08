@@ -598,8 +598,6 @@ render();
 		<script src="../../assets/plugins/select2/js/select2.min.js"></script>
 
 		<!-- P-scroll js -->
-		<script src="../../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-		<script src="../../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 
 		<!-- eva-icons js -->
 		<script src="../../assets/js/eva-icons.min.js"></script>

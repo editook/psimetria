@@ -563,9 +563,6 @@ $pro_tot_pc = ($aca_pc["$aca_pd"]+$soc_pc["$soc_pd"]+$emo_pc["$emo_pd"]+$fam_pc[
 		<!-- Internal Select2 js-->
 		<script src="../../assets/plugins/select2/js/select2.min.js"></script>
 
-		<!-- P-scroll js -->
-		<script src="../../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-		<script src="../../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 
 		<!-- eva-icons js -->
 		<script src="../../assets/js/eva-icons.min.js"></script>

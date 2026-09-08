@@ -28603,7 +28603,8 @@ video {
 }
 
 .desktop-logo {
-    height: 2rem;
+    height: 5rem;
+    width: auto;
     text-align: center;
     margin: 0 auto;
     justify-content: center;
