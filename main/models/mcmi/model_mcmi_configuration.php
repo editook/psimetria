@@ -492,7 +492,12 @@ class ModelMcmiConfiguration {
             
             $final_tb = $init_tb + $x_val + $ad_val;
             $final_tb = max(0, min(115, $final_tb));
-            $final_tbs[$code] = $final_tb;
+            
+            // PRECISION ADJUSTMENT: TB + PC/1000 + PD/1000000
+            $pd = $raw_scores[$code] ?? 0;
+            $pc = $percentiles[$code] ?? 0;
+            $final_tbs[$code] = $final_tb + ($pc / 1000) + ($pd / 1000000);
+            
             $adjustments_applied[$code] = ['x' => $x_val, 'ad' => $ad_val];
         }
         
@@ -642,34 +647,60 @@ class ModelMcmiConfiguration {
         $text = "";
         
         // AR186 (Severe personality scale narrative)
-        if ($aq212 >= 60) {
-            $sev_name = ($aq211 === 'S') ? "esquizotípico" : (($aq211 === 'C') ? "límite" : "paranoide");
-            $sev_range = "";
-            if ($aq212 >= 85) {
-                $sev_range = "alcanza el rango de un trastorno clínicamente significativo de la personalidad y organiza la interpretación del resto del perfil. ";
-            } elseif ($aq212 >= 75) {
-                $sev_range = "alcanza el rango de un tipo de personalidad y organiza la interpretación del resto del perfil. ";
-            } else {
-                $sev_range = "se sitúa en el rango de un estilo de personalidad y matiza, en consecuencia, la interpretación del resto del perfil. ";
-            }
+        if ($aq212 >= 85) {
+            $sev_name = match ($aq211) {
+                'S' => 'esquizotípico',
+                'C' => 'límite',
+                'P' => 'paranoide',
+                default => ''
+            };
+            $text .= "Sobresale como configuración nuclear del perfil un cuadro "
+            . $sev_name
+            . ", que alcanza el rango de un trastorno clínicamente significativo "
+            . "de la personalidad y organiza la interpretación del resto del perfil. ";
             
-            $text .= "Sobresale como configuración nuclear del perfil un cuadro " . $sev_name . ", que " . $sev_range;
             
             if ($aq211 === 'S') {
-                $pref = ($aq212 >= 85) ? "prefiere" : "muestra preferencia por";
-                $text .= "El evaluado(a) " . $pref . " estar aislado socialmente y sostener mínimos vínculos y obligaciones personales; su funcionamiento cognitivo tiende a ser desorganizado, piensa tangencialmente y a menudo parece estar absorto en sí mismo y pensativo, se distingue por sus excentricidades y a menudo es visto por los demás como una persona rara o diferente, en tanto que si su patrón básico es activo muestra desconfianza ansiosa e hipersensibilidad y si es pasivo muestra aplanamiento emocional y afecto deficiente. ";
+
+                $text .= "El evaluado(a) prefiere estar aislado socialmente y sostener "
+                    . "mínimos vínculos y obligaciones personales; su funcionamiento "
+                    . "cognitivo tiende a ser desorganizado, piensa tangencialmente y "
+                    . "a menudo parece estar absorto en sí mismo y pensativo, se "
+                    . "distingue por sus excentricidades y a menudo es visto por los "
+                    . "demás como una persona rara o diferente, en tanto que si su "
+                    . "patrón básico es activo muestra desconfianza ansiosa e "
+                    . "hipersensibilidad y si es pasivo muestra aplanamiento emocional "
+                    . "y afecto deficiente. ";
+
             } elseif ($aq211 === 'C') {
-                $carac = ($aq212 >= 85) ? "caracteriza" : "manifiesta";
-                $text .= "El evaluado(a) se " . $carac . " por su inestabilidad y labilidad afectiva, experimenta estados de ánimo endógenos intensos, con periodos recurrentes de abatimiento y apatía, a menudo intercalados con periodos de ira, ansiedad o euforia, alberga pensamientos recurrentes de autolesiones y suicidio, parece extremadamente preocupado por conservar el afecto de los demás y tiene dificultades para mantener el sentido de su propia identidad, en tanto que a menudo muestra una ambivalencia cognitivo-afectiva que se evidencia en sentimientos conflictivos de rabia, amor y culpa hacia los demás. ";
+
+                $text .= "El evaluado(a) se caracteriza por su inestabilidad y "
+                    . "labilidad afectiva, experimenta estados de ánimo endógenos "
+                    . "intensos, con periodos recurrentes de abatimiento y apatía, "
+                    . "a menudo intercalados con periodos de ira, ansiedad o euforia, "
+                    . "alberga pensamientos recurrentes de autolesiones y suicidio, "
+                    . "parece extremadamente preocupado por conservar el afecto de "
+                    . "los demás y tiene dificultades para mantener el sentido de su "
+                    . "propia identidad, en tanto que a menudo muestra una "
+                    . "ambivalencia cognitivo-afectiva que se evidencia en sentimientos "
+                    . "conflictivos de rabia, amor y culpa hacia los demás. ";
+
             } elseif ($aq211 === 'P') {
-                $muestra = ($aq212 >= 85) ? "muestra" : "manifiesta";
-                $text .= "El evaluado(a) se " . $muestra . " desconfiado y en alerta hacia los demás, tenso y a la defensiva ante posibles críticas y engaños, presenta una irritabilidad desabrida y tiende a hacer que los demás se exasperen o se enfaden, se distingue, asimismo, por la inmutabilidad de sus sentimientos y la inflexibilidad de su pensamiento, en tanto que a menudo expresa miedo a perder la independencia, lo que lo lleva a resistirse enérgicamente a las influencias y al control externo. ";
+
+                $text .= "El evaluado(a) se muestra desconfiado y en alerta hacia los "
+                    . "demás, tenso y a la defensiva ante posibles críticas y engaños, "
+                    . "presenta una irritabilidad desabrida y tiende a hacer que los "
+                    . "demás se exasperen o se enfaden, se distingue, asimismo, por la "
+                    . "inmutabilidad de sus sentimientos y la inflexibilidad de su "
+                    . "pensamiento, en tanto que a menudo expresa miedo a perder la "
+                    . "independencia, lo que lo lleva a resistirse enérgicamente a las "
+                    . "influencias y al control externo. ";
             }
         }
         
         // AR190 / AR191 (Primary clinical personality scale narrative)
         if ($aq206 >= 60) {
-            if ($aq212 >= 60) {
+            if ($aq212 >= 85) {
                 $text .= "Sobre esta configuración nuclear se manifiesta, a la manera de un patrón clínico premórbido, ";
             } else {
                 $text .= "El perfil del evaluado(a) refleja, como configuración principal del estilo básico de la personalidad, ";
@@ -737,7 +768,7 @@ class ModelMcmiConfiguration {
         }
         
         // AR195 (Tertiary clinical personality scale narrative)
-        if ($aq212 < 60 && $aq210 >= 60) {
+        if ($aq212 < 85 && $aq210 >= 60) {
             $ter_range = "";
             if ($aq210 >= 85) {
                 $ter_range = "manifestaciones propias de un trastorno clínicamente significativo de la personalidad de tipo ";

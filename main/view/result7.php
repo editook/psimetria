@@ -258,6 +258,7 @@ foreach ($excel_order as $code) {
         $code3 = $code;
     }
 }
+
 $max_score_code = trim("$code1 $code2 $code3");
 
 // 2. Calculate Ajustes de las Tasas Base
@@ -365,9 +366,9 @@ function getBarChartCell($type, $tb)
 function renderScaleRow($type, $code, $scale_names, $raw_scores, $percentiles, $final_tbs)
 {
     $name = $scale_names[$code] ?? '';
-    $pd = $raw_scores[$code] ?? null;
-    $pc = $percentiles[$code] ?? null;
-    $tb = $final_tbs[$code] ?? null;
+    $pd = $raw_scores[$code] ?? 0;
+    $pc = $percentiles[$code] ?? 0;
+    $tb = (int)$final_tbs[$code] ?? 0;
 
     if ($pd === null || $pd === '' || $pd === '-') {
         $pd_str = '-';
@@ -654,16 +655,14 @@ $datosTbFiltrados = [ //i27_i38
 
 $maximo = max($datosTbFiltrados);
 $textoV16 = '';
-if ($maximo < 60) {
-
+//AQ185
+if ($maximo < 85) {
     $textoV16 = "ninguna de las escalas de los patrones clínicos de la personalidad alcanza una tasa base igual o superior a 60, por lo que el perfil no refleja un patrón de personalidad claro que permita establecer un diagnóstico. Tales elevaciones pueden resultar ideográficamente útiles para formular hipótesis clínicas, si bien no se consideran fiables ni válidas con fines diagnósticos.";
-} elseif ($maximo >= 85) {
-
-    $textoV16 = "se observan elevaciones iguales o superiores a 85 en una o más escalas de los patrones clínicos de la personalidad, lo que refleja una patología suficientemente generalizada como para considerarla un trastorno clínico de la personalidad y, en su caso, el umbral propio de la patología grave de la personalidad. Las tres escalas con la puntuación más alta constituyen el código de puntuaciones máximas; al analizarse por separado y en su configuración conjunta, aportan información sustantiva sobre la estructura de polaridades (placer-dolor, pasivo-activo, uno mismo-otros) y sobre los dominios funcionales y estructurales que articulan la matriz personológica del evaluado(a), en la medida en que esta opera como mediador inmunológico entre el estrés psicosocial y la producción de síntomas.";
 } else {
-
-    $textoV16 = "se observan elevaciones con tasas base iguales o superiores a 60 en una o más escalas de los patrones clínicos de la personalidad, lo que indica que las respuestas del evaluado(a) son similares a las de los sujetos de la muestra de tipificación que presentan rasgos de un patrón determinado y posiblemente reflejan estilos adaptativos de la personalidad con problemas moderados u ocasionales en áreas específicas; las elevaciones iguales o superiores a 75 indican tipos de personalidad menos adaptativos con rasgos problemáticos propios del constructo correspondiente, en tanto que las elevaciones iguales o superiores a 85 reflejan una patología suficientemente generalizada como para considerarla un trastorno clínico de la personalidad.";
+    $textoV16 = "se observan elevaciones iguales o superiores a 85 en una o más escalas de los patrones clínicos de la personalidad, lo que refleja una patología suficientemente generalizada como para considerarla un trastorno clínico de la personalidad y, en su caso, el umbral propio de la patología grave de la personalidad. Las tres escalas con la puntuación más alta constituyen el código de puntuaciones máximas; al analizarse por separado y en su configuración conjunta, aportan información sustantiva sobre la estructura de polaridades (placer-dolor, pasivo-activo, uno mismo-otros) y sobre los dominios funcionales y estructurales que articulan la matriz personológica del evaluado(a), en la medida en que esta opera como mediador inmunológico entre el estrés psicosocial y la producción de síntomas.";
 }
+//$textoV16 = "se observan elevaciones con tasas base iguales o superiores a 60 en una o más escalas de los patrones clínicos de la personalidad, lo que indica que las respuestas del evaluado(a) son similares a las de los sujetos de la muestra de tipificación que presentan rasgos de un patrón determinado y posiblemente reflejan estilos adaptativos de la personalidad con problemas moderados u ocasionales en áreas específicas; las elevaciones iguales o superiores a 75 indican tipos de personalidad menos adaptativos con rasgos problemáticos propios del constructo correspondiente, en tanto que las elevaciones iguales o superiores a 85 reflejan una patología suficientemente generalizada como para considerarla un trastorno clínico de la personalidad.";
+
 $v12 = $resultado_1;
 $v16 = $textoV16;
 $resultado_5 = '';
