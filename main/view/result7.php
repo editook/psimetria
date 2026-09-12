@@ -303,8 +303,18 @@ foreach ($noteworthy_categories as $category => $items) {
     $category_items = [];
     foreach ($items as $item_order) {
         foreach ($answers as $answer) {
-            if ($answer['item_order'] == $item_order && $answer['response'] == 1) {
+            //|| solo para 63
+            $selectedFind63 = ($answer['item_order'] == $item_order && $answer['response'] == 0 && $item_order == 63);
+            $selectedFind = ($answer['item_order'] == $item_order && $answer['response'] == 1 && $item_order != 63 );
+            if ($selectedFind) {
                 $category_items[] = [
+                    'item_order' => $item_order,
+                    'question' => $answer['question']
+                ];
+                break;
+            }
+            else if($selectedFind63){
+                    $category_items[] = [
                     'item_order' => $item_order,
                     'question' => $answer['question']
                 ];

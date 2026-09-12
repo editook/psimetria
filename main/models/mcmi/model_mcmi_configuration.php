@@ -639,7 +639,7 @@ class ModelMcmiConfiguration {
         arsort($severe_scales);
         $aq211 = array_keys($severe_scales)[0];
         $aq212 = $severe_scales[$aq211];
-        if ($aq212 < 60) {
+            if ($aq212 < 85) {
             $aq211 = "";
             $aq212 = 0;
         }
@@ -847,7 +847,7 @@ class ModelMcmiConfiguration {
             $scale = $top3_scales[$idx];
             $scale_tb = $final_tbs[$scale];
             // Parent scale must have TB >= 60 to consider its facets
-            if ($scale_tb >= 60) {
+            if ((int)$scale_tb >= 85) {
                 $facs = $scale_facets[$scale] ?? [];
                 // Ties resolved by small addition based on order: 1st scale gets +0.009 to +0.007, 2nd gets +0.006 to +0.004, etc.
                 $base_tie_breaker = 0.009 - ($idx * 0.003);
@@ -878,6 +878,7 @@ class ModelMcmiConfiguration {
         $prefix = ["Lo más destacable es ", "Asimismo sobresale ", "Es también digna de atención ", "Merece asimismo señalarse "];
         for ($i = 0; $i < count($top4_facets); $i++) {
             $f_code = $top4_facets[$i];
+
             $desc = $this->facets_info[$f_code] ?? "";
             if ($desc) {
                 $body .= $prefix[$i] . $desc . ". ";
