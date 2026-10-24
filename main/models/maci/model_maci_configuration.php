@@ -161,10 +161,12 @@ class ModelMaciConfiguration {
         return $value;
     }
     public function getTBTotal($TB,$ajusteXAndDB){
-        $total_tb = $TB + ($ajusteXAndDB);
-        if($total_tb<=0){
-            return 1;
-        }
+
+        $total_tb = max(
+            1,
+            min(115, $TB + $ajusteXAndDB)
+        );
+
         return $total_tb;
     }
     public function getSettingAD($index){

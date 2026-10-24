@@ -31,8 +31,8 @@ if ($device === 'mobile') {
     exit;
 }
 
-if(!isset($_SESSION['REST_type_user'])){
-    header("Location: ".LOCALHOST."/signin.php");
+if (!isset($_SESSION['REST_type_user'])) {
+    header("Location: " . LOCALHOST . "/signin.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -40,60 +40,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $baremo_id = intval($_POST['baremo_id']);
         $id_register = intval($_POST['id_register']);
         $id_user = intval($_POST['id_user']);
-        $register = $registerModel->getById($id_user,$id_register);
-        $response = $registerModel->updateClient($register['id'],$register['id_client'],$register['age'],$register['sex'],$register['id_type_question'],$baremo_id);
-        
+        $register = $registerModel->getById($id_user, $id_register);
+        $response = $registerModel->updateClient($register['id'], $register['id_client'], $register['age'], $register['sex'], $register['id_type_question'], $baremo_id);
+
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
     }
 }
 
-if( $_SESSION['REST_type_user'] == 'Administrador' &&  isset($_GET['client']) &&  isset($_GET['patient'])){
+if ($_SESSION['REST_type_user'] == 'Administrador' &&  isset($_GET['client']) &&  isset($_GET['patient'])) {
 
     $idClient = $_GET['client'];
     $idpatient = $_GET['patient'];
 }
 
-if($_SESSION['REST_type_user'] == 'CLIENTE' &&  isset($_GET['patient'])){
+if ($_SESSION['REST_type_user'] == 'CLIENTE' &&  isset($_GET['patient'])) {
     $idClient = $_SESSION['REST_id_user'];
     $idpatient = $_GET['patient'];
 }
 
-$register = $registerModel->getById($idClient,$idpatient);
-if($register == null){
+$register = $registerModel->getById($idClient, $idpatient);
+if ($register == null) {
     echo "<script>
-			alert('FALLO DE ACCESO CODIGO #876 - ".$idpatient." redirigiendo...');
+			alert('FALLO DE ACCESO CODIGO #876 - " . $idpatient . " redirigiendo...');
 			window.location.href = 'https://www.google.com';
 		</script>";
-		exit;
+    exit;
     exit;
 }
 $baremos = $baremoModel->getAll($register['id_type_question']);
 //echo json_encode($register);
 $baremo_name = $register['name'];
 $baremo = null;
-if($register['baremo_id'] == 38){
+if ($register['baremo_id'] == 38) {
     $baremo = new ModelMaciBaremoEspaniolVarones13_15();
 }
-if($register['baremo_id'] == 39){
+if ($register['baremo_id'] == 39) {
     $baremo = new ModelMaciBaremoEspaniolVarones16_19();
 }
-if($register['baremo_id'] == 40){
+if ($register['baremo_id'] == 40) {
     $baremo = new ModelMaciBaremoEspaniolMujeres13_15();
 }
-if($register['baremo_id'] == 41){
+if ($register['baremo_id'] == 41) {
     $baremo = new ModelMaciBaremoEspaniolMujeres16_19();
 }
-if($register['baremo_id'] == 42){
+if ($register['baremo_id'] == 42) {
     $baremo = new ModelMaciBaremoAmericanoVarones13_15();
 }
-if($register['baremo_id'] == 43){
+if ($register['baremo_id'] == 43) {
     $baremo = new ModelMaciBaremoAmericanoVarones16_19();
 }
-if($register['baremo_id'] == 44){
+if ($register['baremo_id'] == 44) {
     $baremo = new ModelMaciBaremoAmericanoMujeres13_15();
 }
-if($register['baremo_id'] == 45){
+if ($register['baremo_id'] == 45) {
     $baremo = new ModelMaciBaremoAmericanoMujeres16_19();
 }
 $answers = $answerModel->getAll($register['codes']);
@@ -102,8 +102,8 @@ $answers_text = $answers_text['response'];
 
 //fiabilidad PD
 $divisor = 60;
-$fiabilidad_pd = [114,126];
-$response_fiabilidad_pd = $answerModel->sumatoria($answers,$fiabilidad_pd);
+$fiabilidad_pd = [114, 126];
+$response_fiabilidad_pd = $answerModel->sumatoria($answers, $fiabilidad_pd);
 //$response_fiabilidad_pd = round($response_fiabilidad_pd/$divisor,2);
 
 //transparencia 
@@ -156,7 +156,7 @@ $itemA0 = [
     146 => 1,
     152 => 1,
 ];
-$item1A = $maciConfigurationModel->sumatoriaMaci($answers,$itemA1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemA0,0);
+$item1A = $maciConfigurationModel->sumatoriaMaci($answers, $itemA1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemA0, 0);
 
 $item2A1 = [
     13  => 1,
@@ -200,7 +200,7 @@ $item2A0 = [
     149 => 2,
 ];
 
-$item2A = $maciConfigurationModel->sumatoriaMaci($answers,$item2A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item2A0,0);
+$item2A = $maciConfigurationModel->sumatoriaMaci($answers, $item2A1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item2A0, 0);
 
 $item2B1 = [
     19  => 1,
@@ -228,7 +228,7 @@ $item2B1 = [
     154 => 1,
     158 => 1,
 ];
-$item2B = $maciConfigurationModel->sumatoriaMaci($answers,$item2B1,1);
+$item2B = $maciConfigurationModel->sumatoriaMaci($answers, $item2B1, 1);
 
 $item3A1 = [
     1   => 3,
@@ -283,7 +283,7 @@ $item3A0 = [
     160 => 1,
 ];
 
-$item3A = $maciConfigurationModel->sumatoriaMaci($answers,$item3A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item3A0,0);
+$item3A = $maciConfigurationModel->sumatoriaMaci($answers, $item3A1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item3A0, 0);
 
 
 $items41 = [
@@ -332,7 +332,7 @@ $items40 = [
     153 => 1,
 ];
 
-$item4A = $maciConfigurationModel->sumatoriaMaci($answers,$items41,1)+$maciConfigurationModel->sumatoriaMaci($answers,$items40,0);
+$item4A = $maciConfigurationModel->sumatoriaMaci($answers, $items41, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $items40, 0);
 
 $item5A1 = [
     2   => 1,
@@ -377,7 +377,7 @@ $item5A0 = [
     140 => 2,
     151 => 1,
 ];
-$item5A = $maciConfigurationModel->sumatoriaMaci($answers,$item5A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item5A0,0);
+$item5A = $maciConfigurationModel->sumatoriaMaci($answers, $item5A1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item5A0, 0);
 
 $item6A1 = [
     18  => 2,
@@ -422,7 +422,7 @@ $item6A0 = [
     116 => 1,
     132 => 2,
 ];
-$item6A = $maciConfigurationModel->sumatoriaMaci($answers,$item6A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item6A0,0);
+$item6A = $maciConfigurationModel->sumatoriaMaci($answers, $item6A1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item6A0, 0);
 
 $item6B1 = [
     18  => 1,
@@ -451,7 +451,7 @@ $item6B0 = [
     71  => 1,
     81  => 2,
 ];
-$item6B = $maciConfigurationModel->sumatoriaMaci($answers,$item6B1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item6B0,0);
+$item6B = $maciConfigurationModel->sumatoriaMaci($answers, $item6B1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item6B0, 0);
 
 $item71 = [
     6   => 1,
@@ -496,7 +496,7 @@ $item70 = [
     154 => 2,
     157 => 1,
 ];
-$item7 = $maciConfigurationModel->sumatoriaMaci($answers,$item71,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item70,0);
+$item7 = $maciConfigurationModel->sumatoriaMaci($answers, $item71, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item70, 0);
 
 $item8A1 = [
     4   => 3,
@@ -546,7 +546,7 @@ $item8A0 = [
     96  => 1,
     130 => 2,
 ];
-$item8A = $maciConfigurationModel->sumatoriaMaci($answers,$item8A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item8A0,0);
+$item8A = $maciConfigurationModel->sumatoriaMaci($answers, $item8A1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item8A0, 0);
 
 $item8B1 = [
     18  => 1,
@@ -596,11 +596,11 @@ $item8B0 = [
     27  => 1,
     68  => 2,
 ];
-$item8B = $maciConfigurationModel->sumatoriaMaci($answers,$item8B1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item8B0,0);
+$item8B = $maciConfigurationModel->sumatoriaMaci($answers, $item8B1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item8B0, 0);
 
 //=REDONDEAR((1.5*M47)+(1.5*O40)+(2*Q27)+(0.7*S51)+(0.7*U44)+W42+Y42+(3*AA25)  +(0.7*AC42)+AE46+AG47, 0)
 
-$transparencia = (1.5*$item1A)+(1.5*$item2A)+(2*$item2B)+(0.7*$item3A)+(0.7*$item4A)+$item5A+$item6A+(3*$item6B)+(0.7*$item7)+$item8A+$item8B;
+$transparencia = (1.5 * $item1A) + (1.5 * $item2A) + (2 * $item2B) + (0.7 * $item3A) + (0.7 * $item4A) + $item5A + $item6A + (3 * $item6B) + (0.7 * $item7) + $item8A + $item8B;
 
 $transparenciaPD = round($transparencia);
 
@@ -626,7 +626,7 @@ $itemY1 = [
     159 => 1,
 ];
 
-$deseabilidadPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemY1,1);
+$deseabilidadPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemY1, 1);
 //echo $deseabilidadPD.'<br>';
 
 $itemZ1 = [
@@ -647,7 +647,7 @@ $itemZ1 = [
     153 => 1,
     154 => 1,
 ];
-$alteracionPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemZ1,1);
+$alteracionPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemZ1, 1);
 
 //echo $alteracionPD.'<br>';
 $introversionPD = $item1A;
@@ -658,7 +658,7 @@ $inhibidoPD = $item2A;
 
 //echo $inhibidoPD.'<br>';
 
-$pesimistaPD =$item2B;
+$pesimistaPD = $item2B;
 
 //echo $pesimistaPD.'<br>';
 
@@ -710,8 +710,8 @@ $item9A1 = [
     153 => 2,
     154 => 2,
 ];
-$item9A0 = [2=>2,145=>2];
-$item9A = $maciConfigurationModel->sumatoriaMaci($answers,$item9A1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item9A0,0);
+$item9A0 = [2 => 2, 145 => 2];
+$item9A = $maciConfigurationModel->sumatoriaMaci($answers, $item9A1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item9A0, 0);
 $tendencia_limitePD = $item9A;
 //echo $tendencia_limitePD.'<br>';
 
@@ -751,7 +751,7 @@ $itemAA0 = [
     135 => 1,
     145 => 3,
 ];
-$difusionIdentidadPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAA1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAA0,0);
+$difusionIdentidadPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemAA1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemAA0, 0);
 //echo $difusionIdentidadPD.'<br>';
 $itemAB1 = [
     4 => 2,
@@ -796,7 +796,7 @@ $itemAB0 = [
     145 => 1,
 ];
 
-$desvalorizacionMismoPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAB1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAB0,0);
+$desvalorizacionMismoPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemAB1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemAB0, 0);
 //echo $desvalorizacionMismoPD.'<br>';
 
 $itemAC1 = [
@@ -820,7 +820,7 @@ $itemAC0 = [
     68 => 3,
     131 => 3
 ];
-$desagradoPropioPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAC1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAC0,0);
+$desagradoPropioPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemAC1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemAC0, 0);
 //echo $desagradoPropioPD.'<br>';
 $itemAD1 = [
     2 => 1,
@@ -864,7 +864,7 @@ $itemAD0 = [
     160 => 2,
 ];
 
-$incomodidadRespetoPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAD1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAD0,0);
+$incomodidadRespetoPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemAD1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemAD0, 0);
 //echo $incomodidadRespetoPD.'<br>';
 
 $itemAE1 = [
@@ -891,7 +891,7 @@ $itemAE0 = [
     148 => 2,
 ];
 
-$inseguridadIgualPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAE1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAE0,0);
+$inseguridadIgualPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemAE1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemAE0, 0);
 //echo $inseguridadIgualPD.'<br>';
 
 $itemAF1 = [
@@ -938,7 +938,7 @@ $itemAF0 = [
     153 => 1,
 ];
 
-$insencibilidadSocialPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAF1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAF0,0);
+$insencibilidadSocialPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemAF1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemAF0, 0);
 //echo $insencibilidadSocialPD.'<br>';
 
 $itemAG1 = [
@@ -974,7 +974,7 @@ $itemAG0 = [
     142 => 1,
 ];
 
-$discordanciaFamiliarPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAG1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAG0,0);
+$discordanciaFamiliarPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemAG1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemAG0, 0);
 //echo $discordanciaFamiliarPD.'<br>';
 $itemAH1 = [
     14 => 3,
@@ -1005,7 +1005,7 @@ $itemAH0 = [
     55 => 3,
 ];
 
-$abusosInfanciaPD = $maciConfigurationModel->sumatoriaMaci($answers,$itemAH1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$itemAH0,0);
+$abusosInfanciaPD = $maciConfigurationModel->sumatoriaMaci($answers, $itemAH1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $itemAH0, 0);
 //echo $abusosInfanciaPD.'<br>';
 $item_AA1 = [
     11 => 3,
@@ -1032,7 +1032,7 @@ $item_AA0 = [
     131 => 2,
 ];
 
-$transtornoAlimentacionPD =  $maciConfigurationModel->sumatoriaMaci($answers,$item_AA1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_AA0,0);
+$transtornoAlimentacionPD =  $maciConfigurationModel->sumatoriaMaci($answers, $item_AA1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item_AA0, 0);
 //echo $abusosInfanciaPD.'<br>';
 
 $item_BB1 = [
@@ -1074,7 +1074,7 @@ $item_BB0 = [
     23 => 1,
     45 => 1,
 ];
-$inclinacionAbusoSusPD = $maciConfigurationModel->sumatoriaMaci($answers,$item_BB1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_BB0,0);
+$inclinacionAbusoSusPD = $maciConfigurationModel->sumatoriaMaci($answers, $item_BB1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item_BB0, 0);
 //echo $inclinacionAbusoSusPD.'<br>';
 $item_CC1 = [
     10 => 1,
@@ -1115,7 +1115,7 @@ $item_CC0 = [
     140 => 1,
 ];
 
-$predisposicionDeliPD = $maciConfigurationModel->sumatoriaMaci($answers,$item_CC1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_CC0,0);
+$predisposicionDeliPD = $maciConfigurationModel->sumatoriaMaci($answers, $item_CC1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item_CC0, 0);
 //echo $predisposicionDeliPD.'<br>';
 $item_DD1 = [
     18 => 3,
@@ -1146,7 +1146,7 @@ $item_DD0 = [
     99 => 1,
 ];
 
-$propensionInPD = $maciConfigurationModel->sumatoriaMaci($answers,$item_DD1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_DD0,0);
+$propensionInPD = $maciConfigurationModel->sumatoriaMaci($answers, $item_DD1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item_DD0, 0);
 
 $item_EE1 = [
     8 => 1,
@@ -1195,7 +1195,7 @@ $item_EE0 = [
     157 => 1,
 ];
 
-$sentimientoAncPD =$maciConfigurationModel->sumatoriaMaci($answers,$item_EE1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_EE0,0);
+$sentimientoAncPD = $maciConfigurationModel->sumatoriaMaci($answers, $item_EE1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item_EE0, 0);
 //echo $sentimientoAncPD.'<br>';
 $item_FF1 = [
     1 => 1,
@@ -1235,7 +1235,7 @@ $item_FF0 = [
     131 => 1,
 ];
 
-$afectoDepresivoPD =$maciConfigurationModel->sumatoriaMaci($answers,$item_FF1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_FF0,0);
+$afectoDepresivoPD = $maciConfigurationModel->sumatoriaMaci($answers, $item_FF1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item_FF0, 0);
 //echo $afectoDepresivoPD.'<br>';
 $item_GG1 = [
     14 => 1,
@@ -1264,30 +1264,35 @@ $item_GG1 = [
     156 => 3,
 ];
 $item_GG0 = [
-    55 => 1];
-$tendenciaSuicidioPD =$maciConfigurationModel->sumatoriaMaci($answers,$item_GG1,1)+$maciConfigurationModel->sumatoriaMaci($answers,$item_GG0,0);
+    55 => 1
+];
+$tendenciaSuicidioPD = $maciConfigurationModel->sumatoriaMaci($answers, $item_GG1, 1) + $maciConfigurationModel->sumatoriaMaci($answers, $item_GG0, 0);
 
 //echo $tendenciaSuicidioPD.'<br><br>';
 $transparenciaTB = "";
-if ($baremo_name == "Baremos españoles. Varones de 13 a 15 años" ||
+if (
+    $baremo_name == "Baremos españoles. Varones de 13 a 15 años" ||
     $baremo_name == "Baremos españoles. Varones de 16 a 19 años" ||
     $baremo_name == "Baremos españoles. Mujeres de 13 a 15 años" ||
-    $baremo_name == "Baremos españoles. Mujeres de 16 a 19 años") {
-        
-        $transparenciaTB = $maciConfigurationModel->obtenerPdxEspaniol($transparenciaPD);
-        //echo $transparenciaTB.'<br>!';
+    $baremo_name == "Baremos españoles. Mujeres de 16 a 19 años"
+) {
 
-} elseif ($baremo_name == "Baremos americanos. Varones de 13 a 15 años" ||
-          $baremo_name == "Baremos americanos. Varones de 16 a 19 años" ||
-          $baremo_name == "Baremos americanos. Mujeres de 13 a 15 años" ||
-          $baremo_name == "Baremos americanos. Mujeres de 16 a 19 años") {
-    
-        $transparenciaTB = $maciConfigurationModel->obtenerPdxAmericano($transparenciaPD);
-        //echo $transparenciaTB.'<br>!';
+    $transparenciaTB = $maciConfigurationModel->obtenerPdxEspaniol($transparenciaPD);
+    //echo $transparenciaTB.'<br>!';
+
+} elseif (
+    $baremo_name == "Baremos americanos. Varones de 13 a 15 años" ||
+    $baremo_name == "Baremos americanos. Varones de 16 a 19 años" ||
+    $baremo_name == "Baremos americanos. Mujeres de 13 a 15 años" ||
+    $baremo_name == "Baremos americanos. Mujeres de 16 a 19 años"
+) {
+
+    $transparenciaTB = $maciConfigurationModel->obtenerPdxAmericano($transparenciaPD);
+    //echo $transparenciaTB.'<br>!';
 }
 
 
-if($transparenciaPD<=200 || $transparenciaPD>=590){
+if ($transparenciaPD <= 200 || $transparenciaPD >= 590) {
     //echo "Reporte Invalido";
     die();
 }
@@ -1316,45 +1321,45 @@ if ($EETB < 85 && $FFTB < 85) {
 
 $ajusteD1 = $maciConfigurationModel->getSettingAD($ajusteAD);
 $introversionTB = $baremo->getValue1($introversionPD);
-$introversionTB_total = $maciConfigurationModel->getTBTotal($introversionTB , $ajusteX);
+$introversionTB_total = $maciConfigurationModel->getTBTotal($introversionTB, $ajusteX);
 //echo $introversionPD.'<br>';
 $inhibidoTB = $baremo->getValue2A($inhibidoPD);
-$inhibidoTB_total = $maciConfigurationModel->getTBTotal($inhibidoTB, ($ajusteX) +($ajusteD1));
+$inhibidoTB_total = $maciConfigurationModel->getTBTotal($inhibidoTB, ($ajusteX) + ($ajusteD1));
 
 $pesimistaTB = $baremo->getValue2B($pesimistaPD);
-$pesimistaTB_total = $maciConfigurationModel->getTBTotal($pesimistaTB , ($ajusteX) +($ajusteD1));
+$pesimistaTB_total = $maciConfigurationModel->getTBTotal($pesimistaTB, ($ajusteX) + ($ajusteD1));
 //echo $pesimistaTB.'<br>';
 $sumisoTB = $baremo->getValue3($sumisoPD);
 $sumisoTB_total = $maciConfigurationModel->getTBTotal($sumisoTB, $ajusteX);
 //echo $sumisoTB.'<br>';
 $histrionicoTB = $baremo->getValue4($histrionicoPD);
-$histrionicoTB_total = $maciConfigurationModel->getTBTotal($histrionicoTB , $ajusteX);
+$histrionicoTB_total = $maciConfigurationModel->getTBTotal($histrionicoTB, $ajusteX);
 
 
 $egocentricoTB = $baremo->getValue5($egocentricoPD);
-$egocentricoTB_total = $maciConfigurationModel->getTBTotal($egocentricoTB , $ajusteX);
+$egocentricoTB_total = $maciConfigurationModel->getTBTotal($egocentricoTB, $ajusteX);
 
 $rebeldeTB = $baremo->getValue6A($rebeldePD);
-$rebeldeTB_total = $maciConfigurationModel->getTBTotal($rebeldeTB , $ajusteX);
+$rebeldeTB_total = $maciConfigurationModel->getTBTotal($rebeldeTB, $ajusteX);
 //echo $rebeldeTB.'<br>';
 
 $rudoTB = $baremo->getValue6B($rudoPD);
-$rudoTB_total = $maciConfigurationModel->getTBTotal($rudoTB , $ajusteX);
+$rudoTB_total = $maciConfigurationModel->getTBTotal($rudoTB, $ajusteX);
 //echo $rudoTB.'<br>';
 
 $conformistaTB = $baremo->getValue7($conformistaPD);
-$conformistaTB_total = $maciConfigurationModel->getTBTotal($conformistaTB , $ajusteX);
+$conformistaTB_total = $maciConfigurationModel->getTBTotal($conformistaTB, $ajusteX);
 //echo $conformistaTB.'<br>';
 
 $oposicionistaTB = $baremo->getValue8A($oposicionistaPD);
-$oposicionistaTB_total = $maciConfigurationModel->getTBTotal($oposicionistaTB , $ajusteX);
+$oposicionistaTB_total = $maciConfigurationModel->getTBTotal($oposicionistaTB, $ajusteX);
 //echo $oposicionistaTB.'<br>';
 
 $autopunitivoTB = $baremo->getValue8B($autopunitivoPD);
-$autopunitivoTB_total = $maciConfigurationModel->getTBTotal($autopunitivoTB , ($ajusteX) +($ajusteD1));
+$autopunitivoTB_total = $maciConfigurationModel->getTBTotal($autopunitivoTB, ($ajusteX) + ($ajusteD1));
 //echo $autopunitivoTB.'<br>';
 $tendencialimiteTB = $baremo->getValue9($tendencia_limitePD);
-$tendencialimiteTB_total = $maciConfigurationModel->getTBTotal($tendencialimiteTB , ($ajusteX) +($ajusteD1));
+$tendencialimiteTB_total = $maciConfigurationModel->getTBTotal($tendencialimiteTB, ($ajusteX) + ($ajusteD1));
 //echo $tendencialimiteTB.'<br>';
 //----------------------------------
 //echo $deseabilidadTB.'<br>';
@@ -1362,39 +1367,39 @@ $tendencialimiteTB_total = $maciConfigurationModel->getTBTotal($tendencialimiteT
 $indiceBuscar = abs($deseabilidadTB - $alteracionTB);
 //echo $indiceBuscar.'<br>';
 $ajusteD = 0;
-if($indiceBuscar>4){
+if ($indiceBuscar > 4) {
     $ajusteD = $maciConfigurationModel->getDifereceYZ($deseabilidadTB - $alteracionTB);
 }
 
 //echo $ajusteD.'*****<br>';
 ////echo $introversionTB.'-'.$inhibidoTB.'-'.$pesimistaTB.'-'.$sumisoTB.'-'.$histrionicoTB.'-'.$egocentricoTB.'-'.$rebeldeTB.'-'.$rudoTB.'-'.$conformistaTB.'-'.$oposicionistaTB.'-'.$autopunitivoTB.'<br>';
-$ajusteT = $maciConfigurationModel->getPrototipoPersonalidad([],$introversionTB,$inhibidoTB,$pesimistaTB,$sumisoTB,$histrionicoTB,$egocentricoTB,$rebeldeTB,$rudoTB,$conformistaTB,$oposicionistaTB,$autopunitivoTB);
+$ajusteT = $maciConfigurationModel->getPrototipoPersonalidad([], $introversionTB, $inhibidoTB, $pesimistaTB, $sumisoTB, $histrionicoTB, $egocentricoTB, $rebeldeTB, $rudoTB, $conformistaTB, $oposicionistaTB, $autopunitivoTB);
 $ajusteDC = $ajusteT['valor'];
 
-$difusionIdentidadTB = $baremo->getValueA($difusionIdentidadPD) +($ajusteD) +($ajusteDC);
+$difusionIdentidadTB = $maciConfigurationModel->getTBTotal($baremo->getValueA($difusionIdentidadPD) , ($ajusteD) + ($ajusteDC));
 
-$desvalorizacionMismoTB = $baremo->getValueB($desvalorizacionMismoPD) +($ajusteD)+($ajusteDC);
+$desvalorizacionMismoTB = $maciConfigurationModel->getTBTotal($baremo->getValueB($desvalorizacionMismoPD) , ($ajusteD) + ($ajusteDC));
 //echo $desvalorizacionMismoTB.'<br>';
 
-$desagradoPropioTB = $baremo->getValueC($desagradoPropioPD) +($ajusteD);
+$desagradoPropioTB = $maciConfigurationModel->getTBTotal($baremo->getValueC($desagradoPropioPD) , ($ajusteD));
 //echo $desagradoPropioTB.'<br>';
 
-$incomodidadRespetoTB = $baremo->getValueD($incomodidadRespetoPD) +($ajusteD);
+$incomodidadRespetoTB = $maciConfigurationModel->getTBTotal($baremo->getValueD($incomodidadRespetoPD) , ($ajusteD));
 //echo $incomodidadRespetoTB.'<br>';
 
-$inseguridadIgualTB = $baremo->getValueE($inseguridadIgualPD) +($ajusteD);
+$inseguridadIgualTB = $maciConfigurationModel->getTBTotal($baremo->getValueE($inseguridadIgualPD) , ($ajusteD));
 //echo $inseguridadIgualTB.'<br>';
 
-$insencibilidadSocialTB = $baremo->getValueF($insencibilidadSocialPD) +($ajusteD);
+$insencibilidadSocialTB = $maciConfigurationModel->getTBTotal($baremo->getValueF($insencibilidadSocialPD) , ($ajusteD));
 //echo $insencibilidadSocialTB.'<br>';
 
-$discordanciaFamiliarTB = $baremo->getValueG($discordanciaFamiliarPD) +($ajusteD)+($ajusteDC);
+$discordanciaFamiliarTB = $maciConfigurationModel->getTBTotal($baremo->getValueG($discordanciaFamiliarPD) , ($ajusteD) + ($ajusteDC));
 //echo $discordanciaFamiliarTB.'<br>';
 
-$abusosInfanciaTB = $baremo->getValueH($abusosInfanciaPD) +($ajusteD);
+$abusosInfanciaTB = $maciConfigurationModel->getTBTotal($baremo->getValueH($abusosInfanciaPD) , ($ajusteD));
 //echo $abusosInfanciaTB.'<br>';
 
-$transtornoAlimentacionTB = $baremo->getValueAA($transtornoAlimentacionPD)+($ajusteD);
+$transtornoAlimentacionTB = $maciConfigurationModel->getTBTotal($baremo->getValueAA($transtornoAlimentacionPD) , ($ajusteD));
 //echo $transtornoAlimentacionTB.'<br>';
 
 $inclinacionAbusoSusTB = $baremo->getValueBB($inclinacionAbusoSusPD);
@@ -1406,13 +1411,13 @@ $predisposicionDeliTB = $baremo->getValueCC($predisposicionDeliPD);
 $propensionInTB = $baremo->getValueDD($propensionInPD);
 //echo $propensionInTB.'<br>';
 
-$sentimientoAncTB = $baremo->getValueEE($sentimientoAncPD)+($ajusteD)+($ajusteDC);
+$sentimientoAncTB = $maciConfigurationModel->getTBTotal($baremo->getValueEE($sentimientoAncPD) , ($ajusteD) + ($ajusteDC));
 //echo $sentimientoAncTB.'<br>';
 
-$afectoDepresivoTB = $baremo->getValueFF($afectoDepresivoPD)+($ajusteD)+($ajusteDC);
+$afectoDepresivoTB = $maciConfigurationModel->getTBTotal($baremo->getValueFF($afectoDepresivoPD) , ($ajusteD) + ($ajusteDC));
 //echo $afectoDepresivoTB.'<br>';
 
-$tendenciaSuicidioTB = $baremo->getValueGG($tendenciaSuicidioPD)+($ajusteD)+($ajusteDC);
+$tendenciaSuicidioTB = $maciConfigurationModel->getTBTotal($baremo->getValueGG($tendenciaSuicidioPD) , ($ajusteD) + ($ajusteDC));
 
 //echo $tendenciaSuicidioTB.'<br>';
 $mensaje_fiabilidad = "Valor no reconocido";
@@ -1427,7 +1432,7 @@ if ($response_fiabilidad_pd == 0) {
 //textos:
 $validesV = "La escala V consta de 2 ítems que son improbables.  Una puntuación de 0 indica que el protocolo es válido. Una puntuación de 1 sugiere que ";
 $validesV .= "los resultados deben interpretarse con cautela. Una puntuación de 2 indica que el protocolo es inválido. ";
-$validesV .= $register['id_client']." ha obtenido una puntuación de ".$response_fiabilidad_pd." en la escala V  indica ".$mensaje_fiabilidad;
+$validesV .= $register['id_client'] . " ha obtenido una puntuación de " . $response_fiabilidad_pd . " en la escala V  indica " . $mensaje_fiabilidad;
 
 $mensaje_transparecia = "Valor no reconocido";
 if ($transparenciaTB <= 2) {
@@ -1445,7 +1450,7 @@ if ($transparenciaTB <= 2) {
 }
 
 $transpareciaX = "Esta escala mide el grado en que el adolescente ha sido abierto, sincero y revelador sobre sí mismo al responder el inventario. ";
-$transpareciaX .= $register['id_client']." obtuvo una puntuación de TB ".$transparenciaTB.", ".$mensaje_transparecia;
+$transpareciaX .= $register['id_client'] . " obtuvo una puntuación de TB " . $transparenciaTB . ", " . $mensaje_transparecia;
 
 
 $mensaje_deseabilidad = "Valor no reconocido";
@@ -1459,7 +1464,7 @@ if ($deseabilidadTB <= 34) {
     $mensaje_deseabilidad = "presenta una deseabilidad elevada, indicando que su perfil de respuestas se ve afectado por la intención de proyectar una imagen socialmente atractiva, moralmente virtuosa y emocionalmente serena.";
 }
 $deseabilidadY = "Esta escala mide la tendencia del adolescente a presentar una imagen positiva de sí mismo, posiblemente ocultando o minimizando sus dificultades.";
-$deseabilidadY .= $register['id_client']." obtuvo una puntuación de TB ".$deseabilidadTB.", ".$mensaje_deseabilidad;
+$deseabilidadY .= $register['id_client'] . " obtuvo una puntuación de TB " . $deseabilidadTB . ", " . $mensaje_deseabilidad;
 
 
 $mensaje_alteracion = "Valor fuera de rango";
@@ -1473,7 +1478,7 @@ if ($alteracionTB <= 34) {
     $mensaje_alteracion = "manifiesta una alteración elevada, caracterizada por una propensión a denigrarse o desvalorizarse, mostrando problemas emocionales y personales más complicados de lo que probablemente se descubriría mediante una revisión objetiva.";
 }
 $alteracionZ = "Esta escala evalúa la tendencia del adolescente a exagerar sus problemas o a presentarse de manera más perturbada de lo que realmente está.";
-$alteracionZ .= $register['id_client']." obtuvo una puntuación de TB ".$alteracionTB. ", ".$mensaje_alteracion;
+$alteracionZ .= $register['id_client'] . " obtuvo una puntuación de TB " . $alteracionTB . ", " . $mensaje_alteracion;
 
 $mensaje_tendencia_limite = "valor fuera de rango";
 if ($tendencialimiteTB_total <= 60) {
@@ -1486,1399 +1491,1752 @@ if ($tendencialimiteTB_total <= 60) {
     $mensaje_tendencia_limite = "La expresión del prototipo de personalidad de tendencia límite se torna destacada o prominente. En este nivel, presenta una marcada desorganización interna, con una constante oscilación entre extremos opuestos en su comportamiento y estado emocional. Su inestabilidad afectiva se manifiesta en cambios abruptos de humor, con periodos de abatimiento y apatía que pueden alternarse con episodios de rabia intensa, ansiedad o euforia. En el ámbito interpersonal, predominan sentimientos contradictorios de amor, culpa y hostilidad hacia los demás, lo que dificulta la construcción de relaciones estables. Su estructura psíquica presenta una cohesión reducida, con dificultades para mantener una posición equilibrada entre la dependencia y la independencia, entre la impulsividad y la pasividad, o entre la obediencia y la oposición. En este nivel de expresión, la presencia de pensamientos autolesivos y suicidas puede ser recurrente, y algunos pueden llegar a actuar en función de estos impulsos. Su comportamiento tiende a ser errático, con una marcada dificultad para mantener la consistencia en sus decisiones y acciones. Reiteradamente, sabotea o contradice sus propios esfuerzos, reflejando un estado interno caracterizado por una profunda división intrapsíquica. Su funcionamiento se encuentra marcado por una fractura entre sus orientaciones internas y su forma de relacionarse con los demás, lo que genera un patrón de inestabilidad persistente tanto a nivel emocional como interpersonal. Este perfil de personalidad guarda similitudes con el trastorno límite de la personalidad descrito en el DSM, en la medida en que muestra una estructura psíquica caracterizada por una marcada discordia interna y una incapacidad para mantener un sentido coherente de sí mismo. Su funcionamiento se ve afectado por una polarización constante en sus emociones, relaciones y comportamientos, lo que lo lleva a alternar entre impulsividad y retraimiento, entre dependencia y oposición, y entre la búsqueda de aprobación y el rechazo activo de la misma. Su experiencia subjetiva está dominada por una sensación de vacío, inestabilidad y conflicto interno, lo que genera dificultades significativas en su capacidad para mantener relaciones interpersonales estables y una identidad consolidada.";
 }
 $gravestendencia = "Tendencia límite (Mide la inestabilidad emocional significativa, con fluctuaciones en el estado de ánimo, dificultades en la identidad y comportamientos autodestructivos) ";
-$gravestendencia .= $register['id_client'] . " obtuvo una puntuación de TB ".$tendencialimiteTB_total .", ".$mensaje_tendencia_limite;
+$gravestendencia .= $register['id_client'] . " obtuvo una puntuación de TB " . $tendencialimiteTB_total . ", " . $mensaje_tendencia_limite;
 //raro
-$introversionTB_totalt = $introversionTB_total + (12-36+2)*0.001;
-$inhibidoTB_totalt = $inhibidoTB_total + (12-37+2)*0.001;
+$introversionTB_totalt = $introversionTB_total + (12 - 36 + 2) * 0.001;
+$inhibidoTB_totalt = $inhibidoTB_total + (12 - 37 + 2) * 0.001;
 
-$pesimistaTB_totalt = $pesimistaTB_total + (12-38+2)*0.001;
-$sumisoTB_totalt = $sumisoTB_total + (12-39+2)*0.001;
-$histrionicoTB_totalt = $histrionicoTB_total + (12-40+2)*0.001;
-$egocentricoTB_totalt = $egocentricoTB_total + (12-41+2)*0.001;
-$rebeldeTB_totalt = $rebeldeTB_total + (12-42+2)*0.001;
-$rudoTB_totalt = $rudoTB_total + (12-43+2)*0.001;
-$conformistaTB_totalt = $conformistaTB_total + (12-44+2)*0.001;
-$oposicionistaTB_totalt = $oposicionistaTB_total + (12-45+2)*0.001;
-$autopunitivoTB_totalt = $autopunitivoTB_total + (12-46+2)*0.001;
+$pesimistaTB_totalt = $pesimistaTB_total + (12 - 38 + 2) * 0.001;
+$sumisoTB_totalt = $sumisoTB_total + (12 - 39 + 2) * 0.001;
+$histrionicoTB_totalt = $histrionicoTB_total + (12 - 40 + 2) * 0.001;
+$egocentricoTB_totalt = $egocentricoTB_total + (12 - 41 + 2) * 0.001;
+$rebeldeTB_totalt = $rebeldeTB_total + (12 - 42 + 2) * 0.001;
+$rudoTB_totalt = $rudoTB_total + (12 - 43 + 2) * 0.001;
+$conformistaTB_totalt = $conformistaTB_total + (12 - 44 + 2) * 0.001;
+$oposicionistaTB_totalt = $oposicionistaTB_total + (12 - 45 + 2) * 0.001;
+$autopunitivoTB_totalt = $autopunitivoTB_total + (12 - 46 + 2) * 0.001;
 
-$tendencialimiteTB_totalt = $tendencialimiteTB_total + (12-47+2)*0.001;
+$tendencialimiteTB_totalt = $tendencialimiteTB_total + (12 - 47 + 2) * 0.001;
 
-$primero = $maciConfigurationModel->getPrototipoPersonalidad([],$introversionTB_totalt,$inhibidoTB_totalt,$pesimistaTB_totalt,$sumisoTB_totalt,$histrionicoTB_totalt,$egocentricoTB_totalt,$rebeldeTB_totalt,$rudoTB_totalt,$conformistaTB_totalt,$oposicionistaTB_totalt,$autopunitivoTB_totalt);
+$primero = $maciConfigurationModel->getPrototipoPersonalidad([], $introversionTB_totalt, $inhibidoTB_totalt, $pesimistaTB_totalt, $sumisoTB_totalt, $histrionicoTB_totalt, $egocentricoTB_totalt, $rebeldeTB_totalt, $rudoTB_totalt, $conformistaTB_totalt, $oposicionistaTB_totalt, $autopunitivoTB_totalt);
 $primero_texto = $maciConfigurationModel->getPersonalidadPP($primero['llave']);
-$tiposresponsalbilidad = $register['id_client']." muestra patrones de personalidad de ".$primero['llave']." ".$primero_texto;
-$primero_ajusteTT = $maciConfigurationModel->getPrototipoPersonalidad([],$introversionTB_total,$inhibidoTB_total,$pesimistaTB_total,$sumisoTB_total,$histrionicoTB_total,$egocentricoTB_total,$rebeldeTB_total,$rudoTB_total,$conformistaTB_total,$oposicionistaTB_total,$autopunitivoTB_total);
-$primero_respuestaT = $maciConfigurationModel->getPersonalidadPPInterpretacion($primero['llave'],$introversionTB_total,$inhibidoTB_total,$pesimistaTB_total,$sumisoTB_total,$histrionicoTB_total,$egocentricoTB_total,$rebeldeTB_total,$rudoTB_total,$conformistaTB_total,$oposicionistaTB_total,$autopunitivoTB_total);
-$tiposresponsalbilidad .= "Su puntuación de TB ".round($primero_ajusteTT['total']).", ".$primero_respuestaT;
+$tiposresponsalbilidad = $register['id_client'] . " muestra patrones de personalidad de " . $primero['llave'] . " " . $primero_texto;
+$primero_ajusteTT = $maciConfigurationModel->getPrototipoPersonalidad([], $introversionTB_total, $inhibidoTB_total, $pesimistaTB_total, $sumisoTB_total, $histrionicoTB_total, $egocentricoTB_total, $rebeldeTB_total, $rudoTB_total, $conformistaTB_total, $oposicionistaTB_total, $autopunitivoTB_total);
+$primero_respuestaT = $maciConfigurationModel->getPersonalidadPPInterpretacion($primero['llave'], $introversionTB_total, $inhibidoTB_total, $pesimistaTB_total, $sumisoTB_total, $histrionicoTB_total, $egocentricoTB_total, $rebeldeTB_total, $rudoTB_total, $conformistaTB_total, $oposicionistaTB_total, $autopunitivoTB_total);
+$tiposresponsalbilidad .= "Su puntuación de TB " . round($primero_ajusteTT['total']) . ", " . $primero_respuestaT;
 
 
-$tiposresponsalbilidad2 = "Además de este patrón de personalidad ".$primero['llave'].", ".$register['id_client']." también presenta características de los siguientes prototipos, que destacan en su personalidad:";
+$tiposresponsalbilidad2 = "Además de este patrón de personalidad " . $primero['llave'] . ", " . $register['id_client'] . " también presenta características de los siguientes prototipos, que destacan en su personalidad:";
 
-$segundo = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave']],$introversionTB_totalt,$inhibidoTB_totalt,$pesimistaTB_totalt,$sumisoTB_totalt,$histrionicoTB_totalt,$egocentricoTB_totalt,$rebeldeTB_totalt,$rudoTB_totalt,$conformistaTB_totalt,$oposicionistaTB_totalt,$autopunitivoTB_totalt);
+$segundo = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave']], $introversionTB_totalt, $inhibidoTB_totalt, $pesimistaTB_totalt, $sumisoTB_totalt, $histrionicoTB_totalt, $egocentricoTB_totalt, $rebeldeTB_totalt, $rudoTB_totalt, $conformistaTB_totalt, $oposicionistaTB_totalt, $autopunitivoTB_totalt);
 $segundo_texto = $maciConfigurationModel->getPersonalidadPP($segundo['llave']);
-$segundo_ajusteTT = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave']],$introversionTB_total,$inhibidoTB_total,$pesimistaTB_total,$sumisoTB_total,$histrionicoTB_total,$egocentricoTB_total,$rebeldeTB_total,$rudoTB_total,$conformistaTB_total,$oposicionistaTB_total,$autopunitivoTB_total);
+$segundo_ajusteTT = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave']], $introversionTB_total, $inhibidoTB_total, $pesimistaTB_total, $sumisoTB_total, $histrionicoTB_total, $egocentricoTB_total, $rebeldeTB_total, $rudoTB_total, $conformistaTB_total, $oposicionistaTB_total, $autopunitivoTB_total);
 
-$tiposresponsalbilidad3 = $register['id_client']." muestra patrones de personalidad de ".$segundo['llave']." ".$segundo_texto;
-$segundo_respuestaT = $maciConfigurationModel->getPersonalidadPPInterpretacion($segundo['llave'],$introversionTB_total,$inhibidoTB_total,$pesimistaTB_total,$sumisoTB_total,$histrionicoTB_total,$egocentricoTB_total,$rebeldeTB_total,$rudoTB_total,$conformistaTB_total,$oposicionistaTB_total,$autopunitivoTB_total);
+$tiposresponsalbilidad3 = $register['id_client'] . " muestra patrones de personalidad de " . $segundo['llave'] . " " . $segundo_texto;
+$segundo_respuestaT = $maciConfigurationModel->getPersonalidadPPInterpretacion($segundo['llave'], $introversionTB_total, $inhibidoTB_total, $pesimistaTB_total, $sumisoTB_total, $histrionicoTB_total, $egocentricoTB_total, $rebeldeTB_total, $rudoTB_total, $conformistaTB_total, $oposicionistaTB_total, $autopunitivoTB_total);
 
-$tiposresponsalbilidad3 .= "obtuvo una puntuación de TB ".round($segundo_ajusteTT['total']).", ".$segundo_respuestaT;
+$tiposresponsalbilidad3 .= "obtuvo una puntuación de TB " . round($segundo_ajusteTT['total']) . ", " . $segundo_respuestaT;
 
-$tercero = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave'],$segundo['llave']],$introversionTB_totalt,$inhibidoTB_totalt,$pesimistaTB_totalt,$sumisoTB_totalt,$histrionicoTB_totalt,$egocentricoTB_totalt,$rebeldeTB_totalt,$rudoTB_totalt,$conformistaTB_totalt,$oposicionistaTB_totalt,$autopunitivoTB_totalt);
+$tercero = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave'], $segundo['llave']], $introversionTB_totalt, $inhibidoTB_totalt, $pesimistaTB_totalt, $sumisoTB_totalt, $histrionicoTB_totalt, $egocentricoTB_totalt, $rebeldeTB_totalt, $rudoTB_totalt, $conformistaTB_totalt, $oposicionistaTB_totalt, $autopunitivoTB_totalt);
 $tercero_texto = $maciConfigurationModel->getPersonalidadPP($tercero['llave']);
 
-$tercero_ajusteTT = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave'],$segundo['llave']],$introversionTB_total,$inhibidoTB_total,$pesimistaTB_total,$sumisoTB_total,$histrionicoTB_total,$egocentricoTB_total,$rebeldeTB_total,$rudoTB_total,$conformistaTB_total,$oposicionistaTB_total,$autopunitivoTB_total);
-$tiposresponsalbilidad4 = "Ademas muestra ".$tercero['llave']." ".$tercero_texto;
-$tercero_respuestaT = $maciConfigurationModel->getPersonalidadPPInterpretacion($tercero['llave'],$introversionTB_total,$inhibidoTB_total,$pesimistaTB_total,$sumisoTB_total,$histrionicoTB_total,$egocentricoTB_total,$rebeldeTB_total,$rudoTB_total,$conformistaTB_total,$oposicionistaTB_total,$autopunitivoTB_total);
+$tercero_ajusteTT = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave'], $segundo['llave']], $introversionTB_total, $inhibidoTB_total, $pesimistaTB_total, $sumisoTB_total, $histrionicoTB_total, $egocentricoTB_total, $rebeldeTB_total, $rudoTB_total, $conformistaTB_total, $oposicionistaTB_total, $autopunitivoTB_total);
+$tiposresponsalbilidad4 = "Ademas muestra " . $tercero['llave'] . " " . $tercero_texto;
+$tercero_respuestaT = $maciConfigurationModel->getPersonalidadPPInterpretacion($tercero['llave'], $introversionTB_total, $inhibidoTB_total, $pesimistaTB_total, $sumisoTB_total, $histrionicoTB_total, $egocentricoTB_total, $rebeldeTB_total, $rudoTB_total, $conformistaTB_total, $oposicionistaTB_total, $autopunitivoTB_total);
 
-$tiposresponsalbilidad4 .= $register['id_client']." obtuvo una puntuación de TB ".round($tercero_ajusteTT['total']).", ".$tercero_respuestaT;
+$tiposresponsalbilidad4 .= $register['id_client'] . " obtuvo una puntuación de TB " . round($tercero_ajusteTT['total']) . ", " . $tercero_respuestaT;
 
-$cuarto = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave'],$segundo['llave'],$tercero['llave']],$introversionTB_totalt,$inhibidoTB_totalt,$pesimistaTB_totalt,$sumisoTB_totalt,$histrionicoTB_totalt,$egocentricoTB_totalt,$rebeldeTB_totalt,$rudoTB_totalt,$conformistaTB_totalt,$oposicionistaTB_totalt,$autopunitivoTB_totalt);
+$cuarto = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave'], $segundo['llave'], $tercero['llave']], $introversionTB_totalt, $inhibidoTB_totalt, $pesimistaTB_totalt, $sumisoTB_totalt, $histrionicoTB_totalt, $egocentricoTB_totalt, $rebeldeTB_totalt, $rudoTB_totalt, $conformistaTB_totalt, $oposicionistaTB_totalt, $autopunitivoTB_totalt);
 $cuarto_texto = $maciConfigurationModel->getPersonalidadPP($cuarto['llave']);
 
-$cuarto_ajusteTT = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave'],$segundo['llave'],$tercero['llave']],$introversionTB_total,$inhibidoTB_total,$pesimistaTB_total,$sumisoTB_total,$histrionicoTB_total,$egocentricoTB_total,$rebeldeTB_total,$rudoTB_total,$conformistaTB_total,$oposicionistaTB_total,$autopunitivoTB_total);
-$tiposresponsalbilidad5 = $cuarto['llave']." ".$cuarto_texto;
-$cuarto_respuestaT = $maciConfigurationModel->getPersonalidadPPInterpretacion($cuarto['llave'],$introversionTB_total,$inhibidoTB_total,$pesimistaTB_total,$sumisoTB_total,$histrionicoTB_total,$egocentricoTB_total,$rebeldeTB_total,$rudoTB_total,$conformistaTB_total,$oposicionistaTB_total,$autopunitivoTB_total);
+$cuarto_ajusteTT = $maciConfigurationModel->getPrototipoPersonalidad([$primero['llave'], $segundo['llave'], $tercero['llave']], $introversionTB_total, $inhibidoTB_total, $pesimistaTB_total, $sumisoTB_total, $histrionicoTB_total, $egocentricoTB_total, $rebeldeTB_total, $rudoTB_total, $conformistaTB_total, $oposicionistaTB_total, $autopunitivoTB_total);
+$tiposresponsalbilidad5 = $cuarto['llave'] . " " . $cuarto_texto;
+$cuarto_respuestaT = $maciConfigurationModel->getPersonalidadPPInterpretacion($cuarto['llave'], $introversionTB_total, $inhibidoTB_total, $pesimistaTB_total, $sumisoTB_total, $histrionicoTB_total, $egocentricoTB_total, $rebeldeTB_total, $rudoTB_total, $conformistaTB_total, $oposicionistaTB_total, $autopunitivoTB_total);
 
-$tiposresponsalbilidad5 .= $register['id_client']." obtuvo una puntuación de TB ".round($cuarto_ajusteTT['total']).", ".$cuarto_respuestaT;
+$tiposresponsalbilidad5 .= $register['id_client'] . " obtuvo una puntuación de TB " . round($cuarto_ajusteTT['total']) . ", " . $cuarto_respuestaT;
 
 $tiposresponsalbilidad6 = "Los síndromes clínicos son un conjunto de comportamientos, pensamientos y sentimientos agrupados que indican un estado psicológico problemático activo. A diferencia de los prototipos de personalidad, que son patrones de personalidad más duraderos, los síndromes clínicos tienden a ser más estados relativamente diferenciados y transitorios, que crecen y disminuyen en periodo de tiempo, dependiendo de las situaciones. En el contexto del Inventario Clínico para Adolescentes de Millon (MACI), los síndromes clínicos se conceptualizan como  extensiones o distorsiones de la personalidad básica del adolescente. Son de tipo reactivo, siento substancialmente de una duración breve que los trastornos de personalidad, representan estados en los que se manifiesta claramente un proceso patológico activo. A continuación, se describirán los síndromes clínicos destacados en ";
-$tiposresponsalbilidad6 .= $register['id_client'].":";
+$tiposresponsalbilidad6 .= $register['id_client'] . ":";
 
 //sindromes clinicos
-$transtornoAlimentacionTB_total = $transtornoAlimentacionTB + (7-84+2)*0.001;
-$inclinacionAbusoSusTB_total = $inclinacionAbusoSusTB + (7-85+2)*0.001;
-$predisposicionDeliTB_total = $predisposicionDeliTB + (7-86+2)*0.001;
-$propensionInTB_total = $propensionInTB + (7-87+2)*0.001;
-$sentimientoAncTB_total = $sentimientoAncTB + (7-88+2)*0.001;
-$afectoDepresivoTB_total = $afectoDepresivoTB + (7-89+2)*0.001;
-$tendenciaSuicidioTB_total = $tendenciaSuicidioTB + (7-90+2)*0.001;
+$transtornoAlimentacionTB_total = $transtornoAlimentacionTB + (7 - 84 + 2) * 0.001;
+$inclinacionAbusoSusTB_total = $inclinacionAbusoSusTB + (7 - 85 + 2) * 0.001;
+$predisposicionDeliTB_total = $predisposicionDeliTB + (7 - 86 + 2) * 0.001;
+$propensionInTB_total = $propensionInTB + (7 - 87 + 2) * 0.001;
+$sentimientoAncTB_total = $sentimientoAncTB + (7 - 88 + 2) * 0.001;
+$afectoDepresivoTB_total = $afectoDepresivoTB + (7 - 89 + 2) * 0.001;
+$tendenciaSuicidioTB_total = $tendenciaSuicidioTB + (7 - 90 + 2) * 0.001;
 
-$quinto = $maciConfigurationModel->getSindromeClinico([],$transtornoAlimentacionTB_total,$inclinacionAbusoSusTB_total,$predisposicionDeliTB_total,$propensionInTB_total,$sentimientoAncTB_total,$afectoDepresivoTB_total,$tendenciaSuicidioTB_total);
+$quinto = $maciConfigurationModel->getSindromeClinico([], $transtornoAlimentacionTB_total, $inclinacionAbusoSusTB_total, $predisposicionDeliTB_total, $propensionInTB_total, $sentimientoAncTB_total, $afectoDepresivoTB_total, $tendenciaSuicidioTB_total);
 $quinto_texto = $maciConfigurationModel->getObjetivoSindromeClinico($quinto['llave']);
-$quinto_ajusteTT = $maciConfigurationModel->getSindromeClinico([],$transtornoAlimentacionTB,$inclinacionAbusoSusTB,$predisposicionDeliTB,$propensionInTB,$sentimientoAncTB,$afectoDepresivoTB,$tendenciaSuicidioTB);
-$tiposresponsalbilidad7 = $register['id_client'] . ' Muestra una puntuación TB '.round($quinto['total'])." en el síndrome de ".$quinto['llave'];
-$tiposresponsalbilidad7 .= $quinto_texto.", El resultado ";
-$quinto_respuestaT = $maciConfigurationModel->getSindromeClinicoInterpretacion($quinto['llave'],$transtornoAlimentacionTB,$inclinacionAbusoSusTB,$predisposicionDeliTB,$propensionInTB,$sentimientoAncTB,$afectoDepresivoTB,$tendenciaSuicidioTB);
+$quinto_ajusteTT = $maciConfigurationModel->getSindromeClinico([], $transtornoAlimentacionTB, $inclinacionAbusoSusTB, $predisposicionDeliTB, $propensionInTB, $sentimientoAncTB, $afectoDepresivoTB, $tendenciaSuicidioTB);
+$tiposresponsalbilidad7 = $register['id_client'] . ' Muestra una puntuación TB ' . round($quinto['total']) . " en el síndrome de " . $quinto['llave'];
+$tiposresponsalbilidad7 .= $quinto_texto . ", El resultado ";
+$quinto_respuestaT = $maciConfigurationModel->getSindromeClinicoInterpretacion($quinto['llave'], $transtornoAlimentacionTB, $inclinacionAbusoSusTB, $predisposicionDeliTB, $propensionInTB, $sentimientoAncTB, $afectoDepresivoTB, $tendenciaSuicidioTB);
 
 $tiposresponsalbilidad7 .= $quinto_respuestaT;
 
-$tiposresponsalbilidad8 = "Además de este síndrome, ".$register['id_client'] ." también presenta características de los siguientes síndromes clínicos, que pueden estar presentes en menor medida o ausentes:";
+$tiposresponsalbilidad8 = "Además de este síndrome, " . $register['id_client'] . " también presenta características de los siguientes síndromes clínicos, que pueden estar presentes en menor medida o ausentes:";
 
-$sexto = $maciConfigurationModel->getSindromeClinico([$quinto['llave']],$transtornoAlimentacionTB_total,$inclinacionAbusoSusTB_total,$predisposicionDeliTB_total,$propensionInTB_total,$sentimientoAncTB_total,$afectoDepresivoTB_total,$tendenciaSuicidioTB_total);
+$sexto = $maciConfigurationModel->getSindromeClinico([$quinto['llave']], $transtornoAlimentacionTB_total, $inclinacionAbusoSusTB_total, $predisposicionDeliTB_total, $propensionInTB_total, $sentimientoAncTB_total, $afectoDepresivoTB_total, $tendenciaSuicidioTB_total);
 $sexto_texto = $maciConfigurationModel->getObjetivoSindromeClinico($sexto['llave']);
-$sexto_ajusteTT = $maciConfigurationModel->getSindromeClinico([$quinto['llave']],$transtornoAlimentacionTB,$inclinacionAbusoSusTB,$predisposicionDeliTB,$propensionInTB,$sentimientoAncTB,$afectoDepresivoTB,$tendenciaSuicidioTB);
+$sexto_ajusteTT = $maciConfigurationModel->getSindromeClinico([$quinto['llave']], $transtornoAlimentacionTB, $inclinacionAbusoSusTB, $predisposicionDeliTB, $propensionInTB, $sentimientoAncTB, $afectoDepresivoTB, $tendenciaSuicidioTB);
 
-$tiposresponsalbilidad9 = $sexto['llave'] . " ".$sexto_texto ;
-$tiposresponsalbilidad9 .= $register['id_client'] . ' Muestra una puntuación TB '.round($sexto['total']).", lo que ";
-$sexto_respuestaT = $maciConfigurationModel->getSindromeClinicoInterpretacion($sexto['llave'],$transtornoAlimentacionTB,$inclinacionAbusoSusTB,$predisposicionDeliTB,$propensionInTB,$sentimientoAncTB,$afectoDepresivoTB,$tendenciaSuicidioTB);
+$tiposresponsalbilidad9 = $sexto['llave'] . " " . $sexto_texto;
+$tiposresponsalbilidad9 .= $register['id_client'] . ' Muestra una puntuación TB ' . round($sexto['total']) . ", lo que ";
+$sexto_respuestaT = $maciConfigurationModel->getSindromeClinicoInterpretacion($sexto['llave'], $transtornoAlimentacionTB, $inclinacionAbusoSusTB, $predisposicionDeliTB, $propensionInTB, $sentimientoAncTB, $afectoDepresivoTB, $tendenciaSuicidioTB);
 $tiposresponsalbilidad9 .= $sexto_respuestaT;
 
 
-$septimo = $maciConfigurationModel->getSindromeClinico([$quinto['llave'],$sexto['llave']],$transtornoAlimentacionTB_total,$inclinacionAbusoSusTB_total,$predisposicionDeliTB_total,$propensionInTB_total,$sentimientoAncTB_total,$afectoDepresivoTB_total,$tendenciaSuicidioTB_total);
+$septimo = $maciConfigurationModel->getSindromeClinico([$quinto['llave'], $sexto['llave']], $transtornoAlimentacionTB_total, $inclinacionAbusoSusTB_total, $predisposicionDeliTB_total, $propensionInTB_total, $sentimientoAncTB_total, $afectoDepresivoTB_total, $tendenciaSuicidioTB_total);
 $septimo_texto = $maciConfigurationModel->getObjetivoSindromeClinico($septimo['llave']);
-$septimo_ajusteTT = $maciConfigurationModel->getSindromeClinico([$quinto['llave'],$sexto['llave']],$transtornoAlimentacionTB,$inclinacionAbusoSusTB,$predisposicionDeliTB,$propensionInTB,$sentimientoAncTB,$afectoDepresivoTB,$tendenciaSuicidioTB);
-$tiposresponsalbilidad10 = $septimo['llave'] . " ".$septimo_texto ;
-$tiposresponsalbilidad10 .= $register['id_client'] . ' Muestra una puntuación TB '.round($septimo['total']).", lo que ";
-$septimo_respuestaT = $maciConfigurationModel->getSindromeClinicoInterpretacion($septimo['llave'],$transtornoAlimentacionTB,$inclinacionAbusoSusTB,$predisposicionDeliTB,$propensionInTB,$sentimientoAncTB,$afectoDepresivoTB,$tendenciaSuicidioTB);
+$septimo_ajusteTT = $maciConfigurationModel->getSindromeClinico([$quinto['llave'], $sexto['llave']], $transtornoAlimentacionTB, $inclinacionAbusoSusTB, $predisposicionDeliTB, $propensionInTB, $sentimientoAncTB, $afectoDepresivoTB, $tendenciaSuicidioTB);
+$tiposresponsalbilidad10 = $septimo['llave'] . " " . $septimo_texto;
+$tiposresponsalbilidad10 .= $register['id_client'] . ' Muestra una puntuación TB ' . round($septimo['total']) . ", lo que ";
+$septimo_respuestaT = $maciConfigurationModel->getSindromeClinicoInterpretacion($septimo['llave'], $transtornoAlimentacionTB, $inclinacionAbusoSusTB, $predisposicionDeliTB, $propensionInTB, $sentimientoAncTB, $afectoDepresivoTB, $tendenciaSuicidioTB);
 $tiposresponsalbilidad10 .= $septimo_respuestaT;
 //PREOCUPACIONES EXPRESADAS
 
-$octavo = $maciConfigurationModel->getPreocupacionesExpresadasTB([],$desagradoPropioTB,$difusionIdentidadTB,$insencibilidadSocialTB,$desvalorizacionMismoTB,$incomodidadRespetoTB,$inseguridadIgualTB,$discordanciaFamiliarTB,$abusosInfanciaTB);
+$octavo = $maciConfigurationModel->getPreocupacionesExpresadasTB([], $desagradoPropioTB, $difusionIdentidadTB, $insencibilidadSocialTB, $desvalorizacionMismoTB, $incomodidadRespetoTB, $inseguridadIgualTB, $discordanciaFamiliarTB, $abusosInfanciaTB);
 
-$tiposresponsalbilidad11 = $register['id_client'].' obtuvo una puntuación de TB '.$octavo['total'].', en la escala de '.$octavo['llave']." (";
-$tiposresponsalbilidad11 .= $octavo['objetivo']. "). La puntuación obtenida ".$octavo['interpretacion'];
+$tiposresponsalbilidad11 = $register['id_client'] . ' obtuvo una puntuación de TB ' . $octavo['total'] . ', en la escala de ' . $octavo['llave'] . " (";
+$tiposresponsalbilidad11 .= $octavo['objetivo'] . "). La puntuación obtenida " . $octavo['interpretacion'];
 
-$tiposresponsalbilidad12 = "Además de la escala de ".$octavo['llave'].", también presenta otras preocupaciones significativas, reflejadas en las siguientes escalas:";
+$tiposresponsalbilidad12 = "Además de la escala de " . $octavo['llave'] . ", también presenta otras preocupaciones significativas, reflejadas en las siguientes escalas:";
 
-$noveno = $maciConfigurationModel->getPreocupacionesExpresadasTB([$octavo['llave']],$desagradoPropioTB,$difusionIdentidadTB,$insencibilidadSocialTB,$desvalorizacionMismoTB,$incomodidadRespetoTB,$inseguridadIgualTB,$discordanciaFamiliarTB,$abusosInfanciaTB);
-$tiposresponsalbilidad13 = "Se observa una puntuación de TB ".$noveno['total'].', en la escala de '.$noveno['llave']." (";
-$tiposresponsalbilidad13 .= $noveno['objetivo']. "). La puntuación obtenida ".$noveno['interpretacion'];
+$noveno = $maciConfigurationModel->getPreocupacionesExpresadasTB([$octavo['llave']], $desagradoPropioTB, $difusionIdentidadTB, $insencibilidadSocialTB, $desvalorizacionMismoTB, $incomodidadRespetoTB, $inseguridadIgualTB, $discordanciaFamiliarTB, $abusosInfanciaTB);
+$tiposresponsalbilidad13 = "Se observa una puntuación de TB " . $noveno['total'] . ', en la escala de ' . $noveno['llave'] . " (";
+$tiposresponsalbilidad13 .= $noveno['objetivo'] . "). La puntuación obtenida " . $noveno['interpretacion'];
 
-$decimo = $maciConfigurationModel->getPreocupacionesExpresadasTB([$octavo['llave'],$noveno['llave']],$desagradoPropioTB,$difusionIdentidadTB,$insencibilidadSocialTB,$desvalorizacionMismoTB,$incomodidadRespetoTB,$inseguridadIgualTB,$discordanciaFamiliarTB,$abusosInfanciaTB);
-$tiposresponsalbilidad14 = "También se observa una puntuación de TB ".$decimo['total'].', en la escala de '.$decimo['llave']." (";
-$tiposresponsalbilidad14 .= $decimo['objetivo']. "). La puntuación obtenida ".$decimo['interpretacion'];
+$decimo = $maciConfigurationModel->getPreocupacionesExpresadasTB([$octavo['llave'], $noveno['llave']], $desagradoPropioTB, $difusionIdentidadTB, $insencibilidadSocialTB, $desvalorizacionMismoTB, $incomodidadRespetoTB, $inseguridadIgualTB, $discordanciaFamiliarTB, $abusosInfanciaTB);
+$tiposresponsalbilidad14 = "También se observa una puntuación de TB " . $decimo['total'] . ', en la escala de ' . $decimo['llave'] . " (";
+$tiposresponsalbilidad14 .= $decimo['objetivo'] . "). La puntuación obtenida " . $decimo['interpretacion'];
 
-$decimo_uno = $maciConfigurationModel->getPreocupacionesExpresadasTB([$octavo['llave'],$noveno['llave'],$decimo['llave']],$desagradoPropioTB,$difusionIdentidadTB,$insencibilidadSocialTB,$desvalorizacionMismoTB,$incomodidadRespetoTB,$inseguridadIgualTB,$discordanciaFamiliarTB,$abusosInfanciaTB);
-$tiposresponsalbilidad15 = "Por último, se observa una puntuación de TB ".$decimo_uno['total'].', en la escala de '.$decimo_uno['llave']." (";
-$tiposresponsalbilidad15 .= $decimo_uno['objetivo']. "). La puntuación obtenida ".$decimo_uno['interpretacion'];
+$decimo_uno = $maciConfigurationModel->getPreocupacionesExpresadasTB([$octavo['llave'], $noveno['llave'], $decimo['llave']], $desagradoPropioTB, $difusionIdentidadTB, $insencibilidadSocialTB, $desvalorizacionMismoTB, $incomodidadRespetoTB, $inseguridadIgualTB, $discordanciaFamiliarTB, $abusosInfanciaTB);
+$tiposresponsalbilidad15 = "Por último, se observa una puntuación de TB " . $decimo_uno['total'] . ', en la escala de ' . $decimo_uno['llave'] . " (";
+$tiposresponsalbilidad15 .= $decimo_uno['objetivo'] . "). La puntuación obtenida " . $decimo_uno['interpretacion'];
 
 //puntos fuertes
-$decimo_dos = $maciConfigurationModel->getPuntosFuertesTB([],$desagradoPropioTB,$difusionIdentidadTB,$insencibilidadSocialTB,$desvalorizacionMismoTB,$incomodidadRespetoTB,$inseguridadIgualTB,$discordanciaFamiliarTB,$abusosInfanciaTB);
+$decimo_dos = $maciConfigurationModel->getPuntosFuertesTB([], $desagradoPropioTB, $difusionIdentidadTB, $insencibilidadSocialTB, $desvalorizacionMismoTB, $incomodidadRespetoTB, $inseguridadIgualTB, $discordanciaFamiliarTB, $abusosInfanciaTB);
 $tiposresponsalbilidad16 = "No reporta Tasas Base (TB) menores o iguales a 35 como puntos fuertes.";
 
-if($decimo_dos != null){
-    $tiposresponsalbilidad16 = "Se observa una puntuación de TB ".$decimo_dos['total'].' en la escala de '.$decimo_dos['llave'].' (';
-    $tiposresponsalbilidad16 .= $decimo_dos['objetivo']."), En este caso, la baja puntuación indica que ".$decimo_dos['interpretacion'];
+if ($decimo_dos != null) {
+    $tiposresponsalbilidad16 = "Se observa una puntuación de TB " . $decimo_dos['total'] . ' en la escala de ' . $decimo_dos['llave'] . ' (';
+    $tiposresponsalbilidad16 .= $decimo_dos['objetivo'] . "), En este caso, la baja puntuación indica que " . $decimo_dos['interpretacion'];
 }
 $llave = [];
-if($decimo_dos != null){
+if ($decimo_dos != null) {
     $llave = [$decimo_dos['llave']];
 }
-$decimo_tres = $maciConfigurationModel->getPuntosFuertesTB($llave,$desagradoPropioTB,$difusionIdentidadTB,$insencibilidadSocialTB,$desvalorizacionMismoTB,$incomodidadRespetoTB,$inseguridadIgualTB,$discordanciaFamiliarTB,$abusosInfanciaTB);
+$decimo_tres = $maciConfigurationModel->getPuntosFuertesTB($llave, $desagradoPropioTB, $difusionIdentidadTB, $insencibilidadSocialTB, $desvalorizacionMismoTB, $incomodidadRespetoTB, $inseguridadIgualTB, $discordanciaFamiliarTB, $abusosInfanciaTB);
 
 $tiposresponsalbilidad17 = "";
-if($decimo_tres != null){
-    $tiposresponsalbilidad17 = "Finalmente, se observa una puntuación de TB ".$decimo_tres['total'].' en la escala de '.$decimo_tres['llave'].' (';
-    $tiposresponsalbilidad17 .= $decimo_tres['objetivo']."), En este caso, la baja puntuación indica que ".$decimo_tres['interpretacion'];
+if ($decimo_tres != null) {
+    $tiposresponsalbilidad17 = "Finalmente, se observa una puntuación de TB " . $decimo_tres['total'] . ' en la escala de ' . $decimo_tres['llave'] . ' (';
+    $tiposresponsalbilidad17 .= $decimo_tres['objetivo'] . "), En este caso, la baja puntuación indica que " . $decimo_tres['interpretacion'];
 }
 //otros
-$tiposresponsalbilidad18 = $register['id_client']." identificó las siguientes problemáticas que le generan mayor preocupación:";
+$tiposresponsalbilidad18 = $register['id_client'] . " identificó las siguientes problemáticas que le generan mayor preocupación:";
 
-$answer_questions = $answerModel->getAll($register['codes'],1001,1100);
+$answer_questions = $answerModel->getAll($register['codes'], 1001, 1100);
 
 $tiposresponsalbilidad19 = "";
-foreach($answer_questions as $answer){
-    if($answer['response'] == 1){
-        $tiposresponsalbilidad19 .= "<br>".$answer['question'];
+foreach ($answer_questions as $answer) {
+    if ($answer['response'] == 1) {
+        $tiposresponsalbilidad19 .= "<br>" . $answer['question'];
     }
 }
 
 $answer_input = $answerModel->getMaciInputProblem($idpatient);
 
-if($answer_input != null){
-    $tiposresponsalbilidad19 .= "<br>".$answer_input['response_data'];
+if ($answer_input != null) {
+    $tiposresponsalbilidad19 .= "<br>" . $answer_input['response_data'];
 }
 
-$tiposresponsalbilidad20 =$register['id_client']." contestó a los siguientes ítems que sugieren áreas problemáticas específicas que requieren investigar:";
+$tiposresponsalbilidad20 = $register['id_client'] . " contestó a los siguientes ítems que sugieren áreas problemáticas específicas que requieren investigar:";
 
-$answer_questions2 = $answerModel->getAll($register['codes'],51,51)[0];
+$answer_questions2 = $answerModel->getAll($register['codes'], 51, 51)[0];
 
-$tiposresponsalbilidad21 = "";//D
-if($answer_questions2['response'] == '1'){
+$tiposresponsalbilidad21 = ""; //D
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad21 .= "No creo tener tanto interés por el sexo como la gente de mi edad. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],59,59)[0];
+$answer_questions2 = $answerModel->getAll($register['codes'], 59, 59)[0];
 
-if($answer_questions2['response'] == '0'){
+if ($answer_questions2['response'] == '0') {
     $tiposresponsalbilidad21 .= "Me incomoda coquetear (ligar). <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],62,62)[0];
-if($answer_questions2['response'] == '0'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 62, 62)[0];
+if ($answer_questions2['response'] == '0') {
     $tiposresponsalbilidad21 .= "Me incomoda pensar en el sexo. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],94,94)[0];
-if($answer_questions2['response'] == '0'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 94, 94)[0];
+if ($answer_questions2['response'] == '0') {
     $tiposresponsalbilidad21 .= "Me incomoda pensar que el sexo es placentero. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],116,116)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 116, 116)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad21 .= "Muchas veces me desconcierta pensar en el sexo. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],131,131)[0];
-if($answer_questions2['response'] == '0'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 131, 131)[0];
+if ($answer_questions2['response'] == '0') {
     $tiposresponsalbilidad21 .= "Me incomoda con la forma en que mi cuerpo se ha desarrollado. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],143,143)[0];
-if($answer_questions2['response'] == '0'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 143, 143)[0];
+if ($answer_questions2['response'] == '0') {
     $tiposresponsalbilidad21 .= "Me incomoda que los sentimientos acerca del sexo se hayan convertido en una parte de mi vida. <br>";
 }
 
 
-$tiposresponsalbilidad22 = "";//D
-$answer_questions2 = $answerModel->getAll($register['codes'],55,55)[0];
-if($answer_questions2['response'] == '0'){
+$tiposresponsalbilidad22 = ""; //D
+$answer_questions2 = $answerModel->getAll($register['codes'], 55, 55)[0];
+if ($answer_questions2['response'] == '0') {
     $tiposresponsalbilidad22 .= "He sido abusado sexualmente. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],14,14)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 14, 14)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad22 .= "Me da mucha vergüenza contarles a otras personas cómo abusaron de mí. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],129,129)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 129, 129)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad22 .= "Me avergüenzo de algunas cosas terribles que me han hecho los adultos. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],137,137)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 137, 137)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad22 .= "Hubo personas que hicieron cosas sexuales conmigo cuando yo, todavía, no podía entender. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],123,123)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 123, 123)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad22 .= "He intentado suicidarme, en el pasado. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],72,72)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 72, 72)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad22 .= "Odio recordar alguna de las formas en que abusaron de mí. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],153,153)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 153, 153)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad22 .= "La mayor parte del tiempo me siento solo y vacío. <br>";
 }
 
-$tiposresponsalbilidad23 = "";//D
-$answer_questions2 = $answerModel->getAll($register['codes'],62,62)[0];
-if($answer_questions2['response'] == '1'){
+$tiposresponsalbilidad23 = ""; //D
+$answer_questions2 = $answerModel->getAll($register['codes'], 62, 62)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad23 .= "Disfruto pensando en el sexo. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],94,94)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 94, 94)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad23 .= "El sexo es algo placentero. <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],59,59)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 59, 59)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad23 .= "Me gusta mucho coquetear (ligar). <br>";
 }
-$answer_questions2 = $answerModel->getAll($register['codes'],143,143)[0];
-if($answer_questions2['response'] == '1'){
+$answer_questions2 = $answerModel->getAll($register['codes'], 143, 143)[0];
+if ($answer_questions2['response'] == '1') {
     $tiposresponsalbilidad23 .= "Me agrada que ahora los sentimientos acerca del sexo se hayan convertido en una parte de mi vida. <br>";
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
 
-		<meta charset="UTF-8">
-		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
-		<meta name="Author" content="Spruko Technologies Private Limited">
-		<meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4"/>
+<head>
 
-		<!-- Title -->
-		<title> <?=WEB_TITLE?> </title>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4" />
 
-		<!-- Favicon -->
-		<link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon"/>
+    <!-- Title -->
+    <title> <?= WEB_TITLE ?> </title>
 
-		<!-- Icons css -->
-		<link href="../../assets/css/icons.css?v=<?=VERSION_CODE?>" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="../../assets/img/brand/favicon.png" type="image/x-icon" />
 
-		<!-- Bootstrap css -->
-		<link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Icons css -->
+    <link href="../../assets/css/icons.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
 
-		<!-- Internal Morris Css-->
-		<link href="../../assets/plugins/morris.js/morris.css" rel="stylesheet">
+    <!-- Bootstrap css -->
+    <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-		<!--  Right-sidemenu css -->
-		<link href="../../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
+    <!-- Internal Morris Css-->
+    <link href="../../assets/plugins/morris.js/morris.css" rel="stylesheet">
 
-		<!--  Custom Scroll bar-->
-		<link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/>
+    <!--  Right-sidemenu css -->
+    <link href="../../assets/plugins/sidebar/sidebar.css" rel="stylesheet">
 
-		<!--- Style css-->
-		<link href="../../assets/css/style.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
-		<link href="../../assets/css/style-dark.css" rel="stylesheet">
-		<link href="../../assets/css/boxed.css" rel="stylesheet">
-		<link href="../../assets/css/dark-boxed.css" rel="stylesheet">
+    <!--  Custom Scroll bar-->
+    <link href="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
 
-		<!---Skinmodes css-->
-		<link href="../../assets/css/skin-modes.css" rel="stylesheet" />
+    <!--- Style css-->
+    <link href="../../assets/css/style.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
+    <link href="../../assets/css/style-dark.css" rel="stylesheet">
+    <link href="../../assets/css/boxed.css" rel="stylesheet">
+    <link href="../../assets/css/dark-boxed.css" rel="stylesheet">
 
-		<!--- Animations css-->
-		<link href="../../assets/css/animate.css" rel="stylesheet">
-        <link href="https://db.onlinewebfonts.com/c/5f9ecd69838280dcd8a9f0072f92f6a6?family=Ronnia+W01+Regular" rel="stylesheet">
-        <style>
-            @font-face {
-                font-family: "Ronnia W01 Regular";
-                src: url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff2") format("woff2"),
-                    url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
-                }
-        </style>
-        <!---<link href="../../assets/css/style_profile.css?v=<?=VERSION_CODE?>" rel="stylesheet">-->
-        <link href="../../assets/css/style_result3.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
-	</head>
+    <!---Skinmodes css-->
+    <link href="../../assets/css/skin-modes.css" rel="stylesheet" />
 
-	<body class="main-body">
+    <!--- Animations css-->
+    <link href="../../assets/css/animate.css" rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/5f9ecd69838280dcd8a9f0072f92f6a6?family=Ronnia+W01+Regular" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: "Ronnia W01 Regular";
+            src: url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff2") format("woff2"),
+                url("https://db.onlinewebfonts.com/t/5f9ecd69838280dcd8a9f0072f92f6a6.woff") format("woff");
+        }
+    </style>
+    <!---<link href="../../assets/css/style_profile.css?v=<?= VERSION_CODE ?>" rel="stylesheet">-->
+    <link href="../../assets/css/style_result3.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
+</head>
 
-		<!-- Loader -->
-		<div id="global-loader">
-			<img src="../../assets/img/loader.svg" class="loader-img" alt="Loader">
-		</div>
-		<!-- /Loader -->
+<body class="main-body">
 
-		<!-- Page -->
-		<div class="page <?=TESTING=='1'?'istesting':''?>">
-            <header>
-                <!-- main-header opened -->
-                <?php include("../include/header_top.php");?>
-                <!-- /main-header -->
-                <!--Horizontal-main -->
-                <?php include("../include/header_bottom.php");?>
-            </header>
-			<!--Horizontal-main -->
-			<!-- main-content opened -->
-			<div class="main-content horizontal-content" >
-                <br>
-				<!-- container opened -->
-				<div class="container" >
+    <!-- Loader -->
+    <div id="global-loader">
+        <img src="../../assets/img/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /Loader -->
+
+    <!-- Page -->
+    <div class="page <?= TESTING == '1' ? 'istesting' : '' ?>">
+        <header>
+            <!-- main-header opened -->
+            <?php include("../include/header_top.php"); ?>
+            <!-- /main-header -->
+            <!--Horizontal-main -->
+            <?php include("../include/header_bottom.php"); ?>
+        </header>
+        <!--Horizontal-main -->
+        <!-- main-content opened -->
+        <div class="main-content horizontal-content">
+            <br>
+            <!-- container opened -->
+            <div class="container">
 
 
-					<!-- row -->
-					<div class="row row-sm container-short">
-                        <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                            <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
-                            
-                                <div class="container-header-bg">
-                                    <div class="container-body">
-                                        <div class="container-row-bg">
-                                            <span class="label">Id:</span>
-                                            <input class="field form-control" value="<?= $register['id_client'] ?>" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="contenido1" class="container-header">
+                <!-- row -->
+                <div class="row row-sm container-short">
+                    <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
+                        <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
 
-                                <!-- IZQUIERDA -->
-                                <div class="container-left">
-                                    <div class="perfil-vertical">PERFIL</div>
-
-                                    <div class="divider"></div>
-
-                                    <img src="../../assets/img/test_image/logomaci.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
-                                </div>
-
-                                <!-- DERECHA -->
+                            <div class="container-header-bg">
                                 <div class="container-body">
-
-                                    <div class="row-line">
-                                        <span><b>Nombre:</b> <?=$register['id_client']?></span>
+                                    <div class="container-row-bg">
+                                        <span class="label">Id:</span>
+                                        <input class="field form-control" value="<?= $register['id_client'] ?>" />
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="contenido1" class="container-header">
 
-                                    <div class="row-line">
-                                        <span><b>Edad:</b> <?= $register['age'] ?> años</span>
-                                        <span><b>Sexo:</b> <?= $register['sex'] ?></span>
-                                    </div>
-                                    <div class="container-row">
+                            <!-- IZQUIERDA -->
+                            <div class="container-left">
+                                <div class="perfil-vertical">PERFIL</div>
+
+                                <div class="divider"></div>
+
+                                <img src="../../assets/img/test_image/logomaci.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
+                            </div>
+
+                            <!-- DERECHA -->
+                            <div class="container-body">
+
+                                <div class="row-line">
+                                    <span><b>Nombre:</b> <?= $register['id_client'] ?></span>
+                                </div>
+
+                                <div class="row-line">
+                                    <span><b>Edad:</b> <?= $register['age'] ?> años</span>
+                                    <span><b>Sexo:</b> <?= $register['sex'] ?></span>
+                                </div>
+                                <div class="container-row">
                                     <span class="label">Baremo:</span>
-                                                    <form action="result3.php" method="post" id="form_baremo" style="margin:0;">
-                                                        <input type="hidden" name="id_user" id="id_user" value="<?=$idClient?>">
-                                                        <input type="hidden" name="id_register" id="id_register" value="<?=$register['id']?>">
-                                                        <select style="margin:0px;border-radius: 15px;height: 35px;color: black;border: none;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
-                                                            <?php
-                                                            foreach($baremos as $baremo){
-                                                            ?>
-                                                            <option value="<?=$baremo['id']?>" <?=$baremo['active']=='0'?'disabled':''?> <?=$register['baremo_id']==$baremo['id']?'selected':''?>>
-                                                                <?=htmlspecialchars($baremo['name'])?>
-                                                            </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </form>
-                                                    <span><b style="color: black;">Fecha de aplicación:</b> <?= date('d/m/Y') ?></span>
-                                    </div>
-                                    
+                                    <form action="result3.php" method="post" id="form_baremo" style="margin:0;">
+                                        <input type="hidden" name="id_user" id="id_user" value="<?= $idClient ?>">
+                                        <input type="hidden" name="id_register" id="id_register" value="<?= $register['id'] ?>">
+                                        <select style="margin:0px;border-radius: 15px;height: 35px;color: black;border: none;" class="form-control mg-t-20 select2-no-search" id="baremo_id" name="baremo_id">
+                                            <?php
+                                            foreach ($baremos as $baremo) {
+                                            ?>
+                                                <option value="<?= $baremo['id'] ?>" <?= $baremo['active'] == '0' ? 'disabled' : '' ?> <?= $register['baremo_id'] == $baremo['id'] ? 'selected' : '' ?>>
+                                                    <?= htmlspecialchars($baremo['name']) ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                    </form>
+                                    <span><b style="color: black;">Fecha de aplicación:</b> <?= date('d/m/Y') ?></span>
+                                </div>
 
-                                    <div class="row-line">
-                                        <span><b>Responsable de la aplicación:</b>Edgar Espinoza Jimenez</span>
-                                    </div>
 
+                                <div class="row-line">
+                                    <span><b>Responsable de la aplicación:</b><?= $register['evaluador'] ?></span>
                                 </div>
 
                             </div>
-							
-						</div>
-                        <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
-                            <div  class="row">
-                                <div class="col-md-6" style="padding: 0;">
-                                    <div class="container-panel">
-                                        <div class="title">Escalas, PD, TB y gráfico asociado</div>
-                                        <table class="report-table">
 
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="2" class="title"></th>
-                                                    <th class="th-box">PD</th>
-                                                    <th style="text-align-last: center;">TB</th>
-                                                    <th class="th-box-left"></th>
-                                                </tr>
-                                            </thead>
+                        </div>
 
-                                            <tbody>
-                                                <tr>
-                                                    <td class="label-table">Fiabilidad</td>
-                                                    <td class="code">W</td>
-                                                    <td class="num"><?=($response_fiabilidad_pd)?></td>
-                                                    <td class="num line-left"></td>
-                                                </tr>
+                    </div>
+                    <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
+                        <div class="row">
+                            <div class="col-md-6" style="padding: 0;">
+                                <div class="container-panel">
+                                    <div class="title">Escalas, PD, TB y gráfico asociado</div>
+                                    <table class="report-table">
 
-                                                <tr>
-                                                    <td class="label-table">Transparencia</td>
-                                                    <td class="code">X</td>
-                                                    <td class="num"><?=($transparenciaPD)?></td>
-                                                    <td class="num line-left"><?=$transparenciaTB?></td>
-                                                </tr>
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2" class="title"></th>
+                                                <th class="th-box">PD</th>
+                                                <th style="text-align-last: center;">TB</th>
+                                                <th class="th-box-left"></th>
+                                            </tr>
+                                        </thead>
 
-                                                <tr>
-                                                    <td class="label-table">Deseabilidad</td>
-                                                    <td class="code">Y</td>
-                                                    <td class="num"><?=($deseabilidadPD)?></td>
-                                                    <td class="num line-left"><?=($deseabilidadTB)?></td>
-                                                </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td class="label-table">Fiabilidad</td>
+                                                <td class="code">W</td>
+                                                <td class="num"><?= ($response_fiabilidad_pd) ?></td>
+                                                <td class="num line-left"></td>
+                                            </tr>
 
-                                                <tr class="divider-row">
-                                                    <td class="label-table">Alteración</td>
-                                                    <td class="code">Z</td>
-                                                    <td class="num"><?=($alteracionPD)?></td>
-                                                    <td class="num line-left"><?=($alteracionTB)?></td>
-                                                </tr>
+                                            <tr>
+                                                <td class="label-table">Transparencia</td>
+                                                <td class="code">X</td>
+                                                <td class="num"><?= ($transparenciaPD) ?></td>
+                                                <td class="num line-left"><?= $transparenciaTB ?></td>
+                                            </tr>
 
-                                                <!-- BLOQUE 2 -->
-                                                <tr>
-                                                    <td class="label-table">Introvertido</td>
-                                                    <td class="code">1</td>
-                                                    <td class="num"><?=($introversionPD)?></td>
-                                                    <td class="num line-left"><?=$introversionTB_total?></td>
-                                                </tr>
+                                            <tr>
+                                                <td class="label-table">Deseabilidad</td>
+                                                <td class="code">Y</td>
+                                                <td class="num"><?= ($deseabilidadPD) ?></td>
+                                                <td class="num line-left"><?= ($deseabilidadTB) ?></td>
+                                            </tr>
 
-                                                <tr>
-                                                    <td class="label-table">Inhibido</td>
-                                                    <td class="code">2A</td>
-                                                    <td class="num"><?=($inhibidoPD)?></td>
-                                                    <td class="num line-left"><?=$inhibidoTB_total?></td>
-                                                </tr>
+                                            <tr class="divider-row">
+                                                <td class="label-table">Alteración</td>
+                                                <td class="code">Z</td>
+                                                <td class="num"><?= ($alteracionPD) ?></td>
+                                                <td class="num line-left"><?= ($alteracionTB) ?></td>
+                                            </tr>
 
-                                                <tr>
-                                                    <td class="label-table">Pesimista</td>
-                                                    <td class="code">2B</td>
-                                                    <td class="num"><?=($pesimistaPD)?></td>
-                                                    <td class="num line-left"><?=$pesimistaTB_total?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Sumiso</td>
-                                                    <td class="code">3</td>
-                                                    <td class="num"><?=$sumisoPD?></td>
-                                                    <td class="num line-left"><?=$sumisoTB_total?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Histriónico</td>
-                                                    <td class="code">4</td>
-                                                    <td class="num"><?=$histrionicoPD?></td>
-                                                    <td class="num line-left"><?=$histrionicoTB_total?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Egocéntrico</td>
-                                                    <td class="code">5</td>
-                                                    <td class="num"><?=$egocentricoPD?></td>
-                                                    <td class="num line-left"><?=$egocentricoTB_total?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Rebelde</td>
-                                                    <td class="code">6A</td>
-                                                    <td class="num"><?=$rebeldePD?></td>
-                                                    <td class="num line-left"><?=$rebeldeTB_total?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Rudo</td>
-                                                    <td class="code">6B</td>
-                                                    <td class="num"><?=$rudoPD?></td>
-                                                    <td class="num line-left"><?=$rudoTB_total?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Conformista</td>
-                                                    <td class="code">7</td>
-                                                    <td class="num"><?=$conformistaPD?></td>
-                                                    <td class="num line-left"><?=$conformistaTB_total?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Oposicionista</td>
-                                                    <td class="code">8A</td>
-                                                    <td class="num"><?=$oposicionistaPD?></td>
-                                                    <td class="num line-left"><?=$oposicionistaTB_total?></td>
-                                                </tr>
-                                                <tr class="divider-row">
-                                                    <td class="label-table">Autopunitivo</td>
-                                                    <td class="code">8B</td>
-                                                    <td class="num"><?=$autopunitivoPD?></td>
-                                                    <td class="num line-left"><?=$autopunitivoTB_total?></td>
-                                                </tr>
-                                                <tr class="divider-row">
-                                                    <td class="label-table">Tendencia Límite</td>
-                                                    <td class="code">9</td>
-                                                    <td class="num"><?=$tendencia_limitePD?></td>
-                                                    <td class="num line-left"><?=$tendencialimiteTB_total?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Difusión de la identidad</td>
-                                                    <td class="code">A</td>
-                                                    <td class="num"><?=$difusionIdentidadPD?></td>
-                                                    <td class="num line-left"><?=$difusionIdentidadTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Desvalorización de sí mismo</td>
-                                                    <td class="code">B</td>
-                                                    <td class="num"><?=$desvalorizacionMismoPD?></td>
-                                                    <td class="num line-left"><?=$desvalorizacionMismoTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Desagrado con el propio cuerpo</td>
-                                                    <td class="code">C</td>
-                                                    <td class="num"><?=$desagradoPropioPD?></td>
-                                                    <td class="num line-left"><?=$desagradoPropioTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Incomodidad respecto al sexo</td>
-                                                    <td class="code">D</td>
-                                                    <td class="num"><?=$incomodidadRespetoPD?></td>
-                                                    <td class="num line-left"><?=$incomodidadRespetoTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Inseguridad con los iguales</td>
-                                                    <td class="code">E</td>
-                                                    <td class="num"><?=$inseguridadIgualPD?></td>
-                                                    <td class="num line-left"><?=$inseguridadIgualTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Insensibilidad social</td>
-                                                    <td class="code">F</td>
-                                                    <td class="num"><?=$insencibilidadSocialPD?></td>
-                                                    <td class="num line-left"><?=$insencibilidadSocialTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Discordancia familiar</td>
-                                                    <td class="code">G</td>
-                                                    <td class="num"><?=$discordanciaFamiliarPD?></td>
-                                                    <td class="num line-left"><?=$discordanciaFamiliarTB?></td>
-                                                </tr>
-                                                <tr class="divider-row">
-                                                    <td class="label-table">Abusos en la infancia</td>
-                                                    <td class="code">H</td>
-                                                    <td class="num"><?=$abusosInfanciaPD?></td>
-                                                    <td class="num line-left"><?=$abusosInfanciaTB?></td>
-                                                </tr>
-                                                <tr >
-                                                    <td class="label-table">Trastornos de la alimentación</td>
-                                                    <td class="code">AA</td>
-                                                    <td class="num"><?=$transtornoAlimentacionPD?></td>
-                                                    <td class="num line-left"><?=$transtornoAlimentacionTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Inclinación al abuso de sustancias</td>
-                                                    <td class="code">BB</td>
-                                                    <td class="num"><?=$inclinacionAbusoSusPD?></td>
-                                                    <td class="num line-left"><?=$inclinacionAbusoSusTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Predisposición a la delincuencia</td>
-                                                    <td class="code">CC</td>
-                                                    <td class="num"><?=$predisposicionDeliPD?></td>
-                                                    <td class="num line-left"><?=$predisposicionDeliTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Propensión a la impulsividad</td>
-                                                    <td class="code">DD</td>
-                                                    <td class="num"><?=$propensionInPD?></td>
-                                                    <td class="num line-left"><?=$propensionInTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Sentimientos de ansiedad</td>
-                                                    <td class="code">EE</td>
-                                                    <td class="num"><?=$sentimientoAncPD?></td>
-                                                    <td class="num line-left"><?=$sentimientoAncTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Afecto depresivo</td>
-                                                    <td class="code">FF</td>
-                                                    <td class="num"><?=$afectoDepresivoPD?></td>
-                                                    <td class="num line-left"><?=$afectoDepresivoTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-table">Tendencia al suicidio</td>
-                                                    <td class="code">GG</td>
-                                                    <td class="num"><?=$tendenciaSuicidioPD?></td>
-                                                    <td class="num line-left"><?=$tendenciaSuicidioTB?></td>
-                                                </tr>
-                                                <tr>
-                                                    <th colspan="2" class="title"></th>
-                                                    <th class="th-box">PD</th>
-                                                    <th style="text-align-last: center;">TB</th>
-                                                    <th class="th-box-left"></th>
-                                                </tr>
+                                            <!-- BLOQUE 2 -->
+                                            <tr>
+                                                <td class="label-table">Introvertido</td>
+                                                <td class="code">1</td>
+                                                <td class="num"><?= ($introversionPD) ?></td>
+                                                <td class="num line-left"><?= $introversionTB_total ?></td>
+                                            </tr>
 
-                                            </tbody>
+                                            <tr>
+                                                <td class="label-table">Inhibido</td>
+                                                <td class="code">2A</td>
+                                                <td class="num"><?= ($inhibidoPD) ?></td>
+                                                <td class="num line-left"><?= $inhibidoTB_total ?></td>
+                                            </tr>
 
-                                        </table>
-                                    </div>
+                                            <tr>
+                                                <td class="label-table">Pesimista</td>
+                                                <td class="code">2B</td>
+                                                <td class="num"><?= ($pesimistaPD) ?></td>
+                                                <td class="num line-left"><?= $pesimistaTB_total ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Sumiso</td>
+                                                <td class="code">3</td>
+                                                <td class="num"><?= $sumisoPD ?></td>
+                                                <td class="num line-left"><?= $sumisoTB_total ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Histriónico</td>
+                                                <td class="code">4</td>
+                                                <td class="num"><?= $histrionicoPD ?></td>
+                                                <td class="num line-left"><?= $histrionicoTB_total ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Egocéntrico</td>
+                                                <td class="code">5</td>
+                                                <td class="num"><?= $egocentricoPD ?></td>
+                                                <td class="num line-left"><?= $egocentricoTB_total ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Rebelde</td>
+                                                <td class="code">6A</td>
+                                                <td class="num"><?= $rebeldePD ?></td>
+                                                <td class="num line-left"><?= $rebeldeTB_total ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Rudo</td>
+                                                <td class="code">6B</td>
+                                                <td class="num"><?= $rudoPD ?></td>
+                                                <td class="num line-left"><?= $rudoTB_total ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Conformista</td>
+                                                <td class="code">7</td>
+                                                <td class="num"><?= $conformistaPD ?></td>
+                                                <td class="num line-left"><?= $conformistaTB_total ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Oposicionista</td>
+                                                <td class="code">8A</td>
+                                                <td class="num"><?= $oposicionistaPD ?></td>
+                                                <td class="num line-left"><?= $oposicionistaTB_total ?></td>
+                                            </tr>
+                                            <tr class="divider-row">
+                                                <td class="label-table">Autopunitivo</td>
+                                                <td class="code">8B</td>
+                                                <td class="num"><?= $autopunitivoPD ?></td>
+                                                <td class="num line-left"><?= $autopunitivoTB_total ?></td>
+                                            </tr>
+                                            <tr class="divider-row">
+                                                <td class="label-table">Tendencia Límite</td>
+                                                <td class="code">9</td>
+                                                <td class="num"><?= $tendencia_limitePD ?></td>
+                                                <td class="num line-left"><?= $tendencialimiteTB_total ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Difusión de la identidad</td>
+                                                <td class="code">A</td>
+                                                <td class="num"><?= $difusionIdentidadPD ?></td>
+                                                <td class="num line-left"><?= $difusionIdentidadTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Desvalorización de sí mismo</td>
+                                                <td class="code">B</td>
+                                                <td class="num"><?= $desvalorizacionMismoPD ?></td>
+                                                <td class="num line-left"><?= $desvalorizacionMismoTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Desagrado con el propio cuerpo</td>
+                                                <td class="code">C</td>
+                                                <td class="num"><?= $desagradoPropioPD ?></td>
+                                                <td class="num line-left"><?= $desagradoPropioTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Incomodidad respecto al sexo</td>
+                                                <td class="code">D</td>
+                                                <td class="num"><?= $incomodidadRespetoPD ?></td>
+                                                <td class="num line-left"><?= $incomodidadRespetoTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Inseguridad con los iguales</td>
+                                                <td class="code">E</td>
+                                                <td class="num"><?= $inseguridadIgualPD ?></td>
+                                                <td class="num line-left"><?= $inseguridadIgualTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Insensibilidad social</td>
+                                                <td class="code">F</td>
+                                                <td class="num"><?= $insencibilidadSocialPD ?></td>
+                                                <td class="num line-left"><?= $insencibilidadSocialTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Discordancia familiar</td>
+                                                <td class="code">G</td>
+                                                <td class="num"><?= $discordanciaFamiliarPD ?></td>
+                                                <td class="num line-left"><?= $discordanciaFamiliarTB ?></td>
+                                            </tr>
+                                            <tr class="divider-row">
+                                                <td class="label-table">Abusos en la infancia</td>
+                                                <td class="code">H</td>
+                                                <td class="num"><?= $abusosInfanciaPD ?></td>
+                                                <td class="num line-left"><?= $abusosInfanciaTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Trastornos de la alimentación</td>
+                                                <td class="code">AA</td>
+                                                <td class="num"><?= $transtornoAlimentacionPD ?></td>
+                                                <td class="num line-left"><?= $transtornoAlimentacionTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Inclinación al abuso de sustancias</td>
+                                                <td class="code">BB</td>
+                                                <td class="num"><?= $inclinacionAbusoSusPD ?></td>
+                                                <td class="num line-left"><?= $inclinacionAbusoSusTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Predisposición a la delincuencia</td>
+                                                <td class="code">CC</td>
+                                                <td class="num"><?= $predisposicionDeliPD ?></td>
+                                                <td class="num line-left"><?= $predisposicionDeliTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Propensión a la impulsividad</td>
+                                                <td class="code">DD</td>
+                                                <td class="num"><?= $propensionInPD ?></td>
+                                                <td class="num line-left"><?= $propensionInTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Sentimientos de ansiedad</td>
+                                                <td class="code">EE</td>
+                                                <td class="num"><?= $sentimientoAncPD ?></td>
+                                                <td class="num line-left"><?= $sentimientoAncTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Afecto depresivo</td>
+                                                <td class="code">FF</td>
+                                                <td class="num"><?= $afectoDepresivoPD ?></td>
+                                                <td class="num line-left"><?= $afectoDepresivoTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-table">Tendencia al suicidio</td>
+                                                <td class="code">GG</td>
+                                                <td class="num"><?= $tendenciaSuicidioPD ?></td>
+                                                <td class="num line-left"><?= $tendenciaSuicidioTB ?></td>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="title"></th>
+                                                <th class="th-box">PD</th>
+                                                <th style="text-align-last: center;">TB</th>
+                                                <th class="th-box-left"></th>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
                                 </div>
-                                <div class="col-md-6" style="padding-left:0px;">
-                                    <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                                        <div class="ht-100 ht-sm-300" style="margin-left:-16px;margin-top: 23px;height: 941px !important;width: 103%;" id="colorss"></div>
-                                        <div class="ht-100 ht-sm-300" style="margin-top: 54px;width: 100%;;height: 110px !important;" id="flotLine2"></div>
-                                        <div class="ht-100 ht-sm-300" style="width: 100%;height: 341px !important;margin-top: -12px;" id="flotLineIndGeneral"></div>
-                                        <div class="ht-100 ht-sm-300" style="width: 100%;height: 40px !important;margin-top: -9px;" id="flotLineIndRiesgoPat"></div>
-                                        <div class="ht-100 ht-sm-300" style="width: 100%;height: 240px  !important;margin-top: -5px;" id="flotLineEscalasClinicas"></div>
-                                        <div class="ht-100 ht-sm-300" style="margin-left:-16px;width: 105.5%;height: 210px !important;margin-top: 2px;" id="flotLineSindromesClinicos"></div>
-                                        
-                                    </div>
+                            </div>
+                            <div class="col-md-6" style="padding-left:0px;">
+                                <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="ht-100 ht-sm-300" style="margin-left:-16px;margin-top: 23px;height: 941px !important;width: 103%;" id="colorss"></div>
+                                    <div class="ht-100 ht-sm-300" style="margin-top: 54px;width: 100%;;height: 110px !important;" id="flotLine2"></div>
+                                    <div class="ht-100 ht-sm-300" style="width: 100%;height: 341px !important;margin-top: -12px;" id="flotLineIndGeneral"></div>
+                                    <div class="ht-100 ht-sm-300" style="width: 100%;height: 40px !important;margin-top: -9px;" id="flotLineIndRiesgoPat"></div>
+                                    <div class="ht-100 ht-sm-300" style="width: 100%;height: 240px  !important;margin-top: -5px;" id="flotLineEscalasClinicas"></div>
+                                    <div class="ht-100 ht-sm-300" style="margin-left:-16px;width: 105.5%;height: 210px !important;margin-top: 2px;" id="flotLineSindromesClinicos"></div>
+
                                 </div>
                             </div>
                         </div>
-                        
-						
-                        <div class="col-md-12">
-                            <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
-                                
-                                <div class="card-body">
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue2">ACTITUD ANTE LA PRUEBA</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue3">En esta sección se analizan las puntuaciones obtenidas por el adolescente en las escalas de Validez (V), Transparencia (X), Deseabilidad (Y) y Alteración (Z). Estos indicadores afectan a la fiabilidad y validez de este Inventario clínico y pretenden detectar estilos infrecuentes de respuestas.</p>
-                                    <br>
-                                    
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue4">Validez (V)</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue5"><?=$validesV?></p>
-                                    <br>
-                                    
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue6">Transparencia  (X)</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue7"><?=$transpareciaX?></p>
-                                    <br>
+                    </div>
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13"  id="jsonvalue8">Deseabilidad (Y)</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black"  id="jsonvalue9"><?=$deseabilidadY?></p>
-                                    <br>
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue10">Alteración (Z)</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue11"><?=$alteracionZ?></p>
-                                    <br><br><br><br>
+                    <div class="col-md-12">
+                        <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
 
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue12">EJE II SEVERIDAD DEL PERFIL CLÍNICO</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13">Este apartado refleja la posible existencia de puntuaciones destacadas en las escalas de <span class="title-doc fw-semibold tx-13" id="jsonvalue13_1">Trastornos de la Personalidad Graves (Tendencias Límite):</span> </p>
-                                    
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue14"><?=$gravestendencia?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue15">TIPOS DE RESPONSABILIDAD</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue16">Los prototipos de personalidad en el MACI (Inventario Clínico para Adolescentes de Millon) miden patrones persistentes de pensamientos, sentimientos y comportamientos que caracterizan la forma en que un adolescente se relaciona consigo mismo y con los demás. En este apartado se detalla los patrones de personalidad en las que ha obtenido puntuaciones que indican la presencia de rasgos de personalidad:</p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue17"><?=$tiposresponsalbilidad?></p>
-                                    <br><br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue18"><?=$tiposresponsalbilidad2?></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue19"><?=$tiposresponsalbilidad3?></p>
-                                    <br><br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue20"><?=$tiposresponsalbilidad4?></p>
-                                    <br><br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue21"><?=$tiposresponsalbilidad5?></p>
-                                    <br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue22">EJE I: SÍNDROMES CLÍNICOS</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue23"><?=$tiposresponsalbilidad6?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue24"><?=$tiposresponsalbilidad7?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue25"><?=$tiposresponsalbilidad8?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue26"><?=$tiposresponsalbilidad9?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue27"><?=$tiposresponsalbilidad10?></p>
-                                    <br><br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue28">PREOCUPACIONES EXPRESADAS</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue29">El MACI (Inventario Clínico para Adolescentes de Millon) las preocupaciones expresadas se centran en los sentimientos y actitudes acerca de cuestiones que tienden a preocupar a la mayoría de los adolescentes con problemas. La intensidad con que se experimenta queda reflejada en la evaluación de las puntuaciones de cada escala, hay que destacar que estas escalas representan percepciones más que criterios o comportamientos objetivamente observables. A continuación, se detallarán las preocupaciones destacadas:							</p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue30"><?=$tiposresponsalbilidad11?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue31"><?=$tiposresponsalbilidad12?></p>
+                            <div class="card-body">
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue2">ACTITUD ANTE LA PRUEBA</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue3">En esta sección se analizan las puntuaciones obtenidas por el adolescente en las escalas de Validez (V), Transparencia (X), Deseabilidad (Y) y Alteración (Z). Estos indicadores afectan a la fiabilidad y validez de este Inventario clínico y pretenden detectar estilos infrecuentes de respuestas.</p>
+                                <br>
 
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue32"><?=$tiposresponsalbilidad13?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue33"><?=$tiposresponsalbilidad14?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue34"><?=$tiposresponsalbilidad15?></p>
-                                    <br><br><br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue35">PUNTOS FUERTES</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue36">A continuación, se presentan los puntos fuertes identificados con tasas base (TB) menores o iguales a 35.</p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue37"><?=$tiposresponsalbilidad16?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue38"><?=$tiposresponsalbilidad17?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue39"><?=$tiposresponsalbilidad18?></p>
-                                    <br>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue40"><?=$tiposresponsalbilidad19?></p>
-                                    <br><br>
-                                    <p class="tx-dark mb-0 tx-13" ><span class="title-doc fw-semibold tx-13" id="jsonvalue41">RESPUESTAS DESTACADAS</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue42"><?=$tiposresponsalbilidad20?></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue43">D. Incomodidad respecto al sexo</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue44"><?=$tiposresponsalbilidad21?></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue45">H. Abusos en la infancia</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue46"><?=$tiposresponsalbilidad22?></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue47">Otros respuestas relevantes</span></p>
-                                    <br>
-                                    <p class="tx-dark mb-0 txt-force-black" id="jsonvalue48"><?=$tiposresponsalbilidad23?></p>
-                                </div>
-                                
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue4">Validez (V)</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue5"><?= $validesV ?></p>
+                                <br>
+
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue6">Transparencia (X)</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue7"><?= $transpareciaX ?></p>
+                                <br>
+
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue8">Deseabilidad (Y)</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue9"><?= $deseabilidadY ?></p>
+                                <br>
+
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue10">Alteración (Z)</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue11"><?= $alteracionZ ?></p>
+                                <br><br><br><br>
+
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue12">EJE II SEVERIDAD DEL PERFIL CLÍNICO</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue13">Este apartado refleja la posible existencia de puntuaciones destacadas en las escalas de <span class="title-doc fw-semibold tx-13" id="jsonvalue13_1">Trastornos de la Personalidad Graves (Tendencias Límite):</span> </p>
+
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue14"><?= $gravestendencia ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue15">TIPOS DE RESPONSABILIDAD</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue16">Los prototipos de personalidad en el MACI (Inventario Clínico para Adolescentes de Millon) miden patrones persistentes de pensamientos, sentimientos y comportamientos que caracterizan la forma en que un adolescente se relaciona consigo mismo y con los demás. En este apartado se detalla los patrones de personalidad en las que ha obtenido puntuaciones que indican la presencia de rasgos de personalidad:</p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue17"><?= $tiposresponsalbilidad ?></p>
+                                <br><br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue18"><?= $tiposresponsalbilidad2 ?></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue19"><?= $tiposresponsalbilidad3 ?></p>
+                                <br><br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue20"><?= $tiposresponsalbilidad4 ?></p>
+                                <br><br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue21"><?= $tiposresponsalbilidad5 ?></p>
+                                <br><br>
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue22">EJE I: SÍNDROMES CLÍNICOS</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue23"><?= $tiposresponsalbilidad6 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue24"><?= $tiposresponsalbilidad7 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue25"><?= $tiposresponsalbilidad8 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue26"><?= $tiposresponsalbilidad9 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue27"><?= $tiposresponsalbilidad10 ?></p>
+                                <br><br><br>
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue28">PREOCUPACIONES EXPRESADAS</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue29">El MACI (Inventario Clínico para Adolescentes de Millon) las preocupaciones expresadas se centran en los sentimientos y actitudes acerca de cuestiones que tienden a preocupar a la mayoría de los adolescentes con problemas. La intensidad con que se experimenta queda reflejada en la evaluación de las puntuaciones de cada escala, hay que destacar que estas escalas representan percepciones más que criterios o comportamientos objetivamente observables. A continuación, se detallarán las preocupaciones destacadas: </p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue30"><?= $tiposresponsalbilidad11 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue31"><?= $tiposresponsalbilidad12 ?></p>
+
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue32"><?= $tiposresponsalbilidad13 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue33"><?= $tiposresponsalbilidad14 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue34"><?= $tiposresponsalbilidad15 ?></p>
+                                <br><br><br>
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue35">PUNTOS FUERTES</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue36">A continuación, se presentan los puntos fuertes identificados con tasas base (TB) menores o iguales a 35.</p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue37"><?= $tiposresponsalbilidad16 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue38"><?= $tiposresponsalbilidad17 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue39"><?= $tiposresponsalbilidad18 ?></p>
+                                <br>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue40"><?= $tiposresponsalbilidad19 ?></p>
+                                <br><br>
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue41">RESPUESTAS DESTACADAS</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue42"><?= $tiposresponsalbilidad20 ?></p>
+                                <br>
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue43">D. Incomodidad respecto al sexo</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue44"><?= $tiposresponsalbilidad21 ?></p>
+                                <br>
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue45">H. Abusos en la infancia</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue46"><?= $tiposresponsalbilidad22 ?></p>
+                                <br>
+                                <p class="tx-dark mb-0 tx-13"><span class="title-doc fw-semibold tx-13" id="jsonvalue47">Otros respuestas relevantes</span></p>
+                                <br>
+                                <p class="tx-dark mb-0 txt-force-black" id="jsonvalue48"><?= $tiposresponsalbilidad23 ?></p>
                             </div>
-                            
+
                         </div>
 
-					</div>
-					<!-- row closed -->
-				</div>
-				<!-- Container closed -->
-			</div>
-			<!-- main-content closed -->
+                    </div>
 
-			<?php include("../include/footer.php");?>
-			<!-- Footer closed -->
+                </div>
+                <!-- row closed -->
+            </div>
+            <!-- Container closed -->
+        </div>
+        <!-- main-content closed -->
 
-		</div>
-		<!-- End Page -->
+        <?php include("../include/footer.php"); ?>
+        <!-- Footer closed -->
 
-		<!-- Back-to-top -->
-		<?php include("../include/print_content.php");?>
-		<!-- JQuery min js -->
-		<script src="../../assets/plugins/jquery/jquery.min.js"></script>
+    </div>
+    <!-- End Page -->
 
-		<!--Internal  Datepicker js -->
-		<script src="../../assets/plugins/jquery-ui/ui/widgets/datepicker.js"></script>
+    <!-- Back-to-top -->
+    <?php include("../include/print_content.php"); ?>
+    <!-- JQuery min js -->
+    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
 
-		<!-- Bootstrap Bundle js -->
-		<script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
-		<script src="../../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!--Internal  Datepicker js -->
+    <script src="../../assets/plugins/jquery-ui/ui/widgets/datepicker.js"></script>
 
-		<!-- Internal Flot js -->
-		<script src="../../assets/plugins/jquery.flot/jquery.flot.js"></script>
-		<script src="../../assets/plugins/jquery.flot/jquery.flot.pie.js"></script>
-		<script src="../../assets/plugins/jquery.flot/jquery.flot.resize.js"></script>
+    <!-- Bootstrap Bundle js -->
+    <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-		<!-- Ionicons js -->
-		<script src="../../assets/plugins/ionicons/ionicons.js"></script>
+    <!-- Internal Flot js -->
+    <script src="../../assets/plugins/jquery.flot/jquery.flot.js"></script>
+    <script src="../../assets/plugins/jquery.flot/jquery.flot.pie.js"></script>
+    <script src="../../assets/plugins/jquery.flot/jquery.flot.resize.js"></script>
 
-		<!-- Moment js -->
-		<script src="../../assets/plugins/moment/moment.js"></script>
+    <!-- Ionicons js -->
+    <script src="../../assets/plugins/ionicons/ionicons.js"></script>
 
-		<!-- Internal Select2 js-->
-		<script src="../../assets/plugins/select2/js/select2.min.js"></script>
+    <!-- Moment js -->
+    <script src="../../assets/plugins/moment/moment.js"></script>
+
+    <!-- Internal Select2 js-->
+    <script src="../../assets/plugins/select2/js/select2.min.js"></script>
 
 
-		<!-- eva-icons js -->
-		<script src="../../assets/js/eva-icons.min.js"></script>
+    <!-- eva-icons js -->
+    <script src="../../assets/js/eva-icons.min.js"></script>
 
-		<!-- Internal Chart flot js -->
-		<!--script src="../../assets/js/chart.flot.js"></script-->
+    <!-- Internal Chart flot js -->
+    <!--script src="../../assets/js/chart.flot.js"></script-->
 
-		<!-- Rating js-->
-		<script src="../../assets/plugins/rating/jquery.rating-stars.js"></script>
-		<script src="../../assets/plugins/rating/jquery.barrating.js"></script>
+    <!-- Rating js-->
+    <script src="../../assets/plugins/rating/jquery.rating-stars.js"></script>
+    <script src="../../assets/plugins/rating/jquery.barrating.js"></script>
 
-		<!-- Custom Scroll bar Js-->
-		<script src="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- Custom Scroll bar Js-->
+    <script src="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 
-		<!-- Horizontalmenu js-->
-		<script src="../../assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
+    <!-- Horizontalmenu js-->
+    <script src="../../assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
 
-				<!-- Sticky js -->
-		<script src="../../assets/js/sticky.js"></script>
+    <!-- Sticky js -->
+    <script src="../../assets/js/sticky.js"></script>
 
-		<!-- Right-sidebar js -->
-		<script src="../../assets/plugins/sidebar/sidebar.js"></script>
-		<script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
+    <!-- Right-sidebar js -->
+    <script src="../../assets/plugins/sidebar/sidebar.js"></script>
+    <script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
 
-		<!-- custom js -->
-		<script src="../../assets/js/custom.js?v=<?=VERSION_CODE?>"></script>
-        
-        <script src="../../assets/js/flot-circle.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- custom js -->
+    <script src="../../assets/js/custom.js?v=<?= VERSION_CODE ?>"></script>
 
-        <script>
-            const name_user = "<?php echo $register['id_client'] ?>";
-            const testname = "<?php echo $register['type_question_name']?>";
-            const filenamepdf = (name_user+"_"+testname).replace(/\s+/g, '');
-            function getLimitMax(list){
-                list.forEach(element => {
-                    if(element[0]>115){
-                        element[0] = 115;
-                    }
-                    
-                });
-                return list;
-            }
-            var jsonpdf = [];
-            jsonpdf.push({type:2,image:"contenido1"} );
-            jsonpdf.push({type:2,image:"contenido2"} );
+    <script src="../../assets/js/flot-circle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-            jsonpdf.push({type:7,text:getvalue('jsonvalue2')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue3')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue4')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue5')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue6')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue7')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue8')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue9')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue10')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue11')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue12')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue13_1')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue14')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue15')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue16')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue17')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue18')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue19')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue20')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue21')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue22')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue23')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue24')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue25')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue26')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue27')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue28')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue29')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue30')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue31')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue32')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue33')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue34')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue35')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue36')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue37')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue38')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue39')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:8,text:getvalue('jsonvalue40')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue41')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:getvalue('jsonvalue42')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue43')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:8,text:getvalue('jsonvalue44')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue45')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:8,text:getvalue('jsonvalue46')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:7,text:getvalue('jsonvalue47')} );
-            jsonpdf.push({type:5,text:''} );
-            jsonpdf.push({type:8,text:getvalue('jsonvalue48')} );
-            
-            var flotLine2 = [
-                [<?=$transparenciaTB?>,8],
-                [<?=$deseabilidadTB?>,3],
-                [<?=$alteracionTB?>,-2]
-            ];
-            var flotLineIndGeneral = [
-                [<?=$introversionTB_total?>, 100],
-                [<?=$inhibidoTB_total?>, 90],
-                [<?=$pesimistaTB_total?>, 80],
-                [<?=$sumisoTB_total?>, 70],
-                [<?=$histrionicoTB_total?>, 60],
-                [<?=$egocentricoTB_total?>, 50],
-                [<?=$rebeldeTB_total?>, 40],
-                [<?=$rudoTB_total?>, 30],
-                [<?=$conformistaTB_total?>, 20],
-                [<?=$oposicionistaTB_total?>, 10],
-                [<?=$autopunitivoTB_total?>, 0]
-            ];
-            var flotLineIndRiesgoPat = [
-                [<?=$tendencialimiteTB_total?>, 9]
-            ];
-            var flotLineEscalasClinicas = [
-                [<?=$difusionIdentidadTB?>, 72.8],
-                [<?=$desvalorizacionMismoTB?>, 62.4],
-                [<?=$desagradoPropioTB?>, 52],
-                [<?=$incomodidadRespetoTB?>, 41,6],
-                [<?=$inseguridadIgualTB?>, 31.2],
-                [<?=$insencibilidadSocialTB?>, 20.8],
-                [<?=$discordanciaFamiliarTB?>, 10.4],
-                [<?=$abusosInfanciaTB?>, 0],
-            ];
-            var flotLineSindromesClinicos = [
-                [<?=$transtornoAlimentacionTB?>, 75],    
-                [<?=$inclinacionAbusoSusTB?>, 62.5],
-                [<?=$predisposicionDeliTB?>, 50],
-                [<?=$propensionInTB?>, 37.5],
-                [<?=$sentimientoAncTB?>, 25],
-                [<?=$afectoDepresivoTB?>, 12.5],
-                [<?=$tendenciaSuicidioTB?>, 1]
-            ];
-            
-            $(function() {
+    <script>
+        const name_user = "<?php echo $register['id_client'] ?>";
+        const testname = "<?php echo $register['type_question_name'] ?>";
+        const filenamepdf = (name_user + "_" + testname).replace(/\s+/g, '');
+
+        function getLimitMax(list) {
+            list.forEach(element => {
+                if (element[0] > 115) {
+                    element[0] = 115;
+                }
+
+            });
+            return list;
+        }
+        var jsonpdf = [];
+        jsonpdf.push({
+            type: 2,
+            image: "contenido1"
+        });
+        jsonpdf.push({
+            type: 2,
+            image: "contenido2"
+        });
+
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue2')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue3')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue4')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue5')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue6')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue7')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue8')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue9')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue10')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue11')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue12')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue13')
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue13_1')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue14')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue15')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue16')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue17')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue18')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue19')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue20')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue21')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue22')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue23')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue24')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue25')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue26')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue27')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue28')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue29')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue30')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue31')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue32')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue33')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue34')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue35')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue36')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue37')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue38')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue39')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 8,
+            text: getvalue('jsonvalue40')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue41')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue42')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue43')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 8,
+            text: getvalue('jsonvalue44')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue45')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 8,
+            text: getvalue('jsonvalue46')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue47')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 8,
+            text: getvalue('jsonvalue48')
+        });
+
+        var flotLine2 = [
+            [<?= $transparenciaTB ?>, 8],
+            [<?= $deseabilidadTB ?>, 3],
+            [<?= $alteracionTB ?>, -2]
+        ];
+        var flotLineIndGeneral = [
+            [<?= $introversionTB_total ?>, 100],
+            [<?= $inhibidoTB_total ?>, 90],
+            [<?= $pesimistaTB_total ?>, 80],
+            [<?= $sumisoTB_total ?>, 70],
+            [<?= $histrionicoTB_total ?>, 60],
+            [<?= $egocentricoTB_total ?>, 50],
+            [<?= $rebeldeTB_total ?>, 40],
+            [<?= $rudoTB_total ?>, 30],
+            [<?= $conformistaTB_total ?>, 20],
+            [<?= $oposicionistaTB_total ?>, 10],
+            [<?= $autopunitivoTB_total ?>, 0]
+        ];
+        var flotLineIndRiesgoPat = [
+            [<?= $tendencialimiteTB_total ?>, 9]
+        ];
+        var flotLineEscalasClinicas = [
+            [<?= $difusionIdentidadTB ?>, 72.8],
+            [<?= $desvalorizacionMismoTB ?>, 62.4],
+            [<?= $desagradoPropioTB ?>, 52],
+            [<?= $incomodidadRespetoTB ?>, 41, 6],
+            [<?= $inseguridadIgualTB ?>, 31.2],
+            [<?= $insencibilidadSocialTB ?>, 20.8],
+            [<?= $discordanciaFamiliarTB ?>, 10.4],
+            [<?= $abusosInfanciaTB ?>, 0],
+        ];
+        var flotLineSindromesClinicos = [
+            [<?= $transtornoAlimentacionTB ?>, 75],
+            [<?= $inclinacionAbusoSusTB ?>, 62.5],
+            [<?= $predisposicionDeliTB ?>, 50],
+            [<?= $propensionInTB ?>, 37.5],
+            [<?= $sentimientoAncTB ?>, 25],
+            [<?= $afectoDepresivoTB ?>, 12.5],
+            [<?= $tendenciaSuicidioTB ?>, 1]
+        ];
+
+        $(function() {
             'use strict';
-                var colorLine = "black";
-                
-                
-                flotLine2 = getLimitMax(flotLine2);
-                
-                var plot = $.plot($('#flotLine2'), [{
-                    data: flotLine2,
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
-                    },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 1,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true
-                    },
-                    yaxis: {
-                        min: -5,
-                        max: 15,
-                        color: 'transparent',
-                        ticks: [[0, ''], [13, '']], 
-                        tickColor: 'black',
-                        tickLength: 0,
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        }
-                    },
-                    xaxis: {
-                        color: 'black',
-                        min:0,
-                        max: 115,
-                        tickColor: 'black',
-                        show:false,
-                        tickLength: 0,
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        position:'top'
-                    }
-                });
-                //segunda grafica
-                
-                flotLineIndGeneral = getLimitMax(flotLineIndGeneral);
-                
-                var plot = $.plot($('#flotLineIndGeneral'), [{
-                    data: flotLineIndGeneral,
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
-                    },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 0,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true
-                    },
-                    yaxis: {
-                        min: -5,
-                        max: 105,
-                        color: 'black',
-                        ticks: [[0, ''], [105, '']], 
-                        tickColor: 'rgba(171, 167, 167, 0)',
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        }
-                    },
-                    xaxis: {
-                        color: 'black',
-                        min:0,
-                        max: 115,
-                        tickColor: 'rgba(171, 167, 167, 0)',
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        position:'top',
-                        show:false
-                    }
-                });
-                //tercera grafica
-                
-                flotLineIndRiesgoPat = getLimitMax(flotLineIndRiesgoPat);
-                var plot = $.plot($('#flotLineIndRiesgoPat'), [{
-                    data: flotLineIndRiesgoPat,
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
-                    },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 0,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true,
-                        tickColor: 'red',
-                    },
-                    yaxis: {
-                        min: 0,
-                        max: 12,
-                        color: 'transparent',
-                        ticks: [[0, ''], [12, '']], 
-                        tickColor: 'transparent',
-                        font: {
-                            size: 10,
-                            color: 'transparent'
-                        }
-                    },
-                    xaxis: {
-                        color: '#eee',
-                        min:0,
-                        max: 115,
-                        tickColor: 'black',
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        position:'top',
-                        show:false
-                    }
-                });
+            var colorLine = "black";
 
-                //cuarta grafica
-                
-                flotLineEscalasClinicas = getLimitMax(flotLineEscalasClinicas);
-                var plot = $.plot($('#flotLineEscalasClinicas'), [{
-                    data: flotLineEscalasClinicas,
-                    label: 'Data',
-                    color: colorLine
-                }], 
-                     {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
+
+            flotLine2 = getLimitMax(flotLine2);
+
+            var plot = $.plot($('#flotLine2'), [{
+                data: flotLine2,
+                label: 'Data',
+                color: colorLine
+            }], {
+                series: {
+                    lines: {
                         show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
+                        lineWidth: 2
                     },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 0,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true
-                    },
-                    yaxis: {
-                        min: -7,
-                        max: 74,
-                        color: 'transparent',
-                        ticks: [[0, ''], [75, '']], 
-                        tickColor: 'rgba(171, 167, 167, 0)',
-                        font: {
-                            size: 10,
-                            color: '#999'
-                        }
-                    },
-                    xaxis: {
-                        color: '#eee',
-                        min:0,
-                        max: 115,
-                        tickColor: 'rgba(171, 167, 167, 0)',
-                        font: {
-                            size: 10,
-                            color: '#999'
-                        },
-                        position:'top',
-                        show:false
+                    shadowSize: 0
+                },
+                points: {
+                    show: true,
+                    radius: 3,
+                    fill: true,
+                    fillColor: colorLine,
+                    lineWidth: 2.5
+                },
+                legend: {
+                    noColumns: 1,
+                    position: 'ne',
+                    show: false
+                },
+                grid: {
+                    borderWidth: 1,
+                    borderColor: 'transparent',
+                    hoverable: true,
+                    show: true
+                },
+                yaxis: {
+                    min: -5,
+                    max: 15,
+                    color: 'transparent',
+                    ticks: [
+                        [0, ''],
+                        [13, '']
+                    ],
+                    tickColor: 'black',
+                    tickLength: 0,
+                    font: {
+                        size: 10,
+                        color: 'black'
                     }
-                });
+                },
+                xaxis: {
+                    color: 'black',
+                    min: 0,
+                    max: 115,
+                    tickColor: 'black',
+                    show: false,
+                    tickLength: 0,
+                    font: {
+                        size: 10,
+                        color: 'black'
+                    },
+                    position: 'top'
+                }
+            });
+            //segunda grafica
+
+            flotLineIndGeneral = getLimitMax(flotLineIndGeneral);
+
+            var plot = $.plot($('#flotLineIndGeneral'), [{
+                data: flotLineIndGeneral,
+                label: 'Data',
+                color: colorLine
+            }], {
+                series: {
+                    lines: {
+                        show: true,
+                        lineWidth: 2
+                    },
+                    shadowSize: 0
+                },
+                points: {
+                    show: true,
+                    radius: 3,
+                    fill: true,
+                    fillColor: colorLine,
+                    lineWidth: 2.5
+                },
+                legend: {
+                    noColumns: 1,
+                    position: 'ne',
+                    show: false
+                },
+                grid: {
+                    borderWidth: 0,
+                    borderColor: 'transparent',
+                    hoverable: true,
+                    show: true
+                },
+                yaxis: {
+                    min: -5,
+                    max: 105,
+                    color: 'black',
+                    ticks: [
+                        [0, ''],
+                        [105, '']
+                    ],
+                    tickColor: 'rgba(171, 167, 167, 0)',
+                    font: {
+                        size: 10,
+                        color: 'black'
+                    }
+                },
+                xaxis: {
+                    color: 'black',
+                    min: 0,
+                    max: 115,
+                    tickColor: 'rgba(171, 167, 167, 0)',
+                    font: {
+                        size: 10,
+                        color: 'black'
+                    },
+                    position: 'top',
+                    show: false
+                }
+            });
+            //tercera grafica
+
+            flotLineIndRiesgoPat = getLimitMax(flotLineIndRiesgoPat);
+            var plot = $.plot($('#flotLineIndRiesgoPat'), [{
+                data: flotLineIndRiesgoPat,
+                label: 'Data',
+                color: colorLine
+            }], {
+                series: {
+                    lines: {
+                        show: true,
+                        lineWidth: 2
+                    },
+                    shadowSize: 0
+                },
+                points: {
+                    show: true,
+                    radius: 3,
+                    fill: true,
+                    fillColor: colorLine,
+                    lineWidth: 2.5
+                },
+                legend: {
+                    noColumns: 1,
+                    position: 'ne',
+                    show: false
+                },
+                grid: {
+                    borderWidth: 0,
+                    borderColor: 'transparent',
+                    hoverable: true,
+                    show: true,
+                    tickColor: 'red',
+                },
+                yaxis: {
+                    min: 0,
+                    max: 12,
+                    color: 'transparent',
+                    ticks: [
+                        [0, ''],
+                        [12, '']
+                    ],
+                    tickColor: 'transparent',
+                    font: {
+                        size: 10,
+                        color: 'transparent'
+                    }
+                },
+                xaxis: {
+                    color: '#eee',
+                    min: 0,
+                    max: 115,
+                    tickColor: 'black',
+                    font: {
+                        size: 10,
+                        color: 'black'
+                    },
+                    position: 'top',
+                    show: false
+                }
+            });
+
+            //cuarta grafica
+
+            flotLineEscalasClinicas = getLimitMax(flotLineEscalasClinicas);
+            var plot = $.plot($('#flotLineEscalasClinicas'), [{
+                data: flotLineEscalasClinicas,
+                label: 'Data',
+                color: colorLine
+            }], {
+                series: {
+                    lines: {
+                        show: true,
+                        lineWidth: 2
+                    },
+                    shadowSize: 0
+                },
+                points: {
+                    show: true,
+                    radius: 3,
+                    fill: true,
+                    fillColor: colorLine,
+                    lineWidth: 2.5
+                },
+                legend: {
+                    noColumns: 1,
+                    position: 'ne',
+                    show: false
+                },
+                grid: {
+                    borderWidth: 0,
+                    borderColor: 'transparent',
+                    hoverable: true,
+                    show: true
+                },
+                yaxis: {
+                    min: -7,
+                    max: 74,
+                    color: 'transparent',
+                    ticks: [
+                        [0, ''],
+                        [75, '']
+                    ],
+                    tickColor: 'rgba(171, 167, 167, 0)',
+                    font: {
+                        size: 10,
+                        color: '#999'
+                    }
+                },
+                xaxis: {
+                    color: '#eee',
+                    min: 0,
+                    max: 115,
+                    tickColor: 'rgba(171, 167, 167, 0)',
+                    font: {
+                        size: 10,
+                        color: '#999'
+                    },
+                    position: 'top',
+                    show: false
+                }
+            });
             //quinta grafica 
-                
-                flotLineSindromesClinicos = getLimitMax(flotLineSindromesClinicos);
-                var plot = $.plot($('#flotLineSindromesClinicos'), [{
-                    data: flotLineSindromesClinicos,
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
-                            lineWidth: 2
-                        },
-                        shadowSize: 0
-                    },
-                    points: {
+
+            flotLineSindromesClinicos = getLimitMax(flotLineSindromesClinicos);
+            var plot = $.plot($('#flotLineSindromesClinicos'), [{
+                data: flotLineSindromesClinicos,
+                label: 'Data',
+                color: colorLine
+            }], {
+                series: {
+                    lines: {
                         show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
+                        lineWidth: 2
                     },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
+                    shadowSize: 0
+                },
+                points: {
+                    show: true,
+                    radius: 3,
+                    fill: true,
+                    fillColor: colorLine,
+                    lineWidth: 2.5
+                },
+                legend: {
+                    noColumns: 1,
+                    position: 'ne',
+                    show: false
+                },
+                grid: {
+                    borderWidth: 0,
+                    borderColor: 'transparent',
+                    hoverable: true,
+                    show: true
+                },
+                yaxis: {
+                    min: -5,
+                    max: 75,
+                    color: '#737f9e',
+                    ticks: [
+                        [0, ''],
+                        [65, '']
+                    ],
+                    tickColor: 'rgba(171, 167, 167, 0)',
+                    font: {
+                        size: 10,
+                        color: '#999'
                     },
-                    grid: {
-                        borderWidth: 0,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true
+                    show: false
+                },
+                xaxis: {
+                    color: '#eee',
+                    min: 0,
+                    max: 115,
+                    tickColor: 'black',
+                    tickLength: 0,
+                    ticks: [
+                        [0, '<b style="font-size: 15px;font-weight: 300;">0</b>'],
+                        [60, '<b style="font-size: 15px;font-weight: 300;">60</b>'],
+                        [75, '<b style="font-size: 15px;font-weight: 300;">75</b>'],
+                        [85, '<b style="font-size: 15px;font-weight: 300;">85</b>'],
+                        [115, '<b style="font-size: 15px;font-weight: 300;">115</b>'],
+                    ],
+
+                    position: 'bottom',
+                    font: {
+                        size: 10,
+                        color: 'black'
                     },
-                    yaxis: {
-                        min: -5,
-                        max: 75,
-                        color: '#737f9e',
-                        ticks: [[0, ''], [65, '']], 
-                        tickColor: 'rgba(171, 167, 167, 0)',
-                        font: {
-                            size: 10,
-                            color: '#999'
-                        },
-                        show:false
-                    },
-                    xaxis: {
-                        color: '#eee',
-                        min:0,
-                        max: 115,
-                        tickColor: 'black',
-                        tickLength: 0,
-                        ticks: [
-                            [0, '<b style="font-size: 15px;font-weight: 300;">0</b>'],
-                            [60, '<b style="font-size: 15px;font-weight: 300;">60</b>'],
-                            [75, '<b style="font-size: 15px;font-weight: 300;">75</b>'],
-                            [85, '<b style="font-size: 15px;font-weight: 300;">85</b>'],
-                            [115, '<b style="font-size: 15px;font-weight: 300;">115</b>'],
-                        ],
-                        
-                        position:'bottom',
-                        font: {
-                            size: 10,
-                            color: 'black'
-                        },
-                        show:true,
-                    }
-                });
+                    show: true,
+                }
+            });
 
             var colores = $.plot($('#colorss'), [{
-                    data: [],
-                    label: 'Data',
-                    color: colorLine
-                }], {
-                    series: {
-                        lines: {
-                            show: true,
+                data: [],
+                label: 'Data',
+                color: colorLine
+            }], {
+                series: {
+                    lines: {
+                        show: true,
+                        lineWidth: 2
+                    },
+                    shadowSize: 0
+                },
+                points: {
+                    show: true,
+                    radius: 3,
+                    fill: true,
+                    fillColor: colorLine,
+                    lineWidth: 2.5
+                },
+                legend: {
+                    noColumns: 1,
+                    position: 'ne',
+                    show: false
+                },
+                grid: {
+                    borderWidth: 0,
+                    borderColor: 'transparent',
+                    hoverable: true,
+                    show: true,
+                    tickColor: 'rgba(171, 167, 167, 0)',
+                    markings: [{
+                            xaxis: {
+                                from: 0,
+                                to: 60
+                            },
+                            color: '#d7d9ea'
+                        },
+                        {
+                            xaxis: {
+                                from: 60,
+                                to: 75
+                            },
+                            color: '#b9bdda'
+                        },
+                        {
+                            xaxis: {
+                                from: 75,
+                                to: 85
+                            },
+                            color: '#9aa1ca'
+                        },
+                        {
+                            xaxis: {
+                                from: 85,
+                                to: 115
+                            },
+                            color: '#5e69aa'
+                        },
+                        {
+                            yaxis: {
+                                from: 10.45,
+                                to: 10.45
+                            },
+                            color: 'white', // color rojo
                             lineWidth: 2
                         },
-                        shadowSize: 0
-                    },
-                    points: {
-                        show: true,
-                        radius:3,
-                        fill: true,
-                        fillColor: colorLine,
-                        lineWidth:2.5
-                    },
-                    legend: {
-                        noColumns: 1,
-                        position: 'ne',
-                        show:false
-                    },
-                    grid: {
-                        borderWidth: 0,
-                        borderColor: 'transparent',
-                        hoverable: true,
-                        show:true,
-                        tickColor: 'rgba(171, 167, 167, 0)',
-                         markings: [
-                            {
-                                xaxis: { from: 0, to: 60 },
-                                color: '#d7d9ea'
+                        {
+                            yaxis: {
+                                from: 6.24,
+                                to: 6.24
                             },
-                            {
-                                xaxis: { from: 60, to: 75 }, 
-                                color: '#b9bdda'
-                            }
-                            ,
-                            {
-                                xaxis: { from: 75, to: 85 }, 
-                                color: '#9aa1ca'
-                            }
-                            ,
-                            {
-                                xaxis: { from: 85, to: 115 }, 
-                                color: '#5e69aa'
-                            },
-                            { 
-                                yaxis: { from: 10.45, to: 10.45 },
-                                color: 'white', // color rojo
-                                lineWidth: 2
-                            },
-                            { 
-                                yaxis: { from: 6.24, to: 6.24 },
-                                color: 'white', // color rojo
-                                lineWidth: 2
-                            }
-                            ,
-                            { 
-                                yaxis: { from: 5.8, to: 5.8 },
-                                color: 'white', // color rojo
-                                lineWidth: 2
-                            }
-                            ,
-                            { 
-                                yaxis: { from: 2.7, to: 2.7 },
-                                color: 'white', // color rojo
-                                lineWidth: 2
-                            }
-                             ,
-                            { 
-                                yaxis: { from: 0.02, to: 0.02 },
-                                color: 'white', // color rojo
-                                lineWidth: 5
-                            }
-                        ]
-                    },
-                    yaxis: {
-                        min: 0,
-                        max: 12,
-                        color: 'transparent',
-                        ticks: [[0, ''], [12, '']], 
-                        tickColor: 'transparent',
-                        font: {
-                            size: 10,
-                            color: 'transparent'
+                            color: 'white', // color rojo
+                            lineWidth: 2
                         },
-                        show:false
-                    },
-                    xaxis: {
-                        color: '#eee',
-                        min:0,
-                        max: 115,
-                        tickColor: 'black',
-                        tickLength: 0,
-                        ticks: [
-                            [0, '<b style="font-size: 15px;font-weight: 300;">0</b>'],
-                            [60, '<b style="font-size: 15px;font-weight: 300;">60</b>'],
-                            [75, '<b style="font-size: 15px;font-weight: 300;">75</b>'],
-                            [85, '<b style="font-size: 15px;font-weight: 300;">85</b>'],
-                            [115, '<b style="font-size: 15px;font-weight: 300;">115</b>'],
-                        ],
-                        
-                        position:'top',
-                        font: {
-                            size: 10,
-                            color: 'black'
+                        {
+                            yaxis: {
+                                from: 5.8,
+                                to: 5.8
+                            },
+                            color: 'white', // color rojo
+                            lineWidth: 2
                         },
-                        show:true,
-                    }
-                });
+                        {
+                            yaxis: {
+                                from: 2.7,
+                                to: 2.7
+                            },
+                            color: 'white', // color rojo
+                            lineWidth: 2
+                        },
+                        {
+                            yaxis: {
+                                from: 0.02,
+                                to: 0.02
+                            },
+                            color: 'white', // color rojo
+                            lineWidth: 5
+                        }
+                    ]
+                },
+                yaxis: {
+                    min: 0,
+                    max: 12,
+                    color: 'transparent',
+                    ticks: [
+                        [0, ''],
+                        [12, '']
+                    ],
+                    tickColor: 'transparent',
+                    font: {
+                        size: 10,
+                        color: 'transparent'
+                    },
+                    show: false
+                },
+                xaxis: {
+                    color: '#eee',
+                    min: 0,
+                    max: 115,
+                    tickColor: 'black',
+                    tickLength: 0,
+                    ticks: [
+                        [0, '<b style="font-size: 15px;font-weight: 300;">0</b>'],
+                        [60, '<b style="font-size: 15px;font-weight: 300;">60</b>'],
+                        [75, '<b style="font-size: 15px;font-weight: 300;">75</b>'],
+                        [85, '<b style="font-size: 15px;font-weight: 300;">85</b>'],
+                        [115, '<b style="font-size: 15px;font-weight: 300;">115</b>'],
+                    ],
+
+                    position: 'top',
+                    font: {
+                        size: 10,
+                        color: 'black'
+                    },
+                    show: true,
+                }
+            });
+
             function labelFormatter(label, series) {
                 return '<div style="font-size:8pt; text-align:center; padding:2px; color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
             }
@@ -2889,8 +3247,8 @@ if($answer_questions2['response'] == '1'){
         document.getElementById('baremo_id').addEventListener('change', function() {
             document.getElementById('form_baremo').submit();
         });
+    </script>
+    <script src="../../assets/js/print.js?v=<?= VERSION_CODE ?>"></script>
+</body>
 
-        </script>
-        <script src="../../assets/js/print.js?v=<?=VERSION_CODE?>"></script>
-	</body>
 </html>
