@@ -94,11 +94,9 @@ $flagsByScale = [];
 foreach ($simsResult['flags'] as $flag) {
     $flagsByScale[$flag['scale_code']][] = $flag;
 }
-$profileLinePoints = [];
+$profileChartPoints = [];
 foreach ($simsResult['scales'] as $scaleIndex => $scale) {
-    $profileX = round(((int) $scale['score'] / 15) * 100, 2);
-    $profileY = 10 + ($scaleIndex * 20);
-    $profileLinePoints[] = $profileX . ',' . $profileY;
+    $profileChartPoints[] = [(int) $scale['score'], count($simsResult['scales']) - $scaleIndex - 1];
 }
 $totalElevatedText = $simsResult['total_elevated']
     ? 'La puntuación total alcanza el punto de corte del instrumento (17 o más). El perfil sugiere ampliar la evaluación de posible simulación o exageración de síntomas.'
@@ -432,7 +430,7 @@ $totalElevatedText = $simsResult['total_elevated']
                                 <div class="sims-profile-labels">
                                     <?php foreach ($simsResult['scales'] as $scale): ?>
                                         <div class="sims-profile-label-row">
-                                            <span class="sims-profile-name"><?= $escape($scale['name']) ?></span>
+                                            <span class="font-medium sims-profile-name"><?= $escape($scale['name']) ?></span>
                                             <strong class="sims-profile-code"><?= $escape($scale['code']) ?></strong>
                                             <span class="sims-profile-value"><?= (int) $scale['score'] ?></span>
                                         </div>
@@ -440,15 +438,7 @@ $totalElevatedText = $simsResult['total_elevated']
                                 </div>
 
                                 <div class="sims-profile-plot" role="img" aria-label="Puntuaciones por escala y sus puntos de corte">
-                                    <?php foreach ($simsResult['scales'] as $scale): ?>
-                                        <div class="sims-profile-band" style="--sims-cutoff: <?= round(($scale['cutoff'] / 15) * 100, 2) ?>%"></div>
-                                    <?php endforeach; ?>
-                                    <svg class="sims-profile-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                                        <polyline points="<?= $escape(implode(' ', $profileLinePoints)) ?>"></polyline>
-                                        <?php foreach ($simsResult['scales'] as $scaleIndex => $scale): ?>
-                                            <circle cx="<?= round(((int) $scale['score'] / 15) * 100, 2) ?>" cy="<?= 10 + ($scaleIndex * 20) ?>" r="1.15"></circle>
-                                        <?php endforeach; ?>
-                                    </svg>
+                                    <div class="ht-100 ht-sm-300" style="margin-top: 8px;height:100% !important;position:absolute;width: 100%;" id="colorss"></div>
                                 </div>
                             </div>
                         </section>
@@ -549,6 +539,8 @@ $totalElevatedText = $simsResult['total_elevated']
     </div>
 
     <script src="../../assets/plugins/jquery/jquery.min.js"></script>
+    <script src="../../assets/plugins/jquery.flot/jquery.flot.js"></script>
+    <script src="../../assets/plugins/jquery.flot/jquery.flot.resize.js"></script>
     <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
     <script src="../../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -562,9 +554,18 @@ $totalElevatedText = $simsResult['total_elevated']
     <script>
         const name_user = <?= json_encode((string) $register['id_client'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
         const filenamepdf = (name_user + '_SIMS-III').replace(/\s+/g, '');
-        const jsonpdf = [
-            { type: 2, image: 'contenido1' },
-            { type: 2, image: 'contenidoPerfilGrafico' }
+        const profileChartData = <?= json_encode($profileChartPoints, JSON_NUMERIC_CHECK) ?>;
+        const profileScales = <?= json_encode(array_map(static function ($scale) {
+                                    return ['cutoff' => (int) $scale['cutoff']];
+                                }, $simsResult['scales']), JSON_NUMERIC_CHECK) ?>;
+        const jsonpdf = [{
+                type: 2,
+                image: 'contenido1'
+            },
+            {
+                type: 2,
+                image: 'contenidoPerfilGrafico'
+            }
         ];
         const reportCards = document.querySelectorAll('#contenido2 > .sims-card');
 
@@ -638,6 +639,84 @@ $totalElevatedText = $simsResult['total_elevated']
 
         document.getElementById('baremo_id')?.addEventListener('change', function() {
             document.getElementById('form_baremo').submit();
+        });
+
+        $(function() {
+            'use strict';
+
+            const series = [{
+                data: profileChartData,
+                lines: {
+                    show: true,
+                    lineWidth: 2
+                },
+                points: {
+                    show: true,
+                    radius: 5,
+                    fill: true,
+                    fillColor: '#000',
+                    lineWidth: 2
+                },
+                color: '#000'
+            }];
+            const markings = [];
+
+            profileScales.forEach(function(scale, index) {
+                const y = profileScales.length - index - 1;
+                markings.push({
+                    xaxis: {
+                        from: 0,
+                        to: scale.cutoff
+                    },
+                    yaxis: {
+                        from: y - 0.5,
+                        to: y + 0.5
+                    },
+                    color: '#43b59b'
+                }, {
+                    xaxis: {
+                        from: scale.cutoff,
+                        to: 15
+                    },
+                    yaxis: {
+                        from: y - 0.5,
+                        to: y + 0.5
+                    },
+                    color: '#ffe2bf'
+                });
+            });
+
+            for (let y = 0.5; y < profileScales.length - 0.5; y += 1) {
+                markings.push({
+                    yaxis: {
+                        from: y,
+                        to: y
+                    },
+                    color: '#fff',
+                    lineWidth: 2
+                });
+            }
+
+            $.plot('#colorss', series, {
+                grid: {
+                    hoverable: false,
+                    clickable: false,
+                    borderWidth: 0,
+                    borderColor: 'white',
+                    markings: markings
+                },
+                xaxis: {
+                    min: 0,
+                    max: 15,
+                    position: 'top',
+                    show: false
+                },
+                yaxis: {
+                    min: -0.5,
+                    max: profileScales.length - 0.5,
+                    show: false
+                }
+            });
         });
     </script>
     <script src="../../assets/js/print.js?v=<?= $escape(VERSION_CODE) ?>"></script>

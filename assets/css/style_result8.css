@@ -577,8 +577,7 @@ input {
     min-width: 610px;
 }
 
-.sims-profile-labels,
-.sims-profile-plot {
+.sims-profile-labels {
     display: grid;
     grid-template-rows: repeat(5, 48px);
 }
@@ -587,15 +586,23 @@ input {
     grid-column: 1 / 4;
 }
 
-.sims-profile-plot {
-    grid-column: 4;
-}
-
 .sims-profile-label-row {
     align-items: center;
     column-gap: 10px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) 38px 66px;
+}
+
+.sims-profile-plot {
+    height: 240px;
+    grid-column: 4;
+    min-width: 300px;
+    position: relative;
+}
+
+#colorss {
+    height: 100%;
+    width: 100%;
 }
 
 .sims-profile-name {
@@ -611,41 +618,16 @@ input {
     text-align: center;
 }
 
-.sims-profile-plot {
-    position: relative;
-}
-
-.sims-profile-band {
-    background: linear-gradient(to right, #43b59b 0, #43b59b var(--sims-cutoff), #ffe2bf var(--sims-cutoff), #ffe2bf 100%);
-}
-
-.sims-profile-line {
-    height: 100%;
-    inset: 0;
-    overflow: visible;
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-}
-
-.sims-profile-line polyline {
-    fill: none;
-    stroke: #080808;
-    stroke-width: 0.32;
-    vector-effect: non-scaling-stroke;
-}
-
-.sims-profile-line circle {
-    fill: #050505;
-    vector-effect: non-scaling-stroke;
-}
-
 @media (max-width: 767px) {
     .sims-profile-chart {
         margin-left: -12px;
         margin-right: -12px;
         padding-left: 8px;
         padding-right: 8px;
+    }
+
+    .sims-profile-plot {
+        height: 240px;
     }
 }
 
