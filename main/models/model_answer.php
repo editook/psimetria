@@ -1,9 +1,10 @@
 <?php
 class Answer_Model
 {
-  
 
-    public function generateRandomKey() {
+
+    public function generateRandomKey()
+    {
         $chars = '0123456789abcdef'; // Caracteres hexadecimales
         $key = sprintf(
             '%s-%s-%s-%s-%s',
@@ -15,7 +16,8 @@ class Answer_Model
         );
         return $key;
     }
-    public function getRawResponse($answers, $item_order) {
+    public function getRawResponse($answers, $item_order)
+    {
         foreach ($answers as $answer) {
             if ($answer['item_order'] == $item_order) {
                 return $answer['response']; // Devuelve string/int (0, 1, 2...) o null si no se respondió
@@ -23,11 +25,12 @@ class Answer_Model
         }
         return null;
     }
-    public function sumatoria($answers,$options){
+    public function sumatoria($answers, $options)
+    {
         $total = 0;
-        foreach($answers as $answer){
-            foreach($options as $option){
-                if($answer['item_order'] == $option){
+        foreach ($answers as $answer) {
+            foreach ($options as $option) {
+                if ($answer['item_order'] == $option) {
                     $total += (int)$answer['response'];
                 }
             }
@@ -35,47 +38,52 @@ class Answer_Model
         return $total;
     }
 
-    public function getQuestion($answers,$item_order){
-        foreach($answers as $answer){
-            if($answer['item_order'] == $item_order){
+    public function getQuestion($answers, $item_order)
+    {
+        foreach ($answers as $answer) {
+            if ($answer['item_order'] == $item_order) {
                 return $answer['question'];
             }
         }
         return "";
     }
 
-    public function sumatoriaTodo($answers){
+    public function sumatoriaTodo($answers)
+    {
         $total = 0;
-        foreach($answers as $answer){
+        foreach ($answers as $answer) {
             $total += (int)$answer['response'];
         }
         return $total;
     }
 
-    public function getValueModel($answers,$value){
-        
-        foreach($answers as $asnwer){
-            if($asnwer['item_order'] == $value){
+    public function getValueModel($answers, $value)
+    {
+
+        foreach ($answers as $asnwer) {
+            if ($asnwer['item_order'] == $value) {
                 return (int)$asnwer['response'];
             }
         }
         return 0;
     }
-    public function ocurrencias($answers,$indice){
+    public function ocurrencias($answers, $indice)
+    {
         $total = 0;
-        foreach($answers as $asnwer){
-            if((int)$asnwer['response'] == $indice){
+        foreach ($answers as $asnwer) {
+            if ((int)$asnwer['response'] == $indice) {
                 $total += 1;
             }
         }
         return $total;
     }
 
-    public function getArrayDataIndex($answers,$value){
+    public function getArrayDataIndex($answers, $value)
+    {
         $array = [];
-        foreach($answers as $asnwer){
-            if((int)$asnwer['response'] == $value){
-                $array[] = $asnwer['question'].' (Mucho)';
+        foreach ($answers as $asnwer) {
+            if ((int)$asnwer['response'] == $value) {
+                $array[] = $asnwer['question'] . ' (Mucho)';
             }
         }
         return $array;
@@ -91,13 +99,14 @@ class Answer_Model
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return null;
     }
 
-    public function getMaciInputProblem($id_client){
+    public function getMaciInputProblem($id_client)
+    {
         $query =
             "SELECT *
              FROM maci_input
@@ -106,96 +115,98 @@ class Answer_Model
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return null;
     }
 
-    public function maciUpdateProblem($response_data,$id_client){
+    public function maciUpdateProblem($response_data, $id_client)
+    {
         $con = new Connection();
         $response = $this->getMaciInputProblem($id_client);
         $response_data = $con->getRealEscapeString($response_data);
         $id_client = $con->getRealEscapeString($id_client);
-        
+
         $query =
-            "INSERT INTO `maci_input` (`id_maci_input`, `response_data`, `id_client`) 
+            "INSERT INTO `maci_input` (`id_maci_input`, `response_data`, `id_client`)
             VALUES (NULL, '$response_data', $id_client )";
 
-        if($response != null){
+        if ($response != null) {
             $query =
                 "UPDATE maci_input
-                SET 
+                SET
                     response_data      = '$response_data'
                 WHERE id_client       = $id_client";
-        
         }
         echo $query;
         return $con->execute_query($query);
     }
-    
-    public function getAll($hash = '',$limitInit = 0, $limitOrder = 0)
+
+    public function getAll($hash = '', $limitInit = 0, $limitOrder = 0)
     {
         $limitquery = "";
         $order = "";
-        if($limitOrder > 0 && $limitInit > 0){
+        if ($limitOrder > 0 && $limitInit > 0) {
             $limitquery = "AND question.item_order >= $limitInit AND question.item_order <= $limitOrder";
         }
-        if($hash != ''){
+        if ($hash != '') {
             $hash = "INNER JOIN question ON question.id = answer.question_id where codes = '$hash' ";
             $order = "order by question.item_order ASC";
         }
         $query =
             "SELECT *
              FROM  answer $hash $limitquery $order
-             "; 
-             
+             ";
+
         $con = new Connection();
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
     }
 
-    public function getAnswersTop($codes){
+    public function getAnswersTop($codes)
+    {
         $query =
             "select GROUP_CONCAT(question.question SEPARATOR ', ') AS response from answer INNER JOIN question ON question.id = answer.question_id where answer.codes = '$codes' and response='4';";
 
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return "";
     }
-    public function save($question_id, $client_id,$hash)
+    public function save($question_id, $client_id, $hash)
     {
         $con = new Connection();
         $question_id = $con->getRealEscapeString($question_id);
         $client_id = $con->getRealEscapeString($client_id);
         $query =
-            "INSERT INTO `answer` (`id`, `question_id`, `client_id`, `codes`, `response`) 
+            "INSERT INTO `answer` (`id`, `question_id`, `client_id`, `codes`, `response`)
             VALUES (NULL, '$question_id', $client_id,'$hash', NULL )";
-      
-        if($con->execute_query($query))
+
+        if ($con->execute_query($query))
             return $con->getLastInsertedID();
         return false;
     }
-    
-    public function update($question_id, $client_id,$response,$codes)
+
+    public function update($question_id, $client_id, $response, $codes)
     {
         $con = new Connection();
 
         $query =
             "UPDATE answer
-             SET 
+             SET
                  response      = $response
             WHERE question_id       = $question_id and
                  client_id       = $client_id and
                  codes      = '$codes' ";
-     
+
         return $con->execute_query($query);
     }
 
-    public function checkStatus($codes){
+    public function checkStatus($codes)
+    {
         $con = new Connection();
 
         $query =

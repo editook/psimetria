@@ -204,7 +204,7 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
 
         return $con->execute_query($query);
     }
-   
+
     public function insertMcmmi(string $idPatient, array $data)
     {
         $con = new Connection();

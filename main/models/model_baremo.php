@@ -1,7 +1,8 @@
 <?php
 class Baremo_Model
 {
-   function spnippingText($texto, $limite = 50) {
+    function spnippingText($texto, $limite = 50)
+    {
         return mb_strlen($texto, 'UTF-8') > $limite
             ? mb_substr($texto, 0, $limite, 'UTF-8') . '...'
             : $texto;
@@ -17,7 +18,7 @@ class Baremo_Model
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return null;
@@ -26,7 +27,7 @@ class Baremo_Model
     public function getAll($id = '')
     {
         $where = "";
-        if($id != ''){
+        if ($id != '') {
             $where = " where id_type_question = $id";
         }
         $query =
@@ -38,7 +39,7 @@ class Baremo_Model
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
     }
 
-    public function save($question_id, $client_id, $response,$hash)
+    public function save($question_id, $client_id, $response, $hash)
     {
         $con = new Connection();
         $question_id = $con->getRealEscapeString($question_id);
@@ -46,14 +47,14 @@ class Baremo_Model
         $response = $con->getRealEscapeString($response);
 
         $query =
-            "INSERT INTO `baremo` (`id`, `question_id`, `client_id`, `response`, `hash`) 
+            "INSERT INTO `baremo` (`id`, `question_id`, `client_id`, `response`, `hash`)
             VALUES (NULL, '$question_id', '$client_id', '$response','$hash')";
 
-        if($con->execute_query($query))
+        if ($con->execute_query($query))
             return $con->getLastInsertedID();
         return false;
     }
-    public function update($id, $active,$name = '')
+    public function update($id, $active, $name = '')
     {
         $con = new Connection();
         $name = $con->getRealEscapeString($name);
@@ -65,7 +66,7 @@ class Baremo_Model
 
         return $con->execute_query($query);
     }
-    
+
 
     public function delete($id)
     {

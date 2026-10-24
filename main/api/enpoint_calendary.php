@@ -13,7 +13,7 @@ $action = $_REQUEST['action'] ?? 'list';
 if ($action === 'list') {
     $search = $_GET['search'] ?? '';
     $idUser = $_GET['idUser'] ?? '';
-    echo json_encode($service->getAppointments($idUser,$search));
+    echo json_encode($service->getAppointments($idUser, $search));
 } elseif ($action === 'update_status') {
     $id = $_POST['id'] ?? null;
     $status = $_POST['status'] ?? null;

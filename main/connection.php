@@ -13,19 +13,19 @@ class Connection
 
     private $mysqli = null;
 
-    public function __construct($db='')
+    public function __construct($db = '')
     {
         $this->connect($db);
     }
 
-    private function connect($db='')
+    private function connect($db = '')
     {
-        if( empty($db) )
+        if (empty($db))
             $db = $this->db;
 
         $this->mysqli = new mysqli($this->host, $this->user, $this->password, $db);
         if ($this->mysqli->connect_errno)
-            die ("Failed to connect to MySQL: (" . $this->mysqli->connect_errno . ") " . $this->mysqli->connect_error);
+            die("Failed to connect to MySQL: (" . $this->mysqli->connect_errno . ") " . $this->mysqli->connect_error);
         $this->mysqli->set_charset('utf8mb4');
     }
 
