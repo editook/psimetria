@@ -1,2 +1,2 @@
 <?php
-class ModelMcmiConfiguration {}
+class ModelSimsConfiguration {}
