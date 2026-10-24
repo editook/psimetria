@@ -1,4 +1,4 @@
-INSERT INTO `baremo` (`name`, `id_type_question`, `active`) VALUES ('General', 8, '1')
+INSERT INTO `baremo` (`name`, `id_type_question`, `active`) VALUES ('Adaptacíon española', 8, '1')
 
 INSERT INTO `question` (`item_order`, `question`, `type_question_id`) VALUES
 (1, 'A veces pierdo la sensibilidad en mi mano de tal forma que siento como si llevara un guante puesto en ella', 8),
