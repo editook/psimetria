@@ -89,7 +89,6 @@
     text-align: center;
 }
 
-
 .container-panel {
     width: 100%;
     max-width: 750px;
@@ -111,7 +110,7 @@
     font-size: 16px;
     font-weight: 600;
     color: #000;
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
 }
 
 .header-right {
@@ -211,7 +210,6 @@
     text-align: center;
     margin-right: 10px;
 }
-
 
 .pill {
     background: linear-gradient(#2e7b8f, #1f4e5f);
@@ -515,11 +513,8 @@ input {
     display: flex;
     font-size: 13px;
     justify-content: space-between;
-    padding: 0 1px;
-}
-
-.sims-profile-total {
-    margin-bottom: 14px;
+    padding: 0 10px;
+    padding-right: 150px;
 }
 
 .sims-profile-total > strong {
@@ -546,30 +541,6 @@ input {
     color: #1b87d4;
 }
 
-.sims-total-track {
-    background: #ffe2bf;
-    height: 33px;
-    position: relative;
-}
-
-.sims-total-safe {
-    background: #43b59b;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-}
-
-.sims-total-marker {
-    background: #050505;
-    border-radius: 50%;
-    height: 12px;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 12px;
-}
-
 .sims-profile-scales {
     display: grid;
     column-gap: 10px;
@@ -593,16 +564,29 @@ input {
     grid-template-columns: minmax(0, 1fr) 38px 66px;
 }
 
+#graphics_section1 {
+    height: 100%;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+}
+#graphics_section2 {
+    height: 100%;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+}
+.sims-total-track {
+    height: 55px;
+    overflow: hidden;
+    position: relative;
+}
+
 .sims-profile-plot {
     height: 240px;
     grid-column: 4;
     min-width: 300px;
     position: relative;
-}
-
-#colorss {
-    height: 100%;
-    width: 100%;
 }
 
 .sims-profile-name {

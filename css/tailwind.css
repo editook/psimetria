@@ -116,10 +116,6 @@
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
-    --color-lavender: #d9d4ff;
-    --color-coral: #ffc9c6;
-    --color-mint: #c6f4e1;
-    --color-cream: #ffebbb;
     --color-plomo-200: #3b3b3b61;
   }
 }
@@ -1532,12 +1528,6 @@
   .bg-blue-500 {
     background-color: var(--color-blue-500);
   }
-  .bg-coral {
-    background-color: var(--color-coral);
-  }
-  .bg-cream {
-    background-color: var(--color-cream);
-  }
   .bg-emerald-500 {
     background-color: var(--color-emerald-500);
   }
@@ -1573,12 +1563,6 @@
   }
   .bg-green-500 {
     background-color: var(--color-green-500);
-  }
-  .bg-lavender {
-    background-color: var(--color-lavender);
-  }
-  .bg-mint {
-    background-color: var(--color-mint);
   }
   .bg-neutral-200 {
     background-color: var(--color-neutral-200);

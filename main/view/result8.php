@@ -420,9 +420,8 @@ $totalElevatedText = $simsResult['total_elevated']
                                 <strong>Total</strong>
                                 <span></span>
                                 <span class="sims-profile-value"><?= (int) $simsResult['total'] ?></span>
-                                <div class="sims-total-track" role="img" aria-label="Puntuación total <?= (int) $simsResult['total'] ?> de 75, punto de corte 16">
-                                    <span class="sims-total-safe" style="width: <?= round(($simsResult['total_cutoff'] / 75) * 100, 2) ?>%"></span>
-                                    <span class="sims-total-marker" style="left: <?= round(($simsResult['total'] / 75) * 100, 2) ?>%"></span>
+                                <div class="sims-total-track">
+                                    <div id="graphics_section1" aria-hidden="true"></div>
                                 </div>
                             </div>
 
@@ -437,8 +436,8 @@ $totalElevatedText = $simsResult['total_elevated']
                                     <?php endforeach; ?>
                                 </div>
 
-                                <div class="sims-profile-plot" role="img" aria-label="Puntuaciones por escala y sus puntos de corte">
-                                    <div class="ht-100 ht-sm-300" style="margin-top: 8px;height:100% !important;position:absolute;width: 100%;" id="colorss"></div>
+                                <div class="sims-profile-plot">
+                                    <div id="graphics_section2" aria-hidden="true"></div>
                                 </div>
                             </div>
                         </section>
@@ -546,7 +545,6 @@ $totalElevatedText = $simsResult['total_elevated']
     <script src="../../assets/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="../../assets/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
     <script src="../../assets/plugins/sidebar/sidebar.js"></script>
-    <script src="../../assets/plugins/sidebar/sidebar-custom.js"></script>
     <script src="../../assets/js/custom.js?v=<?= $escape(VERSION_CODE) ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -554,6 +552,10 @@ $totalElevatedText = $simsResult['total_elevated']
     <script>
         const name_user = <?= json_encode((string) $register['id_client'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
         const filenamepdf = (name_user + '_SIMS-III').replace(/\s+/g, '');
+        const totalChartData = [
+            [<?= (int) $simsResult['total'] ?>, 0.5]
+        ];
+        const totalCutoff = <?= (int) $simsResult['total_cutoff'] ?>;
         const profileChartData = <?= json_encode($profileChartPoints, JSON_NUMERIC_CHECK) ?>;
         const profileScales = <?= json_encode(array_map(static function ($scale) {
                                     return ['cutoff' => (int) $scale['cutoff']];
@@ -644,6 +646,59 @@ $totalElevatedText = $simsResult['total_elevated']
         $(function() {
             'use strict';
 
+            $.plot('#graphics_section1', [{
+                data: totalChartData,
+                lines: {
+                    show: false
+                },
+                points: {
+                    show: true,
+                    radius: 5,
+                    fill: true,
+                    fillColor: '#000',
+                    lineWidth: 2
+                },
+                color: '#000'
+            }], {
+                grid: {
+                    hoverable: false,
+                    clickable: false,
+                    borderWidth: 0,
+                    borderColor: 'white',
+                    markings: [{
+                        xaxis: {
+                            from: 0,
+                            to: totalCutoff
+                        },
+                        yaxis: {
+                            from: 0,
+                            to: 1
+                        },
+                        color: '#43b59b'
+                    }, {
+                        xaxis: {
+                            from: totalCutoff,
+                            to: 75
+                        },
+                        yaxis: {
+                            from: 0,
+                            to: 1
+                        },
+                        color: '#ffe2bf'
+                    }]
+                },
+                xaxis: {
+                    min: 0,
+                    max: 75,
+                    show: false
+                },
+                yaxis: {
+                    min: 0,
+                    max: 1,
+                    show: false
+                }
+            });
+
             const series = [{
                 data: profileChartData,
                 lines: {
@@ -686,18 +741,8 @@ $totalElevatedText = $simsResult['total_elevated']
                 });
             });
 
-            for (let y = 0.5; y < profileScales.length - 0.5; y += 1) {
-                markings.push({
-                    yaxis: {
-                        from: y,
-                        to: y
-                    },
-                    color: '#fff',
-                    lineWidth: 2
-                });
-            }
 
-            $.plot('#colorss', series, {
+            $.plot('#graphics_section2', series, {
                 grid: {
                     hoverable: false,
                     clickable: false,
