@@ -451,41 +451,8 @@ $totalElevatedText = $simsResult['total_elevated']
                         <?php endif; ?>
 
                         <section id="contenido2" class="sims-content" aria-label="Perfil de resultados SIMS-III">
-                            <div class="sims-card sims-total">
-                                <div class="sims-total-score">
-                                    <strong><?= (int) $simsResult['total'] ?></strong>
-                                    <span>Total / 75</span>
-                                </div>
-                                <div class="sims-total-copy">
-                                    <h2>Resultado total SIMS-III</h2>
-                                    <p class="sims-interpretation"><?= $escape($totalElevatedText) ?></p>
-                                    <p class="mb-0 mt-2">Respuestas registradas: <?= (int) $simsResult['answered_count'] ?>/<?= (int) $simsResult['item_count'] ?>.</p>
-                                </div>
-                            </div>
 
-                            <div class="sims-card">
-                                <h2>Perfil por escalas</h2>
-                                <p class="text-muted">Puntuación directa por dimensión y punto de corte indicado en la hoja Perfil del protocolo.</p>
-                                <?php foreach ($simsResult['scales'] as $scale): ?>
-                                    <?php
-                                    $scoreWidth = min(100, ($scale['score'] / 15) * 100);
-                                    $cutoffPosition = min(100, ($scale['cutoff'] / 15) * 100);
-                                    ?>
-                                    <div class="sims-scale">
-                                        <div class="sims-scale-head">
-                                            <span class="sims-scale-name"><?= $escape($scale['name']) ?> (<?= $escape($scale['code']) ?>)</span>
-                                            <span class="sims-scale-score"><?= (int) $scale['score'] ?>/15 · corte <?= (int) $scale['cutoff'] ?></span>
-                                            <span class="sims-status <?= $scale['elevated'] ? 'elevated' : 'normal' ?>"><?= $scale['elevated'] ? 'Alcanza el corte' : 'Bajo el corte' ?></span>
-                                        </div>
-                                        <div class="sims-track" role="img" aria-label="<?= $escape($scale['name']) ?>: <?= (int) $scale['score'] ?> puntos; corte <?= (int) $scale['cutoff'] ?>">
-                                            <div class="sims-track-fill <?= $scale['elevated'] ? 'is-elevated' : '' ?>" style="width: <?= $scoreWidth ?>%"></div>
-                                            <span class="sims-track-cutoff" style="left: <?= $cutoffPosition ?>%"></span>
-                                        </div>
-                                        <div class="sims-track-legend"><span>0</span><span>15 puntos posibles · línea = punto de corte</span></div>
-                                        <p class="sims-scale-interpretation mb-0 mt-2"><?= $escape($scale['interpretation']) ?></p>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
+
 
                             <div class="sims-card">
                                 <h2>Interpretación del perfil</h2>
