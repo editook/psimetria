@@ -37,9 +37,11 @@
     margin-left: -80px;
     position: absolute;
 }
-
+.form-control:focus {
+    color: black !important;
+}
 .img-logo {
-    height: 150px;
+    padding: 3px;
     width: auto;
 }
 
@@ -77,6 +79,7 @@
     height: 30px !important;
     width: 100%;
     color: black;
+    background-color: white !important;
 }
 
 .max-left {
@@ -416,10 +419,6 @@ input {
 
 .sims-logo {
     align-items: center;
-    background: #2e6d82;
-    border: 7px solid #fff;
-    border-radius: 50%;
-    color: #fff;
     display: flex;
     flex: 0 0 128px;
     flex-direction: column;

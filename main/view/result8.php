@@ -353,8 +353,10 @@ $totalElevatedText = $simsResult['total_elevated']
         <?php include('../include/header_bottom.php'); ?>
 
         <main class="main-content horizontal-content">
+            <br>
             <div class="container sims-report">
                 <div class="row row-sm container-short">
+
                     <div class="col-md-12">
                         <div id="contenidoID" aria-hidden="true" style="position: absolute; width: 90%; top: 30px; z-index: -1;">
                             <div class="container-header">
@@ -371,7 +373,9 @@ $totalElevatedText = $simsResult['total_elevated']
                             <div class="container-left">
                                 <div class="perfil-vertical">PERFIL</div>
                                 <div class="divider"></div>
-                                <div class="sims-logo" aria-label="SIMS-III">SIMS<br><small>III</small></div>
+                                <div class="sims-logo">
+                                    <img src="../../assets/img/test_image/sims.png?v=<?= VERSION_CODE ?>" class="img-logo">
+                                </div>
                             </div>
                             <div class="container-body">
                                 <div class="container-row">
@@ -380,7 +384,7 @@ $totalElevatedText = $simsResult['total_elevated']
                                 </div>
                                 <div class="container-row">
                                     <span class="label">Edad:</span>
-                                    <input class="field form-control max" value="<?= $escape($register['age']) ?>" readonly>
+                                    <input class="field form-control max" value="<?= $escape($register['age']) ?> años" readonly>
                                     <span class="label">Sexo:</span>
                                     <input class="field form-control max" value="<?= $escape($register['sex']) ?>" readonly>
                                     <span class="label">Fecha:</span>
@@ -523,12 +527,6 @@ $totalElevatedText = $simsResult['total_elevated']
                             <div class="sims-note mb-4">El SIMS-III es un instrumento de cribado. Sus puntuaciones no constituyen por sí solas un diagnóstico y deben integrarse con una evaluación profesional y otras fuentes de información.</div>
                         </section>
 
-                        <div class="sims-download text-right mb-5">
-                            <button id="btnDownload" type="button" onclick="descargarPDF()" class="btn btn-primary">
-                                <span id="btnText">DESCARGAR PDF</span>
-                                <span id="btnLoader" style="display:none; margin-left:8px;">⏳</span>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -536,7 +534,7 @@ $totalElevatedText = $simsResult['total_elevated']
 
         <?php include('../include/footer.php'); ?>
     </div>
-
+    <?php include("../include/print_content.php"); ?>
     <script src="../../assets/plugins/jquery/jquery.min.js"></script>
     <script src="../../assets/plugins/jquery.flot/jquery.flot.js"></script>
     <script src="../../assets/plugins/jquery.flot/jquery.flot.resize.js"></script>
@@ -661,6 +659,13 @@ $totalElevatedText = $simsResult['total_elevated']
                 color: '#000'
             }], {
                 grid: {
+                    margin: {
+                        top: 6,
+                        bottom: 6,
+                        left: 12,
+                        right: 12
+                    },
+                    minBorderMargin: 0,
                     hoverable: false,
                     clickable: false,
                     borderWidth: 0,
@@ -744,6 +749,13 @@ $totalElevatedText = $simsResult['total_elevated']
 
             $.plot('#graphics_section2', series, {
                 grid: {
+                    margin: {
+                        top: 12,
+                        bottom: 12,
+                        left: 12,
+                        right: 12
+                    },
+                    minBorderMargin: 0,
                     hoverable: false,
                     clickable: false,
                     borderWidth: 0,
