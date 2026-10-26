@@ -25,7 +25,9 @@
     gap: 10px;
     margin-left: 55px;
 }
-
+.uppercase {
+    text-transform: uppercase;
+}
 .perfil-vertical {
     transform: rotate(-90deg);
     transform-origin: center;
@@ -534,10 +536,7 @@ input {
     justify-content: center;
     min-width: 58px;
     padding: 0 8px;
-}
-
-.sims-profile-total .sims-profile-value {
-    color: #1b87d4;
+    font-weight: bolder;
 }
 
 .sims-profile-scales {

@@ -99,8 +99,31 @@ foreach ($simsResult['scales'] as $scaleIndex => $scale) {
     $profileChartPoints[] = [(int) $scale['score'], count($simsResult['scales']) - $scaleIndex - 1];
 }
 $totalElevatedText = $simsResult['total_elevated']
-    ? 'La puntuación total alcanza el punto de corte del instrumento (17 o más). El perfil sugiere ampliar la evaluación de posible simulación o exageración de síntomas.'
-    : 'La puntuación total se encuentra por debajo del punto de corte del instrumento (17). En esta aplicación no se alcanza el indicador global establecido en el perfil.';
+    ? 'indica que presenta un patrón de respuesta de sospecha de simulación o exageración de síntomas psicopatológicos o neurocognitivos. Ha respondido afirmativamente a un número elevado de ítems que describen síntomas atípicos, improbables o ilógicas de diversos trastornos. Esta elevación en la puntuación total supera al puntaje de corte (16). Lo que lo identifica como probable simulador. El patrón de respuestas observado refleja una tendencia sistemática a exagerar síntomas inconsistentes o improbables, lo que constituye un indicador significativo de posible falseamiento. Se recomienda una evaluación más extensa y exhaustiva con el fin de confirmar esta sospecha. Es muy importante señalar que el SIMS no es una prueba diagnóstica y, por lo tanto, no puede establecerse el diagnóstico de simulación aisladamente a partir de sus puntuaciones. Se requiere la convergencia de otras fuentes de información y evaluaciones para este propósito.'
+    : 'indica que no presenta un patrón de respuesta con la simulación o exageración de síntomas psicopatológicos o neurocognitivos. Ha respondido de manera consistente a los ítems que evalúan síntomas atípicos, improbables o ilógicos de diversos trastornos. No se requiere una evaluación más exhaustiva de la posible simulación de síntomas, dado que la probabilidad de falseamiento es baja.';
+$totalProfileInterpretation = 'La puntuación total del SIMS proporciona una estimación general de la probabilidad de que esté fingiendo síntomas psicopatológicos o alteraciones neurocognitivas. '
+    . $register['id_client'] . ' obtuvo una puntuación de ' . (int) $simsResult['total'] . ', lo que ' . $totalElevatedText;
+$profileInterpretations = [];
+foreach ($simsResult['elevated_scales'] as $rank => $scale) {
+    $descriptor = $scale['excel_label'];
+    $score = (int) $scale['score'];
+    if ($rank === 0) {
+        $profileInterpretations[] = 'El perfil del SIMS refleja principalmente un patrón centrado en la presentación de síntomas '
+            . $descriptor . '. Se obtuvo una puntuación de ' . $score . ', lo que ' . $scale['interpretation'];
+    } elseif ($rank === 1) {
+        $profileInterpretations[] = 'También se observa la presencia de síntomas ' . $descriptor
+            . ', con una puntuación de ' . $score . ', lo que ' . $scale['interpretation'];
+    } elseif ($rank === 2) {
+        $profileInterpretations[] = 'Además, se observa la presencia de síntomas ' . $descriptor
+            . ', con una puntuación de ' . $score . ', lo que ' . $scale['interpretation'];
+    } elseif ($rank === 3) {
+        $profileInterpretations[] = 'De igual manera, se observa la presencia de síntomas ' . $descriptor
+            . ', con una puntuación de ' . $score . ', lo que ' . $scale['interpretation'];
+    } else {
+        $profileInterpretations[] = 'De igual manera, se observa la presencia de síntomas ' . $descriptor
+            . '; con una puntuación de ' . $score . ', lo que ' . $scale['interpretation'];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -127,21 +150,21 @@ $totalElevatedText = $simsResult['total_elevated']
         }
 
         .sims-report {
-            color: #202020;
+            color: black;
             font-family: "Ronnia Regular", Arial, sans-serif;
         }
 
         .sims-card {
             background: #fff;
-            border: 1px solid #d9e1e7;
             border-radius: 12px;
             margin-bottom: 18px;
             padding: 20px;
+            text-align: justify;
         }
 
         .sims-card h2,
         .sims-card h3 {
-            color: #163e56;
+            color: black;
             font-weight: 700;
             margin: 0 0 14px;
         }
@@ -455,32 +478,27 @@ $totalElevatedText = $simsResult['total_elevated']
 
 
                             <div class="sims-card">
-                                <h2>Interpretación del perfil</h2>
-                                <?php if (count($simsResult['elevated_scales']) === 0): ?>
-                                    <p class="sims-interpretation">Ninguna de las cinco escalas alcanza su punto de corte según el protocolo. El perfil no muestra elevaciones en las dimensiones evaluadas.</p>
-                                <?php else: ?>
-                                    <p class="sims-interpretation mb-3">Las siguientes dimensiones alcanzan o superan el punto de corte y se ordenan de mayor a menor puntuación:</p>
-                                    <?php foreach ($simsResult['elevated_scales'] as $scale): ?>
-                                        <div class="sims-flags">
-                                            <h3><?= $escape($scale['name']) ?> (<?= $escape($scale['code']) ?>): <?= (int) $scale['score'] ?> puntos</h3>
-                                            <p class="sims-interpretation mb-0"><?= $escape($scale['interpretation']) ?> El patrón debe valorarse junto con otras fuentes de información; por sí solo no establece un diagnóstico de simulación.</p>
-                                        </div>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+
+                                <p class="sims-interpretation"><?= $escape($totalProfileInterpretation) ?></p>
+                                <?php foreach ($profileInterpretations as $interpretation): ?>
+                                    <p class="sims-interpretation"><?= $escape($interpretation) ?></p>
+                                    <br>
+                                <?php endforeach; ?>
                             </div>
 
                             <div class="sims-card">
-                                <h2>Respuestas llamativas u omitidas</h2>
-                                <p class="text-muted">Se muestran las respuestas que coinciden con los indicadores atípicos del protocolo y los ítems sin respuesta.</p>
+                                <h1 class="uppercase">Respuestas llamativas/omitidas</h1>
+
+
                                 <?php if (count($simsResult['flags']) === 0): ?>
                                     <p class="mb-0">No se registran respuestas llamativas ni omisiones.</p>
                                 <?php else: ?>
                                     <?php foreach ($simsResult['scales'] as $scale): ?>
                                         <?php if (!empty($flagsByScale[$scale['code']])): ?>
                                             <div class="sims-flags">
-                                                <h3><?= $escape($scale['name']) ?> (<?= $escape($scale['code']) ?>) · <?= count($flagsByScale[$scale['code']]) ?>/15</h3>
+                                                <h2><?= $escape($scale['name']) ?> (<?= $escape($scale['code']) ?>) ( <?= count($flagsByScale[$scale['code']]) ?>/15)</h2>
                                                 <?php foreach ($flagsByScale[$scale['code']] as $flag): ?>
-                                                    <p class="sims-flag-item"><strong>Ítem <?= (int) $flag['item'] ?>.</strong> <?= $escape($flag['question']) ?> <span class="text-muted">— <?= $flag['omitted'] ? 'Omitido' : 'Respuesta: ' . $escape($flag['response']) ?></span></p>
+                                                    <p class="sims-flag-item"><?= $flag['item']  ?>.- <?= $escape($flag['question']) ?> (<?= $flag['omitted'] ? 'Omitido' : $escape($flag['response']) ?>)</p>
                                                 <?php endforeach; ?>
                                             </div>
                                         <?php endif; ?>
@@ -488,10 +506,6 @@ $totalElevatedText = $simsResult['total_elevated']
                                 <?php endif; ?>
                             </div>
 
-                            <?php if ($simsResult['answered_count'] < $simsResult['item_count']): ?>
-                                <div class="sims-note mb-4">El protocolo contiene respuestas omitidas o inválidas. La puntuación total y las escalas se calcularon con las respuestas válidas disponibles; interpreta el perfil con cautela.</div>
-                            <?php endif; ?>
-                            <div class="sims-note mb-4">El SIMS-III es un instrumento de cribado. Sus puntuaciones no constituyen por sí solas un diagnóstico y deben integrarse con una evaluación profesional y otras fuentes de información.</div>
                         </section>
 
                     </div>
