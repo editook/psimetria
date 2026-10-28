@@ -531,7 +531,9 @@ $device = $registerModel->getDeviceType();
           method: 'POST',
           body: data
         }).then(() => {
-          window.location.href = 'https://www.google.com';
+          setTimeout(() => {
+            window.location.href = 'https://www.google.com';
+          }, 5000);
         });
       }
 

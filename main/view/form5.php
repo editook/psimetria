@@ -371,7 +371,9 @@ function reset() {
 		method: 'POST',
 		body: data
 	});
-	window.location.href = 'https://www.google.com';
+	setTimeout(() => {
+		window.location.href = 'https://www.google.com';
+	}, 5000);
 }
 
 /* INIT */

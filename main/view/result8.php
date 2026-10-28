@@ -2,7 +2,7 @@
 include_once('../configs.php');
 session_start();
 require_once '../../vendor/autoload.php';
-
+// SIMS
 require_once '../connection.php';
 require_once '../models/model_register.php';
 require_once '../models/model_question.php';
@@ -162,8 +162,7 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
             text-align: justify;
         }
 
-        .sims-card h2,
-        .sims-card h3 {
+        .sims-card h2 {
             color: black;
             font-weight: 700;
             margin: 0 0 14px;
@@ -173,156 +172,14 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
             font-size: 21px;
         }
 
-        .sims-card h3 {
-            font-size: 17px;
-        }
-
-        .sims-total {
-            align-items: center;
-            display: flex;
-            gap: 20px;
-        }
-
-        .sims-total-score {
-            align-items: center;
-            background: #eaf2f6;
-            border: 2px solid #47788f;
-            border-radius: 14px;
-            display: flex;
-            flex: 0 0 105px;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 95px;
-        }
-
-        .sims-total-score strong {
-            color: #163e56;
-            font-size: 34px;
-            line-height: 1.1;
-        }
-
-        .sims-total-score span {
-            font-size: 12px;
-        }
-
-        .sims-total-copy {
-            line-height: 1.55;
-        }
-
-        .sims-scale {
-            border-bottom: 1px solid #e3e8eb;
-            padding: 14px 0;
-        }
-
-        .sims-scale:last-child {
-            border-bottom: 0;
-        }
-
-        .sims-scale-head {
-            align-items: center;
-            display: flex;
-            gap: 10px;
-            justify-content: space-between;
-        }
-
-        .sims-scale-name {
-            font-weight: 700;
-        }
-
-        .sims-scale-score {
-            color: #163e56;
-            font-size: 17px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .sims-track {
-            background: #edf0f2;
-            border-radius: 8px;
-            height: 13px;
-            margin: 10px 0 5px;
-            overflow: visible;
-            position: relative;
-        }
-
-        .sims-track-fill {
-            background: #5292a8;
-            border-radius: 8px;
-            height: 100%;
-        }
-
-        .sims-track-fill.is-elevated {
-            background: #c76b4a;
-        }
-
-        .sims-track-cutoff {
-            border-left: 2px solid #263746;
-            height: 19px;
-            position: absolute;
-            top: -3px;
-        }
-
-        .sims-track-legend {
-            color: #626b70;
-            display: flex;
-            font-size: 12px;
-            justify-content: space-between;
-        }
-
-        .sims-status {
-            border-radius: 999px;
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 10px;
-        }
-
-        .sims-status.normal {
-            background: #e7f2e9;
-            color: #286239;
-        }
-
-        .sims-status.elevated {
-            background: #f9e8e1;
-            color: #913e25;
-        }
-
         .sims-interpretation {
             line-height: 1.6;
             margin: 0;
         }
 
-        .sims-flags {
-            border-bottom: 1px solid #e3e8eb;
-            padding: 12px 0;
-        }
-
-        .sims-flags:last-child {
-            border-bottom: 0;
-        }
-
-        .sims-flags h3 {
-            margin-bottom: 8px;
-        }
-
         .sims-flag-item {
             line-height: 1.45;
             margin: 6px 0;
-        }
-
-        .sims-flag-item strong {
-            color: #163e56;
-        }
-
-        .sims-note {
-            background: #fff8e8;
-            border-left: 4px solid #d4a23c;
-            line-height: 1.5;
-            padding: 12px 15px;
-        }
-
-        .sims-download {
-            margin: 0;
         }
 
         #contenidoID {
@@ -334,11 +191,6 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
         }
 
         @media (max-width: 767px) {
-            .sims-total {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
             .sims-card {
                 padding: 15px;
             }
@@ -354,7 +206,6 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
 
         @media print {
 
-            .sims-download,
             #global-loader {
                 display: none !important;
             }
@@ -495,12 +346,10 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
                                 <?php else: ?>
                                     <?php foreach ($simsResult['scales'] as $scale): ?>
                                         <?php if (!empty($flagsByScale[$scale['code']])): ?>
-                                            <div class="sims-flags">
-                                                <h2><?= $escape($scale['name']) ?> (<?= $escape($scale['code']) ?>) ( <?= count($flagsByScale[$scale['code']]) ?>/15)</h2>
-                                                <?php foreach ($flagsByScale[$scale['code']] as $flag): ?>
-                                                    <p class="sims-flag-item"><?= $flag['item']  ?>.- <?= $escape($flag['question']) ?> (<?= $flag['omitted'] ? 'Omitido' : $escape($flag['response']) ?>)</p>
-                                                <?php endforeach; ?>
-                                            </div>
+                                            <h2><?= $escape($scale['name']) ?> (<?= $escape($scale['code']) ?>) ( <?= count($flagsByScale[$scale['code']]) ?>/15)</h2>
+                                            <?php foreach ($flagsByScale[$scale['code']] as $flag): ?>
+                                                <p class="sims-flag-item"><?= $flag['item']  ?>.- <?= $escape($flag['question']) ?> (<?= $flag['omitted'] ? 'Omitido' : $escape($flag['response']) ?>)</p>
+                                            <?php endforeach; ?>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -551,70 +400,38 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
         const reportCards = document.querySelectorAll('#contenido2 > .sims-card');
 
         reportCards.forEach(function(card) {
-            const heading = card.querySelector('h2');
-            if (heading) {
-                jsonpdf.push({
-                    type: 7,
-                    text: heading.innerText.trim()
-                });
-            }
+            Array.from(card.children).forEach(function(element) {
+                const text = element.innerText.trim();
+                if (!text) return;
 
-            if (card.classList.contains('sims-total')) {
-                const score = card.querySelector('.sims-total-score')?.innerText.trim();
-                if (score) jsonpdf.push({
-                    type: 5,
-                    text: score.replace(/\n+/g, ' ')
-                });
-                card.querySelectorAll('.sims-total-copy p').forEach(function(paragraph) {
+                if (element.matches('h1, h2')) {
+                    jsonpdf.push({
+                        type: 7,
+                        text: text
+                    });
                     jsonpdf.push({
                         type: 5,
-                        text: paragraph.innerText.trim()
-                    });
-                });
-                return;
-            }
-
-            card.querySelectorAll('.sims-scale').forEach(function(scale) {
-                const name = scale.querySelector('.sims-scale-name')?.innerText.trim() || '';
-                const score = scale.querySelector('.sims-scale-score')?.innerText.trim() || '';
-                const status = scale.querySelector('.sims-status')?.innerText.trim() || '';
-                jsonpdf.push({
-                    type: 8,
-                    text: `${name}: ${score} (${status}).`
-                });
-                const interpretation = scale.querySelector('.sims-scale-interpretation')?.innerText.trim();
-                if (interpretation) jsonpdf.push({
-                    type: 8,
-                    text: interpretation
-                });
-            });
-
-            card.querySelectorAll(':scope > p, .sims-flags').forEach(function(block) {
-                if (block.classList.contains('sims-flags')) {
-                    const subheading = block.querySelector('h3')?.innerText.trim();
-                    if (subheading) jsonpdf.push({
-                        type: 7,
-                        text: subheading
-                    });
-                    block.querySelectorAll('p').forEach(function(paragraph) {
-                        jsonpdf.push({
-                            type: 8,
-                            text: paragraph.innerText.trim()
-                        });
+                        text: ''
                     });
                     return;
                 }
-                jsonpdf.push({
-                    type: 5,
-                    text: block.innerText.trim()
-                });
-            });
-        });
 
-        document.querySelectorAll('#contenido2 > .sims-note').forEach(function(note) {
+                if (element.matches('p')) {
+                    jsonpdf.push({
+                        type: 5,
+                        text: text
+                    });
+                    if (element.classList.contains('sims-interpretation')) {
+                        jsonpdf.push({
+                            type: 5,
+                            text: ''
+                        });
+                    }
+                }
+            });
             jsonpdf.push({
                 type: 5,
-                text: note.innerText.trim()
+                text: ''
             });
         });
 
