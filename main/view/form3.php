@@ -657,6 +657,9 @@ render();
 				answersadmin.slice(start, end).forEach((q, i) => {
 					
 					const index = start + i;
+					const questionNumber = answersadmin
+						.slice(0, index + 1)
+						.filter(item => item.id != '0').length;
 					if(q.id == '0'){
 						options = [
 							{ value: 1, text: 'V'},
@@ -671,7 +674,7 @@ render();
 							const tr = document.createElement("tr");
 
 							tr.innerHTML = `
-							<td class="p-3">${q.question}</td>
+							<td class="p-3"><span class="font-semibold">${questionNumber}. </span>${q.question}</td>
 							${options.map(val => `
 								<td class="text-center">
 								<input type="radio" name="question_${id}" value="${val.value}"
@@ -721,7 +724,7 @@ render();
 						card.className = "border rounded-lg p-3 shadow-sm";
 						if(q.id == '0'){
 							card.innerHTML =`
-							<p class="mb-2 font-medium">${index+1}. ${q.question}</p>
+							<p class="mb-2 font-medium">${q.question}</p>
 							<div class="grid grid-cols-1 gap-2 text-center">
 								<label class="border rounded p-2 ${q.response!=null?'bg-yellow-100':''}">
 								<input type="text" id="other_answer" value="${input_answer}" placeholder="Opcional" class="w-full p-1 rounded-xl text-black" style="border-color: #484848;
@@ -741,7 +744,7 @@ render();
 							
 						}else{
 							card.innerHTML = `
-							<p class="mb-2 font-medium">${index+1}. ${q.question}</p>
+							<p class="mb-2 font-medium"><span class="font-semibold">${questionNumber}. </span>${q.question}</p>
 							<div class="grid grid-cols-2 gap-2 text-center">
 								${options.map(val => `
 								<label class="border rounded p-2 ${q.response==val.value?'bg-yellow-100':''}">
