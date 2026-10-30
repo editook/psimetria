@@ -22,6 +22,7 @@ $idCientCode = '';
 $idPatientCode = '';
 $is_share = false;
 $is_view = false;
+
 $text_button_send = 'Corregir resultados';
 if (isset($_GET['client']) && isset($_GET['patient'])) {
     if (strlen($_GET['client']) > 10 && strlen($_GET['patient']) > 10) {
@@ -101,6 +102,7 @@ $device = $registerModel->getDeviceType();
             var questions = <?php echo json_encode($answers) ?>;
             var fullname = <?php echo json_encode($register['id_client']) ?>;
             var testname = <?php echo json_encode($register['type_question_name']) ?>;
+
             const options = [{
                     value: 1,
                     text: 'Verdadero'

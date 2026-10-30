@@ -351,11 +351,17 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
                                                             <div class="pe-1  mb-xl-0" style="cursor:pointer" onclick="page(`<?= LOCALHOST . '/view/form' . $redirect . '.php?client=' . $idClient . '&patient=' . $data['id'] ?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end"><?= $text_test ?></span></div>
                                                             <div class="pe-1  mb-xl-0" style="<?= $data['status'] == 'PENDIENTE' ? 'pointer-events: none;opacity: 0.3;' : 'cursor:pointer' ?>" onclick="page(`<?= LOCALHOST . '/view/result' . $redirect . '.php?client=' . $idClient . '&patient=' . $data['id'] ?>`,`<?= $status ?>`)"><span class="badge <?= $status == 'MANTENIMIENTO' ? 'bg-success-transparent' : 'bg-primary-transparent' ?> text-primary ms-auto float-end">Resultado</span></div>
 
-                                                            <div class="pe-1  mb-xl-0" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
-                                                                href="#modaldemo8" onclick="updateClient(`<?= $data['id'] ?>`,`<?= $data['id_client'] ?>`,`<?= $data['age'] ?>`,`<?= $data['sex'] ?>`,`<?= $data['id_type_question'] ?>`,`<?= $data['baremo_id'] ?>`)"><i class="text-warning las la-pen"></i></div>
-                                                            <div class="pe-1  mb-xl-0" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
-                                                                href="#modalshare9" onclick="openShareLink(`<?= $urlshare_client ?>`,`<?= $redirect ?>`,`<?= $data['urlshare'] ?>`)"><i class=" las la-share"></i></div>
-                                                            <div class="pe-1  mb-xl-0" onclick="eliminarRegistro(`<?= $data['id_client'] ?>`,`<?= $data['id'] ?>`)" href="#modalremove1" data-bs-effect="effect-scale" data-bs-toggle="modal" style="cursor:pointer"><i class=" text-danger las la-trash"></i></div>
+                                                            <div class="pe-1  mb-xl-0" title="Editar registro" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
+                                                                href="#modaldemo8" onclick="updateClient(`<?= $data['id'] ?>`,`<?= $data['id_client'] ?>`,`<?= $data['age'] ?>`,`<?= $data['sex'] ?>`,`<?= $data['id_type_question'] ?>`,`<?= $data['baremo_id'] ?>`)"><i class="fs-5 text-warning las la-pen"></i></div>
+
+                                                            <div class="pe-1  mb-xl-0" title="Compartir enlace" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
+                                                                href="#modalshare9" onclick="openShareLink(`<?= $urlshare_client ?>`,`<?= $redirect ?>`,`<?= $data['urlshare'] ?>`)"><i class="fs-5 text-success las la-share"></i></div>
+                                                            <?php if ($data['id_type_question'] == 7) { ?>
+                                                                <div class="pe-1  mb-xl-0" title="Compartir enlace - Campos ocultos" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
+                                                                    href="#modalshare9" onclick="openShareLink(`<?= $urlshare_client ?>`,`<?= $redirect ?>`,`<?= $data['urlshare'] ?>`,`Qc0Ut_k_tdLIeCiD4sVH7gZV`)"><i class="fs-5 text-info las la-share-alt"></i></div>
+
+                                                            <?php } ?>
+                                                            <div class="pe-1  mb-xl-0" title="Eliminar registro" onclick="eliminarRegistro(`<?= $data['id_client'] ?>`,`<?= $data['id'] ?>`)" href="#modalremove1" data-bs-effect="effect-scale" data-bs-toggle="modal" style="cursor:pointer"><i class="fs-5 text-danger las la-trash"></i></div>
                                                         </div>
 
                                                     </td>
@@ -568,8 +574,14 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
     <script>
         const baremos = <?= json_encode($baremos); ?>;
         const selectElement = document.getElementById("baremo_id");
+        const typeQuestionElement = document.getElementById("id_type_question");
+        document.querySelector('form[action="register.php"]').addEventListener("submit", function() {
+            // Los select deshabilitados no se envian en el POST.
+            typeQuestionElement.disabled = false;
+            selectElement.disabled = false;
+        });
         //cambio de baremos
-        document.getElementById("id_type_question").addEventListener("change", function() {
+        typeQuestionElement.addEventListener("change", function() {
             const id = this.value;
             reloadBaremos(id);
 
@@ -611,8 +623,11 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
             //window.open(url, '_blank');
         }
 
-        function openShareLink(client_id, redirect, patient_id) {
-            var url = '<?= LOCALHOST ?>' + "/view/form" + redirect + ".php?client=" + client_id + "&patient=" + patient_id;
+        function openShareLink(client_id, redirect, patient_id, hidden = "") {
+            if (hidden != "") {
+                hidden = "&h=" + hidden;
+            }
+            var url = '<?= LOCALHOST ?>' + "/view/form" + redirect + ".php?client=" + client_id + "&patient=" + patient_id + hidden;
             const input_share_model = document.getElementById("input_share_model");
             input_share_model.value = url;
         }
@@ -680,14 +695,19 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
 
         function updateClient(id = '', id_client = '', age = '', sex = '', id_type_question = '', baremo_id = '') {
             //console.log(id,id_client,age,id_type_question,baremo_id);
+            const isEditing = id !== '';
             $('#id').val(id);
             $('#id_client').val(id_client);
             $('#age').val(age);
             $('#sex').val(sex).trigger('change');
+            typeQuestionElement.disabled = isEditing;
+            selectElement.disabled = isEditing;
             $('#id_type_question').val(id_type_question).trigger('change');
             setTimeout(function() {
                 reloadBaremos(id_type_question);
                 $('#baremo_id').val(baremo_id).trigger('change');
+                typeQuestionElement.disabled = isEditing;
+                selectElement.disabled = isEditing;
             }, 500);
         }
     </script>
