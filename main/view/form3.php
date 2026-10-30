@@ -638,6 +638,8 @@ render();
 
 			const desktopTable = document.getElementById("tableDesktop");
 			const mobileContainer = document.getElementById("mobileContainer");
+			const prevBtn = document.getElementById("prevBtn");
+			const nextBtn = document.getElementById("nextBtn");
 			const progress = document.getElementById("progress");
 			
 			function render() {
@@ -646,6 +648,9 @@ render();
 
 				const start = currentPage * perPage;
 				const end = start + perPage;
+				const lastPage = Math.max(0, Math.ceil(answersadmin.length / perPage) - 1);
+				prevBtn.style.visibility = currentPage === 0 ? "hidden" : "visible";
+				nextBtn.hidden = currentPage >= lastPage;
 				
 				//-------------------------------------------------------------------
 
@@ -801,7 +806,7 @@ render();
 			}
 
 			/* NAV */
-			document.getElementById("nextBtn").onclick = () => {
+			nextBtn.onclick = () => {
 				if ((currentPage + 1) * perPage < answersadmin.length) {
 					currentPage++;
 					render();
@@ -819,7 +824,7 @@ render();
 					});
 				}
 			});
-			document.getElementById("prevBtn").onclick = () => {
+			prevBtn.onclick = () => {
 				if (currentPage > 0) {
 					currentPage--;
 					render();

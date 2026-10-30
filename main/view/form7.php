@@ -872,6 +872,8 @@ $device = $registerModel->getDeviceType();
 
       const desktopTable = document.getElementById("tableDesktop");
       const mobileContainer = document.getElementById("mobileContainer");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
       const progress = document.getElementById("progress");
 
       function render() {
@@ -880,6 +882,9 @@ $device = $registerModel->getDeviceType();
 
         const start = currentPage * perPage;
         const end = start + perPage;
+        const lastPage = Math.max(0, Math.ceil(answersadmin.length / perPage) - 1);
+        prevBtn.style.visibility = currentPage === 0 ? "hidden" : "visible";
+        nextBtn.hidden = currentPage >= lastPage;
 
         answersadmin.slice(start, end).forEach((q, i) => {
           const index = start + i;
@@ -970,14 +975,14 @@ $device = $registerModel->getDeviceType();
         progress.textContent = `${answered} / ${total} respondidas`;
       }
 
-      document.getElementById("nextBtn").onclick = () => {
+      nextBtn.onclick = () => {
         if ((currentPage + 1) * perPage < answersadmin.length) {
           currentPage++;
           render();
         }
       };
 
-      document.getElementById("prevBtn").onclick = () => {
+      prevBtn.onclick = () => {
         if (currentPage > 0) {
           currentPage--;
           render();
