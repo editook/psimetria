@@ -527,8 +527,8 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
                         to: scale.cutoff
                     },
                     yaxis: {
-                        from: y - 0.5,
-                        to: y + 0.5
+                        from: y - 0.57,
+                        to: y + 0.57
                     },
                     color: '#43b59b'
                 }, {
@@ -537,8 +537,8 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
                         to: 15
                     },
                     yaxis: {
-                        from: y - 0.5,
-                        to: y + 0.5
+                        from: y - 0.57,
+                        to: y + 0.57
                     },
                     color: '#ffe2bf'
                 });
@@ -557,7 +557,7 @@ foreach ($simsResult['elevated_scales'] as $rank => $scale) {
                     hoverable: false,
                     clickable: false,
                     borderWidth: 0,
-                    borderColor: 'white',
+                    borderColor: 'transparent',
                     markings: markings
                 },
                 xaxis: {

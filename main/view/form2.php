@@ -613,7 +613,7 @@ render();
 						
 						${[1].map(val => `
 							<td class="text-center pr-3">
-							<input type="number" style="background: #dddddd;" name="question_${id}" value="${q.response == null || q.response == '0'?"":q.response}" class="w-full p-2 rounded-xl text-black ${is_view ? "i-disabled" : ""}"
+							<input type="number" min="1" max="99" style="background: #dddddd;" name="question_${id}" value="${q.response == null || q.response == '0'?"":q.response}" class="w-full p-2 rounded-xl text-black ${is_view ? "i-disabled" : ""}"
 								 >
 							</td>
 						`).join("")}
@@ -621,7 +621,9 @@ render();
 
 						tr.querySelectorAll("input").forEach(input => {
 							input.addEventListener("change", () => {
-								
+								if (input.value !== "") {
+									input.value = Math.min(99, Math.max(1, Number(input.value)));
+								}
 								answersadmin[index].response = input.value;
 								tr.classList.add("answered");
 								
@@ -646,7 +648,7 @@ render();
 						<div class="grid grid-cols-1 gap-2 text-center">
 							${[1].map(val => `
 							<label class="rounded p-2 ${answersadmin[index].response==val?'bg-yellow-100':''}">
-								<input type="number" style="background: #dddddd;" name="question_${id}" value="${q.response == null || q.response == '0'?"":q.response}" class="w-full p-2 rounded-xl text-black ${is_view ? "i-disabled" : ""}"
+								<input type="number" min="1" max="99" style="background: #dddddd;" name="question_${id}" value="${q.response == null || q.response == '0'?"":q.response}" class="w-full p-2 rounded-xl text-black ${is_view ? "i-disabled" : ""}"
 								 >
 							</label>
 							`).join("")}
