@@ -53,7 +53,11 @@ if (isset($_GET['search'])) {
 }
 
 if ($idClient == 0) {
-    die();
+    echo "<script>
+\t\t\talert('Ocurrio un error inesperado, redireccionando...');
+\t\t</script>
+";
+    exit;
 }
 
 

@@ -200,6 +200,7 @@ $device = $registerModel->getDeviceType();
 
                 if (!patient.name) {
                     app.innerHTML = renderPatientForm();
+                    bindProblemLimit();
                     return;
                 }
 
@@ -360,6 +361,9 @@ $device = $registerModel->getDeviceType();
             <input type="text" id="share_problem11_texto" placeholder="Otro (especificar)"
               class="flex-1 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:outline-none focus:border-blue-400">
           </div>
+          <p id="share_problem_error" class="hidden text-sm text-red-600 mt-2" role="alert">
+            Solo puede indicar un máximo de dos problemas.
+          </p>
         </div>
       </div>
 
@@ -382,6 +386,28 @@ $device = $registerModel->getDeviceType();
       <p class="text-center text-black/40 text-xs mt-5"><i class="fas fa-lock"></i> Sus respuestas son confidenciales</p>
     </div>
   `;
+            }
+
+            function bindProblemLimit() {
+                const fields = Array.from(document.querySelectorAll('input[type="number"][id^="share_problem"]'));
+                const error = document.getElementById('share_problem_error');
+
+                fields.forEach(field => {
+                    field.addEventListener('input', () => {
+                        error.classList.add('hidden');
+
+                        if (field.value !== '' && !['1', '2'].includes(field.value)) {
+                            field.value = '';
+                            return;
+                        }
+
+                        const selectedCount = fields.filter(input => input.value !== '').length;
+                        if (selectedCount > 2) {
+                            field.value = '';
+                            error.classList.remove('hidden');
+                        }
+                    });
+                });
             }
 
             function startQuiz() {
@@ -509,14 +535,26 @@ $device = $registerModel->getDeviceType();
         `).join('')}
       </div>
       <br>
-      <button onclick="reset()" class="w-full font-bold py-3 px-8 rounded-full shadow-xl text-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" style="background: #0B2B5E;">
+      <button type="button" onclick="reset(this)" class="w-full font-bold py-3 px-8 rounded-full shadow-xl text-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl disabled:opacity-70 disabled:cursor-wait" style="background: #0B2B5E;">
         Enviar resultados
       </button>
     </div>
   `;
             }
 
-            function reset() {
+            function reset(button) {
+                if (button.disabled) return;
+
+                const originalLabel = button.innerHTML;
+                button.disabled = true;
+                button.setAttribute('aria-busy', 'true');
+                button.innerHTML = `
+                    <span class="inline-flex items-center justify-center gap-3">
+                        <span class="h-5 w-5 rounded-full border-2 border-white/40 border-t-white animate-spin" aria-hidden="true"></span>
+                        Enviando resultados...
+                    </span>
+                `;
+
                 const data = new FormData();
                 data.append('idClient', "<?php echo $idClient ?>");
                 data.append('patient', "<?php echo $idpatient; ?>");
@@ -549,6 +587,11 @@ $device = $registerModel->getDeviceType();
                     setTimeout(() => {
                         window.location.href = 'https://www.google.com';
                     }, 5000);
+                }).catch(() => {
+                    button.disabled = false;
+                    button.removeAttribute('aria-busy');
+                    button.innerHTML = originalLabel;
+                    alert('No se pudieron enviar los resultados. Intente nuevamente.');
                 });
             }
 

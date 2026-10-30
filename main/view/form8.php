@@ -279,14 +279,20 @@ $device = $registerModel->getDeviceType();
         `).join('')}
       </div>
       <br>
-      <button onclick="reset()" class="w-full font-bold py-3 px-8 rounded-full shadow-xl text-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" style="background: #0B2B5E;">
+      <button type="button" onclick="reset(this)" class="w-full font-bold py-3 px-8 rounded-full shadow-xl text-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl disabled:opacity-70 disabled:cursor-wait" style="background: #0B2B5E;">
         Enviar resultados
       </button>
     </div>
   `;
             }
 
-            function reset() {
+            function reset(button) {
+                if (button.disabled) return;
+
+                button.disabled = true;
+                button.setAttribute('aria-busy', 'true');
+                button.innerHTML = '<span class="inline-flex items-center justify-center gap-3"><span class="h-5 w-5 rounded-full border-2 border-white/40 border-t-white animate-spin" aria-hidden="true"></span>Enviando resultados...</span>';
+
                 const data = new FormData();
                 data.append('idClient', "<?php echo $idClient ?>");
                 data.append('patient', "<?php echo $idpatient; ?>");
@@ -305,6 +311,11 @@ $device = $registerModel->getDeviceType();
                     setTimeout(() => {
                         window.location.href = 'https://www.google.com';
                     }, 5000);
+                }).catch(() => {
+                    button.disabled = false;
+                    button.removeAttribute('aria-busy');
+                    button.innerHTML = 'Enviar resultados';
+                    alert('No se pudieron enviar los resultados. Intente nuevamente.');
                 });
             }
 

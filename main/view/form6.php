@@ -430,7 +430,7 @@ function renderSummary() {
       `).join('')}
     </div>
 	<br>
-    <button onclick="reset()" class="w-full font-bold py-3 px-8 rounded-full shadow-xl
+    <button type="button" onclick="reset(this)" class="w-full font-bold py-3 px-8 rounded-full shadow-xl
          bg-gradient-to-r from-[#4D8DFF] to-[#0162E8]
          text-white
          transform transition-all duration-300
@@ -442,8 +442,11 @@ function renderSummary() {
   </div>`;
 }
 
-function reset() {
-	
+function reset(button) {
+	if (button.disabled) return;
+	button.disabled = true;
+	button.setAttribute('aria-busy', 'true');
+	button.innerHTML = '<span class="inline-flex items-center justify-center gap-3"><span class="h-5 w-5 rounded-full border-2 border-white/40 border-t-white animate-spin" aria-hidden="true"></span>Enviando resultados...</span>';
 
   	const data = new FormData();
 	data.append('idClient', "<?php echo $idClient?>");
