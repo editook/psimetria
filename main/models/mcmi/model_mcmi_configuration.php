@@ -7,14 +7,16 @@ if (!class_exists('ModelBaremoEeuu')) {
     include_once(__DIR__ . '/model_baremo_eeuu.php');
 }
 
-class ModelMcmiConfiguration {
+class ModelMcmiConfiguration
+{
     private $scale_rules;
     private $sinceridad_adjustments;
     private $anx_dep_adjustments;
     private $facets_info;
     private $syndromes_info;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->scale_rules = [
             'Esquizoide' => [['item' => 6, 'response' => 'V', 'weight' => 2], ['item' => 15, 'response' => 'V', 'weight' => 2], ['item' => 43, 'response' => 'V', 'weight' => 2], ['item' => 90, 'response' => 'V', 'weight' => 2], ['item' => 119, 'response' => 'V', 'weight' => 2], ['item' => 139, 'response' => 'V', 'weight' => 2], ['item' => 149, 'response' => 'V', 'weight' => 2], ['item' => 180, 'response' => 'V', 'weight' => 2], ['item' => 17, 'response' => 'V', 'weight' => 1], ['item' => 24, 'response' => 'V', 'weight' => 1], ['item' => 70, 'response' => 'V', 'weight' => 1], ['item' => 92, 'response' => 'V', 'weight' => 1], ['item' => 190, 'response' => 'V', 'weight' => 1], ['item' => 30, 'response' => 'F', 'weight' => 1], ['item' => 154, 'response' => 'F', 'weight' => 1]],
             'Evitativo' => [['item' => 5, 'response' => 'V', 'weight' => 2], ['item' => 12, 'response' => 'V', 'weight' => 2], ['item' => 26, 'response' => 'V', 'weight' => 2], ['item' => 99, 'response' => 'V', 'weight' => 2], ['item' => 135, 'response' => 'V', 'weight' => 2], ['item' => 195, 'response' => 'V', 'weight' => 2], ['item' => 23, 'response' => 'V', 'weight' => 1], ['item' => 24, 'response' => 'V', 'weight' => 1], ['item' => 52, 'response' => 'V', 'weight' => 1], ['item' => 92, 'response' => 'V', 'weight' => 1], ['item' => 93, 'response' => 'V', 'weight' => 1], ['item' => 112, 'response' => 'V', 'weight' => 1], ['item' => 178, 'response' => 'V', 'weight' => 1], ['item' => 184, 'response' => 'V', 'weight' => 1], ['item' => 193, 'response' => 'V', 'weight' => 1], ['item' => 46, 'response' => 'F', 'weight' => 1], ['item' => 67, 'response' => 'F', 'weight' => 1], ['item' => 154, 'response' => 'F', 'weight' => 1]],
@@ -359,28 +361,51 @@ class ModelMcmiConfiguration {
         ];
     }
 
-    public function score($answers, $baremo_id) {
+    public function score($answers, $baremo_id)
+    {
         $baremo = ($baremo_id == 59) ? new ModelBaremoEspania() : new ModelBaremoEeuu();
-        
+
         // 1. Convert answers list to map item_order -> response
         $responses = [];
         foreach ($answers as $ans) {
-            $responses[intval($ans['item_order'])] = intval($ans['response']);
+            if ($ans['response'] !== null) {
+                $responses[intval($ans['item_order'])] = intval($ans['response']);
+            }
         }
-        
+
         // 2. Calculate Raw Scores (PD)
         $raw_scores = [];
         $scale_map = [
-            'Esquizoide' => '1', 'Evitativo' => '2A', 'Melancólico' => '2B', 'Dependiente' => '3',
-            'Histriónico' => '4A', 'Tempestuoso' => '4B', 'Narcisista' => '5', 'Antisocial' => '6A',
-            'Sádico' => '6B', 'Compulsivo' => '7', 'Negativista' => '8A', 'Masoquista' => '8B',
-            'Esquizotípico' => 'S', 'Límite' => 'C', 'Paranoide' => 'P', 'Ansiedad generalizada' => 'A',
-            'Síntomas somáticos' => 'H', 'Espectro bipolar' => 'N', 'Depresión persistente' => 'D',
-            'Consumo de alcohol' => 'B', 'Consumo de drogas' => 'T', 'Estrés postraumático' => 'R',
-            'Espectro esquizofrénico' => 'SS', 'Depresión mayor' => 'CC', 'Delirante' => 'PP',
-            'Sinceridad' => 'X', 'Deseabilidad social' => 'Y', 'Devaluación' => 'Z'
+            'Esquizoide' => '1',
+            'Evitativo' => '2A',
+            'Melancólico' => '2B',
+            'Dependiente' => '3',
+            'Histriónico' => '4A',
+            'Tempestuoso' => '4B',
+            'Narcisista' => '5',
+            'Antisocial' => '6A',
+            'Sádico' => '6B',
+            'Compulsivo' => '7',
+            'Negativista' => '8A',
+            'Masoquista' => '8B',
+            'Esquizotípico' => 'S',
+            'Límite' => 'C',
+            'Paranoide' => 'P',
+            'Ansiedad generalizada' => 'A',
+            'Síntomas somáticos' => 'H',
+            'Espectro bipolar' => 'N',
+            'Depresión persistente' => 'D',
+            'Consumo de alcohol' => 'B',
+            'Consumo de drogas' => 'T',
+            'Estrés postraumático' => 'R',
+            'Espectro esquizofrénico' => 'SS',
+            'Depresión mayor' => 'CC',
+            'Delirante' => 'PP',
+            'Sinceridad' => 'X',
+            'Deseabilidad social' => 'Y',
+            'Devaluación' => 'Z'
         ];
-        
+
         foreach ($scale_map as $scale_name => $code) {
             $raw_scores[$code] = 0;
             if (isset($this->scale_rules[$scale_name])) {
@@ -394,7 +419,7 @@ class ModelMcmiConfiguration {
                 }
             }
         }
-        
+
         // Calculate raw scores for all facets
         foreach ($this->scale_rules as $scale_name => $rules) {
             if (preg_match('/^[0-9A-Z_\.]+\.[0-9]+$/', $scale_name)) {
@@ -409,7 +434,7 @@ class ModelMcmiConfiguration {
                 }
             }
         }
-        
+
         // Calculate Invalidez (V) and Inconsistencia (W)
         $invalidez = 0;
         foreach ($this->scale_rules['INVALIDEZ'] as $rule) {
@@ -420,7 +445,7 @@ class ModelMcmiConfiguration {
                 $invalidez += $rule['weight'];
             }
         }
-        
+
         $inconsistencia = 0;
         foreach ($this->scale_rules['INCONSISTENCIA'] as $pair) {
             $ansA = $responses[$pair[0]] ?? 0;
@@ -429,7 +454,7 @@ class ModelMcmiConfiguration {
                 $inconsistencia++;
             }
         }
-        
+
         // 3. Convert PD to Initial TB using Baremos
         $initial_tbs = [];
         foreach ($scale_map as $scale_name => $code) {
@@ -441,66 +466,66 @@ class ModelMcmiConfiguration {
                 $initial_tbs[$code] = 0;
             }
         }
-        
+
         // 4. Calculate Adjustments
         // Sinceridad X Adjustment
         $x_pd = $raw_scores['X'];
         $x_adj = $this->sinceridad_adjustments[strval($x_pd)] ?? ['personality' => 0, 'severe_clinical' => 0];
-        
+
         // Anxiety/Depression A/CC Adjustment
         $a_tb = $initial_tbs['A'];
         $cc_tb = $initial_tbs['CC'];
         $w3 = max(0, $a_tb - 75);
         $w4 = max(0, $cc_tb - 75);
         $w5 = $w3 + $w4;
-        
+
         $ad_adj = $this->anx_dep_adjustments[strval($w5)] ?? ['mel_mas_lim' => 0, 'evi_szt' => 0];
-        
+
         // 5. Apply Adjustments to get Final TB
         $final_tbs = [];
         $adjustments_applied = [];
-        
+
         $personality_scales = ['1', '2A', '2B', '3', '4A', '4B', '5', '6A', '6B', '7', '8A', '8B'];
         $severe_personality_scales = ['S', 'C', 'P'];
         $clinical_syndromes = ['A', 'H', 'N', 'D', 'B', 'T', 'R'];
         $severe_clinical_syndromes = ['SS', 'CC', 'PP'];
-        
+
         foreach ($scale_map as $scale_name => $code) {
             if (in_array($code, ['X', 'Y', 'Z'])) {
                 $final_tbs[$code] = $initial_tbs[$code];
                 $adjustments_applied[$code] = ['x' => 0, 'ad' => 0];
                 continue;
             }
-            
+
             $init_tb = $initial_tbs[$code];
             $x_val = 0;
             $ad_val = 0;
-            
+
             // Apply X adjustment
             if (in_array($code, $personality_scales)) {
                 $x_val = $x_adj['personality'];
             } else {
                 $x_val = $x_adj['severe_clinical'];
             }
-            
+
             // Apply A/CC adjustment
             if ($code === '2A' || $code === 'S') {
                 $ad_val = $ad_adj['evi_szt'];
             } elseif ($code === '2B' || $code === '8B' || $code === 'C') {
                 $ad_val = $ad_adj['mel_mas_lim'];
             }
-            
+
             $final_tb = $init_tb + $x_val + $ad_val;
             $final_tb = max(0, min(115, $final_tb));
-            
+
             // PRECISION ADJUSTMENT: TB + PC/1000 + PD/1000000
             $pd = $raw_scores[$code] ?? 0;
             $pc = $percentiles[$code] ?? 0;
             $final_tbs[$code] = $final_tb + ($pc / 1000) + ($pd / 1000000);
-            
+
             $adjustments_applied[$code] = ['x' => $x_val, 'ad' => $ad_val];
         }
-        
+
         // 6. Look up Percentiles (PC)
         $percentiles = [];
         foreach ($scale_map as $scale_name => $code) {
@@ -512,20 +537,20 @@ class ModelMcmiConfiguration {
                 $percentiles[$code] = 0;
             }
         }
-        
+
         // Facets PC and TB (looked up directly from Raw Scores)
         $facets_tb = [];
         foreach ($this->scale_rules as $scale_name => $rules) {
             if (preg_match('/^[0-9A-Z_\.]+\.[0-9]+$/', $scale_name)) {
                 $pd = $raw_scores[$scale_name];
-                
+
                 $method_name = "getPercentilFacet" . str_replace('.', '_', $scale_name);
                 if (method_exists($baremo, $method_name)) {
                     $percentiles[$scale_name] = $baremo->$method_name($pd);
                 } else {
                     $percentiles[$scale_name] = 0;
                 }
-                
+
                 $method_name_tb = "getTbFacet" . str_replace('.', '_', $scale_name);
                 if (method_exists($baremo, $method_name_tb)) {
                     $facets_tb[$scale_name] = $baremo->$method_name_tb($pd);
@@ -534,13 +559,13 @@ class ModelMcmiConfiguration {
                 }
             }
         }
-        
+
         // 7. Generate Narratives
         $validity = $this->getValidityStatus($invalidez, $inconsistencia);
         $report = [];
         $report['validity_text'] = $validity['message'];
         $report['validity_status'] = $validity['status'];
-        
+
         if ($validity['status'] === 'INVALID') {
             $report['personality'] = "El protocolo se considera inválido para su interpretación.";
             $report['facets'] = "El protocolo se considera inválido para su interpretación.";
@@ -550,7 +575,7 @@ class ModelMcmiConfiguration {
             $report['facets'] = $this->getFacetsReport($final_tbs, $percentiles, $facets_tb);
             $report['syndromes'] = $this->getSyndromesReport($final_tbs, $percentiles);
         }
-        
+
         return [
             'raw_scores' => $raw_scores,
             'initial_tbs' => $initial_tbs,
@@ -563,8 +588,9 @@ class ModelMcmiConfiguration {
             'report' => $report
         ];
     }
-    
-    public function getValidityStatus($invalidez, $inconsistencia) {
+
+    public function getValidityStatus($invalidez, $inconsistencia)
+    {
         if ($invalidez >= 2 && $inconsistencia >= 20) {
             return [
                 'status' => 'INVALID',
@@ -600,36 +626,37 @@ class ModelMcmiConfiguration {
             'message' => "El perfil es interpretable: las escalas V (Invalidez) y W (Inconsistencia) no muestran un patrón compatible con respuestas aleatorias, de modo que el perfil puede analizarse a partir de las elevaciones que presenta."
         ];
     }
-    
-    private function getPersonalityReport($final_tbs, $percentiles) {
+
+    private function getPersonalityReport($final_tbs, $percentiles)
+    {
         // Find top clinical personality scales
         $p_scales = [
-            '1' => $final_tbs['1'] + $percentiles['1']/1000 + $final_tbs['1']/1000000,
-            '2A' => $final_tbs['2A'] + $percentiles['2A']/1000 + $final_tbs['2A']/1000000,
-            '2B' => $final_tbs['2B'] + $percentiles['2B']/1000 + $final_tbs['2B']/1000000,
-            '3' => $final_tbs['3'] + $percentiles['3']/1000 + $final_tbs['3']/1000000,
-            '4A' => $final_tbs['4A'] + $percentiles['4A']/1000 + $final_tbs['4A']/1000000,
-            '4B' => $final_tbs['4B'] + $percentiles['4B']/1000 + $final_tbs['4B']/1000000,
-            '5' => $final_tbs['5'] + $percentiles['5']/1000 + $final_tbs['5']/1000000,
-            '6A' => $final_tbs['6A'] + $percentiles['6A']/1000 + $final_tbs['6A']/1000000,
-            '6B' => $final_tbs['6B'] + $percentiles['6B']/1000 + $final_tbs['6B']/1000000,
-            '7' => $final_tbs['7'] + $percentiles['7']/1000 + $final_tbs['7']/1000000,
-            '8A' => $final_tbs['8A'] + $percentiles['8A']/1000 + $final_tbs['8A']/1000000,
-            '8B' => $final_tbs['8B'] + $percentiles['8B']/1000 + $final_tbs['8B']/1000000
+            '1' => $final_tbs['1'] + $percentiles['1'] / 1000 + $final_tbs['1'] / 1000000,
+            '2A' => $final_tbs['2A'] + $percentiles['2A'] / 1000 + $final_tbs['2A'] / 1000000,
+            '2B' => $final_tbs['2B'] + $percentiles['2B'] / 1000 + $final_tbs['2B'] / 1000000,
+            '3' => $final_tbs['3'] + $percentiles['3'] / 1000 + $final_tbs['3'] / 1000000,
+            '4A' => $final_tbs['4A'] + $percentiles['4A'] / 1000 + $final_tbs['4A'] / 1000000,
+            '4B' => $final_tbs['4B'] + $percentiles['4B'] / 1000 + $final_tbs['4B'] / 1000000,
+            '5' => $final_tbs['5'] + $percentiles['5'] / 1000 + $final_tbs['5'] / 1000000,
+            '6A' => $final_tbs['6A'] + $percentiles['6A'] / 1000 + $final_tbs['6A'] / 1000000,
+            '6B' => $final_tbs['6B'] + $percentiles['6B'] / 1000 + $final_tbs['6B'] / 1000000,
+            '7' => $final_tbs['7'] + $percentiles['7'] / 1000 + $final_tbs['7'] / 1000000,
+            '8A' => $final_tbs['8A'] + $percentiles['8A'] / 1000 + $final_tbs['8A'] / 1000000,
+            '8B' => $final_tbs['8B'] + $percentiles['8B'] / 1000 + $final_tbs['8B'] / 1000000
         ];
-        
+
         arsort($p_scales);
         $sorted_codes = array_keys($p_scales);
-        
+
         $aq205 = $sorted_codes[0];
         $aq206 = $final_tbs[$aq205];
-        
+
         $aq207 = $sorted_codes[1];
         $aq208 = $final_tbs[$aq207];
-        
+
         $aq209 = $sorted_codes[2];
         $aq210 = $final_tbs[$aq209];
-        
+
         // Find highest severe scale (S, C, P)
         $severe_scales = [
             'S' => $final_tbs['S'],
@@ -639,13 +666,13 @@ class ModelMcmiConfiguration {
         arsort($severe_scales);
         $aq211 = array_keys($severe_scales)[0];
         $aq212 = $severe_scales[$aq211];
-            if ($aq212 < 85) {
+        if ($aq212 < 85) {
             $aq211 = "";
             $aq212 = 0;
         }
-        
+
         $text = "";
-        
+
         // AR186 (Severe personality scale narrative)
         if ($aq212 >= 85) {
             $sev_name = match ($aq211) {
@@ -655,11 +682,11 @@ class ModelMcmiConfiguration {
                 default => ''
             };
             $text .= "Sobresale como configuración nuclear del perfil un cuadro "
-            . $sev_name
-            . ", que alcanza el rango de un trastorno clínicamente significativo "
-            . "de la personalidad y organiza la interpretación del resto del perfil. ";
-            
-            
+                . $sev_name
+                . ", que alcanza el rango de un trastorno clínicamente significativo "
+                . "de la personalidad y organiza la interpretación del resto del perfil. ";
+
+
             if ($aq211 === 'S') {
 
                 $text .= "El evaluado(a) prefiere estar aislado socialmente y sostener "
@@ -671,7 +698,6 @@ class ModelMcmiConfiguration {
                     . "patrón básico es activo muestra desconfianza ansiosa e "
                     . "hipersensibilidad y si es pasivo muestra aplanamiento emocional "
                     . "y afecto deficiente. ";
-
             } elseif ($aq211 === 'C') {
 
                 $text .= "El evaluado(a) se caracteriza por su inestabilidad y "
@@ -684,7 +710,6 @@ class ModelMcmiConfiguration {
                     . "propia identidad, en tanto que a menudo muestra una "
                     . "ambivalencia cognitivo-afectiva que se evidencia en sentimientos "
                     . "conflictivos de rabia, amor y culpa hacia los demás. ";
-
             } elseif ($aq211 === 'P') {
 
                 $text .= "El evaluado(a) se muestra desconfiado y en alerta hacia los "
@@ -697,7 +722,7 @@ class ModelMcmiConfiguration {
                     . "influencias y al control externo. ";
             }
         }
-        
+
         // AR190 / AR191 (Primary clinical personality scale narrative)
         if ($aq206 >= 60) {
             if ($aq212 >= 85) {
@@ -705,7 +730,7 @@ class ModelMcmiConfiguration {
             } else {
                 $text .= "El perfil del evaluado(a) refleja, como configuración principal del estilo básico de la personalidad, ";
             }
-            
+
             if ($aq206 >= 85) {
                 $text .= "un trastorno clínicamente significativo de la personalidad de tipo ";
             } elseif ($aq206 >= 75) {
@@ -713,7 +738,7 @@ class ModelMcmiConfiguration {
             } else {
                 $text .= "un estilo de personalidad ";
             }
-            
+
             $desc_map = [
                 '1' => "esquizoide. El evaluado(a) se caracteriza por su falta de deseo y su incapacidad para sentir placer o dolor intenso, se muestra indiferente ante las relaciones sociales y tiende a ser apático, distante y asocial; sus emociones y necesidades afectivas son mínimas y actúa como un observador pasivo, desligado del beneficio y del afecto que aportan las relaciones humanas, así como de los requerimientos de las mismas. ",
                 '2A' => "evitativo. El evaluado(a) experimenta pocos refuerzos positivos procedentes de sí mismo o de los demás y está siempre alerta, preparado para distanciarse de las experiencias dolorosas o negativas de la vida; su estrategia adaptativa refleja miedo y desconfianza hacia los demás, en virtud de la cual mantiene una vigilancia constante para evitar que su anhelo de afecto resulte en la repetición del dolor y la angustia que ha experimentado con otras personas, de modo que, a pesar de sus deseos de relacionarse con los demás, ha aprendido que es mejor negar estos sentimientos y mantener la distancia interpersonal necesaria. ",
@@ -730,7 +755,7 @@ class ModelMcmiConfiguration {
             ];
             $text .= $desc_map[$aq205] ?? "";
         }
-        
+
         // AR193 (Secondary clinical personality scale narrative)
         if ($aq208 >= 60) {
             $sec_range = "";
@@ -741,15 +766,24 @@ class ModelMcmiConfiguration {
             } else {
                 $sec_range = "rasgos propios de un estilo de personalidad ";
             }
-            
+
             $sec_name_map = [
-                '1' => 'esquizoide, ', '2A' => 'evitativo, ', '2B' => 'melancólico, ', '3' => 'dependiente, ',
-                '4A' => 'histriónico, ', '4B' => 'tempestuoso, ', '5' => 'narcisista, ', '6A' => 'antisocial, ',
-                '6B' => 'sádico, ', '7' => 'compulsivo, ', '8A' => 'negativista, ', '8B' => 'masoquista, '
+                '1' => 'esquizoide, ',
+                '2A' => 'evitativo, ',
+                '2B' => 'melancólico, ',
+                '3' => 'dependiente, ',
+                '4A' => 'histriónico, ',
+                '4B' => 'tempestuoso, ',
+                '5' => 'narcisista, ',
+                '6A' => 'antisocial, ',
+                '6B' => 'sádico, ',
+                '7' => 'compulsivo, ',
+                '8A' => 'negativista, ',
+                '8B' => 'masoquista, '
             ];
-            
+
             $text .= "A este cuadro central se añaden, asimismo, " . $sec_range . ($sec_name_map[$aq207] ?? "") . "que se manifiestan en el evaluado(a) como ";
-            
+
             $sec_desc_map = [
                 '1' => "una falta de deseo y una incapacidad para sentir placer o dolor intenso, una indiferencia ante las relaciones sociales y una desvinculación afectiva propia de un observador pasivo. ",
                 '2A' => "una vigilancia constante ante las experiencias dolorosas, un miedo y desconfianza hacia los demás y la negación de los deseos de relación para mantener la distancia interpersonal necesaria. ",
@@ -766,7 +800,7 @@ class ModelMcmiConfiguration {
             ];
             $text .= $sec_desc_map[$aq207] ?? "";
         }
-        
+
         // AR195 (Tertiary clinical personality scale narrative)
         if ($aq212 < 85 && $aq210 >= 60) {
             $ter_range = "";
@@ -777,15 +811,24 @@ class ModelMcmiConfiguration {
             } else {
                 $ter_range = "manifestaciones propias de un estilo de personalidad ";
             }
-            
+
             $ter_name_map = [
-                '1' => 'esquizoide, ', '2A' => 'evitativo, ', '2B' => 'melancólico, ', '3' => 'dependiente, ',
-                '4A' => 'histriónico, ', '4B' => 'tempestuoso, ', '5' => 'narcisista, ', '6A' => 'antisocial, ',
-                '6B' => 'sádico, ', '7' => 'compulsivo, ', '8A' => 'negativista, ', '8B' => 'masoquista, '
+                '1' => 'esquizoide, ',
+                '2A' => 'evitativo, ',
+                '2B' => 'melancólico, ',
+                '3' => 'dependiente, ',
+                '4A' => 'histriónico, ',
+                '4B' => 'tempestuoso, ',
+                '5' => 'narcisista, ',
+                '6A' => 'antisocial, ',
+                '6B' => 'sádico, ',
+                '7' => 'compulsivo, ',
+                '8A' => 'negativista, ',
+                '8B' => 'masoquista, '
             ];
-            
+
             $text .= "A los rasgos anteriores se asocian, asimismo, " . $ter_range . ($ter_name_map[$aq209] ?? "") . "que se concretan en el evaluado(a) como ";
-            
+
             $ter_desc_map = [
                 '1' => "una indiferencia ante las relaciones sociales y una desvinculación afectiva que aminoran la reactividad emocional general. ",
                 '2A' => "la vigilancia constante ante las experiencias dolorosas y la negación de los deseos de relación para mantener la distancia interpersonal. ",
@@ -802,29 +845,30 @@ class ModelMcmiConfiguration {
             ];
             $text .= $ter_desc_map[$aq209] ?? "";
         }
-        
+
         return trim($text);
     }
-    
-    private function getFacetsReport($final_tbs, $percentiles, $facets_tb) {
+
+    private function getFacetsReport($final_tbs, $percentiles, $facets_tb)
+    {
         // Find top clinical personality scales
         $p_scales = [
-            '1' => $final_tbs['1'] + $percentiles['1']/1000 + $final_tbs['1']/1000000,
-            '2A' => $final_tbs['2A'] + $percentiles['2A']/1000 + $final_tbs['2A']/1000000,
-            '2B' => $final_tbs['2B'] + $percentiles['2B']/1000 + $final_tbs['2B']/1000000,
-            '3' => $final_tbs['3'] + $percentiles['3']/1000 + $final_tbs['3']/1000000,
-            '4A' => $final_tbs['4A'] + $percentiles['4A']/1000 + $final_tbs['4A']/1000000,
-            '4B' => $final_tbs['4B'] + $percentiles['4B']/1000 + $final_tbs['4B']/1000000,
-            '5' => $final_tbs['5'] + $percentiles['5']/1000 + $final_tbs['5']/1000000,
-            '6A' => $final_tbs['6A'] + $percentiles['6A']/1000 + $final_tbs['6A']/1000000,
-            '6B' => $final_tbs['6B'] + $percentiles['6B']/1000 + $final_tbs['6B']/1000000,
-            '7' => $final_tbs['7'] + $percentiles['7']/1000 + $final_tbs['7']/1000000,
-            '8A' => $final_tbs['8A'] + $percentiles['8A']/1000 + $final_tbs['8A']/1000000,
-            '8B' => $final_tbs['8B'] + $percentiles['8B']/1000 + $final_tbs['8B']/1000000
+            '1' => $final_tbs['1'] + $percentiles['1'] / 1000 + $final_tbs['1'] / 1000000,
+            '2A' => $final_tbs['2A'] + $percentiles['2A'] / 1000 + $final_tbs['2A'] / 1000000,
+            '2B' => $final_tbs['2B'] + $percentiles['2B'] / 1000 + $final_tbs['2B'] / 1000000,
+            '3' => $final_tbs['3'] + $percentiles['3'] / 1000 + $final_tbs['3'] / 1000000,
+            '4A' => $final_tbs['4A'] + $percentiles['4A'] / 1000 + $final_tbs['4A'] / 1000000,
+            '4B' => $final_tbs['4B'] + $percentiles['4B'] / 1000 + $final_tbs['4B'] / 1000000,
+            '5' => $final_tbs['5'] + $percentiles['5'] / 1000 + $final_tbs['5'] / 1000000,
+            '6A' => $final_tbs['6A'] + $percentiles['6A'] / 1000 + $final_tbs['6A'] / 1000000,
+            '6B' => $final_tbs['6B'] + $percentiles['6B'] / 1000 + $final_tbs['6B'] / 1000000,
+            '7' => $final_tbs['7'] + $percentiles['7'] / 1000 + $final_tbs['7'] / 1000000,
+            '8A' => $final_tbs['8A'] + $percentiles['8A'] / 1000 + $final_tbs['8A'] / 1000000,
+            '8B' => $final_tbs['8B'] + $percentiles['8B'] / 1000 + $final_tbs['8B'] / 1000000
         ];
         arsort($p_scales);
         $top3_scales = array_slice(array_keys($p_scales), 0, 3);
-        
+
         // Define facets mapping per scale
         $scale_facets = [
             '1' => ['1.1', '1.2', '1.3'],
@@ -840,7 +884,7 @@ class ModelMcmiConfiguration {
             '8A' => ['8A.1', '8A.2', '8A.3'],
             '8B' => ['8B.1', '8B.2', '8B.3']
         ];
-        
+
         $candidate_facets = [];
         // Loop over the 3 highest personality scales
         for ($idx = 0; $idx < 3; $idx++) {
@@ -862,18 +906,18 @@ class ModelMcmiConfiguration {
                 }
             }
         }
-        
+
         $num_candidates = count($candidate_facets);
         if ($num_candidates < 1) {
             return "En el conjunto de las facetas de Grossman no se identifican puntuaciones que alcancen el umbral de significación clínica considerado; por consiguiente, el nivel más molecular del análisis de los dominios funcionales y estructurales no aporta, en este caso, información adicional relevante a la ya derivada de la interpretación de los patrones de personalidad.";
         }
-        
+
         arsort($candidate_facets);
         $sorted_facets = array_keys($candidate_facets);
         $top4_facets = array_slice($sorted_facets, 0, 4);
-        
+
         $intro = "Asimismo, mediante el análisis de las facetas de Grossman elevadas en las escalas de los patrones clínicos de la personalidad y de la patología grave de la personalidad, resulta posible identificar los dominios funcionales y estructurales más problemáticos o clínicamente significativos del evaluado(a), tales como la autoimagen, la expresión emocional o el comportamiento interpersonal. Un análisis detenido de dichas puntuaciones indica que las siguientes características figuran entre los rasgos más prominentes de su personalidad. ";
-        
+
         $body = "";
         $prefix = ["Lo más destacable es ", "Asimismo sobresale ", "Es también digna de atención ", "Merece asimismo señalarse "];
         for ($i = 0; $i < count($top4_facets); $i++) {
@@ -884,49 +928,50 @@ class ModelMcmiConfiguration {
                 $body .= $prefix[$i] . $desc . ". ";
             }
         }
-        
+
         $ending = "Los esfuerzos terapéuticos iniciales tenderán a producir resultados óptimos si se orientan a la modificación de estos rasgos de la personalidad.";
-        
+
         return $intro . trim($body) . " " . $ending;
     }
-    
-    private function getSyndromesReport($final_tbs, $percentiles) {
+
+    private function getSyndromesReport($final_tbs, $percentiles)
+    {
         $syndromes = [
-            'A' => $final_tbs['A'] + $percentiles['A']/1000 + $final_tbs['A']/1000000,
-            'H' => $final_tbs['H'] + $percentiles['H']/1000 + $final_tbs['H']/1000000,
-            'N' => $final_tbs['N'] + $percentiles['N']/1000 + $final_tbs['N']/1000000,
-            'D' => $final_tbs['D'] + $percentiles['D']/1000 + $final_tbs['D']/1000000,
-            'B' => $final_tbs['B'] + $percentiles['B']/1000 + $final_tbs['B']/1000000,
-            'T' => $final_tbs['T'] + $percentiles['T']/1000 + $final_tbs['T']/1000000,
-            'R' => $final_tbs['R'] + $percentiles['R']/1000 + $final_tbs['R']/1000000,
-            'SS' => $final_tbs['SS'] + $percentiles['SS']/1000 + $final_tbs['SS']/1000000,
-            'CC' => $final_tbs['CC'] + $percentiles['CC']/1000 + $final_tbs['CC']/1000000,
-            'PP' => $final_tbs['PP'] + $percentiles['PP']/1000 + $final_tbs['PP']/1000000
+            'A' => $final_tbs['A'] + $percentiles['A'] / 1000 + $final_tbs['A'] / 1000000,
+            'H' => $final_tbs['H'] + $percentiles['H'] / 1000 + $final_tbs['H'] / 1000000,
+            'N' => $final_tbs['N'] + $percentiles['N'] / 1000 + $final_tbs['N'] / 1000000,
+            'D' => $final_tbs['D'] + $percentiles['D'] / 1000 + $final_tbs['D'] / 1000000,
+            'B' => $final_tbs['B'] + $percentiles['B'] / 1000 + $final_tbs['B'] / 1000000,
+            'T' => $final_tbs['T'] + $percentiles['T'] / 1000 + $final_tbs['T'] / 1000000,
+            'R' => $final_tbs['R'] + $percentiles['R'] / 1000 + $final_tbs['R'] / 1000000,
+            'SS' => $final_tbs['SS'] + $percentiles['SS'] / 1000 + $final_tbs['SS'] / 1000000,
+            'CC' => $final_tbs['CC'] + $percentiles['CC'] / 1000 + $final_tbs['CC'] / 1000000,
+            'PP' => $final_tbs['PP'] + $percentiles['PP'] / 1000 + $final_tbs['PP'] / 1000000
         ];
         arsort($syndromes);
         $sorted_codes = array_keys($syndromes);
-        
+
         $top3_codes = array_slice($sorted_codes, 0, 3);
-        
+
         // Promotion logic: if any of the top 3 is severe (SS, CC, PP), promote the highest severe to 1st place
         $severe_syndromes = ['SS', 'CC', 'PP'];
         $promoted_code = $top3_codes[0];
-        
+
         $severe_found = [];
         foreach ($top3_codes as $code) {
             if (in_array($code, $severe_syndromes)) {
                 $severe_found[] = $code;
             }
         }
-        
+
         if (count($severe_found) > 0) {
             // Find the one among severe_found with highest score (which is already ordered)
             $promoted_code = $severe_found[0];
         }
-        
+
         $syndrome1_code = $promoted_code;
         $syndrome1_tb = $final_tbs[$syndrome1_code];
-        
+
         // Find 2nd and 3rd remaining
         $remaining = [];
         foreach ($top3_codes as $code) {
@@ -934,15 +979,15 @@ class ModelMcmiConfiguration {
                 $remaining[] = $code;
             }
         }
-        
+
         $syndrome2_code = $remaining[0] ?? "";
         $syndrome2_tb = ($syndrome2_code !== "") ? $final_tbs[$syndrome2_code] : 0;
-        
+
         $syndrome3_code = $remaining[1] ?? "";
         $syndrome3_tb = ($syndrome3_code !== "") ? $final_tbs[$syndrome3_code] : 0;
-        
+
         $text = "";
-        
+
         // AR231 (Intro)
         if ($syndrome1_tb < 60) {
             return "En el perfil obtenido no se evidencian elevaciones en las escalas de síndromes; las tasas base se sitúan por debajo del rango interpretativo, por lo que no se identifican estados sintomáticos que requieran ser leídos como ampliaciones manifiestas del patrón premórbido.";
@@ -951,7 +996,7 @@ class ModelMcmiConfiguration {
         } else {
             $text .= "En el perfil obtenido se identifican elevaciones en las escalas de síndromes clínicos cuya descripción se desarrolla a continuación, priorizando las elevaciones en las escalas de síndromes graves dado que, por su mayor vulnerabilidad clínica, pueden matizar el sentido de los restantes cuadros sintomáticos. ";
         }
-        
+
         // AR232 (1st Syndrome)
         if ($syndrome1_tb >= 75) {
             $sig = ($syndrome1_tb >= 85) ? "significativa " : "";
@@ -959,7 +1004,7 @@ class ModelMcmiConfiguration {
             $s_info = $this->syndromes_info[$syndrome1_code];
             $text .= "Se identifica una elevación " . $sig . "en la escala " . $s_info['name'] . ", que indica " . $s_info['desc'] . $end;
         }
-        
+
         // AR233 (2nd Syndrome)
         if ($syndrome2_code !== "" && $syndrome2_tb >= 75) {
             $sig = ($syndrome2_tb >= 85) ? "significativa " : "";
@@ -967,7 +1012,7 @@ class ModelMcmiConfiguration {
             $s_info = $this->syndromes_info[$syndrome2_code];
             $text .= "Se identifica, asimismo, una elevación " . $sig . "en la escala " . $s_info['name'] . ", que indica " . $s_info['desc'] . $end;
         }
-        
+
         // AR234 (3rd Syndrome)
         if ($syndrome3_code !== "" && $syndrome3_tb >= 75) {
             $sig = ($syndrome3_tb >= 85) ? "significativa " : "";
@@ -975,17 +1020,17 @@ class ModelMcmiConfiguration {
             $s_info = $this->syndromes_info[$syndrome3_code];
             $text .= "Se constata, además, una elevación " . $sig . "en la escala " . $s_info['name'] . ", que indica " . $s_info['desc'] . $end;
         }
-        
+
         // AR235 (Double Depression)
         $has_cc = ($final_tbs['CC'] >= 75);
         $has_d = ($final_tbs['D'] >= 75);
         if ($has_cc && $has_d) {
             $text .= "La coelevación simultánea de las escalas Depresión mayor y Depresión persistente configura el cuadro clínicamente reconocido como doble depresión, situación cualitativa y cuantitativamente distinta a la presencia aislada de cualquiera de los dos síndromes y que conlleva vulnerabilidades específicas, en particular la tendencia a evitar o retrasar el tratamiento, en la medida en que el evaluado(a) puede llegar a aceptar el empeoramiento sintomático como inevitable. ";
         }
-        
+
         // AR236 (Ending)
         $text .= "Estos síndromes reflejan y acentúan, por consiguiente, varios de los aspectos más persistentes y arraigados del patrón personológico básico del evaluado(a), de modo que su evolución dependerá tanto del manejo terapéutico inmediato de los síntomas como del abordaje de la configuración personológica subyacente.";
-        
+
         return trim($text);
     }
 }

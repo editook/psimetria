@@ -305,16 +305,15 @@ foreach ($noteworthy_categories as $category => $items) {
         foreach ($answers as $answer) {
             //|| solo para 63
             $selectedFind63 = ($answer['item_order'] == $item_order && $answer['response'] == 0 && $item_order == 63);
-            $selectedFind = ($answer['item_order'] == $item_order && $answer['response'] == 1 && $item_order != 63 );
+            $selectedFind = ($answer['item_order'] == $item_order && $answer['response'] == 1 && $item_order != 63);
             if ($selectedFind) {
                 $category_items[] = [
                     'item_order' => $item_order,
                     'question' => $answer['question']
                 ];
                 break;
-            }
-            else if($selectedFind63){
-                    $category_items[] = [
+            } else if ($selectedFind63) {
+                $category_items[] = [
                     'item_order' => $item_order,
                     'question' => $answer['question']
                 ];
@@ -341,7 +340,7 @@ function getBarChartCell($type, $tb)
         <div class="relative w-full h-[21px]" style="background: linear-gradient(to right, #eaeaea 0%, #eaeaea 35%, #ffff 35%, #ffff 75%, #797979 75%, #797979 100%);">
             <div class="absolute left-[35%] top-0 bottom-0 border-l border-black "></div>
             <div class="absolute left-[75%] top-0 bottom-0 border-l border-black "></div>
-            
+
             <div class="absolute z-1 left-0 top-[6px] bottom-[6px] bg-black" style="width: ' . $pct . '%;"></div>
         </div>';
     } elseif ($type === 'personalidad') {
@@ -367,7 +366,7 @@ function getBarChartCell($type, $tb)
         <div class="relative w-full h-[21px]" style="background: linear-gradient(to right, #fff 0%, #fff 75%, #797979 75%, #797979 100%);">
             <div class="absolute left-[75%] top-0 bottom-0 border-l"></div>
             <div class="absolute left-0 top-[6px] bottom-[6px] bg-black" style="width: ' . $pct . '%;">
-            
+
             </div>
         </div>';
     }
@@ -1349,7 +1348,8 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                                         ?>
                                         <tr class="bg-white-100  text-xs">
                                             <td colspan="6" class="border-1 border-black px-4 py-0.5 font-bold text-black">
-                                                <p class="h-full m-0 p-0 fix-margin">Patología grave de la personalidad</p></td>
+                                                <p class="h-full m-0 p-0 fix-margin">Patología grave de la personalidad</p>
+                                            </td>
                                         </tr>
                                         <?= renderScaleRow('personalidad', 'S', $scale_names, $raw_scores, $percentiles, $final_tbs) ?>
                                         <?= renderScaleRow('personalidad', 'C', $scale_names, $raw_scores, $percentiles, $final_tbs) ?>
@@ -1414,7 +1414,8 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                                         ?>
                                         <tr class="bg-white-100 text-xs">
                                             <td colspan="6" class="border-1 border-black px-4 py-0.5 font-bold text-black">
-                                                <p class="h-full m-0 p-0 fix-margin">Síndromes clínicos graves</p> </td>
+                                                <p class="h-full m-0 p-0 fix-margin">Síndromes clínicos graves</p>
+                                            </td>
                                         </tr>
                                         <?= renderScaleRow('psicopatologia', 'SS', $scale_names, $raw_scores, $percentiles, $final_tbs) ?>
                                         <?= renderScaleRow('psicopatologia', 'CC', $scale_names, $raw_scores, $percentiles, $final_tbs) ?>
@@ -1432,10 +1433,10 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                             <!-- Top header banner -->
                             <div id="contenido6">
                                 <div>
-                                <h1 class="text-center font-bold text-sm text-black uppercase tracking-wide leading-none mt-2">Inventario Clínico Multiaxial de Millon-IV</h1>
-                                <h2 class="text-center font-bold text-sm text-black uppercase tracking-wide mt-1 mb-6">Facetas de Grossman con la Puntuación más Alta</h2>
+                                    <h1 class="text-center font-bold text-sm text-black uppercase tracking-wide leading-none mt-2">Inventario Clínico Multiaxial de Millon-IV</h1>
+                                    <h2 class="text-center font-bold text-sm text-black uppercase tracking-wide mt-1 mb-6">Facetas de Grossman con la Puntuación más Alta</h2>
                                 </div>
-                                
+
 
                                 <!-- Top 3 scales elevated facets table -->
                                 <table class="w-full border-collapse border-1 border-black font-sans" style="margin-top: 30px;">
@@ -1483,10 +1484,11 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                                             <tr class="border-1 border-black bg-white-100 text-xs h-[22px] font-bold text-black">
                                                 <td class="border-r-0 border-l border-t border-b-2 px-4 border-black justify-between">
                                                     <p class="h-full m-0 p-0 fix-margin"><?= htmlspecialchars($parent_name) ?></p>
-                                                    
+
                                                 </td>
                                                 <td class="border-l-0 border-b-2 border-t border-r-0 border-black px-[.3rem] text-left text-xs font-bold" colspan="4">
-                                                    <p class="h-full m-0 p-0 fix-margin"><?= $parent_code ?></p></td>
+                                                    <p class="h-full m-0 p-0 fix-margin"><?= $parent_code ?></p>
+                                                </td>
                                                 <td class="border-l border-b-2 border-t border-r border-black text-center text-black text-xs  font-bold" colspan="2">
                                                     <div class="relative w-full font-sans text-center text-xs text-black fix-margin">
                                                         <div class="relative ml-[72%] font-bold "><?= $interpretable_label ?></div>
@@ -1502,15 +1504,20 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                                             ?>
                                                 <tr class="border-1 border-black text-xs h-[22px] text-black">
                                                     <td class="border-r-0 border-l border-t border-b border-black px-[2.3rem] text-left">
-                                                        <p class="h-full m-0 p-0 fix-margin"><?= $f_name ?></p></td>
+                                                        <p class="h-full m-0 p-0 fix-margin"><?= $f_name ?></p>
+                                                    </td>
                                                     <td class="border-l-0 border-l border-t border-r-0 border-black text-center font-semibold">
-                                                        <p class="h-full m-0 p-0 fix-margin"><?= $f_code ?></p></td>
+                                                        <p class="h-full m-0 p-0 fix-margin"><?= $f_code ?></p>
+                                                    </td>
                                                     <td class="border-1 w-[6%] border-black text-center">
-                                                        <p class="h-full m-0 p-0 fix-margin"><?= $pd ?></p></td>
+                                                        <p class="h-full m-0 p-0 fix-margin"><?= $pd ?></p>
+                                                    </td>
                                                     <td class="border-1 w-[6%] border-black text-center">
-                                                        <p class="h-full m-0 p-0 fix-margin"><?= $pc ?></p></td>
+                                                        <p class="h-full m-0 p-0 fix-margin"><?= $pc ?></p>
+                                                    </td>
                                                     <td class="border-1 w-[6%] border-black text-center font-bold">
-                                                        <p class="h-full m-0 p-0 fix-margin"><?= $tb ?></p></td>
+                                                        <p class="h-full m-0 p-0 fix-margin"><?= $tb ?></p>
+                                                    </td>
                                                     <td class="p-0" colspan="2"><?= getBarChartCell('facetas', $tb) ?></td>
                                                 </tr>
                                         <?php
@@ -1549,13 +1556,17 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                                                         ?>
                                                             <tr class="h-[16px] border-b border-white">
                                                                 <td class="text-left text-black truncate max-w-[170px]">
-                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $f_code ?> &nbsp; <?= $f_name ?></p></td>
+                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $f_code ?> &nbsp; <?= $f_name ?></p>
+                                                                </td>
                                                                 <td class="text-right text-black pr-1 w-[20px]">
-                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $pd ?></p></td>
+                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $pd ?></p>
+                                                                </td>
                                                                 <td class="text-right text-black pr-1 w-[25px]">
-                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $pc ?></p></td>
+                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $pc ?></p>
+                                                                </td>
                                                                 <td class="text-right text-black w-[25px]">
-                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $tb ?></p></td>
+                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $tb ?></p>
+                                                                </td>
                                                             </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -1586,13 +1597,17 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                                                         ?>
                                                             <tr class="h-[16px]">
                                                                 <td class="text-left text-black truncate max-w-[170px]">
-                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $f_code ?> &nbsp; <?= $f_name ?></p></td>
+                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $f_code ?> &nbsp; <?= $f_name ?></p>
+                                                                </td>
                                                                 <td class="text-right text-black pr-1 w-[20px]">
-                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $pd ?></p></td>
+                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $pd ?></p>
+                                                                </td>
                                                                 <td class="text-right text-black pr-1 w-[25px]">
-                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $pc ?></p></td>
+                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $pc ?></p>
+                                                                </td>
                                                                 <td class="text-right text-black w-[25px]">
-                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $tb ?></p></td>
+                                                                    <p class="h-full m-0 p-0 fix-margin"><?= $tb ?></p>
+                                                                </td>
                                                             </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -1646,9 +1661,9 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                             <p class="text-sm text-black leading-relaxed mb-6" id="jsonvalue15">
                                 El paciente ha respondido a los siguientes ítems en el sentido indicado entre paréntesis. Estos ítems pertenecen a categorías específicas y sugieren problemas que el profesional puede analizar en mayor profundidad.
                             </p>
-                            
+
                             <?php
-                            $index_cat = 1;// index - max - 
+                            $index_cat = 1; // index - max -
                             foreach ($noteworthy_by_category as $category => $items) {
                             ?>
                                 <div class="mb-6">
@@ -1661,11 +1676,12 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
                                                 <span class="font-semibold w-[30px] flex-shrink-0 text-back" id="jsonvalue-sub-15_<?= $index_sub_cat ?>_<?= count($items) ?>"><?= $item['item_order'] ?>.</span>
                                                 <span class="text-justify"><?= $item['question'] ?> <span class="font-semibold text-black" id="jsonvalue-sub-15-<?= $index_sub_cat ?>">(Verdadero)</span></span>
                                             </li>
-                                        <?php $index_sub_cat++; } ?>
+                                        <?php $index_sub_cat++;
+                                        } ?>
                                     </ul>
                                 </div>
                             <?php
-                            $index_cat++;
+                                $index_cat++;
                             }
                             ?>
                             <h1 class="text-left font-bold text-lg text-black uppercase tracking-wide mb-3" id="jsonvalue16">CONSIDERACIONES DIAGNÓSTICAS DSM-5®</h1>
@@ -1808,7 +1824,7 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
         const sincromeClinico_informe1 = `<?php echo $sincromeClinico_informe1 ?>`;
         const sincromeClinico_informe2 = `<?php echo $sincromeClinico_informe2 ?>`;
         const sincromeClinico_informe3 = `<?php echo $sincromeClinico_informe3 ?>`;
-        
+
         const transtorno_personalidad_informe_1 = `<?php echo $transtorno_personalidad_informe_1 ?>`;
         const transtorno_personalidad_informe_2 = `<?php echo $transtorno_personalidad_informe_2 ?>`;
         const transtorno_personalidad_informe_3 = `<?php echo $transtorno_personalidad_informe_3 ?>`;
@@ -1819,15 +1835,21 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
         const filenamepdf = (name_user + "_" + testname).replace(/\s+/g, '');
         var jsonpdf = [];
 
-        jsonpdf.push({type: 2,image: "contenidoID"});
+        jsonpdf.push({
+            type: 2,
+            image: "contenidoID"
+        });
 
-        jsonpdf.push({type: 2,image: "contenido2"});
-        
+        jsonpdf.push({
+            type: 2,
+            image: "contenido2"
+        });
+
         jsonpdf.push({
             type: 2,
             image: "contenido3"
         });
-        
+
         jsonpdf.push({
             type: 2,
             image: "contenido4"
@@ -1854,107 +1876,318 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
             type: 7,
             text: getvalue('jsonvalue1')
         });
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue2')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue3')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue4')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:7,text:getvalue('jsonvalue5')} );
-        jsonpdf.push({type: 5,text: ''});
-
-
-        jsonpdf.push({type:5,text:getvalue('jsonvalue6')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue7')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:7,text:getvalue('jsonvalue8')} );
-        jsonpdf.push({type: 5,text: ''});
-
-        jsonpdf.push({type:5,text:getvalue('jsonvalue9')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue10')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:7,text:getvalue('jsonvalue11')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue12')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue13')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:7,text:getvalue('jsonvalue14')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue15')} );
-        jsonpdf.push({type: 5,text: ''});
-
-        Object.entries(noteworthy_by_category).forEach(([categoria, items]) => {
-            jsonpdf.push({type:10,text:categoria} );
-           
-            items.forEach(item => {
-                console.log(item.question);
-                const value = item.item_order+". "+item.question +"(Verdadero)";
-                jsonpdf.push({type:5,text:value});
-                
-            });
-            jsonpdf.push({type: 5,text: ''});
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue2')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue3')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue4')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue5')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
         });
 
-        jsonpdf.push({type:7,text:getvalue('jsonvalue16')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue17')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue18')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:7,text:getvalue('jsonvalue19')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue20')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue21')} );
-        if(sincromeClinico_informe1!=""){
-            jsonpdf.push({type:11,text:sincromeClinico_informe1} );
-            jsonpdf.push({type: 5,text: ''});
+
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue6')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue7')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue8')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue9')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue10')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue11')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue12')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue13')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue14')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue15')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+
+        Object.entries(noteworthy_by_category).forEach(([categoria, items]) => {
+            jsonpdf.push({
+                type: 10,
+                text: categoria
+            });
+
+            items.forEach(item => {
+                console.log(item.question);
+                const value = item.item_order + ". " + item.question + "(Verdadero)";
+                jsonpdf.push({
+                    type: 5,
+                    text: value
+                });
+
+            });
+            jsonpdf.push({
+                type: 5,
+                text: ''
+            });
+        });
+
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue16')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue17')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue18')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue19')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue20')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue21')
+        });
+        if (sincromeClinico_informe1 != "") {
+            jsonpdf.push({
+                type: 11,
+                text: sincromeClinico_informe1
+            });
+            jsonpdf.push({
+                type: 5,
+                text: ''
+            });
         }
-        if(sincromeClinico_informe2!=""){
-            jsonpdf.push({type:11,text:sincromeClinico_informe2} );
-            jsonpdf.push({type: 5,text: ''});
+        if (sincromeClinico_informe2 != "") {
+            jsonpdf.push({
+                type: 11,
+                text: sincromeClinico_informe2
+            });
+            jsonpdf.push({
+                type: 5,
+                text: ''
+            });
         }
-        if(sincromeClinico_informe3!=""){
-            jsonpdf.push({type:11,text:sincromeClinico_informe3} );
-            
+        if (sincromeClinico_informe3 != "") {
+            jsonpdf.push({
+                type: 11,
+                text: sincromeClinico_informe3
+            });
+
         }
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:7,text:getvalue('jsonvalue25')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue26')} );
-        jsonpdf.push({type: 5,text: ''});
-        if(transtorno_personalidad_informe_1!=""){
-            jsonpdf.push({type:11,text:transtorno_personalidad_informe_1} );
-            jsonpdf.push({type: 5,text: ''});
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue25')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue26')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        if (transtorno_personalidad_informe_1 != "") {
+            jsonpdf.push({
+                type: 11,
+                text: transtorno_personalidad_informe_1
+            });
+            jsonpdf.push({
+                type: 5,
+                text: ''
+            });
         }
-        if(transtorno_personalidad_informe_2!=""){
-            jsonpdf.push({type:11,text:transtorno_personalidad_informe_2} );
-            jsonpdf.push({type: 5,text: ''});
+        if (transtorno_personalidad_informe_2 != "") {
+            jsonpdf.push({
+                type: 11,
+                text: transtorno_personalidad_informe_2
+            });
+            jsonpdf.push({
+                type: 5,
+                text: ''
+            });
         }
-        if(transtorno_personalidad_informe_3!=""){
-            jsonpdf.push({type:11,text:transtorno_personalidad_informe_3} );
-            jsonpdf.push({type: 5,text: ''});
+        if (transtorno_personalidad_informe_3 != "") {
+            jsonpdf.push({
+                type: 11,
+                text: transtorno_personalidad_informe_3
+            });
+            jsonpdf.push({
+                type: 5,
+                text: ''
+            });
         }
-       
-        if(transtorno_sintoma_informe_1!=""){
-            jsonpdf.push({type:11,text:transtorno_sintoma_informe_1} );
-            jsonpdf.push({type: 5,text: ''});
+
+        if (transtorno_sintoma_informe_1 != "") {
+            jsonpdf.push({
+                type: 11,
+                text: transtorno_sintoma_informe_1
+            });
+            jsonpdf.push({
+                type: 5,
+                text: ''
+            });
         }
-        if(transtorno_sintoma_informe_2!=""){
-            jsonpdf.push({type:11,text:transtorno_sintoma_informe_2} );
+        if (transtorno_sintoma_informe_2 != "") {
+            jsonpdf.push({
+                type: 11,
+                text: transtorno_sintoma_informe_2
+            });
         }
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:7,text:getvalue('jsonvalue32')} );
-        jsonpdf.push({type: 5,text: ''});
-        jsonpdf.push({type:5,text:getvalue('jsonvalue33')} );
-        jsonpdf.push({type: 5,text: ''});
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 7,
+            text: getvalue('jsonvalue32')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+        jsonpdf.push({
+            type: 5,
+            text: getvalue('jsonvalue33')
+        });
+        jsonpdf.push({
+            type: 5,
+            text: ''
+        });
+
         function descargarDeforePDF() {
 
             document.querySelectorAll(".fix-margin").forEach(element => {
