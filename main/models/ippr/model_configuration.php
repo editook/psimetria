@@ -90,7 +90,7 @@ class ModelIpprConfiguration
         $totalRespondidas = $counts["total"];
 
         $countA = $counts["A"];
-        $countB = $counts["D"];
+        $countB = $counts["B"];
         $countC = $counts["C"];
         $countD = $counts["D"];
 
