@@ -1,6 +1,6 @@
 <?php
 include_once('../configs.php');
-//MACI
+//MACI IV
 session_start();
 
 include('../connection.php');
@@ -106,7 +106,7 @@ $fiabilidad_pd = [114, 126];
 $response_fiabilidad_pd = $answerModel->sumatoria($answers, $fiabilidad_pd);
 //$response_fiabilidad_pd = round($response_fiabilidad_pd/$divisor,2);
 
-//transparencia 
+//transparencia
 $itemA1 = [
     1   => 1,
     3   => 3,
@@ -1376,30 +1376,30 @@ if ($indiceBuscar > 4) {
 $ajusteT = $maciConfigurationModel->getPrototipoPersonalidad([], $introversionTB, $inhibidoTB, $pesimistaTB, $sumisoTB, $histrionicoTB, $egocentricoTB, $rebeldeTB, $rudoTB, $conformistaTB, $oposicionistaTB, $autopunitivoTB);
 $ajusteDC = $ajusteT['valor'];
 
-$difusionIdentidadTB = $maciConfigurationModel->getTBTotal($baremo->getValueA($difusionIdentidadPD) , ($ajusteD) + ($ajusteDC));
+$difusionIdentidadTB = $maciConfigurationModel->getTBTotal($baremo->getValueA($difusionIdentidadPD), ($ajusteD) + ($ajusteDC));
 
-$desvalorizacionMismoTB = $maciConfigurationModel->getTBTotal($baremo->getValueB($desvalorizacionMismoPD) , ($ajusteD) + ($ajusteDC));
+$desvalorizacionMismoTB = $maciConfigurationModel->getTBTotal($baremo->getValueB($desvalorizacionMismoPD), ($ajusteD) + ($ajusteDC));
 //echo $desvalorizacionMismoTB.'<br>';
 
-$desagradoPropioTB = $maciConfigurationModel->getTBTotal($baremo->getValueC($desagradoPropioPD) , ($ajusteD));
+$desagradoPropioTB = $maciConfigurationModel->getTBTotal($baremo->getValueC($desagradoPropioPD), ($ajusteD));
 //echo $desagradoPropioTB.'<br>';
 
-$incomodidadRespetoTB = $maciConfigurationModel->getTBTotal($baremo->getValueD($incomodidadRespetoPD) , ($ajusteD));
+$incomodidadRespetoTB = $maciConfigurationModel->getTBTotal($baremo->getValueD($incomodidadRespetoPD), ($ajusteD));
 //echo $incomodidadRespetoTB.'<br>';
 
-$inseguridadIgualTB = $maciConfigurationModel->getTBTotal($baremo->getValueE($inseguridadIgualPD) , ($ajusteD));
+$inseguridadIgualTB = $maciConfigurationModel->getTBTotal($baremo->getValueE($inseguridadIgualPD), ($ajusteD));
 //echo $inseguridadIgualTB.'<br>';
 
-$insencibilidadSocialTB = $maciConfigurationModel->getTBTotal($baremo->getValueF($insencibilidadSocialPD) , ($ajusteD));
+$insencibilidadSocialTB = $maciConfigurationModel->getTBTotal($baremo->getValueF($insencibilidadSocialPD), ($ajusteD));
 //echo $insencibilidadSocialTB.'<br>';
 
-$discordanciaFamiliarTB = $maciConfigurationModel->getTBTotal($baremo->getValueG($discordanciaFamiliarPD) , ($ajusteD) + ($ajusteDC));
+$discordanciaFamiliarTB = $maciConfigurationModel->getTBTotal($baremo->getValueG($discordanciaFamiliarPD), ($ajusteD) + ($ajusteDC));
 //echo $discordanciaFamiliarTB.'<br>';
 
-$abusosInfanciaTB = $maciConfigurationModel->getTBTotal($baremo->getValueH($abusosInfanciaPD) , ($ajusteD));
+$abusosInfanciaTB = $maciConfigurationModel->getTBTotal($baremo->getValueH($abusosInfanciaPD), ($ajusteD));
 //echo $abusosInfanciaTB.'<br>';
 
-$transtornoAlimentacionTB = $maciConfigurationModel->getTBTotal($baremo->getValueAA($transtornoAlimentacionPD) , ($ajusteD));
+$transtornoAlimentacionTB = $maciConfigurationModel->getTBTotal($baremo->getValueAA($transtornoAlimentacionPD), ($ajusteD));
 //echo $transtornoAlimentacionTB.'<br>';
 
 $inclinacionAbusoSusTB = $baremo->getValueBB($inclinacionAbusoSusPD);
@@ -1411,13 +1411,13 @@ $predisposicionDeliTB = $baremo->getValueCC($predisposicionDeliPD);
 $propensionInTB = $baremo->getValueDD($propensionInPD);
 //echo $propensionInTB.'<br>';
 
-$sentimientoAncTB = $maciConfigurationModel->getTBTotal($baremo->getValueEE($sentimientoAncPD) , ($ajusteD) + ($ajusteDC));
+$sentimientoAncTB = $maciConfigurationModel->getTBTotal($baremo->getValueEE($sentimientoAncPD), ($ajusteD) + ($ajusteDC));
 //echo $sentimientoAncTB.'<br>';
 
-$afectoDepresivoTB = $maciConfigurationModel->getTBTotal($baremo->getValueFF($afectoDepresivoPD) , ($ajusteD) + ($ajusteDC));
+$afectoDepresivoTB = $maciConfigurationModel->getTBTotal($baremo->getValueFF($afectoDepresivoPD), ($ajusteD) + ($ajusteDC));
 //echo $afectoDepresivoTB.'<br>';
 
-$tendenciaSuicidioTB = $maciConfigurationModel->getTBTotal($baremo->getValueGG($tendenciaSuicidioPD) , ($ajusteD) + ($ajusteDC));
+$tendenciaSuicidioTB = $maciConfigurationModel->getTBTotal($baremo->getValueGG($tendenciaSuicidioPD), ($ajusteD) + ($ajusteDC));
 
 //echo $tendenciaSuicidioTB.'<br>';
 $mensaje_fiabilidad = "Valor no reconocido";
@@ -3028,7 +3028,7 @@ if ($answer_questions2['response'] == '1') {
                     show: false
                 }
             });
-            //quinta grafica 
+            //quinta grafica
 
             flotLineSindromesClinicos = getLimitMax(flotLineSindromesClinicos);
             var plot = $.plot($('#flotLineSindromesClinicos'), [{

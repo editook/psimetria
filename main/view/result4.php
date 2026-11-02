@@ -3,7 +3,7 @@ include_once('../configs.php');
 
 session_start();
 require '../../vendor/autoload.php';
-
+//SCL-90-R
 include('../connection.php');
 include("../models/model_register.php");
 include("../models/model_question.php");
@@ -101,10 +101,13 @@ $value_psi = $answerModel->sumatoria($answers, [7, 16, 35, 62, 77, 84, 85, 87, 8
 $itemadicionales = $answerModel->sumatoria($answers, [19, 44, 59, 60, 64, 66, 89]);
 
 $gsi = $value_som + $value_obs + $value_int + $value_dep + $value_ans + $value_hos + $value_fob + $value_par + $value_psi + $itemadicionales;
-$gsi = number_format($gsi / count($answers), 2);
+$len_answers = $sclConfiguration->getCountAswerNotNull($answers);
+$gsi = number_format($gsi / $len_answers, 2);
 
 $pst = $sclConfiguration->contarNoCeros($answers);
-
+if ($pst == 0) {
+    echo 'NO CONTIENE RESPUESTAS SUFICIENTES PARA GENERAR UN RESULTADO RELEVANTE.';
+}
 $psdi = number_format(($gsi * 90) / $pst, 2);
 
 $array_gsi = $baremo->getGSI();
@@ -695,11 +698,11 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-12">
-                        
+
                         <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
-                            
+
                             <h4 class="tx-15" id="jsonvalue2">I. ÍNDICES GLOBALES</h4>
                             <p class="tx-dark mb-0 txt-force-black" id="jsonvalue3">
                                 <?= $indiceglobal1 ?>
@@ -843,9 +846,9 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
             image: "contenido2"
         });
         jsonpdf.push({
-                type: 3
-            });
-        
+            type: 3
+        });
+
         jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue2')
@@ -982,25 +985,25 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
         $(function() {
 
             'use strict';
-        
+
             const data = [
-                
+
                 // bloque superior
                 [
-                    [<?=$gsi_t?>, 56],
-                    [<?=$pst_t?>, 52],
-                    [<?=$psdi_t?>, 48],
+                    [<?= $gsi_t ?>, 56],
+                    [<?= $pst_t ?>, 52],
+                    [<?= $psdi_t ?>, 48],
                 ],
                 [
-                    [<?=$som_t?>, 39],
-                    [<?=$obs_t?>, 34.5],
-                    [<?=$int_t?>, 30],
-                    [<?=$dep_t?>, 26],
-                    [<?=$ans_t?>, 22],
-                    [<?=$hos_t?>, 17.5],
-                    [<?=$fob_t?>, 14],
-                    [<?=$par_t?>, 9],
-                    [<?=$psi_t?>, 4],
+                    [<?= $som_t ?>, 39],
+                    [<?= $obs_t ?>, 34.5],
+                    [<?= $int_t ?>, 30],
+                    [<?= $dep_t ?>, 26],
+                    [<?= $ans_t ?>, 22],
+                    [<?= $hos_t ?>, 17.5],
+                    [<?= $fob_t ?>, 14],
+                    [<?= $par_t ?>, 9],
+                    [<?= $psi_t ?>, 4],
                 ],
 
 
@@ -1069,8 +1072,11 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
                             lineWidth: 1.2
                         },
                         { // Línea horizontal
-                            yaxis: { from: 43, to: 43 },
-                            color: 'white', 
+                            yaxis: {
+                                from: 43,
+                                to: 43
+                            },
+                            color: 'white',
                             lineWidth: 5
                         }
 
@@ -1095,7 +1101,11 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
 
                     ticks: [
 
-                       [5, '<b style="font-size:15px">10</b>'], [50, '<b style="font-size:15px">50</b>'], [63, '<b style="font-size:15px">63</b>'], [75, '<b style="font-size:15px">75</b>'], [98, '<b style="font-size:15px">100</b>']
+                        [5, '<b style="font-size:15px">10</b>'],
+                        [50, '<b style="font-size:15px">50</b>'],
+                        [63, '<b style="font-size:15px">63</b>'],
+                        [75, '<b style="font-size:15px">75</b>'],
+                        [98, '<b style="font-size:15px">100</b>']
 
                     ],
 
@@ -1123,7 +1133,11 @@ if ($gsi_pc >= 90 || $sclConfiguration->contarMayoresIguales($array, 90) >= 2) {
 
                     ticks: [
 
-                        [5, '<b style="font-size:15px">10</b>'], [50, '<b style="font-size:15px">50</b>'], [63, '<b style="font-size:15px">63</b>'], [75, '<b style="font-size:15px">75</b>'], [98, '<b style="font-size:15px">100</b>']
+                        [5, '<b style="font-size:15px">10</b>'],
+                        [50, '<b style="font-size:15px">50</b>'],
+                        [63, '<b style="font-size:15px">63</b>'],
+                        [75, '<b style="font-size:15px">75</b>'],
+                        [98, '<b style="font-size:15px">100</b>']
 
                     ],
 
