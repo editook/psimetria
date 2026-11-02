@@ -3,7 +3,7 @@ include_once('../configs.php');
 
 session_start();
 require '../../vendor/autoload.php';
-
+//LSB50
 include('../connection.php');
 include("../models/model_register.php");
 include("../models/model_question.php");
@@ -90,10 +90,38 @@ $answers_text = $answers_text['response'];
 //$questions =  $questionModel->getAll($register['id_type_question']);
 $array_min = $baremoConfiguration->getFilterAswerResponse($answers, [2, 4, 9, 11, 12, 13, 30, 49]);
 $array_mag = $baremoConfiguration->getFilterAswerResponse($answers, [5, 10, 17, 22, 26, 29, 42, 46]);
-if (count($array_min) == 0 || count($array_mag) == 0) {
-    echo 'NO CONTIENE RESPUESTAS SUFIENTES PARA GENERAR UN RESULTADO RELEVANTE.';
-    exit;
+$array_psicoreac = $baremoConfiguration->getFilterAswerResponse($answers, [6, 7, 8, 15, 16, 24, 26, 29, 30, 31, 33, 36, 38, 40]);
+$array_hipersenc = $baremoConfiguration->getFilterAswerResponse($answers, [16, 24, 26, 29, 30, 38, 40]);
+$array_obs_comp = $baremoConfiguration->getFilterAswerResponse($answers, [6, 7, 8, 15, 31, 33, 36]);
+$array_anciedad = $baremoConfiguration->getFilterAswerResponse($answers, [4, 9, 18, 22, 25, 34, 35, 47, 50]);
+$array_hostilidad = $baremoConfiguration->getFilterAswerResponse($answers, [3, 9, 23, 41, 44, 48]);
+$array_somatizacion = $baremoConfiguration->getFilterAswerResponse($answers, [1, 5, 11, 19, 20, 43, 45, 46]);
+$array_depresion = $baremoConfiguration->getFilterAswerResponse($answers, [2, 12, 17, 21, 28, 32, 37, 39, 42, 49]);
+$array_alsuenio = $baremoConfiguration->getFilterAswerResponse($answers, [13, 14, 27]);
+$array_alsuenio_ampl = $baremoConfiguration->getFilterAswerResponse($answers, [2, 13, 14, 27, 34, 37, 50]);
+$array_irp = $baremoConfiguration->getFilterAswerResponse($answers, [5, 17, 18, 22, 25, 29, 31, 32, 35, 42, 47, 50]);
+
+$answeredScaleItems = [
+    $array_min,
+    $array_mag,
+    $array_psicoreac,
+    $array_hipersenc,
+    $array_obs_comp,
+    $array_anciedad,
+    $array_hostilidad,
+    $array_somatizacion,
+    $array_depresion,
+    $array_alsuenio,
+    $array_alsuenio_ampl,
+    $array_irp,
+];
+foreach ($answeredScaleItems as $scaleItems) {
+    if (count($scaleItems) === 0) {
+        echo 'NO CONTIENE RESPUESTAS SUFICIENTES PARA GENERAR UN RESULTADO RELEVANTE.';
+        exit;
+    }
 }
+
 $min = $answerModel->sumatoria(($answers), $array_min);
 $mag = $answerModel->sumatoria(($answers), $array_mag);
 $Pmin = round($min / count($array_min), 2);
@@ -104,75 +132,77 @@ $Pmag = number_format((float)$Pmag, 2);
 //echo $mag.' '.$Pmag.'|';
 
 //escalas clinicas
-$array_psicoreac = [6, 7, 8, 15, 16, 24, 26, 29, 30, 31, 33, 36, 38, 40];
 $psicoreactividad = round($answerModel->sumatoria(($answers), $array_psicoreac), 2);
 
 $Ppsicoreactividad = round($psicoreactividad / count($array_psicoreac), 2);
 $Ppsicoreactividad = number_format((float)$Ppsicoreactividad, 2);
 //echo $psicoreactividad.' '.$Ppsicoreactividad.'|';
 
-$array_hipersenc = [16, 24, 26, 29, 30, 38, 40];
 $hipersenc = $answerModel->sumatoria(($answers), $array_hipersenc);
 $Phipersenc = round($hipersenc / count($array_hipersenc), 2);
 $Phipersenc = number_format((float)$Phipersenc, 2);
 //echo $hipersenc.' '.$Phipersenc.'|';
 
-$array_obs_comp = [6, 7, 8, 15, 31, 33, 36];
 $obs_comp = $answerModel->sumatoria(($answers), $array_obs_comp);
 $Pobs_comp = round($obs_comp / count($array_obs_comp), 2);
 $Pobs_comp = number_format((float)$Pobs_comp, 2);
 //echo $obs_comp.' '.$Pobs_comp.'|';
 
-$array_anciedad = [4, 9, 18, 22, 25, 34, 35, 47, 50];
 $anciedad = $answerModel->sumatoria(($answers), $array_anciedad);
 $Panciedad = round($anciedad / count($array_anciedad), 2);
 $Panciedad = number_format((float)$Panciedad, 2);
 //echo $anciedad.' '.$Panciedad.'|';
 
-$array_hostilidad = [3, 9, 23, 41, 44, 48];
 $hostilidad = $answerModel->sumatoria(($answers), $array_hostilidad);
 $Phostilidad = round($hostilidad / count($array_hostilidad), 2);
 $Phostilidad = number_format((float)$Phostilidad, 2);
 //echo $hostilidad.' '.$Phostilidad.'|';
 
-$array_somatizacion = [1, 5, 11, 19, 20, 43, 45, 46];
 $somatizacion = $answerModel->sumatoria(($answers), $array_somatizacion);
 $Psomatizacion = round($somatizacion / count($array_somatizacion), 2);
 $Psomatizacion = number_format((float)$Psomatizacion, 2);
 //echo $somatizacion.' '.$Psomatizacion.'|';
 
-$array_depresion = [2, 12, 17, 21, 28, 32, 37, 39, 42, 49];
 $depresion = $answerModel->sumatoria(($answers), $array_depresion);
 $Pdepresion = round($depresion / count($array_depresion), 2);
 $Pdepresion = number_format((float)$Pdepresion, 2);
 //echo $depresion.' '.$Pdepresion.'|';
 
-$array_alsuenio = [13, 14, 27];
 $alsuenio = $answerModel->sumatoria(($answers), $array_alsuenio);
 $Palsuenio = round($alsuenio / count($array_alsuenio), 2);
 $Palsuenio = number_format((float)$Palsuenio, 2);
 //echo $alsuenio.' '.$Palsuenio.'|';
 
-$array_alsuenio_ampl = [2, 13, 14, 27, 34, 37, 50];
 $alsuenio_ampl = $answerModel->sumatoria(($answers), $array_alsuenio_ampl);
 $Palsuenio_ampl = round($alsuenio_ampl / count($array_alsuenio_ampl), 2);
 $Palsuenio_ampl = number_format((float)$Palsuenio_ampl, 2);
 //echo $alsuenio_ampl.' '.$Palsuenio_ampl.'|';
 
 //indice riesgo patologico
-$array_irp = [5, 17, 18, 22, 25, 29, 31, 32, 35, 42, 47, 50];
 $irp = $answerModel->sumatoria(($answers), $array_irp);
 $Pirp = round($irp / count($array_irp), 2);
 $Pirp = number_format((float)$Pirp, 2);
 //echo $irp.' '.$Pirp.'|';
 //indices generales
 $ind_global_sev = $psicoreactividad + $anciedad + $hostilidad + $somatizacion + $depresion + $alsuenio;
-$Pind_global_sev = round($ind_global_sev / count($answers), 2);
+$answeredAnswers = array_filter($answers, function ($answer) {
+    return $answer['response'] !== null;
+});
+$answeredCount = count($answeredAnswers);
+if ($answeredCount === 0) {
+    echo 'NO CONTIENE RESPUESTAS SUFICIENTES PARA GENERAR UN RESULTADO RELEVANTE.';
+    exit;
+}
+$Pind_global_sev = round($ind_global_sev / $answeredCount, 2);
 $Pind_global_sev = number_format((float)$Pind_global_sev, 2);
 //echo $ind_global_sev.' '.$Pind_global_sev.'|';
 
-$num_sintomas = $answerModel->ocurrencias(($answers), 0);
-$Pnum_sintomas = count($answers) - $num_sintomas;
+$num_sintomas = $answerModel->ocurrencias(($answeredAnswers), 0);
+$Pnum_sintomas = $answeredCount - $num_sintomas;
+if ($Pnum_sintomas === 0) {
+    echo 'NO SE PUEDE CALCULAR LA INTENSIDAD PORQUE NO HAY SÍNTOMAS REPORTADOS.';
+    exit;
+}
 $Pnum_sintomas = number_format((float)$Pnum_sintomas, 2);
 //echo $num_sintomas.' '.$Pnum_sintomas.'|';
 
