@@ -110,6 +110,7 @@
     --ease-in: cubic-bezier(0.4, 0, 1, 1);
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --animate-spin: spin 1s linear infinite;
     --animate-bounce: bounce 1s infinite;
     --blur-sm: 8px;
     --default-transition-duration: 150ms;
@@ -1172,6 +1173,9 @@
   .animate-bounce {
     animation: var(--animate-bounce);
   }
+  .animate-spin {
+    animation: var(--animate-spin);
+  }
   .\!cursor-default {
     cursor: default !important;
   }
@@ -1492,11 +1496,20 @@
       border-color: color-mix(in oklab, var(--color-white) 20%, transparent);
     }
   }
+  .border-white\/40 {
+    border-color: color-mix(in srgb, #fff 40%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-white) 40%, transparent);
+    }
+  }
   .border-white\/80 {
     border-color: color-mix(in srgb, #fff 80%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-white) 80%, transparent);
     }
+  }
+  .border-t-white {
+    border-top-color: var(--color-white);
   }
   .bg-\[\#0054a6\] {
     background-color: #0054a6;
@@ -2539,8 +2552,14 @@
   .disabled\:cursor-not-allowed:disabled {
     cursor: not-allowed;
   }
+  .disabled\:cursor-wait:disabled {
+    cursor: wait;
+  }
   .disabled\:opacity-50:disabled {
     opacity: 50%;
+  }
+  .disabled\:opacity-70:disabled {
+    opacity: 70%;
   }
   @media (hover: hover) {
     .disabled\:hover\:scale-100:disabled:hover {
@@ -2982,6 +3001,11 @@ button {
   syntax: "*";
   inherits: false;
   initial-value: 1;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes bounce {
   0%, 100% {

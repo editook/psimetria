@@ -2,6 +2,9 @@
 include_once('../configs.php');
 
 session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 include('../connection.php');
 include("../models/model_user.php");
 include("../models/model_register.php");
@@ -47,6 +50,26 @@ if ($_SESSION['REST_type_user'] == 'Administrador' &&  isset($_GET['client'])) {
 if ($_SESSION['REST_type_user'] == 'CLIENTE') {
     $idClient = $_SESSION['REST_id_user'];
 }
+
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST'
+    && isset($_POST['finalize_id'])
+    && isset($_POST['csrf_token'], $_SESSION['csrf_token'])
+    && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    && in_array($_SESSION['REST_type_user'], ['Administrador', 'CLIENTE'], true)
+) {
+    $patientId = filter_var($_POST['finalize_id'], FILTER_VALIDATE_INT);
+    if ($patientId !== false && $patientId > 0) {
+        $patient = $registerModel->getById($idClient, $patientId);
+        if ($patient && $patient['status'] === 'PENDIENTE') {
+            $registerModel->updateStatus($idClient, $patientId, 'TERMINADO');
+        }
+    }
+
+    header('Location: ' . LOCALHOST . '/view/register.php?client=' . $idClient);
+    exit;
+}
+
 $search_key = "";
 if (isset($_GET['search'])) {
     $search_key = $_GET['search'];
@@ -331,7 +354,7 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
                                                         <?= $data['type_question_name'] ?>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex my-xl-auto right-content">
+                                                        <div class="d-flex my-xl-auto right-content" style="font-size: 15px !important;">
                                                             <?php //id_type_question => 3 = MACI, 2 = AF-5, 1 = LSB-50, 6 = IPPR, 7 = MCMI IV, 8 SIMS III,
                                                             $redirect = '0';
                                                             $redirect = $data['id_type_question'] == 1 ? '1' : $redirect;
@@ -354,6 +377,11 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
                                                             ?>
                                                             <div class="pe-1  mb-xl-0" style="cursor:pointer" onclick="page(`<?= LOCALHOST . '/view/form' . $redirect . '.php?client=' . $idClient . '&patient=' . $data['id'] ?>`)"><span class="badge bg-primary-transparent text-primary ms-auto float-end"><?= $text_test ?></span></div>
                                                             <div class="pe-1  mb-xl-0" style="<?= $data['status'] == 'PENDIENTE' ? 'pointer-events: none;opacity: 0.3;' : 'cursor:pointer' ?>" onclick="page(`<?= LOCALHOST . '/view/result' . $redirect . '.php?client=' . $idClient . '&patient=' . $data['id'] ?>`,`<?= $status ?>`)"><span class="badge <?= $status == 'MANTENIMIENTO' ? 'bg-success-transparent' : 'bg-primary-transparent' ?> text-primary ms-auto float-end">Resultado</span></div>
+                                                            <?php if ($data['status'] === 'PENDIENTE') { ?>
+                                                                <div class="pe-1 mb-xl-0">
+                                                                    <button type="button" class="badge bg-danger-transparent text-danger border-0" title="Marcar como terminado" data-bs-toggle="modal" data-bs-target="#modalfinalize" onclick="prepareFinalize(<?= (int) $data['id'] ?>)">Finalizar</button>
+                                                                </div>
+                                                            <?php } ?>
 
                                                             <div class="pe-1  mb-xl-0" title="Editar registro" style="cursor:pointer" data-bs-effect="effect-scale" data-bs-toggle="modal"
                                                                 href="#modaldemo8" onclick="updateClient(`<?= $data['id'] ?>`,`<?= $data['id_client'] ?>`,`<?= $data['age'] ?>`,`<?= $data['sex'] ?>`,`<?= $data['id_type_question'] ?>`,`<?= $data['baremo_id'] ?>`)"><i class="fs-5 text-warning las la-pen"></i></div>
@@ -485,7 +513,9 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
                         <div class="row row-sm">
                             <div class="col-lg-12">
                                 <div class="form-group has-success mg-b-0">
+                                    Esta seguro que desea eliminar el registro de:
                                     <input class="form-control" style="background: papayawhip;" id="id_eliminar" disabled type="text" value="">
+                                    <P class="text-danger">* Al eliminar este registro no podra restaurarlo.</P>
                                     <input type="hidden" id="id_client_remove" name="id_client_remove" value="">
                                 </div>
                             </div>
@@ -496,6 +526,28 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
                         <button class="btn ripple btn-danger" onclick="eliminarRegistroModal()" type="button">Eliminar</button>
                         <button class="btn ripple btn-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalfinalize" tabindex="-1" aria-labelledby="modalfinalizeTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content modal-content-demo">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="modalfinalizeTitle">Finalizar registro</h6>
+                        <button aria-label="Cerrar" class="close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Confirma que desea finalizar este registro? Su estado cambiará a TERMINADO.
+                        <P class="text-danger">* Si el cuestinario no fue completado es posible que algunos valores tomen como referencia '0' o VACIO.</P>
+                    </div>
+                    <form method="post" action="register.php?client=<?= (int) $idClient ?>">
+                        <input type="hidden" id="finalize_id" name="finalize_id" value="">
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+                        <div class="modal-footer">
+                            <button type="button" class="btn ripple btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn ripple btn-success">Confirmar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -658,6 +710,10 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
             //id_client_remove
             const remove_id = document.getElementById("id_client_remove").value;
             window.location.href = '<?= LOCALHOST . '/view/register.php?remove_id=' ?>' + remove_id;
+        }
+
+        function prepareFinalize(patientId) {
+            document.getElementById('finalize_id').value = patientId;
         }
 
         function copiarMensaje() {
