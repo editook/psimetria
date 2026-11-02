@@ -118,15 +118,15 @@ $soc = $soc1 + $soc2;
 
 $tot = $fis + $inq + $soc;
 
-$inc1 = ($modelConfiguration->getQuestion($answers, 2) != $modelConfiguration->getQuestion($answers, 8)) ? 1 : 0;
-$inc2 = ($modelConfiguration->getQuestion($answers, 3) != $modelConfiguration->getQuestion($answers, 35)) ? 1 : 0;
-$inc3 = ($modelConfiguration->getQuestion($answers, 4) != $modelConfiguration->getQuestion($answers, 10)) ? 1 : 0;
-$inc4 = ($modelConfiguration->getQuestion($answers, 6) != $modelConfiguration->getQuestion($answers, 49)) ? 1 : 0;
-$inc5 = ($modelConfiguration->getQuestion($answers, 8) != $modelConfiguration->getQuestion($answers, 39)) ? 1 : 0;
-$inc6 = ($modelConfiguration->getQuestion($answers, 19) != $modelConfiguration->getQuestion($answers, 33)) ? 1 : 0;
-$inc7 = ($modelConfiguration->getQuestion($answers, 23) != $modelConfiguration->getQuestion($answers, 37)) ? 1 : 0;
-$inc8 = ($modelConfiguration->getQuestion($answers, 24) != $modelConfiguration->getQuestion($answers, 29)) ? 1 : 0;
-$inc9 = ($modelConfiguration->getQuestion($answers, 38) == $modelConfiguration->getQuestion($answers, 48)) ? 1 : 0;
+$inc1 = ($modelConfiguration->getValueResponseOfQuestion($answers, 2) != $modelConfiguration->getValueResponseOfQuestion($answers, 8)) ? 1 : 0;
+$inc2 = ($modelConfiguration->getValueResponseOfQuestion($answers, 3) != $modelConfiguration->getValueResponseOfQuestion($answers, 35)) ? 1 : 0;
+$inc3 = ($modelConfiguration->getValueResponseOfQuestion($answers, 4) != $modelConfiguration->getValueResponseOfQuestion($answers, 10)) ? 1 : 0;
+$inc4 = ($modelConfiguration->getValueResponseOfQuestion($answers, 6) != $modelConfiguration->getValueResponseOfQuestion($answers, 49)) ? 1 : 0;
+$inc5 = ($modelConfiguration->getValueResponseOfQuestion($answers, 8) != $modelConfiguration->getValueResponseOfQuestion($answers, 39)) ? 1 : 0;
+$inc6 = ($modelConfiguration->getValueResponseOfQuestion($answers, 19) != $modelConfiguration->getValueResponseOfQuestion($answers, 33)) ? 1 : 0;
+$inc7 = ($modelConfiguration->getValueResponseOfQuestion($answers, 23) != $modelConfiguration->getValueResponseOfQuestion($answers, 37)) ? 1 : 0;
+$inc8 = ($modelConfiguration->getValueResponseOfQuestion($answers, 24) != $modelConfiguration->getValueResponseOfQuestion($answers, 29)) ? 1 : 0;
+$inc9 = ($modelConfiguration->getValueResponseOfQuestion($answers, 38) == $modelConfiguration->getValueResponseOfQuestion($answers, 48)) ? 1 : 0;
 $inc = $inc1 + $inc2 + $inc3 + $inc4 + $inc5 + $inc6 + $inc7 + $inc8 + $inc9;
 
 $def_array = $baremo->Defensividad()["$def"];

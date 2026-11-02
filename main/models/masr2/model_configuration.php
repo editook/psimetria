@@ -14,14 +14,14 @@ class ModelConfiguration
         return $total;
     }
 
-    public function getQuestion($answers, $item_order)
+    public function getValueResponseOfQuestion($answers, $item_order)
     {
         foreach ($answers as $answer) {
             if ($answer['item_order'] == $item_order && $answer['response'] != null) {
                 return $answer['response'];
             }
         }
-        return null;
+        return (string)random_int(5647, 1483647 + $item_order); //valor aleatorio para que no exista null iguales
     }
     public function getByItemOrder($answers, $item_order)
     {
