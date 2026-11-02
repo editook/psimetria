@@ -6,7 +6,7 @@ class ModelConfiguration
         $total = 0;
         foreach ($answers as $answer) {
             foreach ($options as $option) {
-                if ($answer['item_order'] == $option && $answer['response'] != null) {
+                if ($answer['item_order'] == $option && $answer['response'] !== null) {
                     $total += ((int)$answer['response']) == $result ? 1 : 0;
                 }
             }
@@ -17,7 +17,7 @@ class ModelConfiguration
     public function getValueResponseOfQuestion($answers, $item_order)
     {
         foreach ($answers as $answer) {
-            if ($answer['item_order'] == $item_order && $answer['response'] != null) {
+            if ($answer['item_order'] == $item_order && $answer['response'] !== null) {
                 return $answer['response'];
             }
         }

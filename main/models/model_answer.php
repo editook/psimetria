@@ -30,7 +30,7 @@ class Answer_Model
         $total = 0;
         foreach ($answers as $answer) {
             foreach ($options as $option) {
-                if ($answer['item_order'] == $option) {
+                if ($answer['item_order'] == $option && $answer['response'] !== null) {
                     $total += (int)$answer['response'];
                 }
             }
@@ -41,28 +41,19 @@ class Answer_Model
     public function getQuestion($answers, $item_order)
     {
         foreach ($answers as $answer) {
-            if ($answer['item_order'] == $item_order) {
+            if ($answer['item_order'] == $item_order && $answer['response'] !== null) {
                 return $answer['question'];
             }
         }
         return "";
     }
 
-    public function sumatoriaTodo($answers)
-    {
-        $total = 0;
-        foreach ($answers as $answer) {
-            $total += (int)$answer['response'];
-        }
-        return $total;
-    }
-
     public function getValueModel($answers, $value)
     {
 
-        foreach ($answers as $asnwer) {
-            if ($asnwer['item_order'] == $value) {
-                return (int)$asnwer['response'];
+        foreach ($answers as $answer) {
+            if ($answer['item_order'] == $value && $answer['response'] !== null) {
+                return (int)$answer['response'];
             }
         }
         return 0;
@@ -71,8 +62,10 @@ class Answer_Model
     {
         $total = 0;
         foreach ($answers as $asnwer) {
-            if ((int)$asnwer['response'] == $indice) {
-                $total += 1;
+            if ($asnwer['response'] !== null) {
+                if ((int)$asnwer['response'] == $indice) {
+                    $total += 1;
+                }
             }
         }
         return $total;
@@ -82,7 +75,7 @@ class Answer_Model
     {
         $array = [];
         foreach ($answers as $asnwer) {
-            if ((int)$asnwer['response'] == $value) {
+            if ($asnwer['response'] !== null && (int)$asnwer['response'] == $value) {
                 $array[] = $asnwer['question'] . ' (Mucho)';
             }
         }

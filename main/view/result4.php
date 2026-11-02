@@ -86,7 +86,6 @@ if ($register['baremo_id'] == 50) {
 }
 $answers = $answerModel->getAll($register['codes']);
 
-//$totalSumatoria = $answerModel->sumatoriaTodo($answers);
 
 $value_som = $answerModel->sumatoria($answers, [1, 4, 12, 27, 40, 42, 48, 49, 52, 53, 56, 58]);
 $value_obs = $answerModel->sumatoria($answers, [3, 9, 10, 28, 38, 45, 46, 51, 55, 65]);

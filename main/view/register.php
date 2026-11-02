@@ -450,7 +450,7 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
                                             foreach ($questions as $question) {
                                             ?>
                                                 <option value="<?= $question['id'] ?>">
-                                                    <?= htmlspecialchars($question['name']) ?> con valores(<?= $question['value_data'] ?>)
+                                                    <?= htmlspecialchars($question['name']) ?> v<?= $question['value_data'] ?>
                                                 </option>
                                             <?php } ?>
                                         </select>

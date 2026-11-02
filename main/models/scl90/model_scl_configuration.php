@@ -15,7 +15,7 @@ class ModelSclConfiguration
     {
         $total = 0;
         foreach ($answers as $answer) {
-            if ($answer['response'] != null) {
+            if ($answer['response'] !== null) {
                 $value = (int)$answer['response'];
                 if ($value > 0) {
                     $total +=  1;
