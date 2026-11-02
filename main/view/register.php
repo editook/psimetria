@@ -84,8 +84,27 @@ if ($idClient == 0) {
 }
 
 
+//PAGINACION DE REGISTROS
+$pageSize = 10;
+$requestedPage = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT);
+$currentPage = max(1, $requestedPage !== false ? $requestedPage : 1);
+$totalRegisters = $registerModel->getCount($idClient, $search_key);
+$totalPages = max(1, (int) ceil($totalRegisters / $pageSize));
+$currentPage = min($currentPage, $totalPages);
+$offset = ($currentPage - 1) * $pageSize;
+$registers = $registerModel->getAll($idClient, $search_key, $pageSize, $offset);
+$firstRegister = $totalRegisters > 0 ? $offset + 1 : 0;
+$lastRegister = min($offset + $pageSize, $totalRegisters);
+$paginationStart = max(1, $currentPage - 2);
+$paginationEnd = min($totalPages, $currentPage + 2);
+$buildPageUrl = static function (int $page) use ($idClient, $search_key): string {
+    return 'register.php?' . http_build_query([
+        'client' => $idClient,
+        'search' => $search_key,
+        'page' => $page,
+    ]);
+};
 
-$registers = $registerModel->getAll($idClient, $search_key);
 $param_extra = $registerModel->getRandomCipherMethod();
 $claveEncriptado = $registerModel->getKeyEncripter();
 foreach ($registers as &$register) {
@@ -294,7 +313,7 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
                                 <div class="d-flex justify-content-between">
                                     <h4 class="card-title mg-b-0">LISTA DE REGISTROS</h4>
                                     <div class="main-header-center  ms-4" style="margin:0;justify-content: right;">
-                                        <input id="searchInputInit" value="<?= $search_key ?>" class="form-control" style="height: 40px;width: 350px;
+                                        <input id="searchInputInit" value="<?= htmlspecialchars($search_key) ?>" class="form-control" style="height: 40px;width: 350px;
         border-radius: 20px;
         background: #ecf0fa;
         border: 1px solid #ecf0fa;" placeholder="Buscar..." type="search">
@@ -401,6 +420,37 @@ $urlshare_client = urlencode($registerModel->encriptar($idClient . "_" . $param_
                                             <?php } ?>
                                         </tbody>
                                     </table>
+                                </div>
+                                <!--PAGINADOR-->
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3">
+                                    <p class="tx-12 tx-gray-500 mb-2">
+                                        Mostrando <?= $firstRegister ?>-<?= $lastRegister ?> de <?= $totalRegisters ?> registros
+                                    </p>
+                                    <?php if ($totalPages > 1): ?>
+                                        <nav aria-label="Paginación de registros">
+                                            <ul class="pagination mb-0">
+                                                <li class="page-item <?= $currentPage <= 1 ? 'disabled' : '' ?>">
+                                                    <a class="page-link" style="width: 95%;" href="<?= htmlspecialchars($buildPageUrl(max(1, $currentPage - 1))) ?>" aria-label="Anterior">Anterior</a>
+                                                </li>
+                                                <?php if ($paginationStart > 1): ?>
+                                                    <li class="page-item"><a class="page-link" href="<?= htmlspecialchars($buildPageUrl(1)) ?>">1</a></li>
+                                                    <?php if ($paginationStart > 2): ?><li class="page-item disabled"><span class="page-link">…</span></li><?php endif; ?>
+                                                <?php endif; ?>
+                                                <?php for ($pageNumber = $paginationStart; $pageNumber <= $paginationEnd; $pageNumber++): ?>
+                                                    <li class="page-item <?= $pageNumber === $currentPage ? 'active' : '' ?>">
+                                                        <a class="page-link" href="<?= htmlspecialchars($buildPageUrl($pageNumber)) ?>" <?= $pageNumber === $currentPage ? 'aria-current="page"' : '' ?>><?= $pageNumber ?></a>
+                                                    </li>
+                                                <?php endfor; ?>
+                                                <?php if ($paginationEnd < $totalPages): ?>
+                                                    <?php if ($paginationEnd < $totalPages - 1): ?><li class="page-item disabled"><span class="page-link">…</span></li><?php endif; ?>
+                                                    <li class="page-item"><a class="page-link" href="<?= htmlspecialchars($buildPageUrl($totalPages)) ?>"><?= $totalPages ?></a></li>
+                                                <?php endif; ?>
+                                                <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
+                                                    <a class="page-link" style="width: 95%;" href="<?= htmlspecialchars($buildPageUrl(min($totalPages, $currentPage + 1))) ?>" aria-label="Siguiente">Siguiente</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

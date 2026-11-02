@@ -11,7 +11,7 @@
             </div>
             <form method="post" action="register.php?client=<?= (int) $idClient ?>">
                 <input type="hidden" id="finalize_id" name="finalize_id" value="">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                 <div class="modal-footer">
                     <button type="button" class="btn ripple btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn ripple btn-success">Confirmar</button>
