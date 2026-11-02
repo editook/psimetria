@@ -412,7 +412,7 @@ class ModelMcmiConfiguration
                 foreach ($this->scale_rules[$scale_name] as $rule) {
                     $item = $rule['item'];
                     $expected = ($rule['response'] === 'V') ? 1 : 0;
-                    $actual = $responses[$item] ?? 0;
+                    $actual = $responses[$item] ?? null;
                     if ($actual === $expected) {
                         $raw_scores[$code] += $rule['weight'];
                     }
@@ -427,7 +427,7 @@ class ModelMcmiConfiguration
                 foreach ($rules as $rule) {
                     $item = $rule['item'];
                     $expected = ($rule['response'] === 'V') ? 1 : 0;
-                    $actual = $responses[$item] ?? 0;
+                    $actual = $responses[$item] ?? null;
                     if ($actual === $expected) {
                         $raw_scores[$scale_name] += $rule['weight'];
                     }
@@ -440,7 +440,7 @@ class ModelMcmiConfiguration
         foreach ($this->scale_rules['INVALIDEZ'] as $rule) {
             $item = $rule['item'];
             $expected = ($rule['response'] === 'V') ? 1 : 0;
-            $actual = $responses[$item] ?? 0;
+            $actual = $responses[$item] ?? null;
             if ($actual === $expected) {
                 $invalidez += $rule['weight'];
             }
@@ -448,10 +448,12 @@ class ModelMcmiConfiguration
 
         $inconsistencia = 0;
         foreach ($this->scale_rules['INCONSISTENCIA'] as $pair) {
-            $ansA = $responses[$pair[0]] ?? 0;
-            $ansB = $responses[$pair[1]] ?? 0;
-            if ($ansA !== $ansB) {
-                $inconsistencia++;
+            $ansA = $responses[$pair[0]] ?? null;
+            $ansB = $responses[$pair[1]] ?? null;
+            if ($ansA != null && $ansB != null) {
+                if ($ansA !== $ansB) {
+                    $inconsistencia++;
+                }
             }
         }
 
