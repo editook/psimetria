@@ -672,6 +672,7 @@ $device = $registerModel->getDeviceType();
             const prevBtn = document.getElementById("prevBtn");
             const nextBtn = document.getElementById("nextBtn");
             const progress = document.getElementById("progress");
+            const otherAnswerIndex = answersadmin.findIndex(item => item.id == '0');
 
             function render() {
                 desktopTable.innerHTML = "";
@@ -688,8 +689,11 @@ $device = $registerModel->getDeviceType();
                 answersadmin.slice(start, end).forEach((q, i) => {
 
                     const index = start + i;
+                    const questionStart = otherAnswerIndex >= 0 && index > otherAnswerIndex
+                        ? otherAnswerIndex + 1
+                        : 0;
                     const questionNumber = answersadmin
-                        .slice(0, index + 1)
+                        .slice(questionStart, index + 1)
                         .filter(item => item.id != '0').length;
                     if (q.id == '0') {
                         options = [{
