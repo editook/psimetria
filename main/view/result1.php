@@ -3,7 +3,7 @@ include_once('../configs.php');
 
 session_start();
 require '../../vendor/autoload.php';
-
+//LSB50
 include('../connection.php');
 include("../models/model_register.php");
 include("../models/model_question.php");
@@ -66,7 +66,7 @@ if ($register == null) {
 		</script>";
     exit;
 }
-if(!$register['is_show_result']){
+if (!$register['is_show_result']) {
     include("mantenimiento.php");
     exit;
 }
@@ -88,8 +88,40 @@ $answers_text = $answerModel->getAnswersTop($register['codes']);
 $answers_text = $answers_text['response'];
 #escala de validez
 //$questions =  $questionModel->getAll($register['id_type_question']);
-$array_min = [2, 4, 9, 11, 12, 13, 30, 49];
-$array_mag = [5, 10, 17, 22, 26, 29, 42, 46];
+$array_min = $baremoConfiguration->getFilterAswerResponse($answers, [2, 4, 9, 11, 12, 13, 30, 49]);
+$array_mag = $baremoConfiguration->getFilterAswerResponse($answers, [5, 10, 17, 22, 26, 29, 42, 46]);
+$array_psicoreac = $baremoConfiguration->getFilterAswerResponse($answers, [6, 7, 8, 15, 16, 24, 26, 29, 30, 31, 33, 36, 38, 40]);
+$array_hipersenc = $baremoConfiguration->getFilterAswerResponse($answers, [16, 24, 26, 29, 30, 38, 40]);
+$array_obs_comp = $baremoConfiguration->getFilterAswerResponse($answers, [6, 7, 8, 15, 31, 33, 36]);
+$array_anciedad = $baremoConfiguration->getFilterAswerResponse($answers, [4, 9, 18, 22, 25, 34, 35, 47, 50]);
+$array_hostilidad = $baremoConfiguration->getFilterAswerResponse($answers, [3, 9, 23, 41, 44, 48]);
+$array_somatizacion = $baremoConfiguration->getFilterAswerResponse($answers, [1, 5, 11, 19, 20, 43, 45, 46]);
+$array_depresion = $baremoConfiguration->getFilterAswerResponse($answers, [2, 12, 17, 21, 28, 32, 37, 39, 42, 49]);
+$array_alsuenio = $baremoConfiguration->getFilterAswerResponse($answers, [13, 14, 27]);
+$array_alsuenio_ampl = $baremoConfiguration->getFilterAswerResponse($answers, [2, 13, 14, 27, 34, 37, 50]);
+$array_irp = $baremoConfiguration->getFilterAswerResponse($answers, [5, 17, 18, 22, 25, 29, 31, 32, 35, 42, 47, 50]);
+
+$answeredScaleItems = [
+    $array_min,
+    $array_mag,
+    $array_psicoreac,
+    $array_hipersenc,
+    $array_obs_comp,
+    $array_anciedad,
+    $array_hostilidad,
+    $array_somatizacion,
+    $array_depresion,
+    $array_alsuenio,
+    $array_alsuenio_ampl,
+    $array_irp,
+];
+foreach ($answeredScaleItems as $scaleItems) {
+    if (count($scaleItems) === 0) {
+        echo 'NO CONTIENE RESPUESTAS SUFICIENTES PARA GENERAR UN RESULTADO RELEVANTE.';
+        exit;
+    }
+}
+
 $min = $answerModel->sumatoria(($answers), $array_min);
 $mag = $answerModel->sumatoria(($answers), $array_mag);
 $Pmin = round($min / count($array_min), 2);
@@ -100,75 +132,77 @@ $Pmag = number_format((float)$Pmag, 2);
 //echo $mag.' '.$Pmag.'|';
 
 //escalas clinicas
-$array_psicoreac = [6, 7, 8, 15, 16, 24, 26, 29, 30, 31, 33, 36, 38, 40];
 $psicoreactividad = round($answerModel->sumatoria(($answers), $array_psicoreac), 2);
 
 $Ppsicoreactividad = round($psicoreactividad / count($array_psicoreac), 2);
 $Ppsicoreactividad = number_format((float)$Ppsicoreactividad, 2);
 //echo $psicoreactividad.' '.$Ppsicoreactividad.'|';
 
-$array_hipersenc = [16, 24, 26, 29, 30, 38, 40];
 $hipersenc = $answerModel->sumatoria(($answers), $array_hipersenc);
 $Phipersenc = round($hipersenc / count($array_hipersenc), 2);
 $Phipersenc = number_format((float)$Phipersenc, 2);
 //echo $hipersenc.' '.$Phipersenc.'|';
 
-$array_obs_comp = [6, 7, 8, 15, 31, 33, 36];
 $obs_comp = $answerModel->sumatoria(($answers), $array_obs_comp);
 $Pobs_comp = round($obs_comp / count($array_obs_comp), 2);
 $Pobs_comp = number_format((float)$Pobs_comp, 2);
 //echo $obs_comp.' '.$Pobs_comp.'|';
 
-$array_anciedad = [4, 9, 18, 22, 25, 34, 35, 47, 50];
 $anciedad = $answerModel->sumatoria(($answers), $array_anciedad);
 $Panciedad = round($anciedad / count($array_anciedad), 2);
 $Panciedad = number_format((float)$Panciedad, 2);
 //echo $anciedad.' '.$Panciedad.'|';
 
-$array_hostilidad = [3, 9, 23, 41, 44, 48];
 $hostilidad = $answerModel->sumatoria(($answers), $array_hostilidad);
 $Phostilidad = round($hostilidad / count($array_hostilidad), 2);
 $Phostilidad = number_format((float)$Phostilidad, 2);
 //echo $hostilidad.' '.$Phostilidad.'|';
 
-$array_somatizacion = [1, 5, 11, 19, 20, 43, 45, 46];
 $somatizacion = $answerModel->sumatoria(($answers), $array_somatizacion);
 $Psomatizacion = round($somatizacion / count($array_somatizacion), 2);
 $Psomatizacion = number_format((float)$Psomatizacion, 2);
 //echo $somatizacion.' '.$Psomatizacion.'|';
 
-$array_depresion = [2, 12, 17, 21, 28, 32, 37, 39, 42, 49];
 $depresion = $answerModel->sumatoria(($answers), $array_depresion);
 $Pdepresion = round($depresion / count($array_depresion), 2);
 $Pdepresion = number_format((float)$Pdepresion, 2);
 //echo $depresion.' '.$Pdepresion.'|';
 
-$array_alsuenio = [13, 14, 27];
 $alsuenio = $answerModel->sumatoria(($answers), $array_alsuenio);
 $Palsuenio = round($alsuenio / count($array_alsuenio), 2);
 $Palsuenio = number_format((float)$Palsuenio, 2);
 //echo $alsuenio.' '.$Palsuenio.'|';
 
-$array_alsuenio_ampl = [2, 13, 14, 27, 34, 37, 50];
 $alsuenio_ampl = $answerModel->sumatoria(($answers), $array_alsuenio_ampl);
 $Palsuenio_ampl = round($alsuenio_ampl / count($array_alsuenio_ampl), 2);
 $Palsuenio_ampl = number_format((float)$Palsuenio_ampl, 2);
 //echo $alsuenio_ampl.' '.$Palsuenio_ampl.'|';
 
 //indice riesgo patologico
-$array_irp = [5, 17, 18, 22, 25, 29, 31, 32, 35, 42, 47, 50];
 $irp = $answerModel->sumatoria(($answers), $array_irp);
 $Pirp = round($irp / count($array_irp), 2);
 $Pirp = number_format((float)$Pirp, 2);
 //echo $irp.' '.$Pirp.'|';
 //indices generales
 $ind_global_sev = $psicoreactividad + $anciedad + $hostilidad + $somatizacion + $depresion + $alsuenio;
-$Pind_global_sev = round($ind_global_sev / count($answers), 2);
+$answeredAnswers = array_filter($answers, function ($answer) {
+    return $answer['response'] !== null;
+});
+$answeredCount = count($answeredAnswers);
+if ($answeredCount === 0) {
+    echo 'NO CONTIENE RESPUESTAS SUFICIENTES PARA GENERAR UN RESULTADO RELEVANTE.';
+    exit;
+}
+$Pind_global_sev = round($ind_global_sev / $answeredCount, 2);
 $Pind_global_sev = number_format((float)$Pind_global_sev, 2);
 //echo $ind_global_sev.' '.$Pind_global_sev.'|';
 
-$num_sintomas = $answerModel->ocurrencias(($answers), 0);
-$Pnum_sintomas = count($answers) - $num_sintomas;
+$num_sintomas = $answerModel->ocurrencias(($answeredAnswers), 0);
+$Pnum_sintomas = $answeredCount - $num_sintomas;
+if ($Pnum_sintomas === 0) {
+    echo 'NO SE PUEDE CALCULAR LA INTENSIDAD PORQUE NO HAY SÍNTOMAS REPORTADOS.';
+    exit;
+}
 $Pnum_sintomas = number_format((float)$Pnum_sintomas, 2);
 //echo $num_sintomas.' '.$Pnum_sintomas.'|';
 
@@ -177,7 +211,7 @@ $Pind_intesidad_sintomas = round($ind_intesidad_sintomas / $Pnum_sintomas, 2);
 $Pind_intesidad_sintomas = number_format((float)$Pind_intesidad_sintomas, 2);
 //echo $ind_intesidad_sintomas.' '.$Pind_intesidad_sintomas.'|';
 
-//BAREMO DE POBLACION CLINICA PSICOPATOLOGICA MUJERES																													
+//BAREMO DE POBLACION CLINICA PSICOPATOLOGICA MUJERES
 //MIN
 $mins = $baremo->getMin();
 
@@ -298,7 +332,7 @@ if ($value_mag <= 3) {
 } elseif ($value_mag <= 96) {
     $text_mag = "Indica que informa de más síntomas poco comunes o con mayor intensidad que la población clínica psicopatológica típica. Esta puntuación sugiere una posible tendencia a magnificar la sintomatología.";
 } elseif ($value_mag >= 97) {
-    $text_mag = "Indica que reporta múltiples síntomas poco comunes con una frecuencia e intensidad inusualmente altas, incluso en comparación con la población clínica psicopatológica. Esta puntuación indica una alta probabilidad de magnificación de síntomas, lo que podría reflejar:<br> 
+    $text_mag = "Indica que reporta múltiples síntomas poco comunes con una frecuencia e intensidad inusualmente altas, incluso en comparación con la población clínica psicopatológica. Esta puntuación indica una alta probabilidad de magnificación de síntomas, lo que podría reflejar:<br>
     a) Un trastorno psicopatológico grave con sintomatología amplia y extrema. <br>
     b) Una situación de desesperación real, donde se informa del sufrimiento de forma indiscriminada y aumentada como petición de ayuda. <br>
     c) Un posible sesgo de respuesta consciente ante una situación que podría derivar en una ventaja o beneficio secundario. <br>
@@ -569,8 +603,8 @@ $cant_magnificacion2 = 0;
 $raw_resp = $answerModel->getRawResponse($answers, 2);
 if ($raw_resp !== null && $raw_resp <= 1) {
     $mag4 = $answerModel->sumatoria(($answers), [2]);
-    if ($mag4 <=1) {
-        $message_magnificacion2 .= $answerModel->getQuestion($answers, 2) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+    if ($mag4 <= 1) {
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 2) . ($mag4 == 1 ? " (Poco) <br>" : "(Nada) <br>");
         $cant_magnificacion2 += 1;
     }
 }
@@ -579,7 +613,7 @@ $raw_resp = $answerModel->getRawResponse($answers, 4);
 if ($raw_resp !== null && $raw_resp <= 1) {
     $mag4 = $answerModel->sumatoria(($answers), [4]);
     if ($mag4 <= 1) {
-        $message_magnificacion2 .= $answerModel->getQuestion($answers, 4) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 4) . ($mag4 == 1 ? " (Poco) <br>" : "(Nada) <br>");
         $cant_magnificacion2 += 1;
     }
 }
@@ -588,7 +622,7 @@ $raw_resp = $answerModel->getRawResponse($answers, 9);
 if ($raw_resp !== null && $raw_resp <= 1) {
     $mag4 = $answerModel->sumatoria(($answers), [9]);
     if ($mag4 <= 1) {
-        $message_magnificacion2 .= $answerModel->getQuestion($answers, 9) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 9) . ($mag4 == 1 ? " (Poco) <br>" : "(Nada) <br>");
         $cant_magnificacion2 += 1;
     }
 }
@@ -597,16 +631,15 @@ $raw_resp = $answerModel->getRawResponse($answers, 11);
 if ($raw_resp !== null && $raw_resp <= 1) {
     $mag4 = $answerModel->sumatoria(($answers), [11]);
     if ($mag4 <= 1) {
-        $message_magnificacion2 .= $answerModel->getQuestion($answers, 11) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 11) . ($mag4 == 1 ? " (Poco) <br>" : "(Nada) <br>");
         $cant_magnificacion2 += 1;
     }
-
 }
 $raw_resp = $answerModel->getRawResponse($answers, 12);
 if ($raw_resp !== null && $raw_resp <= 1) {
     $mag4 = $answerModel->sumatoria(($answers), [12]);
     if ($mag4 <= 1) {
-        $message_magnificacion2 .= $answerModel->getQuestion($answers, 12) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 12) . ($mag4 == 1 ? " (Poco) <br>" : "(Nada) <br>");
         $cant_magnificacion2 += 1;
     }
 }
@@ -615,7 +648,7 @@ $raw_resp = $answerModel->getRawResponse($answers, 13);
 if ($raw_resp !== null && $raw_resp <= 1) {
     $mag4 = $answerModel->sumatoria(($answers), [13]);
     if ($mag4 <= 1) {
-        $message_magnificacion2 .= $answerModel->getQuestion($answers, 13) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 13) . ($mag4 == 1 ? " (Poco) <br>" : "(Nada) <br>");
         $cant_magnificacion2 += 1;
     }
 }
@@ -624,7 +657,7 @@ $raw_resp = $answerModel->getRawResponse($answers, 30);
 if ($raw_resp !== null && $raw_resp <= 1) {
     $mag4 = $answerModel->sumatoria(($answers), [30]);
     if ($mag4 <= 1) {
-        $message_magnificacion2 .= $answerModel->getQuestion($answers, 30) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 30) . ($mag4 == 1 ? " (Poco) <br>" : "(Nada) <br>");
         $cant_magnificacion2 += 1;
     }
 }
@@ -633,7 +666,7 @@ $raw_resp = $answerModel->getRawResponse($answers, 49);
 if ($raw_resp !== null && $raw_resp <= 1) {
     $mag4 = $answerModel->sumatoria(($answers), [49]);
     if ($mag4 <= 1) {
-        $message_magnificacion2 .= $answerModel->getQuestion($answers, 49) . ($mag4==1?" (Poco) <br>":"(Nada) <br>");
+        $message_magnificacion2 .= $answerModel->getQuestion($answers, 49) . ($mag4 == 1 ? " (Poco) <br>" : "(Nada) <br>");
         $cant_magnificacion2 += 1;
     }
 }
@@ -757,7 +790,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
                     <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                         <div id="contenidoID" style="position: absolute;width: 90%;top: 30px;z-index: -1;">
-                            
+
                             <div class="container-header">
                                 <div class="container-body">
                                     <div class="container-row-bg">
@@ -776,7 +809,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                 <img src="../../assets/img/test_image/logolsb5.jpeg?v=<?= VERSION_CODE ?>" class="img-logo">
                             </div>
 
-                            <div  class="container-body">
+                            <div class="container-body">
 
                                 <div class="container-row">
                                     <span class="label">Id:</span>
@@ -822,7 +855,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     </div>
 
                     <div id="contenido2" class="col-md-12 col-xl-12 col-xs-12 col-sm-12" style="padding: 50px 40px;">
-                        <div  class="row">
+                        <div class="row">
                             <div class="col-md-6" style="padding: 0;">
 
                                 <div class="container-panel">
@@ -988,7 +1021,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                                     <div class="section">
                                         <div class="section-header">
                                             <div class="title-pill-none">
-                                                
+
                                             </div>
                                             <div class="header-pills">
                                                 <span class="pill">PD</span>
@@ -1004,20 +1037,20 @@ if ($condicion1 || $condicion2 || $condicion3) {
 
                             <div class="col-md-6" style="padding:0px">
                                 <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height:690px !important;width: 100%;" id="colorss"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 119px !important;width: 100%;" id="colorss2"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top: -10px;margin-bottom:3px;height: 115px !important;" id="flotLine2"></div>
-                                <div class="ht-100 ht-sm-300" style="height: 130px !important;" id="flotLineIndGeneral"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top:10px;height: 350px !important;" id="flotLineEscalasClinicas"></div>
-                                <div class="ht-100 ht-sm-300" style="margin-top:15px;   margin-bottom: 15px;height: 75px !important;" id="flotLineIndRiesgoPat"></div>
-                                <p style="color:#232323;text-align: left;font-size: 15px !important;">Nota Pc: (Percentil), escala ordinal.</p>
+                                    <div class="ht-100 ht-sm-300" style="margin-top: -7px;height:690px !important;width: 100%;" id="colorss"></div>
+                                    <div class="ht-100 ht-sm-300" style="margin-top: -7px;height: 119px !important;width: 100%;" id="colorss2"></div>
+                                    <div class="ht-100 ht-sm-300" style="margin-top: -10px;margin-bottom:3px;height: 115px !important;" id="flotLine2"></div>
+                                    <div class="ht-100 ht-sm-300" style="height: 130px !important;" id="flotLineIndGeneral"></div>
+                                    <div class="ht-100 ht-sm-300" style="margin-top:10px;height: 350px !important;" id="flotLineEscalasClinicas"></div>
+                                    <div class="ht-100 ht-sm-300" style="margin-top:15px;   margin-bottom: 15px;height: 75px !important;" id="flotLineIndRiesgoPat"></div>
+                                    <p style="color:#232323;text-align: left;font-size: 15px !important;">Nota Pc: (Percentil), escala ordinal.</p>
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
 
-                    
+
 
                     <div class="col-md-12">
                         <div id="contenido3" class="card card-body" style="padding-bottom: 100px;text-align: justify;">
@@ -1165,7 +1198,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
         jsonpdf.push({
             type: 3
         });
-        
+
         jsonpdf.push({
             type: 7,
             text: getvalue('jsonvalue4')
@@ -1835,7 +1868,7 @@ if ($condicion1 || $condicion2 || $condicion3) {
                     }
                 }
             });
-                  
+
             var colores = $.plot($('#colorss2'), [{
                 data: [],
                 label: 'Data',

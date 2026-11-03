@@ -49,7 +49,7 @@ unset($value);
 
 $typeQuestionBaremos_response = $questionModel->getAllTypeQuestionBaremo();
 $grouped = [];
-$array_color = ['primary','pink','success','warning','teal','danger','primary','pink','success','warning','teal','danger','primary','pink','success','warning','teal','danger','primary','pink','success','warning','teal','danger'];
+$array_color = ['primary', 'pink', 'success', 'warning', 'teal', 'danger', 'primary', 'pink', 'success', 'warning', 'teal', 'danger', 'primary', 'pink', 'success', 'warning', 'teal', 'danger', 'primary', 'pink', 'success', 'warning', 'teal', 'danger'];
 $count = count($array_color);
 $index = 0;
 
@@ -77,7 +77,7 @@ foreach ($typeQuestionBaremos_response as $item) {
 
     ];
     $index++;
-    if($index==$count){
+    if ($index == $count) {
         $index = 0;
     }
 }
@@ -127,18 +127,18 @@ $alto = 78 * count($grouped);
     <link href="../../assets/css/animate.css" rel="stylesheet">
 
     <style>
-       #base,
-        #base2{
+        #base,
+        #base2 {
             display: flex;
         }
 
-        #base > div,
-        #base2 > div{
+        #base>div,
+        #base2>div {
             width: 100%;
             max-height: <?= $alto ?>px;
         }
 
-        #base2 .scroll-content{
+        #base2 .scroll-content {
             overflow-y: auto;
             max-height: <?= $alto ?>px;
         }
@@ -160,7 +160,7 @@ $alto = 78 * count($grouped);
                 <br>
                 <div class="row row-sm align-items-stretch">
                     <div id="base" class="col-xl-5 col-md-12 col-lg-6">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header pb-1">
                                 <h3 class="card-title mb-2">Instrumentos Psicom&eacute;tricos</h3>
                                 <p class="tx-12 mb-0 text-muted">Configuraci&oacute;n de estados</p>
@@ -176,7 +176,7 @@ $alto = 78 * count($grouped);
                             <div class="product-timeline card-body pt-2 mt-1">
                                 <ul class="timeline-1 mb-0">
                                     <?php
-                                    
+
                                     foreach ($typeQuestions as &$value) {
                                     ?>
                                         <li class="mt-0">
@@ -185,13 +185,13 @@ $alto = 78 * count($grouped);
                                             <div class="float-end tx-12">
                                                 <div class="mb-xl-0">
                                                     <div class="btn-group dropdown">
-                                                        <button type="button"  class="btn  dropdown-toggle-split" id="dropdownMenuX<?= $value['id'] ?>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: #f7f7f7 !important;color: black !important;"><?= $value['mantenimiento'] ?></button>
-                                                        <button type="button" class="btn  dropdown-toggle dropdown-toggle-split" style="background: #f7f7f7 !important;color: black !important;"  >
+                                                        <button type="button" class="btn  dropdown-toggle-split" id="dropdownMenuX<?= $value['id'] ?>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: #f7f7f7 !important;color: black !important;"><?= $value['mantenimiento'] ?></button>
+                                                        <button type="button" class="btn  dropdown-toggle dropdown-toggle-split" style="background: #f7f7f7 !important;color: black !important;">
                                                             <span class="sr-only">Toggle Dropdown</span>
                                                         </button>
-                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuX<?= $value['id'] ?>" x-placement="bottom-end">
-                                                            <button class="dropdown-item" onclick="changeShowResult(<?= $value['id'] ?>,1)">Mostrando Graficas</button>
-                                                            <button class="dropdown-item" onclick="changeShowResult(<?= $value['id'] ?>,0)">Mantenimiento</button>
+                                                        <div class="dropdown-menu dropdown-menu-right bg-black text-white" aria-labelledby="dropdownMenuX<?= $value['id'] ?>" x-placement="bottom-end">
+                                                            <button class="dropdown-item text-white" onclick="changeShowResult(<?= $value['id'] ?>,1)">Mostrando Graficas</button>
+                                                            <button class="dropdown-item text-white" onclick="changeShowResult(<?= $value['id'] ?>,0)">Mantenimiento</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -209,52 +209,56 @@ $alto = 78 * count($grouped);
                     <div id="base2" class="col-lg-7 col-xl-7 col-md-12 col-sm-12">
                         <div class="card latest-tasks scroll-content">
                             <div class="">
-                               
+
                                 <div class="card-header pb-1">
                                     <h3 class="card-title mb-2">Baremos</h3>
                                     <p class="tx-12 mb-0 text-muted">Lista oficial de baremos activos/inactivos</p>
                                 </div>
                                 <div class="">
                                     <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-brand nav-tabs-bold" role="tablist">
-                                        <?php $firstTab = true; foreach ($grouped as $group): ?>
+                                        <?php $firstTab = true;
+                                        foreach ($grouped as $group): ?>
 
-                                        <li class="nav-item">
-                                            <a class="nav-link <?= $firstTab ? 'active show' : '' ?>" data-bs-toggle="tab" href="#tasktab-<?= $group['id_type_question'] ?>" role="tab" aria-selected="false">
-                                                <?= $group['type_question_name'] ?>
-                                            </a>
-                                        </li>
-                                        <?php $firstTab = false; endforeach; ?>
-                                        
+                                            <li class="nav-item">
+                                                <a class="nav-link <?= $firstTab ? 'active show' : '' ?>" data-bs-toggle="tab" href="#tasktab-<?= $group['id_type_question'] ?>" role="tab" aria-selected="false">
+                                                    <?= $group['type_question_name'] ?>
+                                                </a>
+                                            </li>
+                                        <?php $firstTab = false;
+                                        endforeach; ?>
+
                                     </ul>
                                 </div>
                             </div>
                             <div class="card-body pt-3">
                                 <div class="tab-content">
-                                    <?php $firstPane = true; foreach ($grouped as $group): ?>
-                                    <div class="tab-pane fade <?= $firstPane ? 'active show' : '' ?>" id="tasktab-<?= $group['id_type_question'] ?>" role="tabpanel">
-                                        <div>
-                                            <?php foreach ($group['baremos'] as $baremo): ?>
-                                            <div class="tasks">
-                                                <div class=" task-line <?= $baremo['color'] ?>">
-                                                    <a href="#" class="span">
-                                                        <?= $baremo['baremo_name'] ?>
-                                                    </a>
-                                                    <div class="time">
-                                                        <?= $baremo['active_baremo']?'Activo':'Inactivo' ?>
+                                    <?php $firstPane = true;
+                                    foreach ($grouped as $group): ?>
+                                        <div class="tab-pane fade <?= $firstPane ? 'active show' : '' ?>" id="tasktab-<?= $group['id_type_question'] ?>" role="tabpanel">
+                                            <div>
+                                                <?php foreach ($group['baremos'] as $baremo): ?>
+                                                    <div class="tasks">
+                                                        <div class=" task-line <?= $baremo['color'] ?>">
+                                                            <a href="#" class="span">
+                                                                <?= $baremo['baremo_name'] ?>
+                                                            </a>
+                                                            <div class="time">
+                                                                <?= $baremo['active_baremo'] ? 'Activo' : 'Inactivo' ?>
+                                                            </div>
+                                                        </div>
+                                                        <label class="checkbox">
+                                                            <span class="check-box">
+                                                                <span class="ckbox"><input class="action_check" data-id="<?= $baremo['id_baremo']  ?>" <?= $baremo['active_baremo'] ? 'checked' : '' ?> type="checkbox"><span></span></span>
+                                                            </span>
+                                                        </label>
                                                     </div>
-                                                </div>
-                                                <label class="checkbox">
-                                                    <span class="check-box">
-                                                        <span class="ckbox"><input class="action_check" data-id="<?=$baremo['id_baremo']  ?>" <?= $baremo['active_baremo']?'checked':''?> type="checkbox" ><span></span></span>
-                                                    </span>
-                                                </label>
+                                                <?php endforeach; ?>
+
                                             </div>
-                                            <?php endforeach; ?>
-                                            
                                         </div>
-                                    </div>
-                                    <?php $firstPane = false; endforeach; ?>
-                                    
+                                    <?php $firstPane = false;
+                                    endforeach; ?>
+
                                 </div>
                             </div>
                         </div>
@@ -324,7 +328,7 @@ $alto = 78 * count($grouped);
                 form.submit();
             });
         });
-        
+
         function changeShowResult(id, changeShowResult) {
             const input = document.getElementById("type_show_result");
             input.value = changeShowResult;
@@ -333,7 +337,6 @@ $alto = 78 * count($grouped);
             const form = document.getElementById("form_type_show_result");
             form.submit();
         }
-
     </script>
 </body>
 

@@ -10,9 +10,9 @@ class CalendaryService
         $this->calendaryModel = new Calendary_Model();
     }
 
-    public function getAppointments(int $idUser,$search = '')
+    public function getAppointments(int $idUser, $search = '')
     {
-        return $this->calendaryModel->getAll($idUser,$search);
+        return $this->calendaryModel->getAll($idUser, $search);
     }
 
     public function saveAppointment($data)

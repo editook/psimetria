@@ -1,6 +1,19 @@
 <?php
 include_once('../configs.php');
+if (!isset($hasUnviewedUpdates)) {
+    $hasUnviewedUpdates = false;
+    if (isset($_SESSION['REST_id_user'])) {
+        require_once __DIR__ . '/../connection.php';
+        require_once __DIR__ . '/../models/model_update_system.php';
+        $headerUpdateSystemModel = new ModelUpdateSystem();
+        $hasUnviewedUpdates = $headerUpdateSystemModel->hasUnviewedUpdates((int) $_SESSION['REST_id_user']);
+    }
+}
 ?>
+<style>
+    .update-system-blink { animation: update-system-blink 1s steps(2, start) infinite; color: #e63946; font-weight: 700; }
+    @keyframes update-system-blink { to { visibility: hidden; } }
+</style>
 <div class="main-header nav nav-item hor-header">
     <div class="container">
         <div class="main-header-left ">
@@ -40,6 +53,7 @@ include_once('../configs.php');
                         </div>
                         <a class="dropdown-item" href=""><i class="bx bx-user-circle"></i>Profile</a>
                         <a class="dropdown-item" href="<?=LOCALHOST?>/view/configuration.php"><i class="bx bx-slider-alt"></i> Configuracion</a>
+                        <a class="dropdown-item" href="<?= LOCALHOST ?>/view/update-system.php"><i class="las la-bullhorn"></i> Actualizaciones <?php if ($hasUnviewedUpdates): ?><span class="update-system-blink" aria-label="Novedades sin ver">●</span><?php endif; ?></a>
                         <a class="dropdown-item" href="../close_session.php"><i class="bx bx-log-out"></i> Salir</a>
                     </div>
                 </li>

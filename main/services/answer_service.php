@@ -56,14 +56,14 @@ class AnswerService
         $ci     = $post['ci'] ?? '';
         $estado_civil     = $post['estado_civil'] ?? '';
         $estado_civil_otro     = $post['estado_civil_otro'] ?? '';
-        
+
         $ambito     = $post['ambito'] ?? '';
         $duracion     = $post['duracion'] ?? '';
 
-        if($estado_civil == ''){
+        if ($estado_civil == '') {
             $estado_civil = $estado_civil_otro;
         }
-        
+
         $problems = [
             'problem1' => 'Conyugal o familiar',
             'problem2' => 'Cambios de humor',
@@ -78,13 +78,12 @@ class AnswerService
         ];
         $first_problem = '';
         $second_problem = '';
-        for ($i=1; $i < 11; $i++) { 
-            $name = 'problem'.$i;
+        for ($i = 1; $i < 11; $i++) {
+            $name = 'problem' . $i;
             $value = $post[$name] ?? '';
-            if($value == '1'){
+            if ($value == '1') {
                 $first_problem = $problems["$name"];
-            }
-            elseif ($value == '2'){
+            } elseif ($value == '2') {
                 $second_problem = $problems["$name"];
             }
         }
@@ -96,7 +95,7 @@ class AnswerService
             }
         }
 
-        if($ambito==''){
+        if ($ambito == '') {
             $ambito     = $post['ambito_otro'] ?? '';
         }
         $data = [];
@@ -109,13 +108,12 @@ class AnswerService
         $data['one_problem'] = $first_problem;
         $data['two_problem'] = $second_problem;
         $info = $this->registerModel->getInputMcmmiById($idpatient);
-        if($info == null){
-            $res = $this->registerModel->insertMcmmi($idpatient,$data);
+        if ($info == null) {
+            $res = $this->registerModel->insertMcmmi($idpatient, $data);
+        } else {
+            $res = $this->registerModel->updateMcmmi($idpatient, $data);
         }
-        else{
-            $res = $this->registerModel->updateMcmmi($idpatient,$data);
-        }
-        
+
         return [
             'patient'  => $idpatient
         ];

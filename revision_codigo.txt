@@ -1,0 +1,53 @@
+REVISIÓN DEL PROYECTO PSIMETRIA
+
+Alcance
+-------
+Revisión estática de la aplicación PHP: autenticación, respuestas, registros y calendario. No se modificó el código ni se ejecutaron pruebas.
+
+Resumen
+-------
+Es una aplicación PHP tradicional, con vistas que coordinan formularios, modelos que consultan MySQL y servicios para procesar respuestas y citas. Incluye archivos de baremos por instrumento psicométrico y assets de frontend.
+
+Hallazgos prioritarios
+----------------------
+
+1. El endpoint del calendario no autentica ni autoriza las operaciones.
+En main/api/enpoint_calendary.php cualquier cliente que pueda acceder puede intentar listar citas, cambiar estados, modificarlas o eliminarlas. Las acciones de escritura tampoco verifican que la cita pertenezca al usuario de la sesión. Esto pone en riesgo datos personales de pacientes.
+
+2. Hay consultas SQL vulnerables a inyección y varias escrituras interpolan datos recibidos.
+Por ejemplo, update() en main/models/model_calendary.php inserta campos directamente en SQL; también hay interpolaciones en main/models/model_answer.php y main/models/model_register.php. Escapar algunos valores en otros métodos no cubre el conjunto de consultas. Conviene migrar a consultas preparadas de forma consistente.
+
+3. El inicio de sesión permite cuentas sin contraseña y usa un esquema de hash débil para contraseñas con valor.
+main/models/model_user.php acepta autenticación cuando tanto la contraseña almacenada como la ingresada están vacías. Para el resto calcula SHA-256 directo, que no es adecuado para almacenar contraseñas. En main/signin.php también falta regenerar el ID de sesión al autenticar.
+
+4. La configuración de base de datos contiene una contraseña de producción comentada en el código.
+Está en main/connection.php. Aunque esté comentada, debe tratarse como expuesta: retirarla del repositorio y rotarla si aún sirve. Además, la conexión termina con un die() que muestra detalles del error SQL al usuario.
+
+5. Los formularios de respuestas no validan suficientemente la pertenencia ni la entrada.
+main/services/answer_service.php toma IDs y códigos del POST y los usa para guardar respuestas y cambiar el estado. En main/models/model_answer.php esos valores entran en SQL sin parámetros. El servicio además lee other_answer desde $_POST directamente, en vez de usar el arreglo recibido.
+
+6. El listado de citas puede devolver datos de otros usuarios cuando hay búsqueda.
+En main/models/model_calendary.php, la condición nombre LIKE ... OR apellidos LIKE ... AND id_user = ... no agrupa las condiciones; por precedencia de AND/OR, un nombre coincidente puede eludir el filtro de usuario. Agrupar la búsqueda junto al filtro de propietario corrige esa lógica, aunque el endpoint también necesita autorización.
+
+7. Hay salida de depuración en una operación de escritura.
+main/models/model_answer.php imprime la consulta de actualización de MACI. Puede romper respuestas HTML/JSON y revelar datos de la consulta, incluidos valores del formulario.
+
+Calidad y mantenibilidad
+------------------------
+- La lógica HTTP, sesión y presentación está concentrada en archivos de vista. Los formularios repiten patrones entre instrumentos, lo que facilita que validaciones o correcciones se apliquen de forma desigual.
+- Los modelos están acoplados a Connection y construyen SQL como strings. Un acceso común con consultas preparadas y errores centralizados sería un primer paso útil sin exigir una reescritura arquitectónica.
+- El manejo de errores SQL es inconsistente: varios métodos asumen que execute_query() siempre devuelve un resultado válido antes de llamar a mysqli_num_rows() o mysqli_fetch_all().
+- package.json solo define una tarea de prueba que falla intencionalmente (test sin pruebas). El README menciona Composer, pero no encontré un manifiesto composer.json en los archivos listados; las dependencias PHP parecen estar presentes en vendor, aunque no pude confirmar cómo se reproducen en otra instalación.
+- session_manager.php redirige si no hay sesión, pero la autorización por rol se deja a cada página. Esto facilita que una ruta nueva olvide protegerse.
+
+Orden recomendado
+-----------------
+1. Proteger el endpoint del calendario con sesión, autorización por propietario y validación de método/acción; corregir también el filtro de búsqueda.
+2. Eliminar y rotar la credencial de producción expuesta.
+3. Migrar las consultas que reciben datos externos a sentencias preparadas y eliminar la salida de depuración.
+4. Cerrar la autenticación sin contraseña, migrar hashes a password_hash()/password_verify() y regenerar la sesión tras iniciar sesión.
+5. Revisar autorización y validación en todos los formularios de respuestas, con especial cuidado porque los datos psicométricos son sensibles.
+
+Limitaciones
+------------
+Esta revisión es estática: los hallazgos señalan riesgos visibles en el código; no confirma si el despliegue público permite alcanzar cada ruta ni el estado real de las credenciales o configuraciones del servidor.

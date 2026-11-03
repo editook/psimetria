@@ -1,0 +1,7 @@
+CREATE TABLE `p022tea`.`item_update_system` (`id` INT NOT NULL AUTO_INCREMENT , `item_name` VARCHAR(500) NOT NULL , `item_image` VARCHAR(50) NULL DEFAULT NULL , `id_update_system` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `p022tea`.`update_system` (`id` INT NOT NULL AUTO_INCREMENT , `date` DATETIME NOT NULL , `title` VARCHAR(200) NOT NULL , `version` VARCHAR(20) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `p022tea`.`users`
+    ADD `id_update_system` INT NOT NULL DEFAULT 0 AFTER `active`,
+    ADD `is_view` BOOLEAN NOT NULL DEFAULT FALSE AFTER `id_update_system`;

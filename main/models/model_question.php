@@ -12,29 +12,30 @@ class Question_Model
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return null;
     }
 
-    public function getAll($id_type_question,$hash='')
+    public function getAll($id_type_question, $hash = '')
     {
-      if($hash != ''){
-        $hash = "'codes' = '$hash' and"; 
-      }
+        if ($hash != '') {
+            $hash = "'codes' = '$hash' and";
+        }
         $query =
             "SELECT *
              FROM question where $hash type_question_id = $id_type_question order by item_order asc
              ";
-    
+
         echo $query;
         $con = new Connection();
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
     }
 
-    
-    public function getAllTypeQuestion(){
+
+    public function getAllTypeQuestion()
+    {
         $query =
             "SELECT *
              FROM type_question
@@ -44,7 +45,8 @@ class Question_Model
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
     }
 
-    public function getAllTypeQuestionBaremo(){
+    public function getAllTypeQuestionBaremo()
+    {
         $query =
             "SELECT
 
@@ -78,7 +80,7 @@ class Question_Model
             "INSERT INTO user (name_user, type_user, email_user, login_user)
             VALUES ('$name', '$type', '$email', '$login');";
 
-        if($con->execute_query($query))
+        if ($con->execute_query($query))
             return $con->getLastInsertedID();
         return false;
     }

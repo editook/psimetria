@@ -1,16 +1,18 @@
 <?php
-class ModelMaciConfiguration {
+class ModelMaciConfiguration
+{
 
-    public function sumatoriaMaci($answers,$array,$compare){
+    public function sumatoriaMaci($answers, $array, $compare)
+    {
         $total = 0;
-        foreach($array as $option => $value){
-            foreach($answers as $answer){
-                if($answer['item_order'] == $option){
+        foreach ($array as $option => $value) {
+            foreach ($answers as $answer) {
+                if ($answer['item_order'] == $option && $answer['response'] !== null) {
                     $sum = 0;
-                    if(intval($answer['response']) == $compare){
+                    if (intval($answer['response']) === (int) $compare) {
                         $sum = $value;
                     }
-                    
+
                     $total += $sum;
                     break;
                 }
@@ -18,8 +20,9 @@ class ModelMaciConfiguration {
         }
         return $total;
     }
-    
-    public function obtenerPdxEspaniol($value) {
+
+    public function obtenerPdxEspaniol($value)
+    {
         $pdx = [
             ['inicio' => 201, 'fin' => 209, 'valor' => 2],
             ['inicio' => 210, 'fin' => 219, 'valor' => 4],
@@ -63,11 +66,11 @@ class ModelMaciConfiguration {
         ];
         $cantidad = count($pdx);
         $total = 0;
-        while($cantidad>0){
+        while ($cantidad > 0) {
             $cantidad--;
-            $data = $pdx[$cantidad];//indice
+            $data = $pdx[$cantidad]; //indice
             $subtotal = 0;
-            if($value>=$data['inicio'] && $value<=$data['fin']){
+            if ($value >= $data['inicio'] && $value <= $data['fin']) {
                 $subtotal = $data['valor'];
             }
             $total = $total + $subtotal;
@@ -75,7 +78,8 @@ class ModelMaciConfiguration {
         return $total;
     }
 
-    public function obtenerPdxAmericano($value) {
+    public function obtenerPdxAmericano($value)
+    {
         $pdx = [
             ['inicio' => 201, 'fin' => 209, 'valor' => 0],
             ['inicio' => 210, 'fin' => 219, 'valor' => 5],
@@ -123,11 +127,11 @@ class ModelMaciConfiguration {
         }*/
         $cantidad = count($pdx);
         $total = 0;
-        while($cantidad>0){
+        while ($cantidad > 0) {
             $cantidad--;
-            $data = $pdx[$cantidad];//indice
+            $data = $pdx[$cantidad]; //indice
             $subtotal = 0;
-            if($value>=$data['inicio'] && $value<=$data['fin']){
+            if ($value >= $data['inicio'] && $value <= $data['fin']) {
                 $subtotal = $data['valor'];
             }
             $total = $total + $subtotal;
@@ -135,51 +139,58 @@ class ModelMaciConfiguration {
         return $total;
     }
 
-    public function getRawScoreScaleX($index){
-        if($index<200){
+    public function getRawScoreScaleX($index)
+    {
+        if ($index < 200) {
             return 1000;
         }
-        if($index > 590){
+        if ($index > 590) {
             return 1000;
         }
-        $pares = [200 => 1000,201 => 25,202 => 25,203 => 24,204 => 24,205 => 24,206 => 23,207 => 23,208 => 23,209 => 22,210 => 22,211 => 22,212 => 21,213 => 21,214 => 21,215 => 20,216 => 20,217 => 20,218 => 19,219 => 19,220 => 19,221 => 18,222 => 18,223 => 18,224 => 17,225 => 17,226 => 17,227 => 16,228 => 16,229 => 16,230 => 15,231 => 15,232 => 15,233 => 14,234 => 14,235 => 14,236 => 13,237 => 13,238 => 13,239 => 12,240 => 12,241 => 12,242 => 11,243 => 11,244 => 11,245 => 10,246 => 10,247 => 10,248 => 9,249 => 9,250 => 9,251 => 8,252 => 8,253 => 8,254 => 7,255 => 7,256 => 7,257 => 6,258 => 6,259 => 6,260 => 5,261 => 5,262 => 5,263 => 4,264 => 4,265 => 4,266 => 4,267 => 4,268 => 4,269 => 2,270 => 2,271 => 2,272 => 1,273 => 1,274 => 1,275 => 0,276 => 0,277 => 0,278 => 0,279 => 0,280 => 0,281 => 0,282 => 0,283 => 0,284 => 0,285 => 0,286 => 0,287 => 0,288 => 0,289 => 0,290 => 0,291 => 0,292 => 0,293 => 0,294 => 0,295 => 0,296 => 0,297 => 0,298 => 0,299 => 0,300 => 0,301 => 0,302 => 0,303 => 0,304 => 0,305 => 0,306 => 0,307 => 0,308 => 0,309 => 0,310 => 0,311 => 0,312 => 0,313 => 0,314 => 0,315 => 0,316 => 0,317 => 0,318 => 0,319 => 0,320 => 0,321 => 0,322 => 0,323 => 0,324 => 0,325 => 0,326 => 0,327 => 0,328 => 0,329 => 0,330 => 0,331 => 0,332 => 0,333 => 0,334 => 0,335 => 0,336 => 0,337 => 0,338 => 0,339 => 0,340 => 0,341 => 0,342 => 0,343 => 0,344 => 0,345 => 0,346 => 0,347 => 0,348 => 0,349 => 0,350 => 0,351 => 0,352 => 0,353 => 0,354 => 0,355 => 0,356 => 0,357 => 0,358 => 0,359 => 0,360 => 0,361 => 0,362 => 0,363 => 0,364 => 0,365 => 0,366 => 0,367 => 0,368 => 0,369 => 0,370 => 0,371 => 0,372 => 0,373 => 0,374 => 0,375 => 0,376 => 0,377 => 0,378 => 0,379 => 0,380 => 0,381 => 0,382 => 0,383 => 0,384 => 0,385 => 0,386 => 0,387 => 0,388 => 0,389 => 0,390 => 0,391 => 0,392 => 0,393 => 0,394 => 0,395 => 0,396 => 0,397 => 0,398 => 0,399 => 0,400 => 0,401 => -1,402 => -1,403 => -1,404 => -1,405 => -1,406 => -1,407 => -1,408 => -1,409 => -2,410 => -2,411 => -2,412 => -2,413 => -2,414 => -2,415 => -2,416 => -2,417 => -3,418 => -3,419 => -3,420 => -3,421 => -3,422 => -3,423 => -3,424 => -3,425 => -4,426 => -4,427 => -4,428 => -4,429 => -4,430 => -4,431 => -4,432 => -4,433 => -5,434 => -5,435 => -5,436 => -5,437 => -5,438 => -5,439 => -5,440 => -5,441 => -6,442 => -6,443 => -6,444 => -6,445 => -6,446 => -6,447 => -6,448 => -6,449 => -7,450 => -7,451 => -7,452 => -7,453 => -7,454 => -7,455 => -7,456 => -7,457 => -8,458 => -8,459 => -8,460 => -8,461 => -8,462 => -8,463 => -8,464 => -8,465 => -9,466 => -9,467 => -9,468 => -9,469 => -9,470 => -9,471 => -9,472 => -9,473 => -10,474 => -10,475 => -10,476 => -10,477 => -10,478 => -10,479 => -10,480 => -10,481 => -11,482 => -11,483 => -11,484 => -11,485 => -11,486 => -11,487 => -11,488 => -11,489 => -12,490 => -12,491 => -12,492 => -12,493 => -12,494 => -12,495 => -12,496 => -12,497 => -13,498 => -13,499 => -13,500 => -13,501 => -13,502 => -13,503 => -13,504 => -13,505 => -14,506 => -14,507 => -14,508 => -14,509 => -14,510 => -14,511 => -14,512 => -14,513 => -15,514 => -15,515 => -15,516 => -15,517 => -15,518 => -15,519 => -15,520 => -15,521 => -16,522 => -16,523 => -16,524 => -16,525 => -16,526 => -16,527 => -16,528 => -16,529 => -17,530 => -17,531 => -17,532 => -17,533 => -17,534 => -17,535 => -17,536 => -17,537 => -18,538 => -18,539 => -18,540 => -18,541 => -18,542 => -18,543 => -18,544 => -18,545 => -19,546 => -19,547 => -19,548 => -19,549 => -19,550 => -19,551 => -19,552 => -19,553 => -20,554 => -20,555 => -20,556 => -20,557 => -20,558 => -20,559 => -20,560 => -20,561 => -21,562 => -21,563 => -21,564 => -21,565 => -21,566 => -21,567 => -21,568 => -21,569 => -22,570 => -22,571 => -22,572 => -22,573 => -22,574 => -22,575 => -22,576 => -22,577 => -23,578 => -23,579 => -23,580 => -23,581 => -23,582 => -23,583 => -23,584 => -23,585 => -24,586 => -24,587 => -24,588 => -24,589 => -24,590 => 1000];
+        $pares = [200 => 1000, 201 => 25, 202 => 25, 203 => 24, 204 => 24, 205 => 24, 206 => 23, 207 => 23, 208 => 23, 209 => 22, 210 => 22, 211 => 22, 212 => 21, 213 => 21, 214 => 21, 215 => 20, 216 => 20, 217 => 20, 218 => 19, 219 => 19, 220 => 19, 221 => 18, 222 => 18, 223 => 18, 224 => 17, 225 => 17, 226 => 17, 227 => 16, 228 => 16, 229 => 16, 230 => 15, 231 => 15, 232 => 15, 233 => 14, 234 => 14, 235 => 14, 236 => 13, 237 => 13, 238 => 13, 239 => 12, 240 => 12, 241 => 12, 242 => 11, 243 => 11, 244 => 11, 245 => 10, 246 => 10, 247 => 10, 248 => 9, 249 => 9, 250 => 9, 251 => 8, 252 => 8, 253 => 8, 254 => 7, 255 => 7, 256 => 7, 257 => 6, 258 => 6, 259 => 6, 260 => 5, 261 => 5, 262 => 5, 263 => 4, 264 => 4, 265 => 4, 266 => 4, 267 => 4, 268 => 4, 269 => 2, 270 => 2, 271 => 2, 272 => 1, 273 => 1, 274 => 1, 275 => 0, 276 => 0, 277 => 0, 278 => 0, 279 => 0, 280 => 0, 281 => 0, 282 => 0, 283 => 0, 284 => 0, 285 => 0, 286 => 0, 287 => 0, 288 => 0, 289 => 0, 290 => 0, 291 => 0, 292 => 0, 293 => 0, 294 => 0, 295 => 0, 296 => 0, 297 => 0, 298 => 0, 299 => 0, 300 => 0, 301 => 0, 302 => 0, 303 => 0, 304 => 0, 305 => 0, 306 => 0, 307 => 0, 308 => 0, 309 => 0, 310 => 0, 311 => 0, 312 => 0, 313 => 0, 314 => 0, 315 => 0, 316 => 0, 317 => 0, 318 => 0, 319 => 0, 320 => 0, 321 => 0, 322 => 0, 323 => 0, 324 => 0, 325 => 0, 326 => 0, 327 => 0, 328 => 0, 329 => 0, 330 => 0, 331 => 0, 332 => 0, 333 => 0, 334 => 0, 335 => 0, 336 => 0, 337 => 0, 338 => 0, 339 => 0, 340 => 0, 341 => 0, 342 => 0, 343 => 0, 344 => 0, 345 => 0, 346 => 0, 347 => 0, 348 => 0, 349 => 0, 350 => 0, 351 => 0, 352 => 0, 353 => 0, 354 => 0, 355 => 0, 356 => 0, 357 => 0, 358 => 0, 359 => 0, 360 => 0, 361 => 0, 362 => 0, 363 => 0, 364 => 0, 365 => 0, 366 => 0, 367 => 0, 368 => 0, 369 => 0, 370 => 0, 371 => 0, 372 => 0, 373 => 0, 374 => 0, 375 => 0, 376 => 0, 377 => 0, 378 => 0, 379 => 0, 380 => 0, 381 => 0, 382 => 0, 383 => 0, 384 => 0, 385 => 0, 386 => 0, 387 => 0, 388 => 0, 389 => 0, 390 => 0, 391 => 0, 392 => 0, 393 => 0, 394 => 0, 395 => 0, 396 => 0, 397 => 0, 398 => 0, 399 => 0, 400 => 0, 401 => -1, 402 => -1, 403 => -1, 404 => -1, 405 => -1, 406 => -1, 407 => -1, 408 => -1, 409 => -2, 410 => -2, 411 => -2, 412 => -2, 413 => -2, 414 => -2, 415 => -2, 416 => -2, 417 => -3, 418 => -3, 419 => -3, 420 => -3, 421 => -3, 422 => -3, 423 => -3, 424 => -3, 425 => -4, 426 => -4, 427 => -4, 428 => -4, 429 => -4, 430 => -4, 431 => -4, 432 => -4, 433 => -5, 434 => -5, 435 => -5, 436 => -5, 437 => -5, 438 => -5, 439 => -5, 440 => -5, 441 => -6, 442 => -6, 443 => -6, 444 => -6, 445 => -6, 446 => -6, 447 => -6, 448 => -6, 449 => -7, 450 => -7, 451 => -7, 452 => -7, 453 => -7, 454 => -7, 455 => -7, 456 => -7, 457 => -8, 458 => -8, 459 => -8, 460 => -8, 461 => -8, 462 => -8, 463 => -8, 464 => -8, 465 => -9, 466 => -9, 467 => -9, 468 => -9, 469 => -9, 470 => -9, 471 => -9, 472 => -9, 473 => -10, 474 => -10, 475 => -10, 476 => -10, 477 => -10, 478 => -10, 479 => -10, 480 => -10, 481 => -11, 482 => -11, 483 => -11, 484 => -11, 485 => -11, 486 => -11, 487 => -11, 488 => -11, 489 => -12, 490 => -12, 491 => -12, 492 => -12, 493 => -12, 494 => -12, 495 => -12, 496 => -12, 497 => -13, 498 => -13, 499 => -13, 500 => -13, 501 => -13, 502 => -13, 503 => -13, 504 => -13, 505 => -14, 506 => -14, 507 => -14, 508 => -14, 509 => -14, 510 => -14, 511 => -14, 512 => -14, 513 => -15, 514 => -15, 515 => -15, 516 => -15, 517 => -15, 518 => -15, 519 => -15, 520 => -15, 521 => -16, 522 => -16, 523 => -16, 524 => -16, 525 => -16, 526 => -16, 527 => -16, 528 => -16, 529 => -17, 530 => -17, 531 => -17, 532 => -17, 533 => -17, 534 => -17, 535 => -17, 536 => -17, 537 => -18, 538 => -18, 539 => -18, 540 => -18, 541 => -18, 542 => -18, 543 => -18, 544 => -18, 545 => -19, 546 => -19, 547 => -19, 548 => -19, 549 => -19, 550 => -19, 551 => -19, 552 => -19, 553 => -20, 554 => -20, 555 => -20, 556 => -20, 557 => -20, 558 => -20, 559 => -20, 560 => -20, 561 => -21, 562 => -21, 563 => -21, 564 => -21, 565 => -21, 566 => -21, 567 => -21, 568 => -21, 569 => -22, 570 => -22, 571 => -22, 572 => -22, 573 => -22, 574 => -22, 575 => -22, 576 => -22, 577 => -23, 578 => -23, 579 => -23, 580 => -23, 581 => -23, 582 => -23, 583 => -23, 584 => -23, 585 => -24, 586 => -24, 587 => -24, 588 => -24, 589 => -24, 590 => 1000];
         $value = $pares[$index];
 
         return $value;
     }
 
-    public function getDifereceYZ($index){
-        if($index<-65){
+    public function getDifereceYZ($index)
+    {
+        if ($index < -65) {
             return -7;
         }
-        if($index > 65){
+        if ($index > 65) {
             return 7;
         }
-        $pares = [-65 => -7,-64 => -6,-63 => -6,-62 => -6,-61 => -6,-60 => -6,-59 => -6,-58 => -6,-57 => -6,-56 => -6,-55 => -6,-54 => -5,-53 => -5,-52 => -5,-51 => -5,-50 => -5,-49 => -5,-48 => -5,-47 => -5,-46 => -5,-45 => -5,-44 => -4,-43 => -4,-42 => -4,-41 => -4,-40 => -4,-39 => -4,-38 => -4,-37 => -4,-36 => -4,-35 => -4,-34 => -3,-33 => -3,-32 => -3,-31 => -3,-30 => -3,-29 => -3,-28 => -3,-27 => -3,-26 => -3,-25 => -3,-24 => -2,-23 => -2,-22 => -2,-21 => -2,-20 => -2,-19 => -2,-18 => -2,-17 => -2,-16 => -2,-15 => -2,-14 => -1,-13 => -1,-12 => -1,-11 => -1,-10 => -1,-9 => -1,-8 => -1,-7 => -1,-6 => -1,-5 => -1,-4 => 0,-3 => 0,-2 => 0,-1 => 0,0 => 0,1 => 0,2 => 0,3 => 0,4 => 0,5 => 1,6 => 1,7 => 1,8 => 1,9 => 1,10 => 1,11 => 1,12 => 1,13 => 1,14 => 2,15 => 2,16 => 2,17 => 2,18 => 2,19 => 2,20 => 2,21 => 2,22 => 2,23 => 2,24 => 2,25 => 3,26 => 3,27 => 3,28 => 3,29 => 3,30 => 3,31 => 3,32 => 3,33 => 3,34 => 3,35 => 4,36 => 4,37 => 4,38 => 4,39 => 4,40 => 4,41 => 4,42 => 4,43 => 4,44 => 4,45 => 5,46 => 5,47 => 5,48 => 5,49 => 5,50 => 5,51 => 5,52 => 5,53 => 5,54 => 5,55 => 6,56 => 6,57 => 6,58 => 6,59 => 6,60 => 6,61 => 6,62 => 6,63 => 6,64 => 6,65 => 7];
+        $pares = [-65 => -7, -64 => -6, -63 => -6, -62 => -6, -61 => -6, -60 => -6, -59 => -6, -58 => -6, -57 => -6, -56 => -6, -55 => -6, -54 => -5, -53 => -5, -52 => -5, -51 => -5, -50 => -5, -49 => -5, -48 => -5, -47 => -5, -46 => -5, -45 => -5, -44 => -4, -43 => -4, -42 => -4, -41 => -4, -40 => -4, -39 => -4, -38 => -4, -37 => -4, -36 => -4, -35 => -4, -34 => -3, -33 => -3, -32 => -3, -31 => -3, -30 => -3, -29 => -3, -28 => -3, -27 => -3, -26 => -3, -25 => -3, -24 => -2, -23 => -2, -22 => -2, -21 => -2, -20 => -2, -19 => -2, -18 => -2, -17 => -2, -16 => -2, -15 => -2, -14 => -1, -13 => -1, -12 => -1, -11 => -1, -10 => -1, -9 => -1, -8 => -1, -7 => -1, -6 => -1, -5 => -1, -4 => 0, -3 => 0, -2 => 0, -1 => 0, 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 1, 6 => 1, 7 => 1, 8 => 1, 9 => 1, 10 => 1, 11 => 1, 12 => 1, 13 => 1, 14 => 2, 15 => 2, 16 => 2, 17 => 2, 18 => 2, 19 => 2, 20 => 2, 21 => 2, 22 => 2, 23 => 2, 24 => 2, 25 => 3, 26 => 3, 27 => 3, 28 => 3, 29 => 3, 30 => 3, 31 => 3, 32 => 3, 33 => 3, 34 => 3, 35 => 4, 36 => 4, 37 => 4, 38 => 4, 39 => 4, 40 => 4, 41 => 4, 42 => 4, 43 => 4, 44 => 4, 45 => 5, 46 => 5, 47 => 5, 48 => 5, 49 => 5, 50 => 5, 51 => 5, 52 => 5, 53 => 5, 54 => 5, 55 => 6, 56 => 6, 57 => 6, 58 => 6, 59 => 6, 60 => 6, 61 => 6, 62 => 6, 63 => 6, 64 => 6, 65 => 7];
         $value = $pares[$index];
 
         return $value;
     }
-    public function getTBTotal($TB,$ajusteXAndDB){
-        $total_tb = $TB + ($ajusteXAndDB);
-        if($total_tb<=0){
-            return 1;
-        }
+    public function getTBTotal($TB, $ajusteXAndDB)
+    {
+
+        $total_tb = max(
+            1,
+            min(115, $TB + $ajusteXAndDB)
+        );
+
         return $total_tb;
     }
-    public function getSettingAD($index){
-        if($index == 0){
+    public function getSettingAD($index)
+    {
+        if ($index == 0) {
             return 0;
         }
-        if($index > 20){
+        if ($index > 20) {
             return 15;
         }
-        $pares = [1 => 1,2 => 1,3 => 2,4 => 3,5 => 4,6 => 4,7 => 5,8 => 6,9 => 7,10 => 7,11 => 8,12 => 9,13 => 10,14 => 10,15 => 11,16 => 12,17 => 13,18 => 13,19 => 14,20 => 15];
+        $pares = [1 => 1, 2 => 1, 3 => 2, 4 => 3, 5 => 4, 6 => 4, 7 => 5, 8 => 6, 9 => 7, 10 => 7, 11 => 8, 12 => 9, 13 => 10, 14 => 10, 15 => 11, 16 => 12, 17 => 13, 18 => 13, 19 => 14, 20 => 15];
         $value = $pares[$index];
         return $value;
     }
     //prototipos de personalidad
-    public function getPrototipoPersonalidad($except_array,$introversion,$inhibido,$pesimista,$sumiso,$histrionico,$egocentrico,$rebelde,$rudo,$conformista,$oposicionista,$autopunitivo){
+    public function getPrototipoPersonalidad($except_array, $introversion, $inhibido, $pesimista, $sumiso, $histrionico, $egocentrico, $rebelde, $rudo, $conformista, $oposicionista, $autopunitivo)
+    {
         $array = [
             ["llave" => "Introversión", "total" => $introversion, "valor" => 0],
             ["llave" => "Inhibido", "total" => $inhibido, "valor" => -4],
@@ -195,20 +206,21 @@ class ModelMaciConfiguration {
         ];
 
         $maxTotal = -1;
-        $valorMaximo = 0;//return
+        $valorMaximo = 0; //return
         $selected = null;
         foreach ($array as $item) {
-            if ($item['total'] > $maxTotal && !in_array($item['llave'], $except_array)) {// 
+            if ($item['total'] > $maxTotal && !in_array($item['llave'], $except_array)) { //
                 $maxTotal = $item['total'];
                 $valorMaximo = $item['valor'];
                 $selected = $item;
             }
         }
-        
+
         return $selected;
     }
 
-    public function getPersonalidadPP($texto){
+    public function getPersonalidadPP($texto)
+    {
         $descripciones = [
             "Introversión" => "Evalúa la tendencia a ser apático, indiferente, distante y suelen ser reservados, mostrándose bastante tranquilos y poco emotivos. Suelen ser apáticos, indiferentes, distantes y poco sociables",
             "Inhibido" => "Mide la tendencia a ser bastante vergonzosos o a sentirse incómodos en las relaciones con los otros. A estas personas les gustaría la proximidad de los otros pero han aprendido que es mejor mantener su propia distancia y no confiar en la amistad de otros",
@@ -223,12 +235,13 @@ class ModelMaciConfiguration {
             "Autopunitivo" => "Evalúa la tendencia a comportamientos autodestructivos. En esta escala suelen ser sus peores enemigos, actúan de forma lesiva para ellos mismos y, a veces, dan la sensación de que están contentos de sufrir",
             "Tendencia límite" => "Mide la inestabilidad emocional significativa, con fluctuaciones en el estado de ánimo, dificultades en la identidad y comportamientos autodestructivos"
         ];
-        
-        return "(".($descripciones[$texto] ?? "NA")."). ";
+
+        return "(" . ($descripciones[$texto] ?? "NA") . "). ";
     }
 
-    public function getPersonalidadPPInterpretacion($texto,$introversion,$inhibido,$pesimista,$sumiso,$histrionico,$egocentrico,$rebelde,$rudo,$conformista,$oposicionista,$autopunitivo){
-        
+    public function getPersonalidadPPInterpretacion($texto, $introversion, $inhibido, $pesimista, $sumiso, $histrionico, $egocentrico, $rebelde, $rudo, $conformista, $oposicionista, $autopunitivo)
+    {
+
         $l18 = $introversion;
         $result_introversion = "Sin datos suficientes para evaluar.";
         if ($l18 <= 60) {
@@ -252,7 +265,7 @@ class ModelMaciConfiguration {
         } elseif ($l19 >= 85) {
             $result_inhibido = "la expresión del prototipo de personalidad inhibido se torna destacada o prominente. En este nivel, se manifiesta una marcada timidez y una gran incomodidad en situaciones sociales, lo que genera una tendencia persistente al aislamiento y a la evitación. A pesar del deseo de establecer vínculos cercanos, el temor al rechazo y la falta de confianza en la aceptación de los demás generan una barrera para la interacción social. Su comportamiento está caracterizado por una notable autocontención emocional, manteniendo un alto grado de reserva en cuanto a sus pensamientos y sentimientos personales. Tiende a experimentar un sentido de soledad, pero evita activamente la cercanía.";
         }
-        
+
         $l20 = $pesimista;
         $result_pesimista = "Sin datos suficientes para evaluar.";
         if ($l20 <= 60) {
@@ -278,35 +291,31 @@ class ModelMaciConfiguration {
         }
 
         $result_histrionico = "Sin datos suficientes para evaluar.";
-        
+
         $l22 = $histrionico;
         if ($l22 <= 60) {
-            $result_histrionico= $mensaje = "Indica una baja presencia de rasgos histriónicos. En este rango, no busca activamente la "
-             . "atención o la aprobación de otros mediante la expresividad emocional o el comportamiento exhibicionista. "
-             . "Pueden tener relaciones más estables y menos dependientes de la validación externa.";
-
+            $result_histrionico = $mensaje = "Indica una baja presencia de rasgos histriónicos. En este rango, no busca activamente la "
+                . "atención o la aprobación de otros mediante la expresividad emocional o el comportamiento exhibicionista. "
+                . "Pueden tener relaciones más estables y menos dependientes de la validación externa.";
         } elseif ($l22 <= 74) {
-            $result_histrionico= "Se identifica una presencia muy leve de este patrón de personalidad, sin que ello represente un rasgo predominante "
-             . "o que afecte significativamente su funcionamiento social y emocional. En estos casos, puede manifestar un comportamiento "
-             . "sociable y comunicativo, con cierta inclinación por la expresividad emocional y la interacción dinámica con los demás, "
-             . "pero sin que esto configure una necesidad constante de atención.";
-
+            $result_histrionico = "Se identifica una presencia muy leve de este patrón de personalidad, sin que ello represente un rasgo predominante "
+                . "o que afecte significativamente su funcionamiento social y emocional. En estos casos, puede manifestar un comportamiento "
+                . "sociable y comunicativo, con cierta inclinación por la expresividad emocional y la interacción dinámica con los demás, "
+                . "pero sin que esto configure una necesidad constante de atención.";
         } elseif ($l22 <= 84) {
-            $result_histrionico=  "El patrón de personalidad histriónico se encuentra presente, aunque sin ser el rasgo dominante en la configuración psicológica. "
-             . "Se observa una tendencia a ser conversador y expresivo en su forma de interactuar. Tiende a establecer relaciones de manera rápida y "
-             . "con gran intensidad, aunque estas suelen ser breves debido a su constante búsqueda de novedad y estimulación. "
-             . "Se aburre con facilidad cuando las situaciones o las relaciones se tornan rutinarias, por lo que busca experiencias nuevas.";
-
+            $result_histrionico =  "El patrón de personalidad histriónico se encuentra presente, aunque sin ser el rasgo dominante en la configuración psicológica. "
+                . "Se observa una tendencia a ser conversador y expresivo en su forma de interactuar. Tiende a establecer relaciones de manera rápida y "
+                . "con gran intensidad, aunque estas suelen ser breves debido a su constante búsqueda de novedad y estimulación. "
+                . "Se aburre con facilidad cuando las situaciones o las relaciones se tornan rutinarias, por lo que busca experiencias nuevas.";
         } elseif ($l22 >= 85) {
-            $result_histrionico= $mensaje = "La expresión del prototipo de personalidad histriónico se torna destacada o prominente. En este nivel, exhibe un comportamiento "
-             . "expresivo y necesita mantenerse en entornos donde la atención sea constante. Su estilo de interacción está caracterizado por un deseo "
-             . "persistente de captar el interés de los demás. Tiende a dramatizar sus emociones, mostrando una reactividad emocional intensa en distintas situaciones. "
-             . "Este patrón de personalidad guarda paralelismo con el trastorno histriónico de la personalidad descrito en el DSM, en la medida en que se orienta hacia la "
-             . "interacción social con un estilo expresivo, buscando continuamente experiencias que mantengan su interés y evitando la estabilidad o la rutina en sus relaciones "
-             . "interpersonales. Está definido por una alta intensidad y dramatismo, con una necesidad constante de atención.";
-
+            $result_histrionico = $mensaje = "La expresión del prototipo de personalidad histriónico se torna destacada o prominente. En este nivel, exhibe un comportamiento "
+                . "expresivo y necesita mantenerse en entornos donde la atención sea constante. Su estilo de interacción está caracterizado por un deseo "
+                . "persistente de captar el interés de los demás. Tiende a dramatizar sus emociones, mostrando una reactividad emocional intensa en distintas situaciones. "
+                . "Este patrón de personalidad guarda paralelismo con el trastorno histriónico de la personalidad descrito en el DSM, en la medida en que se orienta hacia la "
+                . "interacción social con un estilo expresivo, buscando continuamente experiencias que mantengan su interés y evitando la estabilidad o la rutina en sus relaciones "
+                . "interpersonales. Está definido por una alta intensidad y dramatismo, con una necesidad constante de atención.";
         }
-        
+
         $result_egocentrico = "Sin datos suficientes para evaluar.";
         $l23 = $egocentrico;
         if ($l23 <= 60) {
@@ -318,7 +327,7 @@ class ModelMaciConfiguration {
         } elseif ($l23 >= 85) {
             $result_egocentrico = "la expresión del prototipo de personalidad egocéntrico se torna destacada o prominente. En este nivel, se muestra notablemente arrogante y exhibe una confianza en sí mismo que rara vez admite dudas o cuestionamientos. Su comportamiento se caracteriza por una actitud de superioridad, donde la percepción de su propio valor es elevada, incluso en ausencia de logros objetivos que la respalden. Su interacción con los demás tiende a ser utilitaria, mostrando una baja consideración por las necesidades o sentimientos ajenos. Puede adoptar una postura explotadora en sus relaciones interpersonales, buscando obtener beneficios personales sin reflexionar demasiado sobre el impacto en los otros. Su aire de esnobismo y autosuficiencia minimiza la necesidad de confirmación externa, ya que la creencia en su propia valía es interna y persistente. Este patrón de personalidad mantiene un paralelismo con la personalidad narcisista descrita en el DSM, en la medida en que exhibe un sentido de grandiosidad y una autoimagen inflada que se sostiene con independencia de la validación social genuina. Su actitud se basa en la convicción de que su posición y capacidades lo distinguen del resto, lo que se traduce en un estilo interpersonal marcado por la arrogancia y una limitada empatía hacia los demás.";
         }
-        
+
         $result_rebelde = "Sin datos suficientes para evaluar.";
         $l24 = $rebelde;
         if ($l24 <= 60) {
@@ -330,7 +339,7 @@ class ModelMaciConfiguration {
         } elseif ($l24 >= 85) {
             $result_rebelde = "la expresión del prototipo de personalidad rebelde se torna destacada o prominente. En este nivel, el comportamiento se define por una marcada resistencia a ajustarse a las normas socialmente aceptadas y una tendencia a involucrarse en conflictos con figuras de autoridad, como padres, docentes o incluso instancias legales. Su actitud se caracteriza por una disposición hostil y desafiante, con una inclinación a desafiar activamente cualquier intento de control externo. Puede manifestar comportamientos tramposos o manipuladores como una forma de obtener ventaja en sus relaciones interpersonales o para evitar consecuencias adversas. Además, es común que adopte un estilo de interacción marcado por la desconfianza y el resentimiento, asumiendo que los demás actúan con engaño o desprecio, lo que lo lleva a responder con actitudes defensivas o agresivas. Este patrón de personalidad guarda similitudes con el trastorno antisocial de la personalidad descrito en el DSM, en la medida en que no solo desafía la autoridad y las normas, sino que también puede involucrarse en conductas ilegales o perjudiciales con la intención de obtener un beneficio personal o de desafiar activamente las reglas establecidas. Su comportamiento refleja un estilo de afrontamiento basado en la oposición y el desafío, manteniendo una actitud de enfrentamiento constante con el entorno.";
         }
-        
+
         $result_rudo = "Sin datos suficientes para evaluar.";
         $l25 = $rudo;
         if ($l25 <= 60) {
@@ -341,7 +350,7 @@ class ModelMaciConfiguration {
             $result_rudo = "el patrón de personalidad rudo se encuentra presente, aunque sin ser el rasgo dominante en la configuración psicológica. Se observa una tendencia a imponerse sobre los demás y a cuestionar sus derechos, mostrando poca tolerancia hacia las debilidades ajenas. Su estilo de interacción tiende a ser directo y poco considerado, con una baja disposición a la empatía o a la comprensión de las dificultades de los demás. Prefiere asumir el control en la mayoría de las situaciones y puede mostrarse impaciente ante aquellos que percibe como menos capaces o vulnerables. Aunque estas características no alcanzan un nivel extremo, están presentes de manera recurrente en su forma de relacionarse con los otros.";
         } elseif ($l25 >= 85) {
             $result_rudo = "la expresión del prototipo de personalidad rudo se torna destacada o prominente. En este nivel, exhibe un comportamiento marcadamente dominante y hostil, con una inclinación persistente a subyugar a los demás y a imponer su voluntad sin consideración por sus derechos o sentimientos. Su actitud se caracteriza por la falta de amabilidad y una notable impaciencia ante cualquier muestra de vulnerabilidad o debilidad en los otros. La interacción con su entorno suele estar mediada por la intimidación y el control, mostrando una tendencia a desestimar las necesidades ajenas en favor de su propio dominio. Es común que adopte un estilo interpersonal basado en la imposición, la dureza y el desprecio hacia aquellos que considera inferiores o incapaces. Este patrón de personalidad guarda similitudes con el trastorno sádico descrito en el DSM, en la medida en que parece encontrar placer o satisfacción en ejercer control mediante la imposición de estrés, temor o crueldad en sus relaciones interpersonales. Su forma de interacción se basa en una inversión del principio dolor-placer, considerando la dominación y la dureza como la vía preferida para relacionarse con los demás. Su conducta refleja una orientación al poder y al sometimiento de los otros, estableciendo dinámicas interpersonales donde la imposición y el abuso pueden estar presentes de manera consistente.";
-        } 
+        }
         $result_conformista = "Sin datos suficientes para evaluar.";
         $l26 = $conformista;
         if ($l26 <= 60) {
@@ -353,7 +362,7 @@ class ModelMaciConfiguration {
         } elseif ($l26 >= 85) {
             $result_conformista = "indica que la expresión del prototipo de personalidad conformista se torna destacada o prominente. En este nivel, exhibe un comportamiento rígidamente controlado, con una marcada preocupación por hacer lo correcto y ajustarse a las expectativas sociales. Su actitud se define por una estricta disciplina y un esfuerzo constante por evitar cualquier situación que implique incertidumbre o improvisación. Su necesidad de estructura lo lleva a establecer demandas elevadas para sí mismo, lo que puede generar un alto nivel de tensión interna. Aunque en apariencia es obediente y sumamente responsable, este patrón de personalidad también está acompañado de una intensa represión emocional, derivada de un conflicto interno entre la rabia reprimida y el temor a la vergüenza, la culpa o la desaprobación social. Este perfil de personalidad guarda similitudes con el trastorno obsesivo-compulsivo de la personalidad descrito en el DSM, en la medida en que enfrenta un conflicto entre la necesidad de control y una oposición interna reprimida. La conformidad extrema y la autoimposición de estándares rigurosos actúan como mecanismos para mantener contenida cualquier expresión de descontento o resentimiento. La vacilación, la duda y la tendencia a la pasividad en ciertas situaciones son reflejo de la lucha interna entre la necesidad de orden y la presencia de deseos ocultos de oposición, que rara vez son expresados de manera abierta.";
         }
-        
+
         $result_oposicionista = "Sin datos suficientes para evaluar.";
         $l27 = $oposicionista;
         if ($l27 <= 60) {
@@ -365,7 +374,7 @@ class ModelMaciConfiguration {
         } elseif ($l27 >= 85) {
             $result_oposicionista = "la expresión del prototipo de personalidad oposicionista se torna destacada o prominente. En este nivel, el comportamiento se caracteriza por una marcada ambivalencia en las relaciones interpersonales y una actitud negativista persistente. Su estilo de interacción se define por una resistencia a someterse a las expectativas de los demás, al mismo tiempo que experimenta sentimientos de culpa y autodesaprobación por no cumplir con lo que se espera de él. La expresión emocional es errática, con una alternancia entre la conformidad aparente y una oposición desafiante, lo que genera dificultades en la estabilidad de sus vínculos interpersonales. Su patrón de comportamiento refleja una lucha constante entre el deseo de aceptación y la necesidad de autonomía, lo que da lugar a reacciones impredecibles y a una dificultad para regular la expresión de su malestar. Este perfil de personalidad guarda similitudes con la personalidad pasivo-agresiva del DSM-III y con la personalidad negativista del DSM-IV, en la medida en que oscila entre la obediencia y la resistencia, sin lograr resolver la ambivalencia en su conducta. Su patrón de funcionamiento está definido por una trayectoria errática, caracterizada por el descontento con los demás y consigo mismo, expresando una combinación de autocrítica y terco negativismo. Su relación con el entorno se desarrolla a través de la oposición indirecta, manifestando una resistencia a las demandas externas mientras experimenta una fuerte insatisfacción interna.";
         }
-        
+
         $result_autopunitivo = "Sin datos suficientes para evaluar.";
         $l28 = $autopunitivo;
         if ($l28 <= 60) {
@@ -404,12 +413,13 @@ class ModelMaciConfiguration {
             "Autopunitivo" => $result_autopunitivo,
             "Tendencia límite" => 0,
         ];
-        
+
         return $descripciones[$texto] ?? "NA";
     }
 
     //sindromes clinicos
-    public function getSindromeClinico($except_array,$transtorno,$inclinacion,$predisposicion,$propension,$sentimiento,$afecto,$tendencia){
+    public function getSindromeClinico($except_array, $transtorno, $inclinacion, $predisposicion, $propension, $sentimiento, $afecto, $tendencia)
+    {
         $array = [
             ["llave" => "Trastornos de la alimentación", "total" => $transtorno, "valor" => 0],
             ["llave" => "Inclinación al abuso de sustancias", "total" => $inclinacion, "valor" => -4],
@@ -421,20 +431,21 @@ class ModelMaciConfiguration {
         ];
 
         $maxTotal = -1;
-        $valorMaximo = 0;//return
+        $valorMaximo = 0; //return
         $selected = null;
         foreach ($array as $item) {
-            if ($item['total'] > $maxTotal && !in_array($item['llave'], $except_array)) {// 
+            if ($item['total'] > $maxTotal && !in_array($item['llave'], $except_array)) { //
                 $maxTotal = $item['total'];
                 $valorMaximo = $item['valor'];
                 $selected = $item;
             }
         }
-        
+
         return $selected;
     }
 
-    public function getObjetivoSindromeClinico($texto){
+    public function getObjetivoSindromeClinico($texto)
+    {
         $descripciones = [
             "Trastornos de la alimentación" => "Evalúa la tendencia a la anorexia o la bulimia nerviosas. Identifica patrones de alimentación problemáticos, preocupación excesiva por el peso y temor intenso a volverse obeso",
             "Inclinación al abuso de sustancias" => "Mide patrones inadecuados de abuso de alcohol o drogas que han llevado a un deterioro significativo del rendimiento o comportamiento. Evalúa el tiempo dedicado a obtener sustancias, comportamientos socialmente inaceptables y persistencia en el consumo a pesar de consecuencias negativas",
@@ -444,156 +455,157 @@ class ModelMaciConfiguration {
             "Afecto depresivo" => "Identifica síntomas de depresión como disminución de la actividad, sentimientos de culpa, fatiga, desesperanza, aislamiento social, pérdida de confianza y disminución de los sentimientos de adecuación y del propio atractivo",
             "Tendencia al suicidio" => "Evalúa la presencia de ideación y planes suicidas. Mide sentimientos de falta de valor, ausencia de objetivos y la creencia de que los demás estarían mejor sin el adolescente",
         ];
-        
-        return "(".($descripciones[$texto] ?? "NA")."). ";
+
+        return "(" . ($descripciones[$texto] ?? "NA") . "). ";
     }
 
-    public function getSindromeClinicoInterpretacion($texto,$transtorno,$inclinacion,$predisposicion,$propension,$sentimiento,$afecto,$tendencia){
-        
+    public function getSindromeClinicoInterpretacion($texto, $transtorno, $inclinacion, $predisposicion, $propension, $sentimiento, $afecto, $tendencia)
+    {
+
         $result_transtorno = "";
         if ($transtorno <= 60) {
             $result_transtorno = "La puntuación obtenida se encuentra dentro de un rango en el que no se identifican semejanzas con los adolescentes que presentan "
-                    . "trastornos de la conducta alimentaria. No se observan indicadores que reflejen preocupación extrema por el peso, el miedo a la obesidad "
-                    . "o la presencia de patrones alimentarios desadaptativos como restricción severa de la ingesta, episodios de alimentación incontrolada o conductas compensatorias.";
+                . "trastornos de la conducta alimentaria. No se observan indicadores que reflejen preocupación extrema por el peso, el miedo a la obesidad "
+                . "o la presencia de patrones alimentarios desadaptativos como restricción severa de la ingesta, episodios de alimentación incontrolada o conductas compensatorias.";
         } elseif ($transtorno <= 74) {
             $result_transtorno = "Muestra algunas semejanzas con adolescentes que presentan preocupaciones relacionadas con la alimentación y el peso. "
-                    . "Puede estar presente ciertos indicios de inquietud por su imagen corporal o intentos esporádicos de control alimentario, "
-                    . "aunque sin llegar a un patrón clínicamente significativo. Estas manifestaciones pueden fluctuar en función de situaciones externas.";
+                . "Puede estar presente ciertos indicios de inquietud por su imagen corporal o intentos esporádicos de control alimentario, "
+                . "aunque sin llegar a un patrón clínicamente significativo. Estas manifestaciones pueden fluctuar en función de situaciones externas.";
         } elseif ($transtorno <= 84) {
             $result_transtorno = "Se identifica niveles moderados de características asociadas a los trastornos de la conducta alimentaria. "
-                    . "Es posible que muestre una preocupación intensa por el peso y la apariencia física, con tendencia a restringir la ingesta de alimentos "
-                    . "o experimentar episodios de ingesta descontrolada seguidos de conductas compensatorias como el uso de laxantes, diuréticos o vómitos autoinducidos. "
-                    . "La relación con la alimentación puede estar caracterizada por patrones rígidos y una percepción distorsionada del peso corporal.";
+                . "Es posible que muestre una preocupación intensa por el peso y la apariencia física, con tendencia a restringir la ingesta de alimentos "
+                . "o experimentar episodios de ingesta descontrolada seguidos de conductas compensatorias como el uso de laxantes, diuréticos o vómitos autoinducidos. "
+                . "La relación con la alimentación puede estar caracterizada por patrones rígidos y una percepción distorsionada del peso corporal.";
         } elseif ($transtorno >= 85) {
             $result_transtorno = "Se observa una alta probabilidad de que manifieste un cuadro característico de los trastornos de la conducta alimentaria. "
-                    . "La preocupación por el peso y la figura adquiere un nivel central en su experiencia, lo que puede traducirse en conductas extremas como restricción alimentaria, "
-                    . "episodios de alimentación incontrolada y la implementación de métodos compensatorios para evitar el aumento de peso. "
-                    . "Es frecuente la presencia de un temor persistente a ganar peso, incluso cuando el peso se encuentra por debajo de lo esperado. "
-                    . "Estos patrones suelen estar enmarcados en una distorsión de la imagen corporal y una relación disfuncional con la alimentación, "
-                    . "reflejando una exacerbación del estilo de personalidad subyacente.";
+                . "La preocupación por el peso y la figura adquiere un nivel central en su experiencia, lo que puede traducirse en conductas extremas como restricción alimentaria, "
+                . "episodios de alimentación incontrolada y la implementación de métodos compensatorios para evitar el aumento de peso. "
+                . "Es frecuente la presencia de un temor persistente a ganar peso, incluso cuando el peso se encuentra por debajo de lo esperado. "
+                . "Estos patrones suelen estar enmarcados en una distorsión de la imagen corporal y una relación disfuncional con la alimentación, "
+                . "reflejando una exacerbación del estilo de personalidad subyacente.";
         }
-        
+
         $inclinacion_message = "";
         if ($inclinacion <= 60) {
             $inclinacion_message = "La puntuación obtenida se encuentra dentro de un rango en el que no se identifican semejanzas con adolescentes que presentan un patrón inadecuado "
-                    . "de consumo de alcohol o drogas. No se observan indicadores que reflejen un deterioro significativo en su rendimiento o comportamiento asociado al uso de sustancias, "
-                    . "ni evidencia de conductas orientadas a la obtención de estas.";
+                . "de consumo de alcohol o drogas. No se observan indicadores que reflejen un deterioro significativo en su rendimiento o comportamiento asociado al uso de sustancias, "
+                . "ni evidencia de conductas orientadas a la obtención de estas.";
         } elseif ($inclinacion <= 74) {
             $inclinacion_message = "Presenta ciertas semejanzas con adolescentes que han experimentado contacto o curiosidad por el consumo de sustancias, "
-                    . "aunque sin manifestar un patrón de abuso significativo. Puede haber indicios de exposición a contextos donde el consumo es una opción presente, "
-                    . "así como actitudes permisivas o exploratorias respecto al uso de alcohol o drogas, sin que esto represente un deterioro marcado en su funcionamiento diario.";
+                . "aunque sin manifestar un patrón de abuso significativo. Puede haber indicios de exposición a contextos donde el consumo es una opción presente, "
+                . "así como actitudes permisivas o exploratorias respecto al uso de alcohol o drogas, sin que esto represente un deterioro marcado en su funcionamiento diario.";
         } elseif ($inclinacion <= 84) {
             $inclinacion_message = "Se identifican niveles moderados de características asociadas al abuso de sustancias. "
-                    . "Es posible que haya desarrollado patrones de consumo que impactan en su comportamiento y rendimiento. "
-                    . "Puede invertir una cantidad considerable de tiempo en la obtención y uso de sustancias, lo que puede llevar a la adopción de conductas socialmente inaceptables. "
-                    . "A pesar de reconocer los efectos negativos que esto genera en su vida, el consumo puede mantenerse como una conducta persistente.";
+                . "Es posible que haya desarrollado patrones de consumo que impactan en su comportamiento y rendimiento. "
+                . "Puede invertir una cantidad considerable de tiempo en la obtención y uso de sustancias, lo que puede llevar a la adopción de conductas socialmente inaceptables. "
+                . "A pesar de reconocer los efectos negativos que esto genera en su vida, el consumo puede mantenerse como una conducta persistente.";
         } elseif ($inclinacion >= 85) {
             $inclinacion_message = "Se observa una alta probabilidad de que manifieste un patrón marcado de abuso de sustancias. "
-                    . "La conducta de consumo de alcohol o drogas ha adquirido una relevancia central en su vida, afectando su desempeño en diversas áreas "
-                    . "y contribuyendo al deterioro de su comportamiento. Dedica una cantidad considerable de tiempo a la obtención y consumo de estas sustancias, "
-                    . "mostrando una falta de control sobre su uso. A pesar de ser consciente de los efectos perjudiciales que esto genera, el consumo persiste, "
-                    . "reflejando una inclinación establecida hacia este patrón de comportamiento.";
+                . "La conducta de consumo de alcohol o drogas ha adquirido una relevancia central en su vida, afectando su desempeño en diversas áreas "
+                . "y contribuyendo al deterioro de su comportamiento. Dedica una cantidad considerable de tiempo a la obtención y consumo de estas sustancias, "
+                . "mostrando una falta de control sobre su uso. A pesar de ser consciente de los efectos perjudiciales que esto genera, el consumo persiste, "
+                . "reflejando una inclinación establecida hacia este patrón de comportamiento.";
         }
         $predisposicion_message = "";
         if ($predisposicion <= 60) {
             $predisposicion_message = "La puntuación obtenida se encuentra dentro de un rango en el que no se identifican semejanzas con adolescentes que presentan inclinaciones hacia conductas delictivas. "
-                    . "No se observan indicadores que reflejen comportamientos asociados a la violación de normas sociales, transgresión de derechos ajenos o participación en actividades antisociales.";
+                . "No se observan indicadores que reflejen comportamientos asociados a la violación de normas sociales, transgresión de derechos ajenos o participación en actividades antisociales.";
         } elseif ($predisposicion <= 74) {
             $predisposicion_message = "Presenta ciertas semejanzas con adolescentes que han mostrado comportamientos desafiantes frente a normas y reglas sociales. "
-                    . "Puede existir episodios esporádicos en los que se ha manifestado actitudes de oposición, deshonestidad o conductas que rozan la transgresión de límites establecidos, "
-                    . "aunque sin llegar a establecer un patrón delictivo sostenido. Estas manifestaciones pueden estar influenciadas por factores contextuales, "
-                    . "sin consolidarse como un rasgo dominante en su conducta.";
+                . "Puede existir episodios esporádicos en los que se ha manifestado actitudes de oposición, deshonestidad o conductas que rozan la transgresión de límites establecidos, "
+                . "aunque sin llegar a establecer un patrón delictivo sostenido. Estas manifestaciones pueden estar influenciadas por factores contextuales, "
+                . "sin consolidarse como un rasgo dominante en su conducta.";
         } elseif ($predisposicion <= 84) {
             $predisposicion_message = "Se identifica niveles moderados de características asociadas a la predisposición a la delincuencia. "
-                    . "Es posible que haya participado en conductas que implican violaciones de normas sociales o acciones que afectan a otros. "
-                    . "Puede presentarse episodios de engaño, manipulación, agresión o robos; denota tendencia a desafiar restricciones impuestas por la autoridad. "
-                    . "Estos comportamientos pueden estar relacionados con una mayor tolerancia al riesgo y una dificultad para ajustarse a normas sociales establecidas.";
+                . "Es posible que haya participado en conductas que implican violaciones de normas sociales o acciones que afectan a otros. "
+                . "Puede presentarse episodios de engaño, manipulación, agresión o robos; denota tendencia a desafiar restricciones impuestas por la autoridad. "
+                . "Estos comportamientos pueden estar relacionados con una mayor tolerancia al riesgo y una dificultad para ajustarse a normas sociales establecidas.";
         } elseif ($predisposicion >= 85) {
             $predisposicion_message = "Se observa una alta probabilidad de que manifieste un patrón característico de predisposición a la delincuencia. "
-                    . "La conducta transgresora puede estar consolidada, reflejándose en actos que implican la violación de derechos de otros y el incumplimiento de normas establecidas. "
-                    . "Es posible que haya participado en amenazas, uso de armas, robos, engaños reiterados o agresiones físicas. "
-                    . "Estas conductas pueden mantenerse de manera persistente a pesar de las consecuencias negativas asociadas, "
-                    . "manifestando una inclinación hacia acciones que desafían las normas establecidas en la sociedad.";
+                . "La conducta transgresora puede estar consolidada, reflejándose en actos que implican la violación de derechos de otros y el incumplimiento de normas establecidas. "
+                . "Es posible que haya participado en amenazas, uso de armas, robos, engaños reiterados o agresiones físicas. "
+                . "Estas conductas pueden mantenerse de manera persistente a pesar de las consecuencias negativas asociadas, "
+                . "manifestando una inclinación hacia acciones que desafían las normas establecidas en la sociedad.";
         }
 
         $propension_message = "";
 
         if ($propension <= 60) {
             $propension_message = "La puntuación obtenida se encuentra dentro de un rango en el que no se identifican semejanzas con adolescentes que presentan comportamientos asociados "
-                    . "a la transgresión de normas o la violación de derechos ajenos. No se observan indicadores que reflejen inclinaciones hacia conductas antisociales, engaños persistentes, "
-                    . "agresiones o participación en actividades delictivas.";
+                . "a la transgresión de normas o la violación de derechos ajenos. No se observan indicadores que reflejen inclinaciones hacia conductas antisociales, engaños persistentes, "
+                . "agresiones o participación en actividades delictivas.";
         } elseif ($propension <= 74) {
             $propension_message = "Presenta ciertas semejanzas con adolescentes que han mostrado actitudes desafiantes ante normas y reglas sociales. "
-                    . "Puede haber episodios esporádicos en los que se han manifestado conductas de oposición, engaño o transgresión de límites establecidos. "
-                    . "Sin embargo, estas acciones no representan un patrón delictivo consolidado y pueden fluctuar en función del contexto o de situaciones específicas.";
+                . "Puede haber episodios esporádicos en los que se han manifestado conductas de oposición, engaño o transgresión de límites establecidos. "
+                . "Sin embargo, estas acciones no representan un patrón delictivo consolidado y pueden fluctuar en función del contexto o de situaciones específicas.";
         } elseif ($propension <= 84) {
             $propension_message = "Se identifican niveles moderados de características asociadas a la predisposición a la delincuencia. "
-                    . "Es posible que haya mostrado comportamientos en los que se transgreden normas sociales o se afectan los derechos de otros. "
-                    . "Pueden presentarse episodios de manipulación, engaño persistente, agresiones, robos o amenazas, lo que indica una tendencia a desafiar restricciones impuestas por la autoridad. "
-                    . "Estas conductas pueden estar relacionadas con una menor adherencia a normas y un menor reconocimiento de las consecuencias de sus actos.";
+                . "Es posible que haya mostrado comportamientos en los que se transgreden normas sociales o se afectan los derechos de otros. "
+                . "Pueden presentarse episodios de manipulación, engaño persistente, agresiones, robos o amenazas, lo que indica una tendencia a desafiar restricciones impuestas por la autoridad. "
+                . "Estas conductas pueden estar relacionadas con una menor adherencia a normas y un menor reconocimiento de las consecuencias de sus actos.";
         } elseif ($propension >= 85) {
             $propension_message = "Se observa una alta probabilidad de que el evaluado manifieste un patrón característico de predisposición a la delincuencia. "
-                    . "Su comportamiento puede estar marcado por una tendencia estable a la violación de normas y la transgresión de derechos ajenos. "
-                    . "Es posible que haya participado en actos de agresión, amenazas, robos, uso de armas o engaños recurrentes. "
-                    . "Estas conductas pueden mantenerse a pesar de las consecuencias negativas que generan, reflejando una inclinación hacia acciones que desafían los límites sociales y legales establecidos.";
+                . "Su comportamiento puede estar marcado por una tendencia estable a la violación de normas y la transgresión de derechos ajenos. "
+                . "Es posible que haya participado en actos de agresión, amenazas, robos, uso de armas o engaños recurrentes. "
+                . "Estas conductas pueden mantenerse a pesar de las consecuencias negativas que generan, reflejando una inclinación hacia acciones que desafían los límites sociales y legales establecidos.";
         }
 
-        $sentimiento_message= "";
+        $sentimiento_message = "";
 
         if ($sentimiento <= 60) {
             $sentimiento_message = "La puntuación obtenida se encuentra dentro de un rango en el que no se identifican semejanzas con adolescentes que presentan estados persistentes de ansiedad. "
-                    . "No se observan indicadores que reflejen preocupación excesiva, nerviosismo recurrente o una sensación constante de aprensión ante eventos futuros.";
+                . "No se observan indicadores que reflejen preocupación excesiva, nerviosismo recurrente o una sensación constante de aprensión ante eventos futuros.";
         } elseif ($sentimiento <= 74) {
             $sentimiento_message = "Presenta algunas semejanzas con adolescentes que pueden experimentar cierta inquietud ante diversas situaciones. "
-                    . "Puede presentarse episodios de preocupación o tensión, aunque estos no alcanzan una intensidad que genere un malestar significativo en su estado emocional. "
-                    . "La ansiedad puede manifestarse de manera ocasional sin constituir un rasgo predominante en su funcionamiento.";
+                . "Puede presentarse episodios de preocupación o tensión, aunque estos no alcanzan una intensidad que genere un malestar significativo en su estado emocional. "
+                . "La ansiedad puede manifestarse de manera ocasional sin constituir un rasgo predominante en su funcionamiento.";
         } elseif ($sentimiento <= 84) {
             $sentimiento_message = "Se identifican niveles moderados de características asociadas a la ansiedad. "
-                    . "Experimenta una sensación persistente de nerviosismo y aprensión, acompañada de una incomodidad constante. "
-                    . "Puede estar en un estado de alerta ante la posibilidad de que ocurra algo negativo, mostrando dificultades para relajarse o deshacerse de la preocupación. "
-                    . "La ansiedad influye en su comportamiento y genera una percepción de malestar prolongado.";
+                . "Experimenta una sensación persistente de nerviosismo y aprensión, acompañada de una incomodidad constante. "
+                . "Puede estar en un estado de alerta ante la posibilidad de que ocurra algo negativo, mostrando dificultades para relajarse o deshacerse de la preocupación. "
+                . "La ansiedad influye en su comportamiento y genera una percepción de malestar prolongado.";
         } elseif ($sentimiento >= 85) {
             $sentimiento_message = "Se observa una alta probabilidad de que manifieste un patrón característico de ansiedad significativa. "
-                    . "La sensación de aprensión y desasosiego es constante, con una percepción continua de que algo negativo puede ocurrir. "
-                    . "Puede presentar un estado de inquietud permanente, acompañado de una expectativa de angustia sin una causa clara. "
-                    . "La ansiedad se encuentra presente en diversos ámbitos y afecta su funcionamiento diario, generando un malestar emocional sostenido.";
+                . "La sensación de aprensión y desasosiego es constante, con una percepción continua de que algo negativo puede ocurrir. "
+                . "Puede presentar un estado de inquietud permanente, acompañado de una expectativa de angustia sin una causa clara. "
+                . "La ansiedad se encuentra presente en diversos ámbitos y afecta su funcionamiento diario, generando un malestar emocional sostenido.";
         }
 
         $afecto_message = "";
 
         if ($afecto <= 60) {
             $afecto_message = "La puntuación obtenida se encuentra dentro de un rango en el que no se identifican semejanzas con adolescentes que presentan un estado de ánimo deprimido. "
-                    . "No se observan indicadores que reflejen disminución en el nivel de actividad, pérdida de confianza, sentimientos de culpa o una percepción negativa sobre el futuro.";
+                . "No se observan indicadores que reflejen disminución en el nivel de actividad, pérdida de confianza, sentimientos de culpa o una percepción negativa sobre el futuro.";
         } elseif ($afecto <= 74) {
             $afecto_message = "Presenta ciertas semejanzas con adolescentes que pueden experimentar momentos de desánimo o una ligera disminución en su nivel de energía. "
-                    . "Puede haber indicios de una leve insatisfacción con su desempeño o con su autoimagen, sin que esto represente una alteración significativa en su estado de ánimo o funcionamiento diario.";
+                . "Puede haber indicios de una leve insatisfacción con su desempeño o con su autoimagen, sin que esto represente una alteración significativa en su estado de ánimo o funcionamiento diario.";
         } elseif ($afecto <= 84) {
             $afecto_message = "Se identifican niveles moderados de características asociadas al afecto depresivo. "
-                    . "Presenta una disminución en su nivel de actividad, acompañada de sentimientos de culpa, fatiga y desesperanza respecto al futuro. "
-                    . "Manifiesta una tendencia al aislamiento social y una pérdida de confianza en sus capacidades, con una percepción reducida de su propio atractivo y una sensación de inadecuación personal.";
+                . "Presenta una disminución en su nivel de actividad, acompañada de sentimientos de culpa, fatiga y desesperanza respecto al futuro. "
+                . "Manifiesta una tendencia al aislamiento social y una pérdida de confianza en sus capacidades, con una percepción reducida de su propio atractivo y una sensación de inadecuación personal.";
         } elseif ($afecto >= 85) {
             $afecto_message = "Se observa una alta probabilidad de que manifieste un patrón característico de afecto depresivo. "
-                    . "Su nivel de actividad se encuentra reducido en comparación con su funcionamiento previo. "
-                    . "Presenta una pérdida de eficacia, sentimientos persistentes de culpa y fatiga, así como una visión desesperanzada del futuro. "
-                    . "Es frecuente el aislamiento social y una notable disminución en la confianza en sí mismo, lo que se acompaña de una percepción negativa de su adecuación personal y su atractivo.";
+                . "Su nivel de actividad se encuentra reducido en comparación con su funcionamiento previo. "
+                . "Presenta una pérdida de eficacia, sentimientos persistentes de culpa y fatiga, así como una visión desesperanzada del futuro. "
+                . "Es frecuente el aislamiento social y una notable disminución en la confianza en sí mismo, lo que se acompaña de una percepción negativa de su adecuación personal y su atractivo.";
         }
 
         $tendencia_message = "";
 
         if ($tendencia <= 60) {
             $tendencia_message = "La puntuación obtenida se encuentra dentro de un rango en el que no se identifican semejanzas con adolescentes que presentan ideación o planes suicidas. "
-                    . "No se observan indicadores que reflejen una sensación persistente de falta de valor, ausencia de objetivos o pensamientos relacionados con la percepción de que los demás estarían mejor sin su presencia.";
+                . "No se observan indicadores que reflejen una sensación persistente de falta de valor, ausencia de objetivos o pensamientos relacionados con la percepción de que los demás estarían mejor sin su presencia.";
         } elseif ($tendencia <= 74) {
             $tendencia_message = "Presenta ciertas semejanzas con adolescentes que han experimentado momentos de desesperanza o pensamientos de inutilidad. "
-                    . "Puede manifestarse sentimientos ocasionales de falta de propósito o desvalorización personal, aunque estos no constituyen un patrón persistente ni están acompañados de ideación suicida estructurada.";
+                . "Puede manifestarse sentimientos ocasionales de falta de propósito o desvalorización personal, aunque estos no constituyen un patrón persistente ni están acompañados de ideación suicida estructurada.";
         } elseif ($tendencia <= 84) {
             $tendencia_message = "Se identifican niveles moderados de características asociadas a la tendencia suicida. "
-                    . "Experimenta una sensación recurrente de falta de valor y ausencia de metas, acompañada de pensamientos en los que considera la posibilidad de que los demás estarían mejor sin su presencia. "
-                    . "La ideación suicida puede estar presente, aunque no necesariamente acompañada de planes específicos o una intención consolidada de llevarla a cabo.";
+                . "Experimenta una sensación recurrente de falta de valor y ausencia de metas, acompañada de pensamientos en los que considera la posibilidad de que los demás estarían mejor sin su presencia. "
+                . "La ideación suicida puede estar presente, aunque no necesariamente acompañada de planes específicos o una intención consolidada de llevarla a cabo.";
         } elseif ($tendencia >= 85) {
             $tendencia_message = "Se observa una alta probabilidad de que manifieste un patrón característico de tendencia suicida. "
-                    . "La presencia de ideación y planes suicidas es un aspecto relevante en su perfil, acompañado de un marcado sentimiento de inutilidad "
-                    . "y una percepción persistente de que su existencia carece de propósito. La idea de que los demás estarían mejor sin su presencia es un pensamiento recurrente y significativo en su experiencia.";
+                . "La presencia de ideación y planes suicidas es un aspecto relevante en su perfil, acompañado de un marcado sentimiento de inutilidad "
+                . "y una percepción persistente de que su existencia carece de propósito. La idea de que los demás estarían mejor sin su presencia es un pensamiento recurrente y significativo en su experiencia.";
         }
 
 
@@ -606,64 +618,66 @@ class ModelMaciConfiguration {
             "Afecto depresivo" => $afecto_message,
             "Tendencia al suicidio" => $tendencia_message,
         ];
-        
+
         return $descripciones[$texto] ?? "NA";
     }
 
-    public function getPreocupacionesExpresadasTB($except_array,$desagrado,$difusion,$insensibilidad,$desvalorizacion,$incomodidad,$inseguridad,$discordancia,$abusos){
+    public function getPreocupacionesExpresadasTB($except_array, $desagrado, $difusion, $insensibilidad, $desvalorizacion, $incomodidad, $inseguridad, $discordancia, $abusos)
+    {
         $array = [
-            ["llave" => "Desagrado por el propio cuerpo", "total" => $desagrado, "objetivo" => "Evalúa el descontento con las deficiencias o desviaciones percibidas en la maduración o morfología corporal. Mide la insatisfacción con el atractivo físico y social","interpretacion"=>"la insatisfacción con la imagen corporal se convierte en un área pendiente de resolver, considerada problemática. En este nivel, experimenta un malestar persistente con su apariencia física, expresando un descontento recurrente con su desarrollo corporal. Su percepción negativa de sí mismo se ve influida por la evaluación externa y por la comparación con estándares de atractivo social. Es común que perciba deficiencias en su morfología, lo que puede afectar su autoconfianza y su participación en entornos sociales."],
-            ["llave" => "Difusión de la identidad", "total" => $difusion, "objetivo" => "Evalúa la confusión del adolescente sobre quién es y lo que quiere. Mide la inseguridad sobre la propia identidad, la falta de claridad en las metas futuras y los valores","interpretacion"=>"la identidad se percibe como un tema ligeramente problemático. En este nivel, puede experimentar períodos de incertidumbre y desorientación respecto a quién es y qué desea en el futuro. Aunque este proceso es común durante el desarrollo psicosocial, la falta de claridad en sus valores, metas y sentido de sí mismo puede generar momentos de inseguridad y confusión."],
-            ["llave" => "Insensibilidad social", "total" => $insensibilidad, "objetivo" => "Mide la frialdad e indiferencia hacia el bienestar de otros. Evalúa la falta de empatía y el escaso interés en construir vínculos personales cálidos o afectuosos","interpretacion"=>"la insensibilidad social se percibe como un tema ligeramente problemático. En este nivel, puede manifestar cierta distancia afectiva en sus relaciones, mostrando un menor interés por los sentimientos y necesidades de los demás. Su comportamiento puede reflejar una tendencia a priorizar sus propios deseos sin prestar demasiada atención a las consecuencias que esto puede tener en su entorno social. Aunque no se trata de una actitud extrema, puede haber dificultades para desarrollar vínculos personales cálidos."],
-            ["llave" => "Desvalorización de sí mismo", "total" => $desvalorizacion, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-        
-            ["llave" => "Incomodidad respecto al sexo", "total" => $incomodidad, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-            ["llave" => "Inseguridad con los iguales", "total" => $inseguridad, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-            ["llave" => "Discordancia familiar", "total" => $discordancia, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-            ["llave" => "Abusos en la infancia", "total" => $abusos, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-            
+            ["llave" => "Desagrado por el propio cuerpo", "total" => $desagrado, "objetivo" => "Evalúa el descontento con las deficiencias o desviaciones percibidas en la maduración o morfología corporal. Mide la insatisfacción con el atractivo físico y social", "interpretacion" => "la insatisfacción con la imagen corporal se convierte en un área pendiente de resolver, considerada problemática. En este nivel, experimenta un malestar persistente con su apariencia física, expresando un descontento recurrente con su desarrollo corporal. Su percepción negativa de sí mismo se ve influida por la evaluación externa y por la comparación con estándares de atractivo social. Es común que perciba deficiencias en su morfología, lo que puede afectar su autoconfianza y su participación en entornos sociales."],
+            ["llave" => "Difusión de la identidad", "total" => $difusion, "objetivo" => "Evalúa la confusión del adolescente sobre quién es y lo que quiere. Mide la inseguridad sobre la propia identidad, la falta de claridad en las metas futuras y los valores", "interpretacion" => "la identidad se percibe como un tema ligeramente problemático. En este nivel, puede experimentar períodos de incertidumbre y desorientación respecto a quién es y qué desea en el futuro. Aunque este proceso es común durante el desarrollo psicosocial, la falta de claridad en sus valores, metas y sentido de sí mismo puede generar momentos de inseguridad y confusión."],
+            ["llave" => "Insensibilidad social", "total" => $insensibilidad, "objetivo" => "Mide la frialdad e indiferencia hacia el bienestar de otros. Evalúa la falta de empatía y el escaso interés en construir vínculos personales cálidos o afectuosos", "interpretacion" => "la insensibilidad social se percibe como un tema ligeramente problemático. En este nivel, puede manifestar cierta distancia afectiva en sus relaciones, mostrando un menor interés por los sentimientos y necesidades de los demás. Su comportamiento puede reflejar una tendencia a priorizar sus propios deseos sin prestar demasiada atención a las consecuencias que esto puede tener en su entorno social. Aunque no se trata de una actitud extrema, puede haber dificultades para desarrollar vínculos personales cálidos."],
+            ["llave" => "Desvalorización de sí mismo", "total" => $desvalorizacion, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+
+            ["llave" => "Incomodidad respecto al sexo", "total" => $incomodidad, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+            ["llave" => "Inseguridad con los iguales", "total" => $inseguridad, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+            ["llave" => "Discordancia familiar", "total" => $discordancia, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+            ["llave" => "Abusos en la infancia", "total" => $abusos, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+
         ];
 
         $maxTotal = -1;
-        $valorMaximo = 0;//return
+        $valorMaximo = 0; //return
         $selected = null;
         foreach ($array as $item) {
-            if ($item['total'] > $maxTotal && !in_array($item['llave'], $except_array)) {// 
+            if ($item['total'] > $maxTotal && !in_array($item['llave'], $except_array)) { //
                 $maxTotal = $item['total'];
                 $selected = $item;
             }
         }
-        
+
         return $selected;
     }
     //copia de getPreocupacionesExpresadasTB array duplicar
-    public function getPuntosFuertesTB($except_array,$desagrado,$difusion,$insensibilidad,$desvalorizacion,$incomodidad,$inseguridad,$discordancia,$abusos){
-        
+    public function getPuntosFuertesTB($except_array, $desagrado, $difusion, $insensibilidad, $desvalorizacion, $incomodidad, $inseguridad, $discordancia, $abusos)
+    {
+
         $array = [
-           ["llave" => "Desagrado por el propio cuerpo", "total" => $desagrado, "objetivo" => "Evalúa el descontento con las deficiencias o desviaciones percibidas en la maduración o morfología corporal. Mide la insatisfacción con el atractivo físico y social","interpretacion"=>"la insatisfacción con la imagen corporal se convierte en un área pendiente de resolver, considerada problemática. En este nivel, experimenta un malestar persistente con su apariencia física, expresando un descontento recurrente con su desarrollo corporal. Su percepción negativa de sí mismo se ve influida por la evaluación externa y por la comparación con estándares de atractivo social. Es común que perciba deficiencias en su morfología, lo que puede afectar su autoconfianza y su participación en entornos sociales."],
-            ["llave" => "Difusión de la identidad", "total" => $difusion, "objetivo" => "Evalúa la confusión del adolescente sobre quién es y lo que quiere. Mide la inseguridad sobre la propia identidad, la falta de claridad en las metas futuras y los valores","interpretacion"=>"la identidad se percibe como un tema ligeramente problemático. En este nivel, puede experimentar períodos de incertidumbre y desorientación respecto a quién es y qué desea en el futuro. Aunque este proceso es común durante el desarrollo psicosocial, la falta de claridad en sus valores, metas y sentido de sí mismo puede generar momentos de inseguridad y confusión."],
-            ["llave" => "Insensibilidad social", "total" => $insensibilidad, "objetivo" => "Mide la frialdad e indiferencia hacia el bienestar de otros. Evalúa la falta de empatía y el escaso interés en construir vínculos personales cálidos o afectuosos","interpretacion"=>"la insensibilidad social se percibe como un tema ligeramente problemático. En este nivel, puede manifestar cierta distancia afectiva en sus relaciones, mostrando un menor interés por los sentimientos y necesidades de los demás. Su comportamiento puede reflejar una tendencia a priorizar sus propios deseos sin prestar demasiada atención a las consecuencias que esto puede tener en su entorno social. Aunque no se trata de una actitud extrema, puede haber dificultades para desarrollar vínculos personales cálidos."],
-            ["llave" => "Desvalorización de sí mismo", "total" => $desvalorizacion, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-        
-            ["llave" => "Incomodidad respecto al sexo", "total" => $incomodidad, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-            ["llave" => "Inseguridad con los iguales", "total" => $inseguridad, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-            ["llave" => "Discordancia familiar", "total" => $discordancia, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-            ["llave" => "Abusos en la infancia", "total" => $abusos, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas","interpretacion"=>"la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
-            
+            ["llave" => "Desagrado por el propio cuerpo", "total" => $desagrado, "objetivo" => "Evalúa el descontento con las deficiencias o desviaciones percibidas en la maduración o morfología corporal. Mide la insatisfacción con el atractivo físico y social", "interpretacion" => "la insatisfacción con la imagen corporal se convierte en un área pendiente de resolver, considerada problemática. En este nivel, experimenta un malestar persistente con su apariencia física, expresando un descontento recurrente con su desarrollo corporal. Su percepción negativa de sí mismo se ve influida por la evaluación externa y por la comparación con estándares de atractivo social. Es común que perciba deficiencias en su morfología, lo que puede afectar su autoconfianza y su participación en entornos sociales."],
+            ["llave" => "Difusión de la identidad", "total" => $difusion, "objetivo" => "Evalúa la confusión del adolescente sobre quién es y lo que quiere. Mide la inseguridad sobre la propia identidad, la falta de claridad en las metas futuras y los valores", "interpretacion" => "la identidad se percibe como un tema ligeramente problemático. En este nivel, puede experimentar períodos de incertidumbre y desorientación respecto a quién es y qué desea en el futuro. Aunque este proceso es común durante el desarrollo psicosocial, la falta de claridad en sus valores, metas y sentido de sí mismo puede generar momentos de inseguridad y confusión."],
+            ["llave" => "Insensibilidad social", "total" => $insensibilidad, "objetivo" => "Mide la frialdad e indiferencia hacia el bienestar de otros. Evalúa la falta de empatía y el escaso interés en construir vínculos personales cálidos o afectuosos", "interpretacion" => "la insensibilidad social se percibe como un tema ligeramente problemático. En este nivel, puede manifestar cierta distancia afectiva en sus relaciones, mostrando un menor interés por los sentimientos y necesidades de los demás. Su comportamiento puede reflejar una tendencia a priorizar sus propios deseos sin prestar demasiada atención a las consecuencias que esto puede tener en su entorno social. Aunque no se trata de una actitud extrema, puede haber dificultades para desarrollar vínculos personales cálidos."],
+            ["llave" => "Desvalorización de sí mismo", "total" => $desvalorizacion, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+
+            ["llave" => "Incomodidad respecto al sexo", "total" => $incomodidad, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+            ["llave" => "Inseguridad con los iguales", "total" => $inseguridad, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+            ["llave" => "Discordancia familiar", "total" => $discordancia, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+            ["llave" => "Abusos en la infancia", "total" => $abusos, "objetivo" => "Mide la insatisfacción con la imagen de sí mismo y los sentimientos de baja autoestima. Evalúa la percepción de tener poco que admirar en uno mismo y el temor a no alcanzar las expectativas", "interpretacion" => "la desvalorización de sí mismo se percibe como un tema ligeramente problemático. En este nivel, puede mostrar episodios de autocrítica frecuente y comparaciones negativas con los demás. Aunque mantiene cierto grado de confianza en sí mismo, sus sentimientos de insatisfacción con su autoimagen pueden generarle dudas sobre su capacidad para alcanzar sus aspiraciones personales."],
+
         ];
 
         $maxTotal = -1;
-        $valorMaximo = 0;//return
+        $valorMaximo = 0; //return
         $selected = null;
         foreach ($array as $item) {
-            if($item['total']<=35){
-                if ($item['total'] > $maxTotal && !in_array($item['llave'], $except_array) ) {
+            if ($item['total'] <= 35) {
+                if ($item['total'] > $maxTotal && !in_array($item['llave'], $except_array)) {
                     $maxTotal = $item['total'];
                     $selected = $item;
                 }
             }
         }
-        
+
         return $selected;
     }
 }

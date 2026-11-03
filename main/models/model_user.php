@@ -22,7 +22,7 @@ class User_Model
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return null;
@@ -31,7 +31,7 @@ class User_Model
     //------------------------------------------------------------------
     public function getValidatedByLoginByPassword($login, $password)
     {
-        if( empty($login) )
+        if (empty($login))
             return null;
 
         $con = new Connection();
@@ -45,17 +45,15 @@ class User_Model
 
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
-        {
+        if (mysqli_num_rows($result) > 0) {
             $user = mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
-            if( empty($user['password_user']) && empty($password) )
+            if (empty($user['password_user']) && empty($password))
                 return $user;
-            else if( $this->_equalPasswords($password, $user['password_user'], base64_decode($user['salt_user'])) )
+            else if ($this->_equalPasswords($password, $user['password_user'], base64_decode($user['salt_user'])))
                 return $user;
             else
                 return null;
-        }
-        else
+        } else
             return null;
     }
 
@@ -89,31 +87,31 @@ class User_Model
         $query =
             "UPDATE users
              SET password_user = '$encryptedPassword',
-                salt_user = '". base64_encode($salt) ."'
+                salt_user = '" . base64_encode($salt) . "'
             WHERE id = $idUser";
 
         return $con->execute_query($query);
     }
     //------------------------------------------------------------------
-    public function getByNameExceptId($name, $exceptId='')
+    public function getByNameExceptId($name, $exceptId = '')
     {
         $con = new Connection();
         $name = $con->getRealEscapeString($name);
 
         $where = '';
-        if( !empty($exceptId) )
+        if (!empty($exceptId))
             $where = " AND id <> $exceptId ";
 
         $query =
             "SELECT *
              FROM user
-             WHERE name_user = '$name' 
+             WHERE name_user = '$name'
              $where ";
 
         $con = new Connection();
         $result = $con->execute_query($query);
 
-        if( mysqli_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             return mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
         else
             return null;
@@ -132,7 +130,7 @@ class User_Model
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
     }
 
-    public function getAll($limit=9999, $offset=0)
+    public function getAll($limit = 9999, $offset = 0)
     {
         $query =
             "SELECT *
@@ -145,7 +143,7 @@ class User_Model
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
     }
 
-    public function search($search, $limit=9999, $offset=0)
+    public function search($search, $limit = 9999, $offset = 0)
     {
         $query =
             "SELECT *
@@ -171,10 +169,10 @@ class User_Model
 
 
         $query =
-            "INSERT INTO `users` (`id`, `full_name`, `name_user`, `password_user`, `salt_user`, `type_user`, `date_create`, `active`) 
-            VALUES (NULL, '$fullname', '$name_user', '$encryptedPassword', '". base64_encode($salt)."', 'CLIENTE', current_timestamp(), '1')";
+            "INSERT INTO `users` (`id`, `full_name`, `name_user`, `password_user`, `salt_user`, `type_user`, `date_create`, `active`)
+            VALUES (NULL, '$fullname', '$name_user', '$encryptedPassword', '" . base64_encode($salt) . "', 'CLIENTE', current_timestamp(), '1')";
 
-        if($con->execute_query($query))
+        if ($con->execute_query($query))
             return $con->getLastInsertedID();
         return false;
     }

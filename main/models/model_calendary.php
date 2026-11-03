@@ -17,9 +17,9 @@ class Calendary_Model
 
     public function getById($id)
     {
-        $query = "SELECT c.*, p.nombre, p.apellidos, p.sexo, p.telefono 
-                  FROM calendary c 
-                  JOIN paciente p ON c.id_patient = p.id 
+        $query = "SELECT c.*, p.nombre, p.apellidos, p.sexo, p.telefono
+                  FROM calendary c
+                  JOIN paciente p ON c.id_patient = p.id
                   WHERE c.id = $id";
 
         $con = new Connection();
@@ -34,23 +34,23 @@ class Calendary_Model
     public function update($calendary, $paciente)
     {
         $con = new Connection();
-        
-        $queryCita = "UPDATE calendary 
-                      SET date = '{$calendary['date']}', 
-                          hora = '{$calendary['hora']}', 
-                          nota = '{$calendary['nota']}', 
-                          duracion = {$calendary['duracion']}, 
-                          color = '{$calendary['color']}', 
-                          estado = '{$calendary['estado']}' 
+
+        $queryCita = "UPDATE calendary
+                      SET date = '{$calendary['date']}',
+                          hora = '{$calendary['hora']}',
+                          nota = '{$calendary['nota']}',
+                          duracion = {$calendary['duracion']},
+                          color = '{$calendary['color']}',
+                          estado = '{$calendary['estado']}'
                       WHERE id = {$calendary['id']}";
-        
-        $queryPaciente = "UPDATE paciente 
-                          SET nombre = '{$paciente['nombre']}', 
-                              apellidos = '{$paciente['apellidos']}', 
-                              sexo = '{$paciente['sexo']}', 
-                              telefono = '{$paciente['telefono']}' 
+
+        $queryPaciente = "UPDATE paciente
+                          SET nombre = '{$paciente['nombre']}',
+                              apellidos = '{$paciente['apellidos']}',
+                              sexo = '{$paciente['sexo']}',
+                              telefono = '{$paciente['telefono']}'
                           WHERE id = {$calendary['id_patient']}";
-       
+
         $res1 = $con->execute_query($queryCita);
         $res2 = $con->execute_query($queryPaciente);
 
@@ -65,7 +65,7 @@ class Calendary_Model
         return $con->execute_query($query);
     }
 
-    public function getAll(int $idUser,$search = '')
+    public function getAll(int $idUser, $search = '')
     {
         $con = new Connection();
         $where = "WHERE c.id_user = $idUser";
@@ -74,9 +74,9 @@ class Calendary_Model
             $where = " WHERE p.nombre LIKE '%$searchEscaped%' OR p.apellidos LIKE '%$searchEscaped%' AND c.id_user = $idUser";
         }
 
-        $query = "SELECT c.*, p.nombre, p.apellidos, p.sexo, p.telefono 
-                  FROM calendary c 
-                  JOIN paciente p ON c.id_patient = p.id 
+        $query = "SELECT c.*, p.nombre, p.apellidos, p.sexo, p.telefono
+                  FROM calendary c
+                  JOIN paciente p ON c.id_patient = p.id
                   $where";
 
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
@@ -92,7 +92,7 @@ class Calendary_Model
         $sexo = $con->getRealEscapeString($paciente['sexo']);
         $telefono = $con->getRealEscapeString($paciente['telefono']);
 
-        $queryPaciente = "INSERT INTO paciente (nombre, apellidos, sexo, telefono) 
+        $queryPaciente = "INSERT INTO paciente (nombre, apellidos, sexo, telefono)
                           VALUES ('$nombre', '$apellidos', '$sexo', '$telefono')";
 
         if (!$con->execute_query($queryPaciente)) return false;
@@ -107,7 +107,7 @@ class Calendary_Model
         $color = $con->getRealEscapeString($calendary['color']);
         $estado = $con->getRealEscapeString($calendary['estado']);
 
-        $queryCita = "INSERT INTO calendary (id_user,id_patient, date, hora, nota, duracion, color, estado) 
+        $queryCita = "INSERT INTO calendary (id_user,id_patient, date, hora, nota, duracion, color, estado)
                       VALUES ($id_user,$idPatient, '$date', '$hora', '$nota', $duracion, '$color', '$estado')";
 
         return $con->execute_query($queryCita);

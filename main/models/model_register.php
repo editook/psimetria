@@ -110,8 +110,9 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
         else
             return null;
     }
-    public function getAll($idUser = '', $search = '')
+    public function getAll($idUser = '', $search = '', $limit = null, $offset = 0)
     {
+        $con = new Connection();
         $query =
             "SELECT client.*,baremo.name,type_question.name as type_question_name,type_question.type_show_result
                 FROM client
@@ -119,18 +120,47 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
                 ON client.baremo_id = baremo.id
                 INNER JOIN type_question
                 ON client.id_type_question = type_question.id
-                where client.belong_id = $idUser";
+                where client.belong_id = " . (int) $idUser;
 
         if ($search !== "") {
+            $search = $con->getRealEscapeString($search);
             $query .= " AND (client.id_client LIKE '%$search%' OR type_question.name LIKE '%$search%')";
         }
-        $query .= " ORDER BY client.date_create";
         //si es null obtiene todos
         if ($idUser == '' && $search == '') {
             $query = "SELECT * FROM client";
         }
-        $con = new Connection();
+
+        $query .= " ORDER BY client.id DESC";
+
+        if ($limit !== null) {
+            $limit = max(1, (int) $limit);
+            $offset = max(0, (int) $offset);
+            $query .= " LIMIT $limit OFFSET $offset";
+        }
+
         return mysqli_fetch_all($con->execute_query($query), MYSQLI_ASSOC);
+    }
+
+    public function getCount($idUser, $search = '')
+    {
+        $con = new Connection();
+        $query =
+            "SELECT COUNT(*) AS total
+             FROM client
+             INNER JOIN baremo ON client.baremo_id = baremo.id
+             INNER JOIN type_question ON client.id_type_question = type_question.id
+             WHERE client.belong_id = " . (int) $idUser;
+
+        if ($search !== '') {
+            $search = $con->getRealEscapeString($search);
+            $query .= " AND (client.id_client LIKE '%$search%' OR type_question.name LIKE '%$search%')";
+        }
+
+        $result = $con->execute_query($query);
+        $row = mysqli_fetch_assoc($result);
+
+        return (int) ($row['total'] ?? 0);
     }
 
     public function getTotalCompleted($belong_id = '', $status = 'TERMINADO')
@@ -204,7 +234,7 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
 
         return $con->execute_query($query);
     }
-   
+
     public function insertMcmmi(string $idPatient, array $data)
     {
         $con = new Connection();
