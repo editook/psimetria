@@ -558,8 +558,8 @@ $device = $registerModel->getDeviceType();
                                     <thead class="bg-gradient-to-br from-[#0B2B5E] via-[#0D47A1] to-[#0B2B5E] text-white">
                                         <tr>
                                             <th class="p-3 text-left">Problemas</th>
-                                            <th class="p-3 text-center" width="60">V</th>
-                                            <th class="p-3 text-center" width="60">F</th>
+                                            <th id="responseHeader1" class="p-3 text-center" width="60">1</th>
+                                            <th id="responseHeader2" class="p-3 text-center" width="60">2</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tableDesktop"></tbody>
@@ -653,6 +653,8 @@ $device = $registerModel->getDeviceType();
             };
             oth.question = "Otros (escribe cuáles)";
             oth.id = '0';
+            // El objeto se clona de una respuesta V/F; no conservar ese 1/0 como texto.
+            oth.response = input_answer !== "" ? input_answer : "";
             answersadmin = [...answer_part1, oth, ...answersadmin];
             var options = [{
                     value: 1,
@@ -672,6 +674,8 @@ $device = $registerModel->getDeviceType();
             const prevBtn = document.getElementById("prevBtn");
             const nextBtn = document.getElementById("nextBtn");
             const progress = document.getElementById("progress");
+            const responseHeader1 = document.getElementById("responseHeader1");
+            const responseHeader2 = document.getElementById("responseHeader2");
             const otherAnswerIndex = answersadmin.findIndex(item => item.id == '0');
 
             function render() {
@@ -683,15 +687,17 @@ $device = $registerModel->getDeviceType();
                 const lastPage = Math.max(0, Math.ceil(answersadmin.length / perPage) - 1);
                 prevBtn.style.visibility = currentPage === 0 ? "hidden" : "visible";
                 nextBtn.hidden = currentPage >= lastPage;
+                responseHeader1.textContent = currentPage === 0 ? "1" : "V";
+                responseHeader2.textContent = currentPage === 0 ? "2" : "F";
 
                 //-------------------------------------------------------------------
 
                 answersadmin.slice(start, end).forEach((q, i) => {
 
                     const index = start + i;
-                    const questionStart = otherAnswerIndex >= 0 && index > otherAnswerIndex
-                        ? otherAnswerIndex + 1
-                        : 0;
+                    const questionStart = otherAnswerIndex >= 0 && index > otherAnswerIndex ?
+                        otherAnswerIndex + 1 :
+                        0;
                     const questionNumber = answersadmin
                         .slice(questionStart, index + 1)
                         .filter(item => item.id != '0').length;
