@@ -126,11 +126,12 @@ echo "Dato desencriptado: " . $datoDesencriptado . PHP_EOL;*/
             $search = $con->getRealEscapeString($search);
             $query .= " AND (client.id_client LIKE '%$search%' OR type_question.name LIKE '%$search%')";
         }
-        $query .= " ORDER BY client.date_create, client.id";
         //si es null obtiene todos
         if ($idUser == '' && $search == '') {
             $query = "SELECT * FROM client";
         }
+
+        $query .= " ORDER BY client.id DESC";
 
         if ($limit !== null) {
             $limit = max(1, (int) $limit);

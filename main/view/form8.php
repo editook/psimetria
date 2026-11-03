@@ -85,7 +85,7 @@ $device = $registerModel->getDeviceType();
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title><?= WEB_TITLE ?> </title>
-        <link rel="stylesheet" href="../../assets/css/tailwind.css">
+        <link rel="stylesheet" href="../../assets/css/tailwind.css?v=<?= VERSION_CODE ?>">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
         <link href="../../assets/css/share-form.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
@@ -346,7 +346,7 @@ $device = $registerModel->getDeviceType();
         <link href="../../assets/css/animate.css" rel="stylesheet">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-        <link rel="stylesheet" href="../../assets/css/tailwind.css">
+        <link rel="stylesheet" href="../../assets/css/tailwind.css?v=<?= VERSION_CODE ?>">
         <style>
             input[type="radio"]:checked {
                 transform: scale(1.3);

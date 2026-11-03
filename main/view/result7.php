@@ -1098,7 +1098,7 @@ $transtorno_sintoma_informe_2 = $transtorno_sintoma_2 ? $escalas_sintoma[$transt
         }
     </style>
     <link href="../../assets/css/style_result7.css?v=<?= VERSION_CODE ?>" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/tailwind.css">
+    <link rel="stylesheet" href="../../assets/css/tailwind.css?v=<?= VERSION_CODE ?>">
 
     <style>
         @media (min-width: 1536px) {
