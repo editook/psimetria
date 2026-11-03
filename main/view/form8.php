@@ -348,8 +348,13 @@ $device = $registerModel->getDeviceType();
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link rel="stylesheet" href="../../assets/css/tailwind.css?v=<?= VERSION_CODE ?>">
         <style>
+            input[type="radio"] {
+                transform: scale(1.5);
+                cursor: pointer;
+            }
+
             input[type="radio"]:checked {
-                transform: scale(1.3);
+                transform: scale(1.5);
                 cursor: pointer;
                 accent-color: #0B2B5E;
             }
