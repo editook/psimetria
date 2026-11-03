@@ -205,6 +205,18 @@ include_once('../configs.php');
                 <?php
                 }
                 ?>
+                <a
+
+                    href="<?= LOCALHOST . '/view/update-system.php' ?>"
+                    class="relative inline-flex items-center gap-2 h-full px-1 text-sm font-medium text-blue-600 transition-all group focus:outline-none">
+
+                    <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+
+                    <span class="tracking-normal">
+                        Actualizaciones
+                    </span>
+
+                </a>
             </nav>
 
         </div>

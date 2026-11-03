@@ -2,4 +2,6 @@ CREATE TABLE `p022tea`.`item_update_system` (`id` INT NOT NULL AUTO_INCREMENT , 
 
 CREATE TABLE `p022tea`.`update_system` (`id` INT NOT NULL AUTO_INCREMENT , `date` DATETIME NOT NULL , `title` VARCHAR(200) NOT NULL , `version` VARCHAR(20) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
-ALTER TABLE `users` ADD `id_update_system` INT NOT NULL AFTER `active`, ADD `is_view` BOOLEAN NOT NULL AFTER `id_update_system`;
+ALTER TABLE `p022tea`.`users`
+    ADD `id_update_system` INT NOT NULL DEFAULT 0 AFTER `active`,
+    ADD `is_view` BOOLEAN NOT NULL DEFAULT FALSE AFTER `id_update_system`;
