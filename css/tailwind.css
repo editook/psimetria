@@ -1439,6 +1439,9 @@
   .border-\[\#0054a6\] {
     border-color: #0054a6;
   }
+  .border-\[groove\] {
+    border-color: groove;
+  }
   .border-black {
     border-color: var(--color-black);
   }

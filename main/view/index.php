@@ -46,6 +46,20 @@ foreach ($users as &$user) {
     $user['date_create'] =  $dateTime->format('d/m/Y');
 }
 unset($user);
+$getUserInitials = static function ($fullName): string {
+    $parts = preg_split('/\s+/u', trim((string) $fullName), -1, PREG_SPLIT_NO_EMPTY);
+    if (!$parts) {
+        return '?';
+    }
+
+    $firstName = reset($parts);
+    $lastName = count($parts) > 1 ? end($parts) : '';
+    preg_match('/^./us', $firstName, $firstMatch);
+    preg_match('/^./us', $lastName, $lastMatch);
+    $initials = ($firstMatch[0] ?? '?') . ($lastMatch[0] ?? '');
+
+    return function_exists('mb_strtoupper') ? mb_strtoupper($initials, 'UTF-8') : strtoupper($initials);
+};
 //PAGINADOR
 $totalUsers = count($users);
 $pageSize = 6;
@@ -166,6 +180,17 @@ if ($totalTest > 0) {
                 height: auto;
                 width: auto;
             }
+        }
+
+        .user-initials {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            background-color: #0181a8;
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -334,7 +359,7 @@ if ($totalTest > 0) {
                                     ?>
                                         <div class="list-group-item list-group-item-action" href="#" style="border-bottom: ridge;">
                                             <div class="media mt-0">
-                                                <img class="avatar-lg rounded-circle me-3 my-auto" src="../../assets/img/users/user.png" alt="Foto">
+                                                <div class="avatar-sm rounded-circle me-3 my-auto user-initials" aria-label="Iniciales de <?= htmlspecialchars($user['full_name']) ?>"><?= htmlspecialchars($getUserInitials($user['full_name'])) ?></div>
                                                 <div class="media-body">
                                                     <div class="d-flex align-items-center">
                                                         <div class="mt-0">

@@ -220,6 +220,15 @@ $defaultVersion = VERSION_CODE;
 $escape = static function ($value): string {
     return htmlspecialchars((string) $value);
 };
+$formatUpdateItem = static function ($value) use ($escape): string {
+    $escapedText = $escape($value);
+    $uppercasePattern = '/(?<![\p{L}\p{N}])(?=[\p{Lu}\p{N}_-]*(?:[ \t]+[\p{Lu}\p{N}_-]*)*\p{Lu})[\p{Lu}\p{N}_-]+(?:[ \t]+[\p{Lu}\p{N}_-]+)*(?![\p{L}\p{N}])/u';
+    $formattedText = preg_replace_callback($uppercasePattern, static function ($matches): string {
+        return '<span class="update-system-uppercase">' . $matches[0] . '</span>';
+    }, $escapedText);
+
+    return nl2br($formattedText ?? $escapedText);
+};
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -248,10 +257,26 @@ $escape = static function ($value): string {
 
         .update-system-item {
             border-left: 3px solid #6259ca;
+            padding-left: .75rem;
+        }
+
+        .update-system-list {
+            list-style: disc !important;
+            list-style-position: outside;
+            padding-left: 2.5rem !important;
+            margin-bottom: 0;
+        }
+
+        .update-system-list>li::marker {
+            color: #6259ca;
         }
 
         .update-system-version {
             font-family: monospace;
+        }
+
+        .update-system-uppercase {
+            font-weight: 700;
         }
     </style>
 </head>
@@ -297,7 +322,7 @@ $escape = static function ($value): string {
                     <article class="card mb-4">
                         <div class="card-header d-flex flex-wrap justify-content-between align-items-start gap-2">
                             <div>
-                                <span class="badge bg-primary-transparent text-primary update-system-version"><?= $escape($update['version']) ?></span>
+                                <span class="badge bg-primary-transparent text-primary update-system-version">Versión <?= $escape($update['version']) ?></span>
                                 <h2 class="tx-20 mt-2 mb-1"><?= $escape($update['title']) ?></h2>
                                 <span class="text-muted"><?= $escape(date('d/m/Y H:i', strtotime($update['date']))) ?></span>
                             </div>
@@ -314,24 +339,32 @@ $escape = static function ($value): string {
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-column gap-3">
-                                <?php foreach ($items as $item): ?>
-                                    <div class="update-system-item p-3 bg-light rounded">
-                                        <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
-                                            <p class="mb-2"><?= nl2br($escape($item['item_name'])) ?></p>
-                                            <?php if ($isAdmin): ?>
-                                                <div class="d-flex gap-2 flex-shrink-0">
-                                                    <button class="btn btn-sm btn-outline-warning" type="button" data-bs-toggle="modal" data-bs-target="#updateItemModal"
-                                                        data-item="<?= $escape(json_encode(['id' => $item['id'], 'update_id' => $update['id'], 'name' => $item['item_name'], 'image' => $item['item_image']])) ?>" onclick="openUpdateItemModal(this)">Editar</button>
-                                                    <button class="btn btn-sm btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteItemModal"
-                                                        data-item-id="<?= (int) $item['id'] ?>" data-item-name="<?= $escape($item['item_name']) ?>" onclick="prepareDeleteItem(this)">Eliminar</button>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
-                                        <?php if (!empty($item['item_image'])): ?>
-                                            <img class="update-system-image mt-2" src="../../assets/update-system/<?= $escape(basename($item['item_image'])) ?>" alt="Imagen de actualización">
-                                        <?php endif; ?>
-                                    </div>
-                                <?php endforeach; ?>
+                                <ul class="update-system-list p-3 bg-light rounded">
+                                    <?php foreach ($items as $item): ?>
+                                        <li class="mb-3">
+                                            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+                                                <p class="mb-0 flex-grow-1"><?= $formatUpdateItem($item['item_name']) ?>
+                                                    <?php if (!empty($item['item_image'])): ?>
+                                                        <br>
+                                                        <img class="update-system-image mt-2" style="border: groove" src="../../assets/update-system/<?= $escape(basename($item['item_image'])) ?>" alt="Imagen de actualización">
+                                                    <?php endif; ?>
+                                                </p>
+
+                                                <?php if ($isAdmin): ?>
+                                                    <div class="d-flex gap-2 flex-shrink-0">
+                                                        <button class="btn btn-sm btn-outline-warning" type="button" data-bs-toggle="modal" data-bs-target="#updateItemModal"
+                                                            data-item="<?= $escape(json_encode(['id' => $item['id'], 'update_id' => $update['id'], 'name' => $item['item_name'], 'image' => $item['item_image']])) ?>" onclick="openUpdateItemModal(this)">Editar</button>
+                                                        <button class="btn btn-sm btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteItemModal"
+                                                            data-item-id="<?= (int) $item['id'] ?>" data-item-name="<?= $escape($item['item_name']) ?>" onclick="prepareDeleteItem(this)">Eliminar</button>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+
+                                        </li>
+
+                                    <?php endforeach; ?>
+                                </ul>
+
                             </div>
                         </div>
                     </article>
