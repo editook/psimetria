@@ -201,4 +201,44 @@ class User_Model
         $con = new Connection();
         return $con->execute_query($query);
     }
+
+    public function verifyPassword($idUser, $currentPassword)
+    {
+        $user = $this->getById((int) $idUser);
+        if (!$user) {
+            return false;
+        }
+        if (empty($user['password_user'])) {
+            return false;
+        }
+
+        $calculated = $this->_getEncryptPassword(
+            $currentPassword,
+            base64_decode($user['salt_user'])
+        );
+
+        return hash_equals($user['password_user'], $calculated);
+    }
+    public function validarContrasena($pass) {
+        $faltan = [];
+
+        if (strlen($pass) < 8) {
+            $faltan[] = 'Al menos 8 caracteres.';
+        }
+
+        if (!preg_match('/[A-Z]/', $pass)) {
+            $faltan[] = 'Al menos una mayúscula.';
+        }
+
+        if (!preg_match('/\d/', $pass)) {
+            $faltan[] = 'Al menos un número.';
+        }
+
+        if (!preg_match('/[!@#$%&*_\-.?]/', $pass)) {
+            $faltan[] = 'Al menos un carácter especial (!@#$%&*_-.?).';
+        }
+
+        return $faltan;
+    }
+
 }
