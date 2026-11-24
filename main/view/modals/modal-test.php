@@ -13,7 +13,7 @@
                                 <input type="hidden" id="id" name="id" value="">
                                 <input type="hidden" id="belong_id" name="belong_id" value="<?= $idClient ?>">
                                 <input class="form-control" id="id_client" name="id_client" placeholder="Nombre Completo" required="" type="text" value="">
-                                <input class="form-control mg-t-20" id="age" name="age" placeholder="Edad" required="" type="number" value="">
+                                <input class="form-control mg-t-20" id="age" name="age" placeholder="Edad" required="" type="number" min="6" max="90" step="1">
 
                                 <select class="form-control mg-t-20 select2-no-search" id="sex" name="sex">
                                     <option value="" selected disabled>SEXO</option>
