@@ -193,6 +193,18 @@ class User_Model
 
         return $con->execute_query($query);
     }
+    public function updateEmail($email, $idUsuario){
+        $con = new Connection();
+        $email = $con->getRealEscapeString($email);
+        $idUsuario = (int) $idUsuario;
+
+         $query = "UPDATE users
+                   SET email_user = '$email'
+                   WHERE id = $idUsuario";
+
+        return $con->execute_query($query);
+
+    }
 
     public function delete($id)
     {
